@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("eduChain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+b0e6fff0f476c4894b1422dcbbf639f0957c64d8")]
 [assembly: System.Reflection.AssemblyProductAttribute("eduChain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("eduChain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
