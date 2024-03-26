@@ -7,9 +7,12 @@
     Shell.FlyoutBehavior="Disabled"
     Title="eduChain">
 
+
+
     <ShellContent
         Title="Homepage"
         ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Route="MainPage" 
+        />
 
 </Shell>
