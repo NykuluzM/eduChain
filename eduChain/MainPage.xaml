@@ -4,7 +4,24 @@
              xmlns:converters="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="eduChain.MainPage">
-
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="EntryStyle" TargetType="Entry">
+                <Setter Property="BackgroundColor" Value="AntiqueWhite"/>
+                <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="PlaceholderColor" Value="Gray"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="HeightRequest" Value="40"/>
+                <!-- Adjust this value for rounded corners -->
+            </Style>
+            <Style x:Key="EntryFrameStyle" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="PaleVioletRed"/>
+                <Setter Property="Padding" Value="20"/>
+                <Setter Property="CornerRadius" Value="20"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
     <ScrollView>
         <VerticalStackLayout
             Padding="30,0"
@@ -32,12 +49,43 @@
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Fill" />
-        <toolkit:UniformItemsLayout>
-            <BoxView BackgroundColor="Blue" HeightRequest="25" WidthRequest="25"/>
-            <BoxView BackgroundColor="Yellow" HeightRequest="25" WidthRequest="25"/>
-            <BoxView BackgroundColor="Red" HeightRequest="25" WidthRequest="25"/>
-            <BoxView BackgroundColor="Black" HeightRequest="25" WidthRequest="25"/>
-        </toolkit:UniformItemsLayout>
+            
+            <toolkit:UniformItemsLayout>
+                <BoxView BackgroundColor="Blue" HeightRequest="25" WidthRequest="25"/>
+                <BoxView BackgroundColor="Yellow" HeightRequest="25" WidthRequest="25"/>
+                <BoxView BackgroundColor="Red" HeightRequest="25" WidthRequest="25"/>
+                <BoxView BackgroundColor="Black" HeightRequest="25" WidthRequest="25"/>
+            </toolkit:UniformItemsLayout>
+
+            <Grid HorizontalOptions="Center">
+                <Frame Style="{StaticResource EntryFrameStyle}">
+                    <Entry 
+                         x:Name="UsernameEntry"
+                         Placeholder="Username"
+                         Keyboard="Email"
+                         Margin="0,0,0,10" 
+                         Grid.Row="0" 
+                         Grid.Column="0"
+                         MinimumWidthRequest="275" 
+                         MaximumWidthRequest="600"
+                         Style="{StaticResource EntryStyle}"/> 
+                </Frame>
+              
+            </Grid>
+            <Grid HorizontalOptions="Center">
+                <Frame Style="{StaticResource EntryFrameStyle}">
+                    <Entry 
+                        x:Name="PasswordEntry"
+                        Placeholder="Password"
+                        IsPassword="True"
+                        Margin="0,0,0,10" 
+                        Grid.Row="1" 
+                        Grid.Column="1"
+                        MinimumWidthRequest="275"
+                        MaximumWidthRequest="600"
+                        Style="{StaticResource EntryStyle}" />
+                </Frame>
+            </Grid>
         </VerticalStackLayout>
     </ScrollView>
 
