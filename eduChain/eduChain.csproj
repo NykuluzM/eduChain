@@ -74,13 +74,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.14" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.14" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 		<PackageReference Include="Nethereum.Web3" Version="4.19.0" />
-		<PackageReference Include="Syncfusion.MAUI.Buttons" Version="25.1.35" />
+		<PackageReference Include="Syncfusion.MAUI.Buttons" Version="25.1.37" />
 		<PackageReference Include="Syncfusion.MAUI.Core" Version="25.1.37" />
-		<PackageReference Include="Syncfusion.MAUI.dataform" Version="25.1.35" />
+		<PackageReference Include="Syncfusion.MAUI.dataform" Version="25.1.37" />
 		<PackageReference Include="Syncfusion.MAUI.Inputs" Version="25.1.37" />
 	</ItemGroup>
 	<ItemGroup>
