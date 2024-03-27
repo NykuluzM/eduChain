@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<ItemGroup>
-		<Page Include="/eduChain/View/App.xaml" >
+		<Page Include="/eduChain/View/App.xaml">
 		    <SubType>Designer</SubType>
 			<Generator>MSBuild:Compile</Generator>
 
 		</Page>
-		<Page Include="/eduChain/View/AppShell.xaml" >
+		<Page Include="/eduChain/View/AppShell.xaml">
 		    <SubType>Designer</SubType>
 			<Generator>MSBuild:Compile</Generator>
 
 		</Page>
-		<Page Include="/eduChain/View/MainPage.xaml" >
+		<Page Include="/eduChain/View/MainPage.xaml">
 		    <SubType>Designer</SubType>
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
@@ -79,7 +79,9 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 		<PackageReference Include="Nethereum.Web3" Version="4.19.0" />
 		<PackageReference Include="Syncfusion.MAUI.Buttons" Version="25.1.35" />
-		<PackageReference Include="Syncfusion.MAUI.Core" Version="25.1.35" />
+		<PackageReference Include="Syncfusion.MAUI.Core" Version="25.1.37" />
+		<PackageReference Include="Syncfusion.MAUI.dataform" Version="25.1.35" />
+		<PackageReference Include="Syncfusion.MAUI.Inputs" Version="25.1.37" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="7.0.1" />

@@ -1,75 +1,69 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:converters="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:Class="eduChain.View.MainPage"
-             BackgroundColor="Black">
+    <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:converters="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
+                xmlns:rating="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+                xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+                xmlns:dataForm="clr-namespace:Syncfusion.Maui.DataForm;assembly=Syncfusion.Maui.DataForm"
+                xmlns:ViewModel="clr-namespace:eduChain.ViewModel;assembly=eduChain"
 
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Style x:Key="EntryStyle" TargetType="Entry">
-                <Setter Property="BackgroundColor" Value="Wheat"/>
-                <Setter Property="TextColor" Value="Black"/>
-                <Setter Property="PlaceholderColor" Value="Gray"/>
-                <Setter Property="FontSize" Value="16"/>
-                <Setter Property="HeightRequest" Value="25"/>
-                <!-- Adjust this value for rounded corners -->
-            </Style>  
-            <Style x:Key="EntryFrameStyle" TargetType="Frame">
-                <Setter Property="BackgroundColor" Value="PaleVioletRed"/>
-                <Setter Property="BorderColor" Value="LightPink"/>
-                <Setter Property="Padding" Value="10"/>
-                <Setter Property="CornerRadius" Value="20" />
-                <Setter Property="ScaleX" Value="1"/>
-                <Setter Property="HeightRequest" Value="90"/> 
-            </Style>
-        </ResourceDictionary>
-    </ContentPage.Resources>
+                x:Class="eduChain.View.MainPage"
+                BackgroundColor="Black">
 
-    <Grid>
-         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        <ContentPage.Resources>
+            <ResourceDictionary>
+            
+            </ResourceDictionary>
+        </ContentPage.Resources>
 
-        <!-- Background Image -->
-        <Image Source="image.jpg" Aspect="AspectFill" Grid.RowSpan="2" />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Background Image -->
+            <Image Source="image.jpg" Aspect="AspectFill" Grid.RowSpan="2" />
 
 
-        <!-- Logo -->
-            <Image Source="logo.png" HeightRequest="185" Aspect="AspectFit" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,0,50" />
+            <!-- Logo -->
+                <Image Source="logo.png" HeightRequest="185" Aspect="AspectFit" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,0,50" />
 
-        <!-- Label Text -->
-            <Label Text="Ensuring Academic Credentials Permanence,Tamper-proof Creditibility and Seamless Access with EDUCHAIN® Blockchain Technology"
-                Style="{StaticResource SubHeadline}"
-                MaxLines="3"
-                Padding="20"
-                LineBreakMode="TailTruncation"
-                Grid.Row="0"
-                HorizontalOptions="Center"
-                VerticalOptions="End"
-                Margin="0,0,0,-20" 
-                FontFamily="DejaVu"
-                FontAttributes="Italic"
-                TextColor="White"
-                FontSize="12"/>
-        <!-- Scrollable Content -->
-        <ScrollView Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center">
+            <!-- Label Text -->
+                <Label Text="Ensuring Academic Credentials Permanence,Tamper-proof Creditibility and Seamless Access with EDUCHAIN® Blockchain Technology"
+                    Style="{StaticResource SubHeadline}"
+                    MaxLines="3"
+                    Padding="20"
+                    LineBreakMode="TailTruncation"
+                    Grid.Row="0"
+                    HorizontalOptions="Center"
+                    VerticalOptions="End"
+                    Margin="0,0,0,-20" 
+                    FontFamily="DejaVu"
+                    FontAttributes="Italic"
+                    TextColor="White"
+                    FontSize="12"/>
+            <!-- Scrollable Content -->
+            <ScrollView Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center">
 
-            <StackLayout Padding="10,0,30,30" Spacing="45">
+                <StackLayout Padding="10,0,30,30" Spacing="45">
 
-                <Frame Style="{StaticResource EntryFrameStyle}" HorizontalOptions="CenterAndExpand">
-                    <Entry x:Name="UsernameEntry" Placeholder="Username" Keyboard="Email" Margin="10" MinimumWidthRequest="325" MaximumWidthRequest="600" Style="{StaticResource EntryStyle}" />
-                </Frame>
-
-                <Frame Style="{StaticResource EntryFrameStyle}" HorizontalOptions="CenterAndExpand">
-                    <Entry x:Name="PasswordEntry" Placeholder="Password" IsPassword="True" Margin="10" MinimumWidthRequest="325" MaximumWidthRequest="600" Style="{StaticResource EntryStyle}" />
-                </Frame>
-                
-                <Button Text="Login" HorizontalOptions="Center" Padding="20,10" MinimumWidthRequest="275"/>
-                <Button Text="Register" HorizontalOptions="Center" Padding="20,10   " MinimumWidthRequest="275"/>
-            </StackLayout>
-        </ScrollView>
-    </Grid>
-</ContentPage>
+                    <ContentPage.BindingContext>
+                        <ViewModel:DataFormViewModel/>
+                    </ContentPage.BindingContext>
+                    <StackLayout WidthRequest="375">
+                        <dataForm:SfDataForm 
+                            x:Name="loginForm" 
+                            DataObject="{Binding LoginFormModel}" 
+                            LayoutType="TextInputLayout"
+                        />
+                    </StackLayout>
+                    <Button Text="Login" HorizontalOptions="Center" Padding="20,10" MinimumWidthRequest="275"/>
+                    <Button Text="Register" HorizontalOptions="Center" Padding="20,10   " MinimumWidthRequest="275"/>
+            
+                    
+                </StackLayout>
+            </ScrollView>
+        </Grid>
+    </ContentPage>
