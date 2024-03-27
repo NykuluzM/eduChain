@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
-
+using eduChain.View;
 namespace eduChain;
 
 public static class MauiProgram

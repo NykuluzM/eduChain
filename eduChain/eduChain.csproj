@@ -1,5 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<ItemGroup>
+		<Page Include="/eduChain/View/App.xaml" >
+		    <SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
 
+		</Page>
+		<Page Include="/eduChain/View/AppShell.xaml" >
+		    <SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+
+		</Page>
+		<Page Include="/eduChain/View/MainPage.xaml" >
+		    <SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+	</ItemGroup>
 	<PropertyGroup>
 		<TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
@@ -54,6 +69,8 @@
 
 		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+		<!-- UI Pages -->
+	 	
 	</ItemGroup>
 
 	<ItemGroup>
