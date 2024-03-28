@@ -58,11 +58,11 @@
                         <viewModels:LoginViewModel/>
                     </ContentPage.BindingContext>
 
-                   <StackLayout Spacing="40">
+                   <StackLayout Spacing="40" HorizontalOptions="Center">
                         <ur:ButtonView WidthRequest="200" Padding="20" BackgroundColor="PaleVioletRed">
                             <Label Text="Login" HorizontalTextAlignment="Center" />
                         </ur:ButtonView>
-                        <ur:ButtonView WidthRequest="350" BackgroundColor="PaleVioletRed">
+                        <ur:ButtonView WidthRequest="320" BackgroundColor="PaleVioletRed">
                             <Label Text="You don't have an account? Register here!" HorizontalTextAlignment="Center" />
                         </ur:ButtonView>
                     </StackLayout>
