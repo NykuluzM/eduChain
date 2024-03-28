@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
-using Syncfusion.Maui.Core.Hosting;
-
+using UraniumUI;
+using UraniumUI.Icons.FontAwesome;
 namespace eduChain;
 
 public static class MauiProgram
@@ -12,12 +12,16 @@ public static class MauiProgram
 		builder
 			.UseMauiCommunityToolkit()
 			.UseMauiApp<App>()
+			.UseUraniumUI()
+			.UseUraniumUIMaterial()
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-			});
+				fonts.AddFontAwesomeIconFonts(); // 👈 Add this line
 
+			});
+			
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
