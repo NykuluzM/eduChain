@@ -9,5 +9,10 @@ public partial class LoginView : ContentPage
 		
 		InitializeComponent();
 	}
-}
+
+        private void TextFieldPasswordShowHideAttachment_LayoutChanged(object sender, EventArgs e)
+        {
+
+        }
+    }
 }

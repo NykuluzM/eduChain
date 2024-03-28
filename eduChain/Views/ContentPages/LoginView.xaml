@@ -16,7 +16,7 @@
             </Grid.RowDefinitions>
 
             <!-- Background Image -->
-            <Image Source="image.jpg" Aspect="AspectFill" Grid.RowSpan="2" />
+            <Image Source="images.jpg" Aspect="AspectFill" Grid.RowSpan="2" />
 
 
             <!-- Logo -->
@@ -41,14 +41,15 @@
 
                 <StackLayout Padding="10,0,30,30" Spacing="25" HorizontalOptions="Center">
 
-                    <StackLayout Spacing="20" WidthRequest="360">
-                        <ur:TextField Title="Username" />
-                        <ur:TextField Title="Password" IsPassword="True" >
-                            <ur:TextField.Attachments>
-                                <ur:TextFieldPasswordShowHideAttachment />
+                    <StackLayout Spacing="20" MinimumWidthRequest="320" MaximumWidthRequest="500" HorizontalOptions="Center">
+                        <ur:TextField Title="Username" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" />
+                        <ur:TextField Title="Password" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" IsPassword="True" >
+                        <ur:TextField.Attachments>
+                    
+							<ur:TextFieldPasswordShowHideAttachment />
                             </ur:TextField.Attachments>
                         </ur:TextField>
-                        <ur:CheckBox Text="Keep Logged In" Padding="20,10"/>
+                        <ur:CheckBox Text="Keep Logged In" TextColor="Honeydew" Padding="20,10"/>
                     </StackLayout>
                     
                    
