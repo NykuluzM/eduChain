@@ -27,7 +27,7 @@
                     Style="{StaticResource SubHeadline}"
                     MaxLines="3"
                     Padding="20"
-                    LineBreakMode="TailTruncation"
+                    LineBreakMode="WordWrap"
                     Grid.Row="0"
                     HorizontalOptions="Center"
                     VerticalOptions="End"
@@ -35,15 +35,24 @@
                     FontFamily="DejaVu"
                     FontAttributes="Italic"
                     TextColor="White"
-                    FontSize="12"/>
+                    FontSize="16"/>
             <!-- Scrollable Content -->
-            <ScrollView Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center">
+            <ScrollView Grid.Row="1"  Padding="20" HorizontalOptions="Center">
 
-                <StackLayout Padding="10,0,30,30" Spacing="45">
+                <StackLayout Padding="10,0,30,30" Spacing="25" HorizontalOptions="Center">
 
+                    <StackLayout Spacing="20" WidthRequest="360">
+                        <ur:TextField Title="Username" />
+                        <ur:TextField Title="Password" IsPassword="True" >
+                            <ur:TextField.Attachments>
+                                <ur:TextFieldPasswordShowHideAttachment />
+                            </ur:TextField.Attachments>
+                        </ur:TextField>
+                        <ur:CheckBox Text="Keep Logged In" Padding="20,10"/>
+                    </StackLayout>
                     
-                    <ur:TextField Title="Username" />
-                    <ur:CheckBox Text="Remember Me" />
+                   
+
                     <Button Text="Register" HorizontalOptions="Center" Padding="20,10   " MinimumWidthRequest="275"/>
             
     
