@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+            xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:converters="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
+            xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+            xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+            xmlns:dataForm="clr-namespace:Syncfusion.Maui.DataForm;assembly=Syncfusion.Maui.DataForm"
+            xmlns:ViewModels="clr-namespace:eduChain.ViewModels; assembly=eduChain"
+
+            x:Class="eduChain.Views.ContentPages.LoginView"
+            Title="LoginView">
+
+     <ContentPage.Resources>
+            <ResourceDictionary>
+            
+            </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Background Image -->
+            <Image Source="image.jpg" Aspect="AspectFill" Grid.RowSpan="2" />
+
+
+            <!-- Logo -->
+                <Image Source="logo.png" HeightRequest="185" Aspect="AspectFit" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,0,50" />
+
+            <!-- Label Text -->
+                <Label Text="Ensuring Academic Credentials Permanence,Tamper-proof Creditibility and Seamless Access with EDUCHAIN® Blockchain Technology"
+                    Style="{StaticResource SubHeadline}"
+                    MaxLines="3"
+                    Padding="20"
+                    LineBreakMode="TailTruncation"
+                    Grid.Row="0"
+                    HorizontalOptions="Center"
+                    VerticalOptions="End"
+                    Margin="0,0,0,-20" 
+                    FontFamily="DejaVu"
+                    FontAttributes="Italic"
+                    TextColor="White"
+                    FontSize="12"/>
+            <!-- Scrollable Content -->
+            <ScrollView Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center">
+
+                <StackLayout Padding="10,0,30,30" Spacing="45">
+
+                   
+                    
+                    <Button Text="Login" HorizontalOptions="Center" Padding="20,10" MinimumWidthRequest="275"/>
+                    <Button Text="Register" HorizontalOptions="Center" Padding="20,10   " MinimumWidthRequest="275"/>
+            
+    
+                    <buttons:SfButton x:Name="SfButton"
+                            Text="Button"
+                            WidthRequest="100"
+                          HeightRequest="50"/>
+                </StackLayout>
+            </ScrollView>
+        </Grid>
+</ContentPage>
+

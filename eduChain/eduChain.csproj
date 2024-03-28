@@ -61,9 +61,19 @@
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 		<PackageReference Include="Nethereum.Web3" Version="4.19.0" />
+		<PackageReference Include="Syncfusion.Licensing" Version="*" />
+		<PackageReference Include="Syncfusion.Maui.Buttons" Version="*" /> 
+
 		<PackageReference Include="Syncfusion.MAUI.Core" Version="25.1.37" />
+		<PackageReference Include="Syncfusion.MAUI.dataform" Version="25.1.37" />
+		<PackageReference Include="Syncfusion.MAUI.Inputs" Version="25.1.37" />
+
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="7.0.1" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Views/ContentPages/" />
+	  <Folder Include="Views/ContentViews/" />
 	</ItemGroup>
 </Project>
