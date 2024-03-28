@@ -5,6 +5,7 @@
             xmlns:converters="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
             xmlns:ur="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+            xmlns:viewModels="clr-namespace:eduChain.ViewModels;assembly=eduChain"
             x:Class="eduChain.Views.ContentPages.LoginView"
             Title="LoginView">
 
@@ -16,10 +17,17 @@
             </Grid.RowDefinitions>
 
             <!-- Background Image -->
-            <Image Source="images.jpg" Aspect="AspectFill" Grid.RowSpan="2" />
+            <Image Source="image.jpg" Aspect="AspectFill" Grid.RowSpan="2" />
 
 
-            <!-- Logo -->
+           
+            <!-- Scrollable Content -->
+            <ScrollView Grid.Row="1"  Padding="20" HorizontalOptions="Center">
+
+                <StackLayout Padding="10,0,30,30" Spacing="25" HorizontalOptions="Center">
+
+                    <StackLayout Spacing="20" MinimumWidthRequest="320" MaximumWidthRequest="500" HorizontalOptions="Center">
+                         <!-- Logo -->
                 <Image Source="logo.png" HeightRequest="185" Aspect="AspectFit" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,0,50" />
 
             <!-- Label Text -->
@@ -36,12 +44,6 @@
                     FontAttributes="Italic"
                     TextColor="White"
                     FontSize="16"/>
-            <!-- Scrollable Content -->
-            <ScrollView Grid.Row="1"  Padding="20" HorizontalOptions="Center">
-
-                <StackLayout Padding="10,0,30,30" Spacing="25" HorizontalOptions="Center">
-
-                    <StackLayout Spacing="20" MinimumWidthRequest="320" MaximumWidthRequest="500" HorizontalOptions="Center">
                         <ur:TextField Title="Username" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" />
                         <ur:TextField Title="Password" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" IsPassword="True" >
                         <ur:TextField.Attachments>
@@ -52,13 +54,22 @@
                         <ur:CheckBox Text="Keep Logged In" TextColor="Honeydew" Padding="20,10"/>
                     </StackLayout>
                     
-                   
+                    <ContentPage.BindingContext>
+                        <viewModels:LoginViewModel/>
+                    </ContentPage.BindingContext>
 
-                    <Button Text="Register" HorizontalOptions="Center" Padding="20,10   " MinimumWidthRequest="275"/>
-            
-    
+                   <StackLayout Spacing="40">
+                        <ur:ButtonView WidthRequest="200" Padding="20" BackgroundColor="PaleVioletRed">
+                            <Label Text="Login" HorizontalTextAlignment="Center" />
+                        </ur:ButtonView>
+                        <ur:ButtonView WidthRequest="350" BackgroundColor="PaleVioletRed">
+                            <Label Text="You don't have an account? Register here!" HorizontalTextAlignment="Center" />
+                        </ur:ButtonView>
+                    </StackLayout>
                 </StackLayout>
             </ScrollView>
+             
         </Grid>
+       
 </ContentPage>
 
