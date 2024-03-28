@@ -1,24 +1,7 @@
 ﻿using Syncfusion.Maui.DataForm;
-using eduChain.ViewModel;
-namespace eduChain.View
+using Syncfusion.Maui.Graphics;
+namespace eduChain.ViewModel
 {
-    public partial class MainPage : ContentPage
-    {
-        public MainPage()
-        {
-            InitializeComponent();
-            var viewModel = new DataFormViewModel();
-            BindingContext = viewModel;
-
-            // Initialize the DataFormItemManagerEditorExt
-            var dataFormItemManager = new DataFormItemManagerEditorExt();
-
-            // Set the ItemManager of the SfDataForm
-            loginForm.ItemManager = dataFormItemManager;
-
-        }
-    }
-
     public class DataFormItemManagerEditorExt : DataFormItemManager
     {
         public override void InitializeDataLabel(DataFormItem dataFormItem, Label label)

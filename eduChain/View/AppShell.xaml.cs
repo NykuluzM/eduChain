@@ -1,9 +1,11 @@
-﻿namespace eduChain;
-
-public partial class AppShell : Shell
+﻿using eduChain;
+namespace eduChain.View
 {
-	public AppShell()
-	{
-		InitializeComponent();
-	}
+    public partial class AppShell : Shell
+    {
+        public AppShell()
+        {
+            InitializeComponent();
+        }
+    }
 }
