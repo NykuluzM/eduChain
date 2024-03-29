@@ -57,7 +57,7 @@
 
                             <ur:TextField Title="Username" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding Username, Mode=TwoWay}" >
                                 <validation:RequiredValidation />
-                                <validation:RegexValidation Pattern="^(?:[A-Za-z][A-Za-z0-9_*#]*(?:_[A-Za-z0-9_*#]+)*)?$" Message="Password must start with a letter and can contain letters, numbers, underscores, asterisks, and hash symbols." />
+                                <validation:RegexValidation Pattern="^(?:[A-Za-z][A-Za-z0-9_*#]*(?:_[A-Za-z0-9_*#]+)*)?$" Message="Username must start with a letter and can contain letters, numbers, underscores, asterisks, and hash symbols." />
                             </ur:TextField>
 
                              <ur:TextField Title="Password" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" IsPassword="True" Text="{Binding Password, Mode=TwoWay}"> 
