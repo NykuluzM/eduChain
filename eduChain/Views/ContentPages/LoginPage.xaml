@@ -7,10 +7,12 @@
             xmlns:ur="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
             xmlns:viewModels="clr-namespace:eduChain.ViewModels;assembly=eduChain"
             xmlns:models="clr-namespace:eduChain.Models;assembly=eduChain"
+            xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
+            xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
+
             x:Class="eduChain.Views.ContentPages.LoginPage"
             Title="LoginPage"
             BindingContext="{x:Static viewModels:LoginViewModel.Instance}">
-
 
 
     <Grid>
@@ -25,13 +27,13 @@
 
            
             <!-- Scrollable Content -->
-            <ScrollView Grid.Row="1"  Padding="20" HorizontalOptions="Center">
+        <ScrollView Grid.Row="0"  Padding="20" HorizontalOptions="Center">
 
-                <StackLayout Padding="10,0,30,30" Spacing="25" HorizontalOptions="Center">
+            <StackLayout Padding="20" Spacing="15" HorizontalOptions="Center">
 
-                    <StackLayout Spacing="20" MinimumWidthRequest="320" MaximumWidthRequest="500" HorizontalOptions="Center">
+                <StackLayout Spacing="20" MinimumWidthRequest="320" MaximumWidthRequest="500" HorizontalOptions="Center">
                          <!-- Logo -->
-                <Image Source="logo.png" HeightRequest="185" Aspect="AspectFit" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,0,50" />
+                <Image Source="logo.png" HeightRequest="185" Aspect="AspectFit" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,0,10" />
 
         
 
@@ -44,54 +46,56 @@
                     Grid.Row="0"
                     HorizontalOptions="Center"
                     VerticalOptions="End"
-                    Margin="0,0,0,-20" 
+                    Margin="0,0,0,0" 
                     FontFamily="DejaVu"
                     FontAttributes="Italic"
                     TextColor="White"
                     FontSize="16"/>
-                        <ur:TextField 
-                            Title="Username" 
-                            BorderColor="Honeydew"
-                            TitleColor="Honeydew"
-                            TextColor="Honeydew" 
-                            Text="{Binding Username, Mode=TwoWay}" />
-                        <ur:TextField 
-                            Title="Password" 
-                            BorderColor="Honeydew" 
-                            TitleColor="Honeydew" 
-                            TextColor="Honeydew" 
-                            IsPassword="True" 
-                            Text="{Binding Password, Mode=TwoWay}" >
-                        <ur:TextField.Attachments>
-                    
-							<ur:TextFieldPasswordShowHideAttachment />
-                            </ur:TextField.Attachments>
-                        </ur:TextField>
-                        <ur:CheckBox Text="Keep Logged In" TextColor="Honeydew" Padding="20,10"/>
-                    </StackLayout>
-                    
-                    
-
-                   <StackLayout Spacing="40" HorizontalOptions="Center">
                         
-                        <Button 
+
+                        <input:FormView Spacing="15">
+
+                            <ur:TextField Title="Username" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding Username, Mode=TwoWay}" >
+                                <validation:RequiredValidation />
+                                <validation:RegexValidation Pattern="^(?:[A-Za-z][A-Za-z0-9_*#]*(?:_[A-Za-z0-9_*#]+)*)?$" Message="Password must start with a letter and can contain letters, numbers, underscores, asterisks, and hash symbols." />
+                            </ur:TextField>
+
+                             <ur:TextField Title="Password" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" IsPassword="True" Text="{Binding Password, Mode=TwoWay}"> 
+                                <validation:RequiredValidation />
+                                <validation:RegexValidation Pattern="^(?:[A-Za-z][A-Za-z0-9_*#]*(?:_[A-Za-z0-9_*#]+)*)?$" Message="Password must start with a letter and can contain letters, numbers, underscores, asterisks, and hash symbols." />
+
+                                <ur:TextField.Attachments>
+                                    <ur:TextFieldPasswordShowHideAttachment />
+                                </ur:TextField.Attachments>
+                            </ur:TextField>
+                            <ur:CheckBox Text="Keep Logged In" TextColor="Honeydew" Padding="20,10"/>
+
+                            <Button 
+                                input:FormView.IsSubmitButton="True"
                                 StyleClass="FilledButton" 
                                 Text="Login" 
                                 TextColor="White"
                                 WidthRequest="200" 
                                 BackgroundColor="PaleVioletRed" 
-                                Command="{Binding LoginCommand}"/>
+                                Clicked="LoginButton_Clicked"/>
 
-                        
+                        </input:FormView>                
+                    <StackLayout Spacing="40" HorizontalOptions="Center">
+                
+
                         <Button 
                             StyleClass="FilledButton" 
                             Text="You don't have an account? Register here!"
                             WidthRequest="320" 
                             BackgroundColor="PaleVioletRed" 
-                            Command="{Binding LoginCommand}"
-                            TextColor="White" />
-
+                            TextColor="White" 
+                            Clicked="RegisterButton_Clicked"/>
                     </StackLayout>
+                    </StackLayout>
+                    
+                    
+
+                  
                 </StackLayout>
             </ScrollView>
         </Grid>

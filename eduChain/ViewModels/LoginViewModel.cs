@@ -1,6 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Windows.Input;
+using System.Xml;
+using CommunityToolkit.Maui.Converters;
 using eduChain.Models;
+using Org.BouncyCastle.Utilities.Collections;
 
 
 namespace eduChain.ViewModels
@@ -8,7 +11,7 @@ namespace eduChain.ViewModels
     public class LoginViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        private static LoginViewModel _instance;
+        private static LoginViewModel? _instance;
         public static LoginViewModel Instance
         {
             get
@@ -17,13 +20,14 @@ namespace eduChain.ViewModels
                     _instance = new LoginViewModel();
                 return _instance;
             }
+            
         }
 
         public LoginModel LoginModel { get; set; }
         public ICommand LoginCommand { get; }
 
 
-        private string _username;
+        private string _username = string.Empty;
         public string Username
         {
             get { return _username; }
@@ -33,7 +37,7 @@ namespace eduChain.ViewModels
                 OnPropertyChanged(nameof(Username));
             }
         }
-        private string _password;
+        private string _password = string.Empty;
         public string Password
         {
             get { return _password; }
@@ -47,13 +51,31 @@ namespace eduChain.ViewModels
         public LoginViewModel()
         {   
             this.LoginModel = new LoginModel();
+            _username = string.Empty;
             LoginCommand = new Command(Login);
         }
 
-        private void Login()
+        public void Login()
         {
+            if (string.IsNullOrWhiteSpace(Username) && string.IsNullOrWhiteSpace(Password))
+            {
+                ShowInvalidCredentialsAlert("inputnothing");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(Username))
+            {
+                ShowInvalidCredentialsAlert("inputnousername");
+                return;
+            }
+            if (string.IsNullOrEmpty(Password))
+            {
+                ShowInvalidCredentialsAlert("inputnopassword");
+                return;
+            }
+           
             // Check username and password authenticity
-            if (IsValidUser(Username, Password))
+            if (LoginModel != null && IsValidUser(Username, Password))
             {
                 // Navigate to another page (e.g., HomePage)
                 Shell.Current.GoToAsync("//homePage");
@@ -61,11 +83,8 @@ namespace eduChain.ViewModels
             else
             {
                 // Show error message or handle invalid login
-                ShowInvalidCredentialsAlert();
+                ShowInvalidCredentialsAlert("inputcomplete");
             }
-        }
-        private void Register(){
-            Shell.Current.GoToAsync("//registerPage");
         }
 
         private bool IsValidUser(string username, string password)
@@ -84,15 +103,26 @@ namespace eduChain.ViewModels
             }
         }
 
-        private void NavigateToHomePage()
-        {
-            // Implement navigation logic to navigate to the home page
-            // For example, using a navigation service or Shell navigation
-        }
         
-        private void ShowInvalidCredentialsAlert()
+       
+        private void ShowInvalidCredentialsAlert(string context)
         {
-            Application.Current.MainPage.DisplayAlert("Error", "Invalid username or password", "OK");
+            if(context == "inputcomplete")
+            {
+                Application.Current?.MainPage?.DisplayAlert("Error", "Invalid username or password", "OK");
+            }
+            else if (context == "inputnousername")
+            {
+                Application.Current?.MainPage?.DisplayAlert("Error", "Please provide a username", "OK");
+            }
+            else if (context == "inputnopassword")
+            {
+                Application.Current?.MainPage?.DisplayAlert("Error", "Please provide a password", "OK");
+            }
+            else if (context == "inputnothing")
+            {
+                Application.Current?.MainPage?.DisplayAlert("Error", "Please provide a username and password", "OK");
+            }
         }
           protected virtual void OnPropertyChanged(string propertyName)
         {
