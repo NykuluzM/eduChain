@@ -10,7 +10,7 @@
             HorizontalOptions="Center" />
         <Button 
             Text="Logout"
-            Clicked="LogoutButton_Clicked" />   
+            Command="{Binding LogoutCommand}" />   
     </VerticalStackLayout>
     
 </ContentPage>

@@ -8,7 +8,10 @@ public partial class App : Application
 		InitializeComponent();
 		
 		MainPage = new AppShell();
-
-
+		if(Preferences.Get("Email", null) != null){
+			AppShell.Current.GoToAsync("//HomePage");
+		} else {
+			AppShell.Current.GoToAsync("//LoginPage");
+		}
 	}
 }

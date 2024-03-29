@@ -5,13 +5,8 @@ namespace eduChain.Views.ContentPages{
 		public HomePage()
 		{
 			InitializeComponent();
+            BindingContext = new HomePageViewModel();
+
 		}
-        private void LogoutButton_Clicked(object sender, EventArgs e)
-        {
-            // Handle the Login button click event
-
-            Shell.Current.GoToAsync("//loginPage");
-
-        }
     }
 }

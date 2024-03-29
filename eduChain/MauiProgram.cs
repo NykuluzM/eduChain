@@ -27,6 +27,7 @@ namespace eduChain
 					fonts.AddFontAwesomeIconFonts(); // 👈 Add this line
 
 				});
+				
 
 #if DEBUG
 			builder.Logging.AddDebug();

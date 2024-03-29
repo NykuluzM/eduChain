@@ -26,6 +26,7 @@ namespace eduChain
             });
         }
 
+        
         public FirebaseAuthClient GetFirebaseAuthClient()
         {
             return _firebaseAuthClient;

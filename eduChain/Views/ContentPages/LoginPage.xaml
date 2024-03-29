@@ -68,7 +68,7 @@
                                     <ur:TextFieldPasswordShowHideAttachment />
                                 </ur:TextField.Attachments>
                             </ur:TextField>
-                            <ur:CheckBox Text="Keep Logged In" TextColor="Honeydew" Padding="20,10"/>
+                            <ur:CheckBox Text="Keep Logged In" TextColor="Honeydew" Padding="20,10" IsChecked="{Binding KeepLoggedIn}"/>
 
                             <Button 
                                 input:FormView.IsSubmitButton="True"

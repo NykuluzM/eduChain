@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows.Input;
 using System.Xml;
 using CommunityToolkit.Maui.Converters;
+using CommunityToolkit.Maui.Core.Views;
 using eduChain.Models;
 using Firebase.Auth;
 using Org.BouncyCastle.Utilities.Collections;
@@ -16,8 +17,6 @@ namespace eduChain.ViewModels
 
         public event PropertyChangedEventHandler? PropertyChanged;
         private static LoginViewModel? _instance;
-
-     
 
         public LoginModel LoginModel { get; set; }
         public ICommand LoginCommand { get; }
@@ -51,6 +50,8 @@ namespace eduChain.ViewModels
             _email = string.Empty;
             LoginCommand = new Command(Login);
         }
+            public bool KeepLoggedIn { get; set; } // Property to store checkbox state
+
 
             public async void Login()
             {
@@ -76,10 +77,18 @@ namespace eduChain.ViewModels
                 // Check username and password authenticity
                 if (LoginModel != null && isValid)
                 {
+                    if(KeepLoggedIn)
+                    {
+                        Preferences.Set("email", Email);
+                        Preferences.Set("password", Password);
+                            Application.Current?.MainPage?.DisplayAlert("Error", "saved", "OK");
+                    }  else {
+                        Preferences.Set("email", string.Empty);
+                        Preferences.Set("password", string.Empty);
+                    }
                     Email = string.Empty;
                     Password = string.Empty;
-                // Navigate to another page (e.g., HomePage)
-                Shell.Current.GoToAsync("//homePage");
+                    await Shell.Current.GoToAsync("//homePage");
                 }
                 else
                 {
