@@ -2,6 +2,10 @@
 using Microsoft.Extensions.Logging;
 using UraniumUI;
 using UraniumUI.Icons.FontAwesome;
+using Firebase;
+using Firebase.Auth;
+using Firebase.Auth.Providers;
+using eduChain.ViewModels;
 namespace eduChain;
 
 public static class MauiProgram
@@ -25,6 +29,17 @@ public static class MauiProgram
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
+		var authClient = new FirebaseAuthClient(new FirebaseAuthConfig()
+        {
+			ApiKey = "AIzaSyBpW5HOgFZDZFjzDIHomFvPDNBdLhWNJdg",
+			AuthDomain = "myacademe-70a3f.firebaseapp.com",
+			Providers = new FirebaseAuthProvider[]
+			{
+				new EmailProvider()
+			}
+		});
+		builder.Services.AddSingleton(authClient);
+
 
 		return builder.Build();
 	}
