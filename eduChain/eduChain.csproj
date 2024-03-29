@@ -71,7 +71,11 @@
 		<PackageReference Include="CommunityToolkit.Maui" Version="7.0.1" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Views/ContentPages/" />
 	  <Folder Include="Views/ContentViews/" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Update="Views/ContentPages/LoginPage.xaml.cs">
+	    <DependentUpon>LoginPage.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 </Project>

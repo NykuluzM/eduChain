@@ -6,8 +6,11 @@
             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
             xmlns:ur="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
             xmlns:viewModels="clr-namespace:eduChain.ViewModels;assembly=eduChain"
-            x:Class="eduChain.Views.ContentPages.LoginView"
-            Title="LoginView">
+            xmlns:models="clr-namespace:eduChain.Models;assembly=eduChain"
+            x:Class="eduChain.Views.ContentPages.LoginPage"
+            Title="LoginPage"
+            BindingContext="{x:Static viewModels:LoginViewModel.Instance}">
+
 
 
     <Grid>
@@ -30,6 +33,8 @@
                          <!-- Logo -->
                 <Image Source="logo.png" HeightRequest="185" Aspect="AspectFit" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,0,50" />
 
+        
+
             <!-- Label Text -->
                 <Label Text="Ensuring Academic Credentials Permanence,Tamper-proof Creditibility and Seamless Access with EDUCHAIN® Blockchain Technology"
                     Style="{StaticResource SubHeadline}"
@@ -44,8 +49,19 @@
                     FontAttributes="Italic"
                     TextColor="White"
                     FontSize="16"/>
-                        <ur:TextField Title="Username" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" />
-                        <ur:TextField Title="Password" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" IsPassword="True" >
+                        <ur:TextField 
+                            Title="Username" 
+                            BorderColor="Honeydew"
+                            TitleColor="Honeydew"
+                            TextColor="Honeydew" 
+                            Text="{Binding Username, Mode=TwoWay}" />
+                        <ur:TextField 
+                            Title="Password" 
+                            BorderColor="Honeydew" 
+                            TitleColor="Honeydew" 
+                            TextColor="Honeydew" 
+                            IsPassword="True" 
+                            Text="{Binding Password, Mode=TwoWay}" >
                         <ur:TextField.Attachments>
                     
 							<ur:TextFieldPasswordShowHideAttachment />
@@ -54,22 +70,31 @@
                         <ur:CheckBox Text="Keep Logged In" TextColor="Honeydew" Padding="20,10"/>
                     </StackLayout>
                     
-                    <ContentPage.BindingContext>
-                        <viewModels:LoginViewModel/>
-                    </ContentPage.BindingContext>
+                    
 
                    <StackLayout Spacing="40" HorizontalOptions="Center">
-                        <ur:ButtonView WidthRequest="200" Padding="20" BackgroundColor="PaleVioletRed">
-                            <Label Text="Login" HorizontalTextAlignment="Center" />
-                        </ur:ButtonView>
-                        <ur:ButtonView WidthRequest="320" BackgroundColor="PaleVioletRed">
-                            <Label Text="You don't have an account? Register here!" HorizontalTextAlignment="Center" />
-                        </ur:ButtonView>
+                        
+                        <Button 
+                                StyleClass="FilledButton" 
+                                Text="Login" 
+                                WidthRequest="200" 
+                                Padding="20" 
+                                BackgroundColor="PaleVioletRed" 
+                                Command="{Binding LoginCommand}"
+                                TextColor="White" />
+
+                        
+                        <Button 
+                            StyleClass="FilledButton" 
+                            Text="You don't have an account? Register here!"
+                            WidthRequest="320" 
+                            BackgroundColor="PaleVioletRed" 
+                            Command="{Binding LoginCommand}"
+                            TextColor="White" />
+
                     </StackLayout>
                 </StackLayout>
             </ScrollView>
-             
         </Grid>
-       
 </ContentPage>
 
