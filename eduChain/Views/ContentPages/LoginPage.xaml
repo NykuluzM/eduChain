@@ -77,11 +77,10 @@
                         <Button 
                                 StyleClass="FilledButton" 
                                 Text="Login" 
+                                TextColor="White"
                                 WidthRequest="200" 
-                                Padding="20" 
                                 BackgroundColor="PaleVioletRed" 
-                                Command="{Binding LoginCommand}"
-                                TextColor="White" />
+                                Command="{Binding LoginCommand}"/>
 
                         
                         <Button 
