@@ -2,30 +2,39 @@
 using Microsoft.Extensions.Logging;
 using UraniumUI;
 using UraniumUI.Icons.FontAwesome;
-namespace eduChain;
+using Firebase;
+using Firebase.Auth;
+using Firebase.Auth.Providers;
+using eduChain.ViewModels;
 
-public static class MauiProgram
+namespace eduChain
 {
-	public static MauiApp CreateMauiApp()
+
+	public static class MauiProgram
 	{
-		var builder = MauiApp.CreateBuilder();
-		builder
-			.UseMauiCommunityToolkit()
-			.UseMauiApp<App>()
-			.UseUraniumUI()
-			.UseUraniumUIMaterial()
-			.ConfigureFonts(fonts =>
-			{
-				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-				fonts.AddFontAwesomeIconFonts(); // 👈 Add this line
+		public static MauiApp CreateMauiApp()
+		{
+			var builder = MauiApp.CreateBuilder();
+			builder
+				.UseMauiCommunityToolkit()
+				.UseMauiApp<App>()
+				.UseUraniumUI()
+				.UseUraniumUIMaterial()
+				.ConfigureFonts(fonts =>
+				{
+					fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+					fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+					fonts.AddFontAwesomeIconFonts(); // 👈 Add this line
 
-			});
-			
+				});
+
 #if DEBUG
-		builder.Logging.AddDebug();
+			builder.Logging.AddDebug();
 #endif
+			builder.Services.AddSingleton<IFirebaseAuthService, FirebaseAuthService>();
 
-		return builder.Build();
+			return builder.Build();
+		}
 	}
+
 }

@@ -6,5 +6,12 @@ namespace eduChain.Views.ContentPages{
 		{
 			InitializeComponent();
 		}
-	}
+        private void LogoutButton_Clicked(object sender, EventArgs e)
+        {
+            // Handle the Login button click event
+
+            Shell.Current.GoToAsync("//loginPage");
+
+        }
+    }
 }

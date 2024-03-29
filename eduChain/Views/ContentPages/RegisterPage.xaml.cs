@@ -1,3 +1,5 @@
+using eduChain.ViewModels;
+
 namespace eduChain.Views.ContentPages{
 	public partial class RegisterPage : ContentPage
 	{
@@ -5,5 +7,7 @@ namespace eduChain.Views.ContentPages{
 		{
 			InitializeComponent();
 		}
-	}
+
+        
+    }
 }

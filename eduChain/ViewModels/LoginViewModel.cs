@@ -1,8 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows.Input;
 using System.Xml;
 using CommunityToolkit.Maui.Converters;
 using eduChain.Models;
+using Firebase.Auth;
 using Org.BouncyCastle.Utilities.Collections;
 
 
@@ -10,31 +12,25 @@ namespace eduChain.ViewModels
 {
     public class LoginViewModel : INotifyPropertyChanged
     {
+        private readonly FirebaseAuthClient _firebaseAuthClient;
+
         public event PropertyChangedEventHandler? PropertyChanged;
         private static LoginViewModel? _instance;
-        public static LoginViewModel Instance
-        {
-            get
-            {
-                if (_instance == null)
-                    _instance = new LoginViewModel();
-                return _instance;
-            }
-            
-        }
+
+     
 
         public LoginModel LoginModel { get; set; }
         public ICommand LoginCommand { get; }
 
 
-        private string _username = string.Empty;
-        public string Username
+        private string _email = string.Empty;
+        public string Email
         {
-            get { return _username; }
+            get { return _email; }
             set
             {
-                _username = value;
-                OnPropertyChanged(nameof(Username));
+                _email = value;
+                OnPropertyChanged(nameof(Email));
             }
         }
         private string _password = string.Empty;
@@ -48,63 +44,73 @@ namespace eduChain.ViewModels
             }
         }
 
-        public LoginViewModel()
+        public LoginViewModel(FirebaseAuthClient firebaseAuthClient)
         {   
+            _firebaseAuthClient = firebaseAuthClient;
             this.LoginModel = new LoginModel();
-            _username = string.Empty;
+            _email = string.Empty;
             LoginCommand = new Command(Login);
         }
 
-        public void Login()
-        {
-            if (string.IsNullOrWhiteSpace(Username) && string.IsNullOrWhiteSpace(Password))
+            public async void Login()
             {
-                ShowInvalidCredentialsAlert("inputnothing");
-                return;
-            }
+                if (string.IsNullOrWhiteSpace(Email) && string.IsNullOrWhiteSpace(Password))
+                {
+                    ShowInvalidCredentialsAlert("inputnothing");
+                    return;
+                }
 
-            if (string.IsNullOrWhiteSpace(Username))
-            {
-                ShowInvalidCredentialsAlert("inputnousername");
-                return;
-            }
-            if (string.IsNullOrEmpty(Password))
-            {
-                ShowInvalidCredentialsAlert("inputnopassword");
-                return;
-            }
-           
-            // Check username and password authenticity
-            if (LoginModel != null && IsValidUser(Username, Password))
-            {
+                if (string.IsNullOrWhiteSpace(Email))
+                {
+                    ShowInvalidCredentialsAlert("inputnousername");
+                    return;
+                }
+                if (string.IsNullOrEmpty(Password))
+                {
+                    ShowInvalidCredentialsAlert("inputnopassword");
+                    return;
+                }
+                bool isValid = await IsValidUser(Email, Password);
+
+
+                // Check username and password authenticity
+                if (LoginModel != null && isValid)
+                {
+                    Email = string.Empty;
+                    Password = string.Empty;
                 // Navigate to another page (e.g., HomePage)
                 Shell.Current.GoToAsync("//homePage");
+                }
+                else
+                {
+                    // Show error message or handle invalid login
+                    ShowInvalidCredentialsAlert("inputcomplete");
+                }
             }
-            else
-            {
-                // Show error message or handle invalid login
-                ShowInvalidCredentialsAlert("inputcomplete");
-            }
-        }
 
-        private bool IsValidUser(string username, string password)
+        private async Task<bool> IsValidUser(string email, string password)
         {
-            //var userService = new UserService(); // Assuming UserService is a class to interact with the database
-            //var user = userService.GetUserByUsername(username);
+            try
+            {
+                // Authenticate user with email and password using Firebase Authentication
+                var userCredential = await _firebaseAuthClient.SignInWithEmailAndPasswordAsync(email, password);
 
-            //if (user != null && user.Password == password)
-            if(username == "admin" && password == "admin")
-            {
-                return true; // Valid username and password
+                // Check if user authentication was successful
+                if (userCredential != null && userCredential.User != null)
+                {
+                    return true; // Valid email and password
+                }
+                else
+                {
+                    return false; // Invalid email or password
+                }
             }
-            else
+            catch (FirebaseAuthException ex)
             {
-                return false; // Invalid credentials
+                return false;
             }
         }
 
-        
-       
         private void ShowInvalidCredentialsAlert(string context)
         {
             if(context == "inputcomplete")
