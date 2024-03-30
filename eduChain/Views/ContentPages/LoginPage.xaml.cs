@@ -3,6 +3,7 @@ using eduChain.ViewModels;
 using eduChain;
 using eduChain.Models;
 using Firebase.Auth;
+using Microsoft.Maui.Storage;
 
 namespace eduChain.Views.ContentPages{
 
@@ -22,7 +23,16 @@ public partial class LoginPage : ContentPage
 
             // Set the BindingContext of the page to the LoginViewModel instance
             BindingContext = loginViewModel;
+            if(Preferences.Get("IsLoggedIn", false))
+            {
+                Shell.Current.GoToAsync("//homePage");
+            } 
+            else {
+                Shell.Current.GoToAsync("//loginPage");
+            }
+
         }
+
 
         private void TextFieldPasswordShowHideAttachment_LayoutChanged(object sender, EventArgs e)
         {

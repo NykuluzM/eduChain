@@ -1,6 +1,5 @@
 ﻿using ObjCRuntime;
 using UIKit;
-
 namespace eduChain;
 
 public class Program

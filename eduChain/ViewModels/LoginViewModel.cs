@@ -16,7 +16,6 @@ namespace eduChain.ViewModels
         private readonly FirebaseAuthClient _firebaseAuthClient;
 
         public event PropertyChangedEventHandler? PropertyChanged;
-        private static LoginViewModel? _instance;
 
         public LoginModel LoginModel { get; set; }
         public ICommand LoginCommand { get; }
@@ -81,13 +80,12 @@ namespace eduChain.ViewModels
                     {
                         Preferences.Set("email", Email);
                         Preferences.Set("password", Password);
+                        Preferences.Set("IsLoggedIn", true);
                             Application.Current?.MainPage?.DisplayAlert("Error", "saved", "OK");
-                    }  else {
-                        Preferences.Set("email", string.Empty);
-                        Preferences.Set("password", string.Empty);
-                    }
-                    Email = string.Empty;
+                    }                     Email = string.Empty;
                     Password = string.Empty;
+                    Application.Current?.MainPage?.DisplayAlert("Error", $"KeepLoggedIn: {KeepLoggedIn}", "OK");
+
                     await Shell.Current.GoToAsync("//homePage");
                 }
                 else
