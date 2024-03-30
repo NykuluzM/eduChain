@@ -13,9 +13,9 @@ public class HomePageViewModel
     private async void ExecuteLogout()
     {
         // Handle the logout logic here
-        Preferences.Set("email", string.Empty);
-        Preferences.Set("password", string.Empty);
-        Preferences.Set("IsLoggedIn", false);
+        Preferences.Default.Set("email", string.Empty);
+        Preferences.Default.Set("password", string.Empty);
+        Preferences.Default.Set("IsLoggedIn", false);
         await Shell.Current.GoToAsync("//loginPage");
     }
 }

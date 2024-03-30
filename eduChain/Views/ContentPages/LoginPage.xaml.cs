@@ -4,33 +4,26 @@ using eduChain;
 using eduChain.Models;
 using Firebase.Auth;
 using Microsoft.Maui.Storage;
-
 namespace eduChain.Views.ContentPages{
-
 public partial class LoginPage : ContentPage
 {
 
-	public LoginPage()
-	{
-		InitializeComponent();
-            var firebaseService = new FirebaseAuthService(); // Initialize FirebaseService if necessary
+        public LoginPage()
+	    {
 
-            // Obtain the FirebaseAuthClient instance from FirebaseService
-            var firebaseAuthClient = firebaseService.GetFirebaseAuthClient();
+		    InitializeComponent();
+        
+                var firebaseService = new FirebaseAuthService(); // Initialize FirebaseService if necessary
 
-            // Create an instance of LoginViewModel with FirebaseAuthClient instance
-            var loginViewModel = new LoginViewModel(firebaseAuthClient);
+                // Obtain the FirebaseAuthClient instance from FirebaseService
+                var firebaseAuthClient = firebaseService.GetFirebaseAuthClient();
 
-            // Set the BindingContext of the page to the LoginViewModel instance
-            BindingContext = loginViewModel;
-            if(Preferences.Get("IsLoggedIn", false))
-            {
-                Shell.Current.GoToAsync("//homePage");
-            } 
-            else {
-                Shell.Current.GoToAsync("//loginPage");
-            }
+                // Create an instance of LoginViewModel with FirebaseAuthClient instance
+                var loginViewModel = new LoginViewModel(firebaseAuthClient);
 
+                // Set the BindingContext of the page to the LoginViewModel instance
+                BindingContext = loginViewModel;
+    
         }
 
 

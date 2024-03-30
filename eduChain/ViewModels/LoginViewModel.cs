@@ -7,12 +7,13 @@ using CommunityToolkit.Maui.Core.Views;
 using eduChain.Models;
 using Firebase.Auth;
 using Org.BouncyCastle.Utilities.Collections;
-
-
+using Microsoft.Maui.Storage;
+using eduChain.Views.ContentPages;
 namespace eduChain.ViewModels
 {
     public class LoginViewModel : INotifyPropertyChanged
     {
+        
         private readonly FirebaseAuthClient _firebaseAuthClient;
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -42,14 +43,43 @@ namespace eduChain.ViewModels
             }
         }
 
+        /* public async Task NavigateToLoginPageOrHomePageAsync()
+         {
+             bool isLoggedIn = Preferences.Default.Get("IsLoggedIn", false);
+
+             // Determine the destination page based on the authentication state
+             string destinationPage = isLoggedIn ? "//homePage" : "//loginPage";
+
+             // Navigate to the determined destination page
+             await NavigateToPageAsync(destinationPage);
+         }
+
+         private async Task NavigateToPageAsync(string pageUri)
+         {
+             try
+             {
+                 // Navigate to the specified page
+                 await Application.Current.MainPage.Navigation.PushAsync(); // Replace ContentPage with the appropriate page type and pass appropriate parameters if needed
+
+             }
+             catch (Exception ex)
+             {
+                 // Output the error to the debug console or handle it as needed
+                 System.Diagnostics.Debug.WriteLine($"An error occurred during navigation: {ex.Message}");
+             }
+         }*/
+        private bool hasNavigated = false;
+      
         public LoginViewModel(FirebaseAuthClient firebaseAuthClient)
-        {   
+        {
             _firebaseAuthClient = firebaseAuthClient;
             this.LoginModel = new LoginModel();
-            _email = string.Empty;
             LoginCommand = new Command(Login);
+
+            // Call the method for navigation based on authentication state
         }
-            public bool KeepLoggedIn { get; set; } // Property to store checkbox state
+
+        public bool KeepLoggedIn { get; set; } // Property to store checkbox state
 
 
             public async void Login()
@@ -78,9 +108,9 @@ namespace eduChain.ViewModels
                 {
                     if(KeepLoggedIn)
                     {
-                        Preferences.Set("email", Email);
-                        Preferences.Set("password", Password);
-                        Preferences.Set("IsLoggedIn", true);
+                        Preferences.Default.Set("email", Email);
+                        Preferences.Default.Set("password", Password);
+                        Preferences.Default.Set("IsLoggedIn", true);
                             Application.Current?.MainPage?.DisplayAlert("Error", "saved", "OK");
                     }                     Email = string.Empty;
                     Password = string.Empty;
