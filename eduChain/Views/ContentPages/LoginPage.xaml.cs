@@ -7,10 +7,10 @@ using Microsoft.Maui.Storage;
 namespace eduChain.Views.ContentPages{
 public partial class LoginPage : ContentPage
 {
-
         public LoginPage()
 	    {
-
+            Shell.Current.FlyoutBehavior = FlyoutBehavior.Disabled;
+            
 		    InitializeComponent();
         
                 var firebaseService = new FirebaseAuthService(); // Initialize FirebaseService if necessary

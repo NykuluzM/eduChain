@@ -1,13 +1,31 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="eduChain.Views.ContentPages.RegisterPage"
-             Title="RegisterPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-        
-    </VerticalStackLayout>
+             xmlns:ur="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
+             xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
+            x:Class="eduChain.Views.ContentPages.RegisterPage"             
+            Title="RegisterPage">
+             
+    <StackLayout Spacing="10" Margin="20">
+        <input:FormView Spacing="15">
+            <ur:TextField Title="Email" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding Email, Mode=TwoWay}" >
+                <validation:RequiredValidation />
+
+                <validation:RegexValidation Pattern="^(?:\s*|(?:[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}))$" Message="Email must be valid" />
+
+            </ur:TextField>
+
+            <ur:TextField Title="Password" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" IsPassword="True" Text="{Binding Password, Mode=TwoWay}"> 
+                <validation:RequiredValidation />
+                    <validation:RegexValidation Pattern="^(?:[A-Za-z][A-Za-z0-9_*#]*(?:_[A-Za-z0-9_*#]+)*)?$" Message="Password must start with a letter and can contain letters, numbers, underscores, asterisks, and hash symbols." />
+                    <ur:TextField.Attachments>
+                        <ur:TextFieldPasswordShowHideAttachment />
+                        </ur:TextField.Attachments>
+                    </ur:TextField>
+                    <ur:CheckBox Text="Keep Logged In" TextColor="Honeydew" Padding="20,10" IsChecked="{Binding KeepLoggedIn}"/>
+
+    
+        </input:FormView>  
+    </StackLayout>
 </ContentPage>
