@@ -39,7 +39,7 @@ public partial class LoginPage : ContentPage
         }
         private void RegisterButton_Clicked(object sender, EventArgs e)
         {
-            Shell.Current.GoToAsync("//registerPage");
+            Shell.Current.GoToAsync("registerPage");
         }
     }
 }

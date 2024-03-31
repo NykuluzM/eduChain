@@ -9,10 +9,16 @@ namespace eduChain.ViewModels{
     {
         public RegisterModel RegisterModel { get; set; } 
         public ICommand RegisterCommand { get; set; }
+        public ICommand NavigateBackCommand { get; private set; }
+
         public event PropertyChangedEventHandler? PropertyChanged;
         public void Register()
         {
-            Shell.Current.GoToAsync("//registerPage");
+            
+
+            RegisterPage registerPage = new RegisterPage();
+            
+            Shell.Current.Navigation.PushAsync(registerPage);
         }
         private string _email = string.Empty;
         public string Email
@@ -28,6 +34,7 @@ namespace eduChain.ViewModels{
         public RegisterViewModel(){
             this.RegisterModel = new RegisterModel();
             this.RegisterCommand = new Command(Register);
+            this.NavigateBackCommand = new Command(NavigateBack);
 
         }
         protected virtual void OnPropertyChanged(string propertyName)
@@ -41,6 +48,12 @@ namespace eduChain.ViewModels{
             {
                 throw new NullReferenceException("PropertyChanged event is not subscribed to.");
             }
+        }
+        private async void NavigateBack()
+        {
+            //newAppShell.GoToAsync("//loginPage");
+
+            await Shell.Current.GoToAsync("//loginPage");
         }
     }
 }
