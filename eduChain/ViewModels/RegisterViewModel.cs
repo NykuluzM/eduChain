@@ -7,18 +7,23 @@ namespace eduChain.ViewModels{
 
     public class RegisterViewModel : INotifyPropertyChanged
     {
-        public RegisterModel RegisterModel { get; set; } 
-        public ICommand RegisterCommand { get; set; }
-        public ICommand NavigateBackCommand { get; private set; }
-
         public event PropertyChangedEventHandler? PropertyChanged;
-        public void Register()
-        {
-            
+        public RegisterModel RegisterModel { get; set; } 
+        public ICommand RegisterCommand { get; }
+        public ICommand NavigateBackCommand { get; private set; }
+       
 
-            RegisterPage registerPage = new RegisterPage();
-            
-            Shell.Current.Navigation.PushAsync(registerPage);
+        private static RegisterViewModel _instance;
+
+        public static RegisterViewModel GetInstance()
+        {
+            {
+                if (_instance == null)
+                {
+                    _instance = new RegisterViewModel();
+                }
+                return _instance;
+            }
         }
         private string _email = string.Empty;
         public string Email
@@ -30,14 +35,24 @@ namespace eduChain.ViewModels{
                     OnPropertyChanged(nameof(Email));
                 }
         }
-
+        private string _password = string.Empty;
+        public string Password
+        {
+            get { return _password; }
+            set
+            {
+                if(_password != value)
+                {
+                     _password = value;
+                    OnPropertyChanged(nameof(Password));
+                }
+            }
+        }
         public RegisterViewModel(){
             this.RegisterModel = new RegisterModel();
-            this.RegisterCommand = new Command(Register);
-            this.NavigateBackCommand = new Command(NavigateBack);
 
         }
-        protected virtual void OnPropertyChanged(string propertyName)
+       protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChangedEventHandler? handler = PropertyChanged;
             if (handler != null)
@@ -49,12 +64,13 @@ namespace eduChain.ViewModels{
                 throw new NullReferenceException("PropertyChanged event is not subscribed to.");
             }
         }
-        private async void NavigateBack()
+        public void Reset()
         {
-            //newAppShell.GoToAsync("//loginPage");
-
-            await Shell.Current.GoToAsync("//loginPage");
+            Email = string.Empty;
+            Password = string.Empty;
+            // Reset other properties as needed
         }
+
     }
 }
 

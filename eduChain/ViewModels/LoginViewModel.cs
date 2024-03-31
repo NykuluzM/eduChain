@@ -17,7 +17,11 @@ namespace eduChain.ViewModels
         private readonly FirebaseAuthClient _firebaseAuthClient;
 
         public event PropertyChangedEventHandler? PropertyChanged;
-
+        protected virtual void OnPropertyChanged(string propertyName)
+        {   
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        
         public LoginModel LoginModel { get; set; }
         public ICommand LoginCommand { get; }
 
@@ -38,36 +42,14 @@ namespace eduChain.ViewModels
             get { return _password; }
             set
             {
-                _password = value;
-                OnPropertyChanged(nameof(Password));
+                if(_password != value)
+                {
+                    _password = value;
+                    OnPropertyChanged(nameof(Password));
+                }
             }
         }
 
-        /* public async Task NavigateToLoginPageOrHomePageAsync()
-         {
-             bool isLoggedIn = Preferences.Default.Get("IsLoggedIn", false);
-
-             // Determine the destination page based on the authentication state
-             string destinationPage = isLoggedIn ? "//homePage" : "//loginPage";
-
-             // Navigate to the determined destination page
-             await NavigateToPageAsync(destinationPage);
-         }
-
-         private async Task NavigateToPageAsync(string pageUri)
-         {
-             try
-             {
-                 // Navigate to the specified page
-                 await Application.Current.MainPage.Navigation.PushAsync(); // Replace ContentPage with the appropriate page type and pass appropriate parameters if needed
-
-             }
-             catch (Exception ex)
-             {
-                 // Output the error to the debug console or handle it as needed
-                 System.Diagnostics.Debug.WriteLine($"An error occurred during navigation: {ex.Message}");
-             }
-         }*/
         private bool hasNavigated = false;
       
         public LoginViewModel(FirebaseAuthClient firebaseAuthClient)
@@ -167,17 +149,7 @@ namespace eduChain.ViewModels
                 Application.Current?.MainPage?.DisplayAlert("Error", "Please provide a username and password", "OK");
             }
         }
-          protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler? handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }
-            else
-            {
-                throw new NullReferenceException("PropertyChanged event is not subscribed to.");
-            }
-        }
+        
+        
     }
 }

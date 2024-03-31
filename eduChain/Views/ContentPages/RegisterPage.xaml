@@ -4,27 +4,63 @@
              xmlns:ur="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
              xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
+             xmlns:local="clr-namespace:eduChain.ViewModels;assembly=eduChain"
+             xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
+             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
+
+
             x:Class="eduChain.Views.ContentPages.RegisterPage"             
             Title="RegisterPage"
             Shell.NavBarIsVisible="True" >
-            
+
     <StackLayout Spacing="10" Margin="20">
+        <VerticalStackLayout WidthRequest="500">
         <input:FormView Spacing="15">
+
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+
+                <ur:TextField Title="First Name" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding FirstName}" WidthRequest="240" 
+                    Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Face}}">
+
+                    <validation:RequiredValidation />
+                    <validation:RegexValidation Pattern="^(?:[ A-Z\d][a-z\d]*(?:\s*[A-Z\d][a-z\d]*)*|)$" Message="Each name of your First Name should start with a capital letter and lowercase afterwards with a single space for each separation," />
+                    <validation:RegexValidation Pattern="^(?![ ])[A-Za-z ]*$" Message="First Name must not start with a space, and input should only contain letters and spaces." />
+
+
+                </ur:TextField>
+                <ur:TextField Title="Last Name" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding LastName}" WidthRequest="240"
+                    Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Group}}">
+
+                    <validation:RequiredValidation />
+                    <validation:RegexValidation Pattern="^(?:[A-Z][a-z]*|)$"  Message="Last Name must contain only letters and its first letter should be Capitalized" />
+                </ur:TextField>
+            </HorizontalStackLayout>
             <ur:TextField Title="Email" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding Email}" >
                 <validation:RequiredValidation />
-
                 <validation:RegexValidation Pattern="^(?:\s*|(?:[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}))$" Message="Email must be valid" />
-
             </ur:TextField>
 
             <ur:TextField Title="Password" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" IsPassword="True" Text="{Binding Password}"> 
                 <validation:RequiredValidation />
-                    <validation:RegexValidation Pattern="^(?:[A-Za-z][A-Za-z0-9_*#]*(?:_[A-Za-z0-9_*#]+)*)?$" Message="Password must start with a letter and can contain letters, numbers, underscores, asterisks, and hash symbols." />
-                    <ur:TextField.Attachments>
-                        <ur:TextFieldPasswordShowHideAttachment />
-                        </ur:TextField.Attachments>
-                    </ur:TextField>
+                <validation:RegexValidation Pattern="^(?:[A-Za-z][A-Za-z0-9_*#]*(?:_[A-Za-z0-9_*#]+)*)?$" Message="Password must start with a letter and can contain letters, numbers, underscores, asterisks, and hash symbols."/>
+                <ur:TextField.Attachments>
+                    <ur:TextFieldPasswordShowHideAttachment />
+                </ur:TextField.Attachments>
+            </ur:TextField>
+            <ur:TextField Title="Confirm Password" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" IsPassword="True"> 
+               <ur:TextField.Validations>
+                    <local:ConfirmPasswordValidation />
+                    <validation:RequiredValidation />
+                    <validation:RegexValidation  Message="Password must start with a letter and can contain letters, numbers, underscores, asterisks, and hash symbols." />
+
+               </ur:TextField.Validations>
+               
+                <ur:TextField.Attachments>
+                    <ur:TextFieldPasswordShowHideAttachment />
+                </ur:TextField.Attachments>
+            </ur:TextField>
     
         </input:FormView>  
+        </VerticalStackLayout>
     </StackLayout>
 </ContentPage>

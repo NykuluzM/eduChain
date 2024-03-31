@@ -6,11 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eduChain
+namespace eduChain.Models
 {
 
     public class FirebaseAuthService : IFirebaseAuthService
     {
+        private static FirebaseAuthService _instance;
+
         private readonly FirebaseAuthClient _firebaseAuthClient;
 
         public FirebaseAuthService()
@@ -26,7 +28,15 @@ namespace eduChain
             });
         }
 
-        
+         public static FirebaseAuthService GetInstance()
+        {
+            if (_instance == null)
+            {
+                _instance = new FirebaseAuthService();
+            }
+            return _instance;
+        }
+
         public FirebaseAuthClient GetFirebaseAuthClient()
         {
             return _firebaseAuthClient;
