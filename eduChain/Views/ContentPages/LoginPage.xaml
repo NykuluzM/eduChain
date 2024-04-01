@@ -27,9 +27,9 @@
 
            
             <!-- Scrollable Content -->
-        <ScrollView Grid.Row="0"  Padding="20" HorizontalOptions="Center">
+        <ScrollView Grid.Row="0"  HorizontalOptions="Center">
 
-            <StackLayout Padding="20" Spacing="15" HorizontalOptions="Center">
+            <StackLayout  Spacing="15" HorizontalOptions="Center">
 
                 <StackLayout Spacing="20" MinimumWidthRequest="320" MaximumWidthRequest="500" HorizontalOptions="Center">
                          <!-- Logo -->
@@ -53,7 +53,7 @@
                     FontSize="16"/>
                         
 
-                        <input:FormView Spacing="15">
+                        <input:FormView Spacing="15" Padding="15">
 
                             <ur:TextField Title="Email" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding Email, Mode=TwoWay}" >
                                 <validation:RequiredValidation />

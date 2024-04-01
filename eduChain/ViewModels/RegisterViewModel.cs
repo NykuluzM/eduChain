@@ -50,7 +50,6 @@ namespace eduChain.ViewModels{
         }
         public RegisterViewModel(){
             this.RegisterModel = new RegisterModel();
-
         }
        protected virtual void OnPropertyChanged(string propertyName)
         {
