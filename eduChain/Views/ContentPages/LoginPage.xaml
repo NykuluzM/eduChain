@@ -81,6 +81,8 @@
                                 Clicked="LoginButton_Clicked"/>
 
                         </input:FormView>                
+                        <BoxView StyleClass="Divider" Color="White" WidthRequest="450" />
+
                     <StackLayout Spacing="40" HorizontalOptions="Center">
                 
 
