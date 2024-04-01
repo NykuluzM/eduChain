@@ -29,7 +29,7 @@
             <!-- Scrollable Content -->
         <ScrollView Grid.Row="0"  HorizontalOptions="Center">
 
-            <StackLayout  Spacing="15" HorizontalOptions="Center">
+            <StackLayout Padding="60" Spacing="15" HorizontalOptions="Center">
 
                 <StackLayout Spacing="20" MinimumWidthRequest="320" MaximumWidthRequest="500" HorizontalOptions="Center">
                          <!-- Logo -->
@@ -60,7 +60,7 @@
 
                             <validation:RegexValidation Pattern="^(?:\s*|(?:[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}))$" Message="Email must be valid" />
 
-                        </ur:TextField>
+                            </ur:TextField>
 
                              <ur:TextField Title="Password" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" IsPassword="True" Text="{Binding Password, Mode=TwoWay}"> 
                                 <validation:RequiredValidation />

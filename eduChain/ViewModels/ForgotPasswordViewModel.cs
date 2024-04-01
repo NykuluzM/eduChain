@@ -48,7 +48,7 @@ namespace eduChain.ViewModels{
             _firebaseService = FirebaseService.GetInstance();
             var firebaseAuthClient =  _firebaseService.GetFirebaseAuthClient();
             await firebaseAuthClient.ResetEmailPasswordAsync(Email);
-            Shell.Current.GoToAsync("//loginPage");
+            await Shell.Current.GoToAsync("//loginPage");
             await Application.Current?.MainPage?.DisplayAlert("Success", $"Make sure you have entered your correct email, Password change is sent to {Email}", "OK");
 
             return true;

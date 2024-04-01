@@ -7,84 +7,104 @@
              xmlns:local="clr-namespace:eduChain.ViewModels;assembly=eduChain"
              xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
 
-
-            x:Class="eduChain.Views.ContentPages.RegisterPage"             
-            Title="RegisterPage"
-            Shell.NavBarIsVisible="True" >
-    <Grid>
+             x:Class="eduChain.Views.ContentPages.RegisterPage"             
+             Title="RegisterPage"
+             Shell.NavBarIsVisible="True" >
+    <Grid BackgroundColor="White">
+        <Image Source="image.jpg" Aspect="AspectFill" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" />
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" /> <!-- Automatically sized row -->
                 <RowDefinition Height="*" /> <!-- Fill remaining space -->
             </Grid.RowDefinitions>
             <!-- Content goes here -->
+            <ScrollView Grid.Row="1">
+                <StackLayout VerticalOptions="Center">
+                    <!-- Your form elements, buttons, etc. -->
+                    <Image Source="chibi.png" WidthRequest="100" HeightRequest="100"/>
+                    <Label Text="Help us out identify you" HorizontalOptions="Center" VerticalOptions="Center"/>
+                <input:FormView Spacing="10" Padding="20" MaximumWidthRequest="750" HorizontalOptions="Center">
+                    <toolkit:UniformItemsLayout MaxColumns="2" Padding="5" MaximumWidthRequest="1000">
+                        <input:FormView Padding="15,15,15,0" MaximumWidthRequest="700" MinimumWidthRequest="250">
+                            <ur:TextField Title="First Name" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding FirstName}" MinimumWidthRequest="250" 
+                                    Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Face}}">
+                                <validation:RequiredValidation />
+                                <validation:RegexValidation Pattern="^(?:[ A-Z\d][a-z\d]*(?:\s*[A-Z\d][a-z\d]*)*|)$" Message="Each name of your First Name should start with a capital letter and lowercase afterwards with a single space for each separation," />
+                                <validation:RegexValidation Pattern="^(?![ ])[A-Za-z ]*$" Message="First Name must not start with a space, and input should only contain letters and spaces." />
+                            </ur:TextField>
+                        </input:FormView>                
+                        
+                        <input:FormView Padding="15,15,15,0" MaximumWidthRequest="700">
+                            <ur:TextField Title="Last Name" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding LastName}" MinimumWidthRequest="250"
+                                    Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Group}}">
+                                <validation:RequiredValidation />
+                                <validation:RegexValidation Pattern="^(?:[A-Z][a-z]*|)$"  Message="Last Name must contain only letters and its first letter should be Capitalized" />
+                            </ur:TextField>
+                        </input:FormView>        
+                    </toolkit:UniformItemsLayout>
+
+                     <toolkit:UniformItemsLayout MaxColumns="2" Padding="5" MaximumWidthRequest="1000">
+                        <input:FormView Padding="15,0,15,15" MaximumWidthRequest="700" MinimumWidthRequest="250">
+                            <ur:TextField Title="Gender" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding FirstName}" MinimumWidthRequest="250" 
+                                    Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Face}}">
+                                <validation:RequiredValidation />
+                                <validation:RegexValidation Pattern="^(?:[ A-Z\d][a-z\d]*(?:\s*[A-Z\d][a-z\d]*)*|)$" Message="Each name of your First Name should start with a capital letter and lowercase afterwards with a single space for each separation," />
+                                <validation:RegexValidation Pattern="^(?![ ])[A-Za-z ]*$" Message="First Name must not start with a space, and input should only contain letters and spaces." />
+                            </ur:TextField>
+                        </input:FormView>                
+                        
+                        <input:FormView Padding="15,0,15,15" MaximumWidthRequest="700">
+                            <ur:TextField Title="Age" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding LastName}" MinimumWidthRequest="250"
+                                    Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Group}}">
+                                <validation:RequiredValidation />
+                                <validation:RegexValidation Pattern="^(?:[A-Z][a-z]*|)$"  Message="Last Name must contain only letters and its first letter should be Capitalized" />
+                            </ur:TextField>
+                        </input:FormView>        
+                    </toolkit:UniformItemsLayout>
+                     
+                    <StackLayout Spacing="25">
+                     <ur:TextField Title="Email" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding Email}" 
+                            Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Email}}">
+
+                            <validation:RequiredValidation />
+                            <validation:RegexValidation Pattern="^(?:\s*|(?:[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}))$" Message="Email must be valid" />
+                        </ur:TextField>
+                        <ur:TextField Title="Password" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" IsPassword="True" Text="{Binding Password}"
+                            Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Password}}">
+
+                            <validation:RequiredValidation />
+                            <validation:RegexValidation Pattern="^(?:[A-Za-z][A-Za-z0-9_*#]*(?:_[A-Za-z0-9_*#]+)*)?$" Message="Password must start with a letter and can contain letters, numbers, underscores, asterisks, and hash symbols."/>
+                            <ur:TextField.Attachments>
+                                <ur:TextFieldPasswordShowHideAttachment />
+                            </ur:TextField.Attachments>
+                        </ur:TextField>
+                        <ur:TextField Title="Confirm Password" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" IsPassword="True"
+                            Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Password}}" Margin="0,0,0,50">
+
+                            <ur:TextField.Validations>
+                                <local:ConfirmPasswordValidation />
+                                <validation:RequiredValidation />
+                            </ur:TextField.Validations>
+
+                            <ur:TextField.Attachments>
+                                <ur:TextFieldPasswordShowHideAttachment />
+                            </ur:TextField.Attachments>
+                            </ur:TextField>
+                              
+                                <Button 
+                                StyleClass="FilledButton" 
+                                Text="Register"
+                                input:FormView.IsSubmitButton="True"
+                                WidthRequest="200" 
+                                BackgroundColor="PaleVioletRed" 
+                                TextColor="White" 
+                                />
+                    </StackLayout>
+                    </input:FormView>
+                </StackLayout>
+            </ScrollView>
         </Grid>
-
-        <Image Source="image.jpg" Aspect="AspectFill" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
-       
-        <StackLayout Grid.Row="0" Spacing="50" Margin="20" HorizontalOptions="Center">
-            <VerticalStackLayout WidthRequest="500">
-                <input:FormView Spacing="35">
-
-                    <HorizontalStackLayout Spacing="10"> 
-
-                        <ur:TextField Title="First Name" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding FirstName}" WidthRequest="245" 
-                                Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Face}}">
-
-                            <validation:RequiredValidation />
-                            <validation:RegexValidation Pattern="^(?:[ A-Z\d][a-z\d]*(?:\s*[A-Z\d][a-z\d]*)*|)$" Message="Each name of your First Name should start with a capital letter and lowercase afterwards with a single space for each separation," />
-                            <validation:RegexValidation Pattern="^(?![ ])[A-Za-z ]*$" Message="First Name must not start with a space, and input should only contain letters and spaces." />
-
-
-                        </ur:TextField>
-                        <ur:TextField Title="Last Name" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding LastName}" WidthRequest="245"
-                                Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Group}}">
-
-                            <validation:RequiredValidation />
-                            <validation:RegexValidation Pattern="^(?:[A-Z][a-z]*|)$"  Message="Last Name must contain only letters and its first letter should be Capitalized" />
-                        </ur:TextField>
-                    </HorizontalStackLayout>
-                    <ur:TextField Title="Email" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding Email}" 
-                        Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Email}}">
-
-                        <validation:RequiredValidation />
-                        <validation:RegexValidation Pattern="^(?:\s*|(?:[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}))$" Message="Email must be valid" />
-                    </ur:TextField>
-
-                    <ur:TextField Title="Password" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" IsPassword="True" Text="{Binding Password}"
-                        Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Password}}">
-
-                        <validation:RequiredValidation />
-                        <validation:RegexValidation Pattern="^(?:[A-Za-z][A-Za-z0-9_*#]*(?:_[A-Za-z0-9_*#]+)*)?$" Message="Password must start with a letter and can contain letters, numbers, underscores, asterisks, and hash symbols."/>
-                        <ur:TextField.Attachments>
-                            <ur:TextFieldPasswordShowHideAttachment />
-                        </ur:TextField.Attachments>
-                    </ur:TextField>
-                    <ur:TextField Title="Confirm Password" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" IsPassword="True"
-                        Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Password}}">
-
-                        <ur:TextField.Validations>
-                            <local:ConfirmPasswordValidation />
-                            <validation:RequiredValidation />
-                        </ur:TextField.Validations>
-
-                        <ur:TextField.Attachments>
-                            <ur:TextFieldPasswordShowHideAttachment />
-                        </ur:TextField.Attachments>
-                    </ur:TextField>
-
-                   
-                        <Button 
-                          StyleClass="FilledButton" 
-                          Text="Register"
-                          WidthRequest="200" 
-                          BackgroundColor="PaleVioletRed" 
-                          TextColor="White" 
-                          />
-                  
-                </input:FormView>
-            </VerticalStackLayout>
-        </StackLayout>
     </Grid>
 </ContentPage>
