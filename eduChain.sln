@@ -16,6 +16,7 @@ Global
 		{9CE30F9F-9B16-4123-9DD1-3FEFB3BC5963}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{9CE30F9F-9B16-4123-9DD1-3FEFB3BC5963}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CE30F9F-9B16-4123-9DD1-3FEFB3BC5963}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CE30F9F-9B16-4123-9DD1-3FEFB3BC5963}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
