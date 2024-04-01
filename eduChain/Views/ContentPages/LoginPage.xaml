@@ -12,8 +12,9 @@
 
             x:Class="eduChain.Views.ContentPages.LoginPage"
             Title="LoginPage">
-
-
+            <ContentPage.ToolbarItems>
+                <ToolbarItem Text="Forgot Password?" Order="Primary" Priority="0"  Clicked="PasswordForgotten"/>
+            </ContentPage.ToolbarItems>
     <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -90,6 +91,7 @@
                             BackgroundColor="PaleVioletRed" 
                             TextColor="White" 
                             Clicked="RegisterButton_Clicked"/>
+
                     </StackLayout>
                     </StackLayout>
                     

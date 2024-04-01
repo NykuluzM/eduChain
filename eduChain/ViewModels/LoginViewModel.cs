@@ -94,7 +94,8 @@ namespace eduChain.ViewModels
                         Preferences.Default.Set("password", Password);
                         Preferences.Default.Set("IsLoggedIn", true);
                             Application.Current?.MainPage?.DisplayAlert("Error", "saved", "OK");
-                    }                     Email = string.Empty;
+                    }                     
+                    Email = string.Empty;
                     Password = string.Empty;
                     Application.Current?.MainPage?.DisplayAlert("Error", $"KeepLoggedIn: {KeepLoggedIn}", "OK");
 

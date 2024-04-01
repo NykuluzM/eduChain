@@ -18,9 +18,9 @@
             <VerticalStackLayout WidthRequest="500">
                 <input:FormView Spacing="15">
 
-                    <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                    <HorizontalStackLayout Spacing="10"> 
 
-                        <ur:TextField Title="First Name" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding FirstName}" WidthRequest="240" 
+                        <ur:TextField Title="First Name" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding FirstName}" WidthRequest="245" 
                                 Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Face}}">
 
                             <validation:RequiredValidation />
@@ -29,31 +29,35 @@
 
 
                         </ur:TextField>
-                        <ur:TextField Title="Last Name" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding LastName}" WidthRequest="240"
+                        <ur:TextField Title="Last Name" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding LastName}" WidthRequest="245"
                                 Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Group}}">
 
                             <validation:RequiredValidation />
                             <validation:RegexValidation Pattern="^(?:[A-Z][a-z]*|)$"  Message="Last Name must contain only letters and its first letter should be Capitalized" />
                         </ur:TextField>
                     </HorizontalStackLayout>
-                    <ur:TextField Title="Email" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding Email}" >
+                    <ur:TextField Title="Email" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding Email}" 
+                        Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Email}}">
+
                         <validation:RequiredValidation />
                         <validation:RegexValidation Pattern="^(?:\s*|(?:[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}))$" Message="Email must be valid" />
                     </ur:TextField>
 
-                    <ur:TextField Title="Password" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" IsPassword="True" Text="{Binding Password}">
+                    <ur:TextField Title="Password" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" IsPassword="True" Text="{Binding Password}"
+                        Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Password}}">
+
                         <validation:RequiredValidation />
                         <validation:RegexValidation Pattern="^(?:[A-Za-z][A-Za-z0-9_*#]*(?:_[A-Za-z0-9_*#]+)*)?$" Message="Password must start with a letter and can contain letters, numbers, underscores, asterisks, and hash symbols."/>
                         <ur:TextField.Attachments>
                             <ur:TextFieldPasswordShowHideAttachment />
                         </ur:TextField.Attachments>
                     </ur:TextField>
-                    <ur:TextField Title="Confirm Password" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" IsPassword="True">
+                    <ur:TextField Title="Confirm Password" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" IsPassword="True"
+                        Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Password}}">
+
                         <ur:TextField.Validations>
                             <local:ConfirmPasswordValidation />
                             <validation:RequiredValidation />
-                            <validation:RegexValidation  Message="Password must start with a letter and can contain letters, numbers, underscores, asterisks, and hash symbols." />
-
                         </ur:TextField.Validations>
 
                         <ur:TextField.Attachments>

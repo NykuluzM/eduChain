@@ -13,7 +13,7 @@ namespace eduChain.Models
     {
         private static FirebaseAuthService _instance;
 
-        private readonly FirebaseAuthClient _firebaseAuthClient;
+        private static FirebaseAuthClient _firebaseAuthClient;
 
         public FirebaseAuthService()
         {

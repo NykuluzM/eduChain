@@ -77,6 +77,9 @@
 	  <Folder Include="Views/ContentViews/" />
 	</ItemGroup>
 	<ItemGroup>
+	  <Compile Update="Views/ContentPages/ForgotPasswordPage.xaml.cs">
+	    <DependentUpon>ForgotPasswordPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views/ContentPages/LoginPage.xaml.cs">
 	    <DependentUpon>LoginPage.xaml</DependentUpon>
 	  </Compile>

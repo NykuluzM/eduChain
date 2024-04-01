@@ -42,5 +42,9 @@ public partial class LoginPage : ContentPage
             var registerPage = new RegisterPage();
             Shell.Current.Navigation.PushAsync(registerPage);
         }
+        private void PasswordForgotten(object sender, EventArgs e){
+             var forgotPasswordPage = new ForgotPasswordPage();
+            Shell.Current.Navigation.PushAsync(forgotPasswordPage);
+        }
     }
 }

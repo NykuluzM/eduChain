@@ -5,7 +5,7 @@ namespace eduChain.Models
     public class FirebaseService
     {
         private static FirebaseService _instance;
-        private readonly FirebaseAuthService _authService;
+        private static FirebaseAuthService _authService;
 
         private FirebaseService()
         {

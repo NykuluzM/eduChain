@@ -6,7 +6,7 @@ using Microsoft.Maui.Controls;
 namespace eduChain.ViewModels{
 public class ConfirmPasswordValidation : IValidation
 {
-    public string Message { get; set; } = "Passwords do not match";
+    public string Message { get; set; } = "Passwords does not match";
     RegisterViewModel viewModel = RegisterViewModel.GetInstance(); 
     public bool Validate(object value)
     {
