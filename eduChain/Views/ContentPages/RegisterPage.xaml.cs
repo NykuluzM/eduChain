@@ -1,6 +1,8 @@
 using eduChain.ViewModels;
 using eduChain.Models;
 using UraniumUI;
+using CommunityToolkit.Maui.Views;
+using eduChain.Views.Popups;
 namespace eduChain.Views.ContentPages
 {
     public partial class RegisterPage : ContentPage
@@ -20,6 +22,11 @@ namespace eduChain.Views.ContentPages
         {
             base.OnDisappearing();
 			viewModel.Reset();
+        }
+
+        private void check_Format(object sender, EventArgs e)
+        {
+            this.ShowPopup(new FormatRegPopup());
         }
     }
 }

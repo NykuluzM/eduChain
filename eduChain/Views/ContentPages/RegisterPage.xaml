@@ -31,8 +31,8 @@
                             <ur:TextField Title="First Name" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding FirstName}" MinimumWidthRequest="250" 
                                     Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Face}}">
                                 <validation:RequiredValidation />
-                                <validation:RegexValidation Pattern="^(?:[ A-Z\d][a-z\d]*(?:\s*[A-Z\d][a-z\d]*)*|)$" Message="Each name of your First Name should start with a capital letter and lowercase afterwards with a single space for each separation," />
-                                <validation:RegexValidation Pattern="^(?![ ])[A-Za-z ]*$" Message="First Name must not start with a space, and input should only contain letters and spaces." />
+                                <validation:RegexValidation Pattern="^(?:[ A-Z\d][a-z\d]*(?:\s*[A-Z\d][a-z\d]*)*|)$" Message="Capitalize first letter of each name" />
+                                <validation:RegexValidation Pattern="^(?![ ])[A-Za-z ]*$" Message="Symbols and number are not allowed" />
                             </ur:TextField>
                         </input:FormView>                
                         
@@ -40,7 +40,7 @@
                             <ur:TextField Title="Last Name" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding LastName}" MinimumWidthRequest="250"
                                     Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Group}}">
                                 <validation:RequiredValidation />
-                                <validation:RegexValidation Pattern="^(?:[A-Z][a-z]*|)$"  Message="Last Name must contain only letters and its first letter should be Capitalized" />
+                                <validation:RegexValidation Pattern="^(?:[A-Z][a-z]*|)$"  Message="Capitalize first letter, only letters" />
                             </ur:TextField>
                         </input:FormView>        
                     </toolkit:UniformItemsLayout>
@@ -50,7 +50,7 @@
                             <ur:TextField Title="Gender" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding FirstName}" MinimumWidthRequest="250" 
                                     Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Face}}">
                                 <validation:RequiredValidation />
-                                <validation:RegexValidation Pattern="^(?:[ A-Z\d][a-z\d]*(?:\s*[A-Z\d][a-z\d]*)*|)$" Message="Each name of your First Name should start with a capital letter and lowercase afterwards with a single space for each separation," />
+                                <validation:RegexValidation Pattern="^(?:[ A-Z\d][a-z\d]*(?:\s*[A-Z\d][a-z\d]*)*|)$" Message="" />
                                 <validation:RegexValidation Pattern="^(?![ ])[A-Za-z ]*$" Message="First Name must not start with a space, and input should only contain letters and spaces." />
                             </ur:TextField>
                         </input:FormView>                

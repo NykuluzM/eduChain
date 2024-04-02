@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="eduChain.Views.Popups.FormatRegPopup"
+             xmlns:ur="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+            CanBeDismissedByTappingOutsideOfPopup="False">
+   <Frame WidthRequest="400">
+        <VerticalStackLayout>
+            
+            <Label Text="If you have multiple names in your First Name, you should start with a capital letter and lowercase afterwards with a single space for each separation" Style="{StaticResource SubHeadline}" FontSize="14" LineBreakMode="WordWrap" />
+            <HorizontalStackLayout>
+            <Label Text="Correct" FontSize="12" LineBreakMode="WordWrap" />
+            <Label Text="John Doe" FontSize="12" LineBreakMode="WordWrap" />
+            <Label Text="Jane Smith" FontSize="12" LineBreakMode="WordWrap" />
+            <Label Text="Mark Johnson" FontSize="12" LineBreakMode="WordWrap" />
+            </HorizontalStackLayout>
+            <BoxView StyleClass="Divider" />
+            <Button Text="Close" Clicked="CloseButton_Clicked"/>
+        </VerticalStackLayout>
+   </Frame>
+    
+</toolkit:Popup>
