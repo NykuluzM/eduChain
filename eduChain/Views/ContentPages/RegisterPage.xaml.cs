@@ -7,7 +7,6 @@ namespace eduChain.Views.ContentPages
 {
     public partial class RegisterPage : ContentPage
     {
-		private FirebaseService firebaseService;
 		private RegisterViewModel viewModel;
         public RegisterPage()
         {
@@ -17,8 +16,7 @@ namespace eduChain.Views.ContentPages
 
 			viewModel = registerViewModel;
             BindingContext = viewModel;
-			firebaseService = FirebaseService.GetInstance();
-			var firebaseAuthClient = firebaseService.GetFirebaseAuthClient();
+			
 
         }
         

@@ -6,15 +6,20 @@ using Microsoft.Maui.Controls;
 using Supabase;
 using eduChain.Models;
 using System.Runtime.Serialization;
+using Firebase.Auth;
 namespace eduChain.ViewModels
 {
     public class RegisterViewModel : INotifyPropertyChanged
     {
+        private readonly FirebaseService firebaseService;
         public event PropertyChangedEventHandler? PropertyChanged;
         private static RegisterViewModel _instance;
 
         private readonly ISupabaseConnection _supabaseConnection;
 
+
+                public ICommand TrialCommand { get; }
+                public ICommand RegisterCommand { get; }  
 
         public static RegisterViewModel GetInstance()
         {
@@ -34,10 +39,12 @@ namespace eduChain.ViewModels
                         "Male",
                         "Female"
                     };
+            firebaseService = FirebaseService.GetInstance();
+			var firebaseAuthClient = firebaseService.GetFirebaseAuthClient();
             TrialCommand = new Command(async () => await Trial());
+            RegisterCommand = new Command(async () => await Register());
         }
 
-        public ICommand TrialCommand { get; }
 
        
          public async Task Trial()
@@ -65,10 +72,16 @@ namespace eduChain.ViewModels
             }
         }
 
-                
-        private string _gender = string.Empty;
-        private string _firstName = string.Empty;
+        
+        private string _firstName = string.Empty; 
+        
         private string _lastName = string.Empty;
+        private string _gender = string.Empty;
+        private DateTime _birthDate ; 
+
+        private string _email = string.Empty;
+        private string _password = string.Empty;
+
         public string FirstName
         {
             get { return _firstName; }
@@ -97,19 +110,17 @@ namespace eduChain.ViewModels
                 OnPropertyChanged(nameof(Gender));
             }
         }
-    private DateTime _birthDate ; 
-public DateTime BirthDate
-{
-    get { return _birthDate; }
-    set
-    {
-        _birthDate = value;
-        OnPropertyChanged(nameof(BirthDate));
-    }
-}
+        public DateTime BirthDate
+        {
+            get { return _birthDate; }
+            set
+            {
+                _birthDate = value;
+                OnPropertyChanged(nameof(BirthDate));
+            }
+        }
 
 
-         private string _email = string.Empty;
         public string Email
         {
                 get { return _email; }
@@ -119,7 +130,6 @@ public DateTime BirthDate
                     OnPropertyChanged(nameof(Email));
                 }
         }
-        private string _password = string.Empty;
         public string Password
         {
             get { return _password; }
@@ -132,7 +142,7 @@ public DateTime BirthDate
                 }
             }
         }
-            protected virtual void OnPropertyChanged(string propertyName)
+        protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChangedEventHandler? handler = PropertyChanged;
             if (handler != null)
@@ -146,9 +156,19 @@ public DateTime BirthDate
         }
         public void Reset()
         {
+            FirstName = string.Empty;
+            LastName = string.Empty;
+            Gender = string.Empty;
+            BirthDate = DateTime.Now;
             Email = string.Empty;
             Password = string.Empty;
             // Reset other properties as needed
+        }
+
+        public async Task Register()
+        {
+            // Implement the registration logic here
+            return;
         }
         // Implement INotifyPropertyChanged members and other properties/methods as needed
     }
