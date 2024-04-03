@@ -33,7 +33,7 @@ public partial class App : Application
                 var firebaseAuthClient = firebaseService.GetFirebaseAuthClient();
 
                 var userCredential = await firebaseAuthClient.SignInWithEmailAndPasswordAsync(email, password);
-                Shell.Current.GoToAsync("//homePage");
+                await Shell.Current.GoToAsync("//homePage");
             }
             catch (FirebaseAuthException ex)
             {

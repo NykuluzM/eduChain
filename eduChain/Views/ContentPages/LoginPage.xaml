@@ -93,6 +93,7 @@
                             BackgroundColor="PaleVioletRed" 
                             TextColor="White" 
                             Clicked="RegisterButton_Clicked"/>
+                        <Button x:Name="GetDataButton" Text="Get Email Data" Clicked="GetDataButton_Clicked" />
 
                     </StackLayout>
                     </StackLayout>

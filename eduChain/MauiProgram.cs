@@ -6,6 +6,10 @@ using Firebase;
 using Firebase.Auth;
 using Firebase.Auth.Providers;
 using eduChain.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using eduChain.Models;
+using Supabase;
+using eduChain.Views.ContentPages;
 
 namespace eduChain
 {
@@ -27,12 +31,15 @@ namespace eduChain
 					fonts.AddMaterialIconFonts(); // 👈 Add this line
 
 				});
-				
-
+	
 #if DEBUG
 			builder.Logging.AddDebug();
 #endif
-			return builder.Build();
+            builder.Services.AddSingleton<ISupabaseClientFactory, SupabaseClientFactory>();
+        	builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("Supabase"));
+			builder.Services.AddSingleton<ISupabaseConnection>(new DatabaseConnection("User Id=postgres.wcbvpqecetfhnfphtmae;Password=notthatexcellent3224;Server=aws-0-ap-southeast-1.pooler.supabase.com;Port=5432;Database=postgres;"));
+			var app = builder.Build();
+			return app;
 		}
 	}
 

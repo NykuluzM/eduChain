@@ -1,31 +1,66 @@
-﻿using System.Windows.Input;
-using eduChain.Views.ContentPages;
+﻿using System;
 using System.ComponentModel;
-using eduChain.Models;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Microsoft.Maui.Controls;
+using Supabase;
+using eduChain.Models;  
 
-namespace eduChain.ViewModels{
-
+namespace eduChain.ViewModels
+{
     public class RegisterViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        public RegisterModel RegisterModel { get; set; } 
-        public ICommand RegisterCommand { get; }
-        public ICommand NavigateBackCommand { get; private set; }
-       
-
         private static RegisterViewModel _instance;
+
+        private readonly ISupabaseConnection _supabaseConnection;
 
         public static RegisterViewModel GetInstance()
         {
-            {
-                if (_instance == null)
+              if (_instance == null)
                 {
                     _instance = new RegisterViewModel();
                 }
-                return _instance;
+            
+            return _instance;
+        }
+
+        public RegisterViewModel()
+        {
+
+            TrialCommand = new Command(async () => await Trial());
+        }
+
+        public ICommand TrialCommand { get; }
+
+       
+         public async Task Trial()
+        {
+            try
+            {
+                DatabaseManager.OpenConnection(); // Open the database connection
+
+                // Use the connection for queries, inserts, updates, etc.
+                using (var command = DatabaseManager.Connection.CreateCommand())
+                {
+                        command.CommandText = "SELECT COUNT(*) FROM students";
+                                    var result = command.ExecuteScalar(); // ExecuteScalar to get a single value
+
+                    await Application.Current.MainPage.DisplayAlert("Users Count", $"There are {result} users", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+            }
+            finally
+            {
+                DatabaseManager.CloseConnection(); // Close the database connection
             }
         }
-        private string _email = string.Empty;
+
+ 
+         private string _email = string.Empty;
         public string Email
         {
                 get { return _email; }
@@ -48,10 +83,7 @@ namespace eduChain.ViewModels{
                 }
             }
         }
-        public RegisterViewModel(){
-            this.RegisterModel = new RegisterModel();
-        }
-       protected virtual void OnPropertyChanged(string propertyName)
+            protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChangedEventHandler? handler = PropertyChanged;
             if (handler != null)
@@ -69,8 +101,6 @@ namespace eduChain.ViewModels{
             Password = string.Empty;
             // Reset other properties as needed
         }
-
+        // Implement INotifyPropertyChanged members and other properties/methods as needed
     }
 }
-
-

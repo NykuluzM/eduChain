@@ -12,12 +12,16 @@ namespace eduChain.Views.ContentPages
         public RegisterPage()
         {
             InitializeComponent();
-			viewModel = RegisterViewModel.GetInstance();
+
+            var registerViewModel = RegisterViewModel.GetInstance();
+
+			viewModel = registerViewModel;
             BindingContext = viewModel;
 			firebaseService = FirebaseService.GetInstance();
 			var firebaseAuthClient = firebaseService.GetFirebaseAuthClient();
 
         }
+        
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
@@ -28,5 +32,5 @@ namespace eduChain.Views.ContentPages
         {
             this.ShowPopup(new FormatRegPopup());
         }
-    }
+}
 }

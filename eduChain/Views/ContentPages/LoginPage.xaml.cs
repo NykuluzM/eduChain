@@ -23,7 +23,7 @@ public partial class LoginPage : ContentPage
 
                 // Set the BindingContext of the page to the LoginViewModel instance
             BindingContext = loginViewModel;
-    
+            //InitializeSupabaseAsync();
         }
 
 
@@ -46,5 +46,9 @@ public partial class LoginPage : ContentPage
              var forgotPasswordPage = new ForgotPasswordPage();
             Shell.Current.Navigation.PushAsync(forgotPasswordPage);
         }
+    private async void GetDataButton_Clicked(object sender, EventArgs e)
+    {
+                
     }
+}
 }

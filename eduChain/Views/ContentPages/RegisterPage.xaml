@@ -101,10 +101,15 @@
                                 BackgroundColor="PaleVioletRed" 
                                 TextColor="White" 
                                 />
+                                <Button
+                                StyleClass="FilledButton"
+                                Text="Trial"
+                                WidthRequest="200"
+                                Command="{Binding TrialCommand}"
+                                />
                     </StackLayout>
                     </input:FormView>
                     <BoxView StyleClass="Divider" />
-
                 </StackLayout>
             </ScrollView>
         </Grid>
