@@ -37,7 +37,7 @@
                         </input:FormView>                
                         
                         <input:FormView Padding="15,15,15,0" MaximumWidthRequest="700">
-                            <ur:TextField Title="Last Name" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding LastName}" MinimumWidthRequest="250"
+                            <ur:TextField Title="Last Name" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding LastName}"   MinimumWidthRequest="250"
                                     Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Group}}">
                                 <validation:RequiredValidation />
                                 <validation:RegexValidation Pattern="^(?:[A-Z][a-z]*|)$"  Message="Capitalize first letter, only letters" />
@@ -47,20 +47,19 @@
 
                      <toolkit:UniformItemsLayout MaxColumns="2" MaximumWidthRequest="1000">
                         <input:FormView Padding="15,0,15,15" MaximumWidthRequest="700" MinimumWidthRequest="250">
-                            <ur:TextField Title="Gender" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding FirstName}" MinimumWidthRequest="250" 
-                                    Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Face}}">
+                            <ur:PickerField Title="Gender" ItemsSource="{Binding GenderOptions}" SelectedItem="{Binding Gender}" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" 
+                            MinimumWidthRequest="250"  Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Expand_circle_down}}">
                                 <validation:RequiredValidation />
-                                <validation:RegexValidation Pattern="^(?:[ A-Z\d][a-z\d]*(?:\s*[A-Z\d][a-z\d]*)*|)$" Message="" />
-                                <validation:RegexValidation Pattern="^(?![ ])[A-Za-z ]*$" Message="First Name must not start with a space, and input should only contain letters and spaces." />
-                            </ur:TextField>
+                            </ur:PickerField>
                         </input:FormView>                
                         
                         <input:FormView Padding="15,0,15,15" MaximumWidthRequest="700">
-                            <ur:TextField Title="Age" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding LastName}" MinimumWidthRequest="250"
-                                    Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Group}}">
+                            <ur:DatePickerField Title="Birth Date" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" MinimumWidthRequest="250"
+                                    Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Alarm}}" Date="{Binding BirthDate}">
                                 <validation:RequiredValidation />
-                                <validation:RegexValidation Pattern="^(?:[A-Z][a-z]*|)$"  Message="Last Name must contain only letters and its first letter should be Capitalized" />
-                            </ur:TextField>
+                                <validation:MinValueValidation MinValue="1/1/1970" Message="Age must be lesser than 50"/>
+                                <validation:MaxValueValidation MaxValue="1/1/2024" Message="Age must be greater than 1" />
+                            </ur:DatePickerField>
                         </input:FormView>        
                     </toolkit:UniformItemsLayout>
                      

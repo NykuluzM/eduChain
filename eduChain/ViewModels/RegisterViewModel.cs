@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Maui.Controls;
 using Supabase;
-using eduChain.Models;  
-
+using eduChain.Models;
+using System.Runtime.Serialization;
 namespace eduChain.ViewModels
 {
     public class RegisterViewModel : INotifyPropertyChanged
@@ -14,6 +14,7 @@ namespace eduChain.ViewModels
         private static RegisterViewModel _instance;
 
         private readonly ISupabaseConnection _supabaseConnection;
+
 
         public static RegisterViewModel GetInstance()
         {
@@ -24,10 +25,15 @@ namespace eduChain.ViewModels
             
             return _instance;
         }
+        public List<string> GenderOptions { get; private set; }
 
         public RegisterViewModel()
         {
-
+            GenderOptions = new List<string>
+                    {
+                        "Male",
+                        "Female"
+                    };
             TrialCommand = new Command(async () => await Trial());
         }
 
@@ -43,7 +49,7 @@ namespace eduChain.ViewModels
                 // Use the connection for queries, inserts, updates, etc.
                 using (var command = DatabaseManager.Connection.CreateCommand())
                 {
-                        command.CommandText = "SELECT COUNT(*) FROM students";
+                        command.CommandText = "SELECT COUNT(*) FROM \"Users\"";
                                     var result = command.ExecuteScalar(); // ExecuteScalar to get a single value
 
                     await Application.Current.MainPage.DisplayAlert("Users Count", $"There are {result} users", "OK");
@@ -59,7 +65,50 @@ namespace eduChain.ViewModels
             }
         }
 
- 
+                
+        private string _gender = string.Empty;
+        private string _firstName = string.Empty;
+        private string _lastName = string.Empty;
+        public string FirstName
+        {
+            get { return _firstName; }
+            set
+            {
+                _firstName = value;
+                OnPropertyChanged(nameof(FirstName));
+            }
+        }
+        private string LastName
+        {
+            get { return _lastName; }
+            set
+            {
+                _lastName = value;
+                OnPropertyChanged(nameof(LastName));
+            }
+        }
+
+        public string Gender
+        {
+            get { return _gender; }
+            set
+            {
+                _gender = value;
+                OnPropertyChanged(nameof(Gender));
+            }
+        }
+    private DateTime _birthDate ; 
+public DateTime BirthDate
+{
+    get { return _birthDate; }
+    set
+    {
+        _birthDate = value;
+        OnPropertyChanged(nameof(BirthDate));
+    }
+}
+
+
          private string _email = string.Empty;
         public string Email
         {

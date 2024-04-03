@@ -9,6 +9,7 @@
             xmlns:models="clr-namespace:eduChain.Models;assembly=eduChain"
             xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
             xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
+            xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
 
             x:Class="eduChain.Views.ContentPages.LoginPage"
             Title="LoginPage">
@@ -55,14 +56,16 @@
 
                         <input:FormView Spacing="15" Padding="15">
 
-                            <ur:TextField Title="Email" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding Email, Mode=TwoWay}" >
+                            <ur:TextField Title="Email" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding Email, Mode=TwoWay}" 
+                            Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Email}}">
                                 <validation:RequiredValidation />
 
                             <validation:RegexValidation Pattern="^(?:\s*|(?:[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}))$" Message="Email must be valid" />
 
                             </ur:TextField>
 
-                             <ur:TextField Title="Password" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" IsPassword="True" Text="{Binding Password, Mode=TwoWay}"> 
+                             <ur:TextField Title="Password" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" IsPassword="True" Text="{Binding Password, Mode=TwoWay}"
+                             Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Password}}">
                                 <validation:RequiredValidation />
                                 <validation:RegexValidation Pattern="^(?:[A-Za-z][A-Za-z0-9_*#]*(?:_[A-Za-z0-9_*#]+)*)?$" Message="Password must start with a letter and can contain letters, numbers, underscores, asterisks, and hash symbols." />
                                 <ur:TextField.Attachments>
@@ -93,8 +96,6 @@
                             BackgroundColor="PaleVioletRed" 
                             TextColor="White" 
                             Clicked="RegisterButton_Clicked"/>
-                        <Button x:Name="GetDataButton" Text="Get Email Data" Clicked="GetDataButton_Clicked" />
-
                     </StackLayout>
                     </StackLayout>
                     
