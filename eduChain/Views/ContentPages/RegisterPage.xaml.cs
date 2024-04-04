@@ -20,8 +20,6 @@ namespace eduChain.Views.ContentPages
 
         }
 
-    
-
         private void check_Format(object sender, EventArgs e)
         {
             this.ShowPopup(new FormatRegPopup());

@@ -28,7 +28,6 @@ namespace eduChain.ViewModels
                 {
                     _instance = new RegisterViewModel();
                 }
-            
             return _instance;
         }
         public List<string> GenderOptions { get; private set; }
@@ -43,8 +42,7 @@ namespace eduChain.ViewModels
             var firebaseService = FirebaseService.GetInstance();
 			firebaseAuthClient = firebaseService.GetFirebaseAuthClient();
             TrialCommand = new Command(async () => await Trial());
-                RegisterCommand = new Command(async () => await Register());
-                Console.WriteLine("RegisterViewModel created");
+            RegisterCommand = new Command(async () => await Register());
         }
 
 
@@ -79,7 +77,7 @@ namespace eduChain.ViewModels
         
         private string _lastName = string.Empty;
         private string _gender = string.Empty;
-        private DateTime _birthDate ; 
+        private DateTime _birthDate = DateTime.Now; 
 
         private string _email = string.Empty;
         private string _password = string.Empty;
@@ -156,17 +154,7 @@ namespace eduChain.ViewModels
                 throw new NullReferenceException("PropertyChanged event is not subscribed to.");
             }
         }
-        public void Reset()
-        {
-            FirstName = string.Empty;
-            LastName = string.Empty;
-            Gender = string.Empty;
-            BirthDate = DateTime.Now;
-            Email = string.Empty;
-            Password = string.Empty;
-            // Reset other properties as needed
-        }
-
+      
         public async Task Register()
         {
             try
@@ -182,7 +170,8 @@ namespace eduChain.ViewModels
 
                     // Save user details to the database
                     await SaveUserDetailsAsync(uid);   
-
+                    
+                  
                     await Shell.Current.GoToAsync("//loginPage");                 
                 }
             }
@@ -219,6 +208,11 @@ public async Task SaveUserDetailsAsync(string uid)
 
             command.CommandText = "INSERT INTO \"Users\" (\"email\",\"firebase_id\", \"first_name\", \"last_name\", \"gender\", \"birth_date\") VALUES (@email,@firebase_id, @first_name, @last_name, @gender, @birth_date)";
             await command.ExecuteNonQueryAsync();
+            Email = string.Empty;
+            Password = string.Empty;
+            FirstName = string.Empty;
+            LastName = string.Empty;
+            BirthDate = DateTime.Now;
             await Application.Current.MainPage.DisplayAlert("Success", "User registered successfully", "OK");
         }
     }
