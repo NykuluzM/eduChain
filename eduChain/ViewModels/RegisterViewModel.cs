@@ -7,11 +7,12 @@ using Supabase;
 using eduChain.Models;
 using System.Runtime.Serialization;
 using Firebase.Auth;
+using Npgsql;
 namespace eduChain.ViewModels
 {
     public class RegisterViewModel : INotifyPropertyChanged
     {
-        private readonly FirebaseService firebaseService;
+        private readonly FirebaseAuthClient firebaseAuthClient;
         public event PropertyChangedEventHandler? PropertyChanged;
         private static RegisterViewModel _instance;
 
@@ -39,10 +40,10 @@ namespace eduChain.ViewModels
                         "Male",
                         "Female"
                     };
-            firebaseService = FirebaseService.GetInstance();
-			var firebaseAuthClient = firebaseService.GetFirebaseAuthClient();
+            var firebaseService = FirebaseService.GetInstance();
+			firebaseAuthClient = firebaseService.GetFirebaseAuthClient();
             TrialCommand = new Command(async () => await Trial());
-            RegisterCommand = new Command(async () => await Register());
+                RegisterCommand = new Command(async () => await Register());
         }
 
 
@@ -51,7 +52,7 @@ namespace eduChain.ViewModels
         {
             try
             {
-                DatabaseManager.OpenConnection(); // Open the database connection
+                await DatabaseManager.OpenConnectionAsync(); // Open the database connection
 
                 // Use the connection for queries, inserts, updates, etc.
                 using (var command = DatabaseManager.Connection.CreateCommand())
@@ -68,7 +69,7 @@ namespace eduChain.ViewModels
             }
             finally
             {
-                DatabaseManager.CloseConnection(); // Close the database connection
+                await DatabaseManager.CloseConnectionAsync(); // Close the database connection
             }
         }
 
@@ -91,7 +92,7 @@ namespace eduChain.ViewModels
                 OnPropertyChanged(nameof(FirstName));
             }
         }
-        private string LastName
+        public string LastName
         {
             get { return _lastName; }
             set
@@ -167,9 +168,69 @@ namespace eduChain.ViewModels
 
         public async Task Register()
         {
-            // Implement the registration logic here
-            return;
+            try
+            {
+                // Perform user registration with Firebase and get the auth result
+                var authResult = await firebaseAuthClient.CreateUserWithEmailAndPasswordAsync(Email, Password);
+
+                // Check if registration was successful
+                if (authResult != null)
+                {
+                    // Extract the user UID from the auth result
+                    string uid = authResult.User.Uid;
+
+                    // Save user details to the database
+                    await SaveUserDetailsAsync(uid);
+
+                    // Display a success message
+                    await Application.Current.MainPage.DisplayAlert("Success", "User registered successfully", "OK");
+                }
+            }
+            catch (FirebaseAuthException ex)
+            {
+                // Handle Firebase authentication exceptions first
+                await Application.Current.MainPage.DisplayAlert("Error", $"Firebase error: {ex.Message}", "OK");
+            }
+            catch (Exception ex)
+            {
+                // Handle other exceptions (if any)
+                await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+            }
         }
-        // Implement INotifyPropertyChanged members and other properties/methods as needed
+public async Task SaveUserDetailsAsync(string uid)
+{
+    try
+    {
+        await DatabaseManager.OpenConnectionAsync();
+        using (var command = DatabaseManager.Connection.CreateCommand())
+        {
+            var parameters = command.Parameters;
+
+            // Cast the parameters to NpgsqlParameterCollection to use AddWithValue
+            if (parameters is NpgsqlParameterCollection pgParameters)
+            {
+                pgParameters.AddWithValue("@email", Email);
+                pgParameters.AddWithValue("@firebase_id", Preferences.Get("uid", string.Empty));
+                pgParameters.AddWithValue("@first_name", FirstName);
+                pgParameters.AddWithValue("@last_name", LastName);
+                pgParameters.AddWithValue("@gender", Gender);
+                pgParameters.AddWithValue("@birth_date", BirthDate);
+            }
+
+            command.CommandText = "INSERT INTO \"Users\" (\"email\",\"firebase_id\", \"first_name\", \"last_name\", \"gender\", \"birth_date\") VALUES (@email,@firebase_id, @first_name, @last_name, @gender, @birth_date)";
+            await command.ExecuteNonQueryAsync();
+            await Application.Current.MainPage.DisplayAlert("Success", "User registered successfully", "OK");
+        }
+    }
+    catch (Exception ex)
+    {
+        await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+    }
+    finally
+    {
+        await DatabaseManager.CloseConnectionAsync();
+    }
+}
+
     }
 }
