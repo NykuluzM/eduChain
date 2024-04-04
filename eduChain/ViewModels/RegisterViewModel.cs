@@ -44,6 +44,7 @@ namespace eduChain.ViewModels
 			firebaseAuthClient = firebaseService.GetFirebaseAuthClient();
             TrialCommand = new Command(async () => await Trial());
                 RegisterCommand = new Command(async () => await Register());
+                Console.WriteLine("RegisterViewModel created");
         }
 
 
@@ -180,10 +181,9 @@ namespace eduChain.ViewModels
                     string uid = authResult.User.Uid;
 
                     // Save user details to the database
-                    await SaveUserDetailsAsync(uid);
+                    await SaveUserDetailsAsync(uid);   
 
-                    // Display a success message
-                    await Application.Current.MainPage.DisplayAlert("Success", "User registered successfully", "OK");
+                    await Shell.Current.GoToAsync("//loginPage");                 
                 }
             }
             catch (FirebaseAuthException ex)

@@ -19,12 +19,8 @@ namespace eduChain.Views.ContentPages
 			
 
         }
-        
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-			viewModel.Reset();
-        }
+
+    
 
         private void check_Format(object sender, EventArgs e)
         {
