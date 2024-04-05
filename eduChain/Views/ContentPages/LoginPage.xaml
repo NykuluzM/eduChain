@@ -12,7 +12,10 @@
             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
 
             x:Class="eduChain.Views.ContentPages.LoginPage"
-            Title="LoginPage">
+    
+            Title="LoginPage"
+            Shell.NavBarIsVisible="False"
+            >
             <ContentPage.ToolbarItems>
                 <ToolbarItem Text="Forgot Password?" Order="Primary" Priority="0"  Clicked="PasswordForgotten"/>
             </ContentPage.ToolbarItems>
@@ -21,7 +24,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-
+            
             <!-- Background Image -->
             <Image Source="image.jpg" Aspect="AspectFill" Grid.RowSpan="2" />
 
@@ -29,11 +32,12 @@
            
             <!-- Scrollable Content -->
         <ScrollView Grid.Row="0"  HorizontalOptions="Center">
-
+       
             <StackLayout Padding="60" Spacing="15" HorizontalOptions="Center">
-
+           
                 <StackLayout Spacing="20" MinimumWidthRequest="320" MaximumWidthRequest="500" HorizontalOptions="Center">
-                         <!-- Logo -->
+           
+                    <!-- Logo -->
                 <Image Source="logo.png" HeightRequest="185" Aspect="AspectFit" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,0,10" />
 
         
@@ -83,19 +87,24 @@
                                 BackgroundColor="PaleVioletRed" 
                                 Clicked="LoginButton_Clicked"/>
 
-                        </input:FormView>                
-                        <BoxView StyleClass="Divider" Color="White" WidthRequest="450" />
+                        </input:FormView>
+                    <Button 
+Text="Forgot Password?"
+WidthRequest="320" 
+TextColor="Red" 
+Clicked="PasswordForgotten" BorderColor="Transparent" BackgroundColor="Transparent"/>
 
                     <StackLayout Spacing="40" HorizontalOptions="Center">
                 
 
                         <Button 
-                            StyleClass="FilledButton" 
-                            Text="You don't have an account? Register here!"
-                            WidthRequest="320" 
-                            BackgroundColor="PaleVioletRed" 
-                            TextColor="White" 
-                            Clicked="RegisterButton_Clicked"/>
+                             StyleClass="FilledButton" 
+                             Text="You don't have an account? Register here!"
+                  
+                             WidthRequest="320" 
+                             BackgroundColor="Transparent" 
+                             TextColor="White" 
+                             Clicked="RegisterButton_Clicked"/> 
                     </StackLayout>
                     </StackLayout>
                     
