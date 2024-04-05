@@ -198,15 +198,14 @@ public async Task SaveUserDetailsAsync(string uid)
             // Cast the parameters to NpgsqlParameterCollection to use AddWithValue
             if (parameters is NpgsqlParameterCollection pgParameters)
             {
-                pgParameters.AddWithValue("@email", Email);
-                pgParameters.AddWithValue("@firebase_id", Preferences.Get("uid", string.Empty));
+                pgParameters.AddWithValue("@firebase_id", uid);
                 pgParameters.AddWithValue("@first_name", FirstName);
                 pgParameters.AddWithValue("@last_name", LastName);
                 pgParameters.AddWithValue("@gender", Gender);
                 pgParameters.AddWithValue("@birth_date", BirthDate);
             }
 
-            command.CommandText = "INSERT INTO \"Users\" (\"email\",\"firebase_id\", \"first_name\", \"last_name\", \"gender\", \"birth_date\") VALUES (@email,@firebase_id, @first_name, @last_name, @gender, @birth_date)";
+            command.CommandText = "INSERT INTO \"Users\" (\"firebase_id\", \"first_name\", \"last_name\", \"gender\", \"birth_date\") VALUES (@firebase_id, @first_name, @last_name, @gender, @birth_date)";
             await command.ExecuteNonQueryAsync();
             Email = string.Empty;
             Password = string.Empty;

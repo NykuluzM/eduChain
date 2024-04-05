@@ -74,6 +74,7 @@
                             Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Password}}">
 
                             <validation:RequiredValidation />
+                            <validation:MinLengthValidation MinLength="6" Message="Password must be at least 6 characters long."/>
                             <validation:RegexValidation Pattern="^(?:[A-Za-z][A-Za-z0-9_*#]*(?:_[A-Za-z0-9_*#]+)*)?$" Message="Password must start with a letter and can contain letters, numbers, underscores, asterisks, and hash symbols."/>
                             <ur:TextField.Attachments>
                                 <ur:TextFieldPasswordShowHideAttachment />
@@ -93,7 +94,8 @@
                             </ur:TextField>
                               
                                 <Button 
-                                StyleClass="FilledButton" 
+                                StyleClass="FilledButton"
+                                input:FormView.IsSubmitButton="True" 
                                 Text="Register"
                                 WidthRequest="200" 
                                 BackgroundColor="PaleVioletRed" 

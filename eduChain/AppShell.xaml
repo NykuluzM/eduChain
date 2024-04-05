@@ -9,7 +9,10 @@
     Shell.FlyoutBehavior="Disabled"
     Title="eduChain">
 
-    
+    <ShellContent 
+        ContentTemplate="{DataTemplate pages:InitializingPage}"
+        Route="loadingPage"
+                          /> 
     <ShellContent
         Title="Login"
         ContentTemplate="{DataTemplate pages:LoginPage}"
@@ -17,6 +20,7 @@
     <ShellContent
         Title="HomePage"
         ContentTemplate="{DataTemplate pages:HomePage}"
-        Route="homePage" />
+        Route="homePage" 
+        Shell.FlyoutBehavior="Flyout"/>
    
 </Shell>
