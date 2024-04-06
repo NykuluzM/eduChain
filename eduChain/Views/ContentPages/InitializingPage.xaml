@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="eduChain.Views.ContentPages.InitializingPage"
              NavigationPage.HasNavigationBar="False"
-             Shell.NavBarIsVisible="False"
              Title=""
             >
    <ActivityIndicator IsRunning="True" IsVisible="True" />

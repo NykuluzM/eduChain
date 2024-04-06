@@ -3,15 +3,26 @@ using eduChain.Models;
 using System.ComponentModel;
 using Firebase.Auth;
 using System.Text.RegularExpressions;
+using System.Windows.Input;
 namespace eduChain.ViewModels{
 
     public class ForgotPasswordViewModel : INotifyPropertyChanged
     {
-        private static ForgotPasswordViewModel _instance;
-        public Command SendResetEmailCommand { get; }
+        public event PropertyChangedEventHandler? PropertyChanged;
+        public ICommand SendResetEmailCommand { get; }
+        public ICommand NavigateToLoginCommand { get; }
         private static FirebaseService _firebaseService;
+          private static ForgotPasswordViewModel _instance;
 
-        private string _email;
+        public static ForgotPasswordViewModel GetInstance()
+        {
+            if (_instance == null)
+            {
+                _instance = new ForgotPasswordViewModel();
+            }
+            return _instance;
+        }
+        private string _email = string.Empty;
         public string Email
         {
             get { return _email; }
@@ -21,56 +32,65 @@ namespace eduChain.ViewModels{
                 OnPropertyChanged(nameof(Email));
             }
         }
-        public static ForgotPasswordViewModel GetInstance()
-        {
-            {
-                if (_instance == null)
-                {
-                    _instance = new ForgotPasswordViewModel();
-                }
-                return _instance;
-            }
-        }
         public ForgotPasswordViewModel(){
-            SendResetEmailCommand = new Command(async () => SendResetEmail());
-            
+            NavigateToLoginCommand = new Command(NavigateToLoginPage);
+            SendResetEmailCommand = new Command(SendResetEmail);
         }
         
-        public async Task<bool> SendResetEmail()
+        public async void SendResetEmail()
         {
             if (!IsValidEmail(Email))
             {
-                await Application.Current?.MainPage?.DisplayAlert("Invalid Email", "Please enter a valid email address.", "OK");
+                if (Application.Current != null && Application.Current.MainPage != null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Invalid Email", "Please enter a valid email address.", "OK");
+                }
                 
-                return false;
+                return;
             }
             try{
             _firebaseService = FirebaseService.GetInstance();
             var firebaseAuthClient =  _firebaseService.GetFirebaseAuthClient();
             await firebaseAuthClient.ResetEmailPasswordAsync(Email);
             await Shell.Current.GoToAsync("//loginPage");
-            await Application.Current?.MainPage?.DisplayAlert("Success", $"Make sure you have entered your correct email, Password change is sent to {Email}", "OK");
+            if (Application.Current != null && Application.Current.MainPage != null)
+            {
+                await Application.Current.MainPage.DisplayAlert("Success", $"Make sure you have entered your correct email, Password change is sent to {Email}", "OK");
+            }
 
-            return true;
+            return;
             }
             catch(FirebaseAuthException ex){
-                await Application.Current?.MainPage?.DisplayAlert("Error", ex.Message, "OK");
-                return false;
+            if (Application.Current != null && Application.Current.MainPage != null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+                }
+                return;
             }
             catch (Exception)
             {
-                await Application.Current?.MainPage?.DisplayAlert("Error", "An unexpected error occurred.", "OK");
+                if (Application.Current != null && Application.Current.MainPage != null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "An unexpected error occurred.", "OK");
+                }
 
-                return false;
+                return;
             }
         }
         
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
+         protected virtual void OnPropertyChanged(string propertyName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChangedEventHandler? handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+            else
+            {
+                throw new NullReferenceException("PropertyChanged event is not subscribed to.");
+            }
         }
+       
         private bool IsValidEmail(string email)
         {
             // Define the regex pattern for email validation
@@ -78,6 +98,10 @@ namespace eduChain.ViewModels{
 
             // Perform the regex match
             return Regex.IsMatch(email, pattern);
+        }
+        private async void NavigateToLoginPage()
+        {
+            await Shell.Current.Navigation.PopAsync();
         }
     }
 }
