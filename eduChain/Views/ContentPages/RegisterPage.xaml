@@ -10,9 +10,9 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
 
              x:Class="eduChain.Views.ContentPages.RegisterPage"             
-             Title="Registration Form"
+             Title=""
              Shell.NavBarIsVisible="True"
-             Shell.BackgroundColor="Black" >
+             Shell.BackgroundColor="#195a7a" >
     <Grid BackgroundColor="White">
         <Image Source="image.jpg" Aspect="AspectFill" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" />
         <Grid>
