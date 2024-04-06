@@ -6,21 +6,33 @@
     xmlns:local="clr-namespace:eduChain"
     xmlns:pages="clr-namespace:eduChain.Views.ContentPages"
     xmlns:preferences="Microsoft.Maui.Storage; Assembly=Microsoft.Maui"
+    xmlns:models="clr-namespace:eduChain.Models"
     Shell.FlyoutBehavior="Disabled"
     Title="eduChain">
+    
 
     <ShellContent 
+        FlyoutItemIsVisible="False"
         ContentTemplate="{DataTemplate pages:InitializingPage}"
         Route="loadingPage"
                           /> 
     <ShellContent
         Title="Login"
+        FlyoutItemIsVisible="False"
         ContentTemplate="{DataTemplate pages:LoginPage}"
         Route="loginPage" />
-    <ShellContent
-        Title="HomePage"
-        ContentTemplate="{DataTemplate pages:HomePage}"
-        Route="homePage" 
-        Shell.FlyoutBehavior="Flyout"/>
+    <FlyoutItem Title="HomePage" FlyoutDisplayOptions="AsMultipleItems" Shell.TabBarIsVisible="False" Shell.FlyoutBehavior="Flyout">
+        <ShellContent
+                Icon="dotnet_bot.png"
+                ContentTemplate="{DataTemplate pages:HomePage}"
+                Route="homePage"
+                />
+        <ShellContent
+                Title="Profile"
+                Icon="{x:Static models:Icons.Profile}"
+                ContentTemplate="{DataTemplate pages:MyProfilePage}"
+                />
+    </FlyoutItem>   
+    
    
 </Shell>

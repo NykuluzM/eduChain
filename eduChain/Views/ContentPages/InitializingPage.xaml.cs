@@ -48,7 +48,7 @@ public partial class InitializingPage : ContentPage
 				}
 			}	
 			else{
-				await Shell.Current.GoToAsync("//loginPage");
+				await Shell.Current.GoToAsync("//homePage");
 			}
 		}
 	}

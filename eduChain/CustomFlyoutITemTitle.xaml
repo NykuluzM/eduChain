@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Grid xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+      xmlns:models="clr-namespace:eduChain.Models"
+      x:Class="eduChain.CustomFlyoutItemTitle">
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <Image Source="{x:Static models:Icons.Homepage}" WidthRequest="24" HeightRequest="24" VerticalOptions="Center" Margin="10,0,0,0" />
+    <Label Text="HomePage" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" FontSize="18" Grid.Column="1" />
+</Grid>
