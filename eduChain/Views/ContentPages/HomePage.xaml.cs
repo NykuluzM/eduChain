@@ -4,7 +4,6 @@ namespace eduChain.Views.ContentPages{
 	{
 		public HomePage()
 		{
-			Shell.Current.FlyoutBehavior = FlyoutBehavior.Disabled;
 			InitializeComponent();
 			var homePageViewModel = new HomePageViewModel();
             BindingContext = homePageViewModel;

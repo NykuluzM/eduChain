@@ -7,10 +7,19 @@
     xmlns:pages="clr-namespace:eduChain.Views.ContentPages"
     xmlns:preferences="Microsoft.Maui.Storage; Assembly=Microsoft.Maui"
     xmlns:models="clr-namespace:eduChain.Models"
-    Shell.FlyoutBehavior="Disabled"
+    Shell.FlyoutBehavior="Disabled" FlyoutBackgroundColor="Purple"
     Title="eduChain">
     
-
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <Border  Stroke="#C49B33" StrokeThickness="4">
+                <Grid ColumnDefinitions="50,*" Padding="5" ColumnSpacing="30" BackgroundColor="Gray">
+                    <Image Source="{Binding Icon}" />
+                    <Label Grid.Column="1" Text="{Binding Title}" TextColor="Black" FontSize="20" FontAttributes="Bold" VerticalTextAlignment="Center"/>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </Shell.ItemTemplate>
     <ShellContent 
         FlyoutItemIsVisible="False"
         ContentTemplate="{DataTemplate pages:InitializingPage}"
@@ -23,13 +32,14 @@
         Route="loginPage" />
     <FlyoutItem Title="HomePage" FlyoutDisplayOptions="AsMultipleItems" Shell.TabBarIsVisible="False" Shell.FlyoutBehavior="Flyout">
         <ShellContent
-                Icon="dotnet_bot.png"
+                Title="Home"
+                Icon="homelogo"
                 ContentTemplate="{DataTemplate pages:HomePage}"
                 Route="homePage"
                 />
         <ShellContent
                 Title="Profile"
-                Icon="{x:Static models:Icons.Profile}"
+                Icon="profilelogo"
                 ContentTemplate="{DataTemplate pages:MyProfilePage}"
                 />
     </FlyoutItem>   

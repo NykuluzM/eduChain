@@ -22,6 +22,7 @@ public partial class InitializingPage : ContentPage
 	}
 
 	protected override async void OnAppearing(){
+		Shell.Current.FlyoutBehavior = FlyoutBehavior.Disabled;
 		base.OnAppearing();
 		player = audioManager.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("ins.mp3"));
 		player.Play();
@@ -34,7 +35,7 @@ public partial class InitializingPage : ContentPage
 	}
 	public async void CheckisLoggedIn(){
 		await Task.Delay(16000);
-		if(Preferences.Default.Get("IsLoggedIn",false) == true)
+		if(Preferences.Default.Get("IsLoggedIn",false))
 			{		
 				try{
 				await firebaseAuthClient.SignInWithEmailAndPasswordAsync(Preferences.Default.Get("email", ""), Preferences.Default.Get("password", ""));
@@ -48,7 +49,7 @@ public partial class InitializingPage : ContentPage
 				}
 			}	
 			else{
-				await Shell.Current.GoToAsync("//homePage");
+				await Shell.Current.GoToAsync("//loginPage");
 			}
 		}
 	}
