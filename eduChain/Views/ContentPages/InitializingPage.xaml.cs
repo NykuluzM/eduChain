@@ -33,7 +33,7 @@ public partial class InitializingPage : ContentPage
 			player.Dispose();
 	}
 	public async void CheckisLoggedIn(){
-		await Task.Delay(3000);
+		await Task.Delay(16000);
 		if(Preferences.Default.Get("IsLoggedIn",false) == true)
 			{		
 				try{
