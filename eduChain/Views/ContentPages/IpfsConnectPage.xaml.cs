@@ -13,13 +13,24 @@ private async Task UploadFileToPinata_Success()
 {
 	await DisplayAlert("Uploading", "Upload button clicked", "OK");
     // Arrange
-
-string projectDirectory = "IPFS//test_file.txt";
-
+    string currentDirectory = Directory.GetCurrentDirectory();
+string filePath = Path.Combine(currentDirectory, "../../IPFS/test_file.txt");
+ 
+    String pathway = "../../../../../IPFS";
+    try{
+    String[] files = Directory.GetFiles(pathway);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error reading file: {ex.Message}");
+        await DisplayAlert("Error", $"Error reading file: {ex.Message}", "OK");
+        return;
+    }
+    
 	byte[] fileData = null;
     try
     {
-		 File.ReadAllBytes(projectDirectory);
+        File.ReadAllBytes(currentDirectory);
     }
     catch (Exception ex)
     {

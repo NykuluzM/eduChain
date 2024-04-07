@@ -33,6 +33,7 @@ public partial class AppShell : Shell
 				Expand.IsVisible = false;
 				Collapse.IsVisible = true;
 				Name.IsVisible = true;
+				Role.IsVisible = true;
 			});
 		} else{
 			var animation = new Animation((current) => 
@@ -45,6 +46,7 @@ public partial class AppShell : Shell
 				Expand.IsVisible = true;
 				Collapse.IsVisible = false;
 				Name.IsVisible = false;
+				Role.IsVisible = false;
 			});	
 		}
 	}

@@ -22,18 +22,17 @@
     <FlyoutPage.FlyoutHeader >
         <Border Stroke="#C49B33"
         StrokeThickness="4">
-        <StackLayout Orientation="Vertical" BackgroundColor="#41406d" Padding="10" HeightRequest="100" >
-            <Grid>
-                <Border HeightRequest="65" WidthRequest="65"
+            <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto" BackgroundColor="#41406d">
+                <Border Grid.Column="0" HeightRequest="65" WidthRequest="65"
                     Stroke="{StaticResource grad}" StrokeThickness="2">
                     <Border.StrokeShape>
                         <Ellipse />
                     </Border.StrokeShape>
                     <Image x:Name="ProfileImage" Source="output.png" Aspect="AspectFill"/>
                 </Border>
+                <Label Grid.Column="1" Grid.Row="0"  Text="Carl Irven Nykuluz" TextColor="Black" FontSize="15" x:Name="Name" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="30"  IsVisible="False"/>
+                <Label Grid.Column="1" Grid.Row="0" Margin="0,0,0,5" Text="Student" TextDecorations="Underline" TextColor="Yellow" HeightRequest="20" x:Name="Role" FontSize="15" HorizontalOptions="Center" VerticalOptions="End" IsVisible="False"/>
             </Grid>
-            <Label Text="Carl Irven Nykuluz" TextColor="Black" FontSize="15" x:Name="Name" HorizontalOptions="Center" HeightRequest="30"  IsVisible="False" />
-        </StackLayout>
         </Border>
     </FlyoutPage.FlyoutHeader>
     <Shell.ItemTemplate>
