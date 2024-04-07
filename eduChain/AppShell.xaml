@@ -5,21 +5,67 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:eduChain"
     xmlns:pages="clr-namespace:eduChain.Views.ContentPages"
+    xmlns:viewmodel="clr-namespace:eduChain.ViewModels"
     xmlns:preferences="Microsoft.Maui.Storage; Assembly=Microsoft.Maui"
     xmlns:models="clr-namespace:eduChain.Models"
-    Shell.FlyoutBehavior="Disabled" FlyoutBackgroundColor="Purple"
-    Title="eduChain">
+    FlyoutBehavior="Disabled" FlyoutBackgroundColor="#e7dfc3" FlyoutWidth="75" FlyoutBackdrop="#66FFFFFF"
+    Title="eduChain" >
     
+    <Shell.Resources>
+        <ResourceDictionary>
+            <LinearGradientBrush x:Key="grad" EndPoint="0,1">
+                <GradientStop Offset = "0" Color="#6C06E6" />
+                <GradientStop Offset = "1" Color="#FF228B" />
+            </LinearGradientBrush>
+        </ResourceDictionary>
+    </Shell.Resources>
+    <FlyoutPage.FlyoutHeader >
+        <Border Stroke="#C49B33"
+        StrokeThickness="4">
+        <StackLayout Orientation="Vertical" BackgroundColor="#41406d" Padding="10" HeightRequest="100" >
+            <Grid>
+                <Border HeightRequest="65" WidthRequest="65"
+                    Stroke="{StaticResource grad}" StrokeThickness="2">
+                    <Border.StrokeShape>
+                        <Ellipse />
+                    </Border.StrokeShape>
+                    <Image x:Name="ProfileImage" Source="output.png" Aspect="AspectFill"/>
+                </Border>
+            </Grid>
+            <Label Text="Carl Irven Nykuluz" TextColor="Black" FontSize="15" x:Name="Name" HorizontalOptions="Center" HeightRequest="30"  IsVisible="False" />
+        </StackLayout>
+        </Border>
+    </FlyoutPage.FlyoutHeader>
     <Shell.ItemTemplate>
         <DataTemplate>
-            <Border  Stroke="#C49B33" StrokeThickness="4">
-                <Grid ColumnDefinitions="50,*" Padding="5" ColumnSpacing="30" BackgroundColor="Gray">
+                <Grid ColumnDefinitions="50,*" Padding="10" ColumnSpacing="30" >
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroupList>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="#41406d" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="LightGreen" />
+                                    </VisualState.Setters>
+                                </VisualState>    
+                            </VisualStateGroup>
+                        </VisualStateGroupList>
+                    </VisualStateManager.VisualStateGroups>
                     <Image Source="{Binding Icon}" />
                     <Label Grid.Column="1" Text="{Binding Title}" TextColor="Black" FontSize="20" FontAttributes="Bold" VerticalTextAlignment="Center"/>
                 </Grid>
-            </Border>
         </DataTemplate>
     </Shell.ItemTemplate>
+    <Shell.MenuItemTemplate>
+        <DataTemplate>
+            <TextCell Text="{Binding Text}" Command="{Binding Command}" />
+        </DataTemplate>
+    </Shell.MenuItemTemplate>
+
     <ShellContent 
         FlyoutItemIsVisible="False"
         ContentTemplate="{DataTemplate pages:InitializingPage}"
@@ -30,7 +76,7 @@
         FlyoutItemIsVisible="False"
         ContentTemplate="{DataTemplate pages:LoginPage}"
         Route="loginPage" />
-    <FlyoutItem Title="HomePage" FlyoutDisplayOptions="AsMultipleItems" Shell.TabBarIsVisible="False" Shell.FlyoutBehavior="Flyout">
+    <FlyoutItem Title="HomePage" FlyoutDisplayOptions="AsMultipleItems" Shell.FlyoutBehavior="Locked" Shell.TabBarIsVisible="False">
         <ShellContent
                 Title="Home"
                 Icon="homelogo"
@@ -42,7 +88,39 @@
                 Icon="profilelogo"
                 ContentTemplate="{DataTemplate pages:MyProfilePage}"
                 />
+
+        <ShellContent
+                Title="Connect wallet"
+                Icon="walletlogo"
+                ContentTemplate="{DataTemplate pages:WalletConnectPage}"
+                />
+        <ShellContent
+                Title="Start IPFS Node"
+                Icon="walletlogo"
+                ContentTemplate="{DataTemplate pages:IpfsConnectPage}">
+        </ShellContent>
     </FlyoutItem>   
     
-   
+    <Shell.FlyoutFooter>
+       <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" /> <!-- Row for Button -->
+            <RowDefinition Height="*" /> <!-- Row for existing content -->
+        </Grid.RowDefinitions>
+
+        <!-- Button in the first row -->
+        <Button x:Name="Logout" MinimumWidthRequest="150" Text="Logout" Clicked="OnLogoutClicked" HorizontalOptions="CenterAndExpand" Margin="0,0,0,30"
+                Grid.Row="0"/>
+
+        <!-- Existing content in the second row -->
+        <Grid Grid.Row="1">
+            <!-- Your existing Grid content here -->
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="ExpandCollapse" />
+            </Grid.GestureRecognizers>
+            <Image x:Name="Expand" Source="expand" HeightRequest="24"  HorizontalOptions="Center"/>
+            <Image x:Name="Collapse" IsVisible="False" Source="collapse" HeightRequest="24"   HorizontalOptions="End"/>
+        </Grid>
+    </Grid>        
+    </Shell.FlyoutFooter>
 </Shell>

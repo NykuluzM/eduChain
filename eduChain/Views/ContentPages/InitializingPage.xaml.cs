@@ -43,9 +43,11 @@ public partial class InitializingPage : ContentPage
 				}
 				catch(FirebaseAuthException){
 					await Shell.Current.DisplayAlert("Login Failed", "Your Credentials are now Invalid", "OK");
+					await Shell.Current.GoToAsync("//loginPage");
 				}
 				catch(Exception){
 					await Shell.Current.DisplayAlert("Login Failed", "An Error Occured", "OK");
+					await Shell.Current.GoToAsync("//loginPage");
 				}
 			}	
 			else{
