@@ -26,7 +26,7 @@
                     <!-- Your form elements, buttons, etc. -->
                     <Image Source="chibi.png" WidthRequest="150" HeightRequest="150"/>
                     <Label Text="Help us out identify you" HorizontalOptions="Center" VerticalOptions="Center"/>
-                <input:FormView Spacing="20" Padding="20" MaximumWidthRequest="750" HorizontalOptions="Center">
+                <input:FormView Spacing="20" MaximumWidthRequest="750" HorizontalOptions="Center">
                     <toolkit:UniformItemsLayout MaxColumns="2" Padding="5" MaximumWidthRequest="1000">
                         <input:FormView Padding="15,15,15,0" MaximumWidthRequest="700" MinimumWidthRequest="250">
                             <ur:TextField Title="First Name" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding FirstName}" MinimumWidthRequest="250" 

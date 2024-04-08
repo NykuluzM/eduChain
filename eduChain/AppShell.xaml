@@ -10,7 +10,7 @@
     xmlns:models="clr-namespace:eduChain.Models"
     FlyoutBackgroundColor="LightGray"  FlyoutWidth="270" FlyoutBackdrop="#66FFFFFF"
     Title="eduChain" >
-    
+       
     <Shell.Resources>
         <ResourceDictionary>
             <LinearGradientBrush x:Key="grad" EndPoint="0,1">
@@ -19,6 +19,7 @@
             </LinearGradientBrush>
         </ResourceDictionary>
     </Shell.Resources>
+    
     <Shell.FlyoutHeader >
         <Border Stroke="#C49B33"
         StrokeThickness="4">
@@ -35,7 +36,17 @@
             </Grid>
         </Border>
     </Shell.FlyoutHeader>
-   
+
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <Grid ColumnSpacing="10" RowDefinitions="7,Auto,7,1" ColumnDefinitions="50,*">
+                <Image Grid.Row="1" Grid.Column="0" Source="{Binding FlyoutIcon}" WidthRequest="30" />
+                <Label Grid.Row="1" Grid.Column="1" Text="{Binding Title}" FontSize="15" VerticalOptions="Center" TextColor="Black" FontAttributes="Bold"/>
+                <BoxView Grid.Row="3" Color="GreenYellow" Grid.Column="0" Grid.ColumnSpan="2"/>
+            </Grid>
+        </DataTemplate>
+    </Shell.ItemTemplate>
+
     <ShellContent 
         FlyoutItemIsVisible="False"
         ContentTemplate="{DataTemplate pages:InitializingPage}"
@@ -47,14 +58,15 @@
         ContentTemplate="{DataTemplate pages:LoginPage}"
         Route="loginPage" />
 
-    <FlyoutItem Title="Home" FlyoutDisplayOptions="AsMultipleItems" Icon="dotnet_bot.png">
+	
+    <FlyoutItem Title="Home" FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent
             Title="Home"
-            FlyoutIcon="flyout.png"
+            FlyoutIcon="homelogo.png"
             Icon="dotnet_bot.png"
             FlyoutItemIsVisible="True"
-            Shell.NavBarIsVisible="False"
-            Shell.TabBarBackgroundColor="Beige"
+            Shell.NavBarIsVisible="{x:OnPlatform Android=True, iOS=True, MacCatalyst=True, WinUI=False}"
+			Shell.TabBarBackgroundColor="Beige"
             Shell.TabBarForegroundColor="DarkSeaGreen"
             Shell.TabBarTitleColor="Green"
             Shell.FlyoutBehavior="Flyout"
@@ -64,16 +76,30 @@
             Title="Settings"
             Icon="dotnet_bot.png"
             FlyoutItemIsVisible="False"
-            Shell.NavBarIsVisible="False"
+            Shell.NavBarIsVisible="{x:OnPlatform Android=True, iOS=True, MacCatalyst=True, WinUI=False}"
             Shell.FlyoutBehavior="Flyout"
             ContentTemplate="{DataTemplate pages:SettingsPage}"
-            Route="settingsPage" />
+            Route="settingsPage"
+            />
     </FlyoutItem>
 
-    
-     
-       
-    <Shell.FlyoutFooter>
+    <FlyoutItem Title="Settings" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent
+            Title="Settings"
+            FlyoutIcon="settingslogo.png"
+            Icon="dotnet_bot.png"
+            FlyoutItemIsVisible="True"
+            Shell.NavBarIsVisible="{x:OnPlatform Android=True, iOS=True, MacCatalyst=True, WinUI=False}"
+            Shell.FlyoutBehavior="Flyout"
+            ContentTemplate="{DataTemplate pages:SettingsPage}"
+            Route="settingsPage"
+    />
+    </FlyoutItem>
+
+
+
+
+        <Shell.FlyoutFooter>
        <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" /> <!-- Row for Button -->
@@ -81,7 +107,7 @@
         </Grid.RowDefinitions>
 
         <!-- Button in the first row -->
-        <Button x:Name="Logout" MinimumWidthRequest="150" FontSize="Medium" Text="Logout" Clicked="OnLogoutClicked" HorizontalOptions="CenterAndExpand" Margin="0,0,0,30"
+        <Button x:Name="Logout" MinimumWidthRequest="150" FontSize="15" Text="Logout" Clicked="OnLogoutClicked" HorizontalOptions="CenterAndExpand" Margin="0,0,0,30" 
                 Grid.Row="0"/>
 
         <!-- Existing content in the second row -->
