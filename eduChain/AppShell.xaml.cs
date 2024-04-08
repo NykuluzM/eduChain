@@ -11,19 +11,28 @@ public partial class AppShell : Shell
 		Routing.RegisterRoute(Routes.RegisterPage, typeof(RegisterPage));
 		Routing.RegisterRoute("forgotPasswordPage", typeof(ForgotPasswordPage));
 		this.BindingContext = new AppShellViewModel();
-		if (Microsoft.Maui.Devices.DeviceInfo.Platform == Microsoft.Maui.Devices.DevicePlatform.iOS ||
-            Microsoft.Maui.Devices.DeviceInfo.Platform == Microsoft.Maui.Devices.DevicePlatform.Android)
-        {
-            this.FlyoutBehavior = FlyoutBehavior.Flyout;
-        }
-        else if (Microsoft.Maui.Devices.DeviceInfo.Platform == Microsoft.Maui.Devices.DevicePlatform.macOS ||
-                 Microsoft.Maui.Devices.DeviceInfo.Platform == Microsoft.Maui.Devices.DevicePlatform.WinUI)
-        {
-            this.FlyoutBehavior = FlyoutBehavior.Locked;
-        }
+		ManipulateFlyoutItemForPlatform(SettingsItem);
+		ManipulateFlyoutItemForPlatform(IpfsItem);
+		ManipulateFlyoutItemForPlatform(HomeItem);
+		ManipulateFlyoutItemForPlatform(ProfileItem);
 	}
 	
-
+	   private void ManipulateFlyoutItemForPlatform(FlyoutItem flyoutItem)
+        {
+            if (flyoutItem != null)
+            {
+                var platform = DeviceInfo.Current.Platform;
+				if (DeviceInfo.Platform == DevicePlatform.iOS ||
+                DeviceInfo.Platform == DevicePlatform.Android){
+ 					flyoutItem.SetValue(Shell.FlyoutBehaviorProperty, FlyoutBehavior.Flyout);
+					return;
+				}
+                else {
+                        flyoutItem.SetValue(Shell.FlyoutBehaviorProperty, FlyoutBehavior.Locked);
+						return;
+					}
+			}       
+        }
 	private async void OnLogoutClicked(object sender, EventArgs e)
 	{
 		Preferences.Default.Set("IsLoggedIn", false);
