@@ -94,5 +94,8 @@
 	  <Compile Update="Views/ContentPages/RegisterPage.xaml.cs">
 	    <DependentUpon>RegisterPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views/ContentPages/WebConnectPage.xaml.cs">
+	    <DependentUpon>WebConnectPage.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 </Project>

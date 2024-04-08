@@ -26,7 +26,7 @@ public partial class AppShell : Shell
 			var animation = new Animation((current) => 
 			{
 				FlyoutWidth = current;
-			}, 75, 275, null);
+			}, 75, 265, null);
 
 			animation.Commit(this, "expand", finished: (value, cancelled) =>
 			{
@@ -39,7 +39,7 @@ public partial class AppShell : Shell
 			var animation = new Animation((current) => 
 			{
 				FlyoutWidth = current;
-			}, 275, 75, null);
+			}, 265, 75, null);
 
 			animation.Commit(this, "collapse", finished: (value, cancelled) =>
 			{

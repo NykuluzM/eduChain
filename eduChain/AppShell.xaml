@@ -8,7 +8,8 @@
     xmlns:viewmodel="clr-namespace:eduChain.ViewModels"
     xmlns:preferences="Microsoft.Maui.Storage; Assembly=Microsoft.Maui"
     xmlns:models="clr-namespace:eduChain.Models"
-    FlyoutBehavior="Disabled" FlyoutBackgroundColor="#e7dfc3" FlyoutWidth="75" FlyoutBackdrop="#66FFFFFF"
+    FlyoutBehavior="Disabled" 
+    FlyoutBackgroundColor="LightGray"  FlyoutWidth="75" FlyoutBackdrop="#66FFFFFF"
     Title="eduChain" >
     
     <Shell.Resources>
@@ -37,7 +38,7 @@
     </FlyoutPage.FlyoutHeader>
     <Shell.ItemTemplate>
         <DataTemplate>
-                <Grid ColumnDefinitions="50,*" Padding="10" ColumnSpacing="30" >
+                <Grid ColumnDefinitions="50,*" Padding="10" ColumnSpacing="30">
                     <VisualStateManager.VisualStateGroups>
                         <VisualStateGroupList>
                             <VisualStateGroup x:Name="CommonStates">
@@ -48,7 +49,7 @@
                                 </VisualState>
                                 <VisualState x:Name="Selected">
                                     <VisualState.Setters>
-                                        <Setter Property="BackgroundColor" Value="LightGreen" />
+                                        <Setter Property="BackgroundColor" Value="#195a7a" />
                                     </VisualState.Setters>
                                 </VisualState>    
                             </VisualStateGroup>
@@ -75,7 +76,8 @@
         FlyoutItemIsVisible="False"
         ContentTemplate="{DataTemplate pages:LoginPage}"
         Route="loginPage" />
-    <FlyoutItem Title="HomePage" FlyoutDisplayOptions="AsMultipleItems" Shell.FlyoutBehavior="Locked" Shell.TabBarIsVisible="False">
+    <FlyoutItem Title="HomePage" Shell.FlyoutBehavior="Locked" FlyoutDisplayOptions="AsMultipleItems" Shell.TabBarIsVisible="False">
+     
         <ShellContent
                 Title="Home"
                 Icon="homelogo"
@@ -89,16 +91,21 @@
                 />
 
         <ShellContent
-                Title="Connect wallet"
-                Icon="walletlogo"
-                ContentTemplate="{DataTemplate pages:WalletConnectPage}"
+                Title="School Website"
+                Icon="schoollogo"
+                ContentTemplate="{DataTemplate pages:WebConnectPage}"
                 />
         <ShellContent
                 Title="Start IPFS Node"
                 Icon="walletlogo"
-                ContentTemplate="{DataTemplate pages:IpfsConnectPage}">
-        </ShellContent>
-    </FlyoutItem>   
+                ContentTemplate="{DataTemplate pages:IpfsConnectPage}"/>
+        <ShellContent
+                Title="Settings"
+                Icon="settingslogo"
+                ContentTemplate="{DataTemplate pages:SettingsPage}"
+                />
+    </FlyoutItem>       
+    
     
     <Shell.FlyoutFooter>
        <Grid>
@@ -108,7 +115,7 @@
         </Grid.RowDefinitions>
 
         <!-- Button in the first row -->
-        <Button x:Name="Logout" MinimumWidthRequest="150" Text="Logout" Clicked="OnLogoutClicked" HorizontalOptions="CenterAndExpand" Margin="0,0,0,30"
+        <Button x:Name="Logout" MinimumWidthRequest="150" FontSize="Medium" Text="Logout" Clicked="OnLogoutClicked" HorizontalOptions="CenterAndExpand" Margin="0,0,0,30"
                 Grid.Row="0"/>
 
         <!-- Existing content in the second row -->

@@ -4,15 +4,13 @@
              x:Class="eduChain.Views.ContentPages.HomePage"
              Title=""
              Shell.NavBarIsVisible="False"
-             Background="Black">
+             Background="#195a7a">
     <VerticalStackLayout>
         <Label 
             Text="Welcome to .NET MAUI!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
-        <Button 
-            Text="Logout"
-            Command="{Binding LogoutCommand}" />   
+        
     </VerticalStackLayout>
     
 </ContentPage>
