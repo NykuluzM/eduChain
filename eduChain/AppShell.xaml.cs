@@ -11,6 +11,16 @@ public partial class AppShell : Shell
 		Routing.RegisterRoute(Routes.RegisterPage, typeof(RegisterPage));
 		Routing.RegisterRoute("forgotPasswordPage", typeof(ForgotPasswordPage));
 		this.BindingContext = new AppShellViewModel();
+		if (Microsoft.Maui.Devices.DeviceInfo.Platform == Microsoft.Maui.Devices.DevicePlatform.iOS ||
+            Microsoft.Maui.Devices.DeviceInfo.Platform == Microsoft.Maui.Devices.DevicePlatform.Android)
+        {
+            this.FlyoutBehavior = FlyoutBehavior.Flyout;
+        }
+        else if (Microsoft.Maui.Devices.DeviceInfo.Platform == Microsoft.Maui.Devices.DevicePlatform.macOS ||
+                 Microsoft.Maui.Devices.DeviceInfo.Platform == Microsoft.Maui.Devices.DevicePlatform.WinUI)
+        {
+            this.FlyoutBehavior = FlyoutBehavior.Locked;
+        }
 	}
 	
 

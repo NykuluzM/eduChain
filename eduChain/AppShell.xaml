@@ -76,37 +76,44 @@
         FlyoutItemIsVisible="False"
         ContentTemplate="{DataTemplate pages:LoginPage}"
         Route="loginPage" />
-    <FlyoutItem Title="HomePage" Shell.FlyoutBehavior="Locked" FlyoutDisplayOptions="AsMultipleItems" Shell.TabBarIsVisible="False">
-     
-        <ShellContent
-                Title="Home"
-                Icon="homelogo"
-                ContentTemplate="{DataTemplate pages:HomePage}"
-                Route="homePage"
-                />
-        <ShellContent
-                Title="Profile"
-                Icon="profilelogo"
-                ContentTemplate="{DataTemplate pages:MyProfilePage}"
-                />
 
-        <ShellContent
+        <FlyoutItem  Title="Home" Icon="homelogo" Shell.FlyoutBehavior="Locked">
+            <ShellContent
+                    Title="Home" 
+                    ContentTemplate="{DataTemplate pages:HomePage}"
+                    Route="homePage"
+                    />
+        </FlyoutItem>
+        <FlyoutItem Title="Profile" Icon="profilelogo" Shell.FlyoutBehavior="Locked">
+            <ShellContent
+                    Title="Profile"
+                    ContentTemplate="{DataTemplate pages:MyProfilePage}"
+                    Route="profilePage"
+                    />
+        </FlyoutItem>
+        <FlyoutItem Title="School Website" Icon="schoollogo" Shell.FlyoutBehavior="Flyout">
+            <ShellContent 
                 Title="School Website"
-                Icon="schoollogo"
                 ContentTemplate="{DataTemplate pages:WebConnectPage}"
+                Route="webPage"
                 />
-        <ShellContent
-                Title="Start IPFS Node"
-                Icon="walletlogo"
-                ContentTemplate="{DataTemplate pages:IpfsConnectPage}"/>
-        <ShellContent
-                Title="Settings"
-                Icon="settingslogo"
-                ContentTemplate="{DataTemplate pages:SettingsPage}"
-                />
-    </FlyoutItem>       
-    
-    
+        </FlyoutItem>
+        
+        <FlyoutItem  Title="Start IPFS Node" Icon="walletlogo" Shell.FlyoutBehavior="Locked">
+            <ShellContent
+                    Title="Start IPFS Node"
+                    ContentTemplate="{DataTemplate pages:IpfsConnectPage}"
+                    Route="ipfsPage"/>
+        </FlyoutItem>
+        <FlyoutItem  Title="Settings"
+                    Icon="settingslogo" Shell.FlyoutBehavior="Locked">
+            <ShellContent
+                    Title="Settings"
+                    ContentTemplate="{DataTemplate pages:SettingsPage}"
+                    Route="settingsPage"
+                    />
+        </FlyoutItem>
+       
     <Shell.FlyoutFooter>
        <Grid>
         <Grid.RowDefinitions>
