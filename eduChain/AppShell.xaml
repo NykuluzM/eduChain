@@ -8,8 +8,7 @@
     xmlns:viewmodel="clr-namespace:eduChain.ViewModels"
     xmlns:preferences="Microsoft.Maui.Storage; Assembly=Microsoft.Maui"
     xmlns:models="clr-namespace:eduChain.Models"
-    FlyoutBehavior="Disabled" 
-    FlyoutBackgroundColor="LightGray"  FlyoutWidth="75" FlyoutBackdrop="#66FFFFFF"
+    FlyoutBackgroundColor="LightGray"  FlyoutWidth="270" FlyoutBackdrop="#66FFFFFF"
     Title="eduChain" >
     
     <Shell.Resources>
@@ -20,7 +19,7 @@
             </LinearGradientBrush>
         </ResourceDictionary>
     </Shell.Resources>
-    <FlyoutPage.FlyoutHeader >
+    <Shell.FlyoutHeader >
         <Border Stroke="#C49B33"
         StrokeThickness="4">
             <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto" BackgroundColor="#41406d">
@@ -31,41 +30,12 @@
                     </Border.StrokeShape>
                     <Image x:Name="ProfileImage" Source="output.png" Aspect="AspectFill"/>
                 </Border>
-                <Label Grid.Column="1" Grid.Row="0"  Text="Carl Irven Nykuluz" TextColor="Black" FontSize="15" x:Name="Name" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="30"  IsVisible="False"/>
-                <Label Grid.Column="1" Grid.Row="0" Margin="0,0,0,5" Text="Student" TextDecorations="Underline" TextColor="Yellow" HeightRequest="20" x:Name="Role" FontSize="15" HorizontalOptions="Center" VerticalOptions="End" IsVisible="False"/>
+                <Label Grid.Column="1" Grid.Row="0"  Text="Carl Irven Nykuluz" TextColor="Black" FontSize="15" x:Name="Name" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="30" />
+                <Label Grid.Column="1" Grid.Row="0" Margin="0,0,0,5" Text="Student" TextDecorations="Underline" TextColor="Yellow" HeightRequest="20" x:Name="Role" FontSize="15" HorizontalOptions="Center" VerticalOptions="End"/>
             </Grid>
         </Border>
-    </FlyoutPage.FlyoutHeader>
-    <Shell.ItemTemplate>
-        <DataTemplate>
-                <Grid ColumnDefinitions="50,*" Padding="10" ColumnSpacing="20">
-                    <VisualStateManager.VisualStateGroups>
-                        <VisualStateGroupList>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal">
-                                    <VisualState.Setters>
-                                        <Setter Property="BackgroundColor" Value="#41406d" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="Selected">
-                                    <VisualState.Setters>
-                                        <Setter Property="BackgroundColor" Value="#195a7a" />
-                                    </VisualState.Setters>
-                                </VisualState>    
-                            </VisualStateGroup>
-                        </VisualStateGroupList>
-                    </VisualStateManager.VisualStateGroups>
-                    <Image Source="{Binding Icon}" />
-                    <Label Grid.Column="1" MaxLines="1" Text="{Binding Title}"   TextColor="Black" FontSize="17" FontAttributes="Bold" VerticalTextAlignment="Center"/>
-                </Grid>
-        </DataTemplate>
-    </Shell.ItemTemplate>
-    <Shell.MenuItemTemplate>
-        <DataTemplate>
-            <TextCell Text="{Binding Text}" Command="{Binding Command}" />
-        </DataTemplate>
-    </Shell.MenuItemTemplate>
-
+    </Shell.FlyoutHeader>
+   
     <ShellContent 
         FlyoutItemIsVisible="False"
         ContentTemplate="{DataTemplate pages:InitializingPage}"
@@ -77,46 +47,31 @@
         ContentTemplate="{DataTemplate pages:LoginPage}"
         Route="loginPage" />
 
-        <FlyoutItem  Title="Home" x:Name="HomeItem"
-        Icon="homelogo" Shell.FlyoutBehavior="Locked">
-        
-            <ShellContent
-                    Title="Home" 
-                    ContentTemplate="{DataTemplate pages:HomePage}"
-                    Route="homePage"
-                    />
-        </FlyoutItem>
-        <FlyoutItem Title="Profile" x:Name="ProfileItem"
-        Icon="profilelogo" Shell.FlyoutBehavior="Locked">
-            <ShellContent
-                    Title="Profile"
-                    ContentTemplate="{DataTemplate pages:MyProfilePage}"
-                    Route="profilePage"
-                    />
-        </FlyoutItem>
-        <FlyoutItem Title="School Website" Icon="schoollogo" Shell.FlyoutBehavior="Flyout">
-            <ShellContent 
-                Title="School Website"
-                ContentTemplate="{DataTemplate pages:WebConnectPage}"
-                Route="webPage"
-                />
-        </FlyoutItem>
-        
-        <FlyoutItem  Title="Start IPFS Node" x:Name="IpfsItem"
-         Icon="walletlogo" Shell.FlyoutBehavior="Locked">
-            <ShellContent
-                    Title="Start IPFS Node"
-                    ContentTemplate="{DataTemplate pages:IpfsConnectPage}"
-                    Route="ipfsPage"/>
-        </FlyoutItem>
-        <FlyoutItem  Title="Settings" x:Name="SettingsItem"
-                    Icon="settingslogo" Shell.FlyoutBehavior="Locked">
-            <ShellContent
-                    Title="Settings"
-                    ContentTemplate="{DataTemplate pages:SettingsPage}"
-                    Route="settingsPage"
-                    />
-        </FlyoutItem>
+    <FlyoutItem Title="Home" FlyoutDisplayOptions="AsMultipleItems" Icon="dotnet_bot.png">
+        <ShellContent
+            Title="Home"
+            FlyoutIcon="flyout.png"
+            Icon="dotnet_bot.png"
+            FlyoutItemIsVisible="True"
+            Shell.NavBarIsVisible="False"
+            Shell.TabBarBackgroundColor="Beige"
+            Shell.TabBarForegroundColor="DarkSeaGreen"
+            Shell.TabBarTitleColor="Green"
+            Shell.FlyoutBehavior="Flyout"
+            ContentTemplate="{DataTemplate pages:HomePage}"
+            Route="homePage" />
+        <ShellContent
+            Title="Settings"
+            Icon="dotnet_bot.png"
+            FlyoutItemIsVisible="False"
+            Shell.NavBarIsVisible="False"
+            Shell.FlyoutBehavior="Flyout"
+            ContentTemplate="{DataTemplate pages:SettingsPage}"
+            Route="settingsPage" />
+    </FlyoutItem>
+
+    
+     
        
     <Shell.FlyoutFooter>
        <Grid>
@@ -130,14 +85,6 @@
                 Grid.Row="0"/>
 
         <!-- Existing content in the second row -->
-        <Grid Grid.Row="1">
-            <!-- Your existing Grid content here -->
-            <Grid.GestureRecognizers>
-                <TapGestureRecognizer Tapped="ExpandCollapse" />
-            </Grid.GestureRecognizers>
-            <Image x:Name="Expand" Source="expand" HeightRequest="24"  HorizontalOptions="Center"/>
-            <Image x:Name="Collapse" IsVisible="False" Source="collapse" HeightRequest="24"   HorizontalOptions="End"/>
-        </Grid>
     </Grid>        
     </Shell.FlyoutFooter>
 </Shell>

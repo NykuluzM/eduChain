@@ -58,6 +58,10 @@
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Remove="Resources\Images\flyout.png" />
+	</ItemGroup>
+
 
 	<ItemGroup>
 		<PackageReference Include="epj.RouteGenerator" Version="1.0.1" />

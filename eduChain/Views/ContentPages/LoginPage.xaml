@@ -19,21 +19,21 @@
             <ContentPage.ToolbarItems>
                 <ToolbarItem Text="Forgot Password?" Order="Primary" Priority="0"  Clicked="PasswordForgotten"/>
             </ContentPage.ToolbarItems>
-    <Grid>
+    <Grid VerticalOptions="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             
             <!-- Background Image -->
-            <Image Source="image.jpg" Aspect="AspectFill" Grid.RowSpan="2" />
+            <Image Source="image.jpg" Aspect="AspectFill" Grid.RowSpan="2" VerticalOptions="Center" />
 
 
            
             <!-- Scrollable Content -->
-        <ScrollView Grid.Row="0"  HorizontalOptions="Center">
+        <ScrollView Grid.Row="0" VerticalOptions="Center"  HorizontalOptions="Center">
        
-            <StackLayout Padding="60" Spacing="15" HorizontalOptions="Center">
+            <StackLayout Spacing="15" HorizontalOptions="Center">
            
                 <StackLayout Spacing="20" MinimumWidthRequest="320" MaximumWidthRequest="500" HorizontalOptions="Center">
            

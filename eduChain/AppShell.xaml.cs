@@ -11,10 +11,10 @@ public partial class AppShell : Shell
 		Routing.RegisterRoute(Routes.RegisterPage, typeof(RegisterPage));
 		Routing.RegisterRoute("forgotPasswordPage", typeof(ForgotPasswordPage));
 		this.BindingContext = new AppShellViewModel();
-		ManipulateFlyoutItemForPlatform(SettingsItem);
-		ManipulateFlyoutItemForPlatform(IpfsItem);
-		ManipulateFlyoutItemForPlatform(HomeItem);
-		ManipulateFlyoutItemForPlatform(ProfileItem);
+		//ManipulateFlyoutItemForPlatform(SettingsItem);
+		//ManipulateFlyoutItemForPlatform(IpfsItem);
+		//ManipulateFlyoutItemForPlatform(HomeItem);
+		//ManipulateFlyoutItemForPlatform(ProfileItem);
 	}
 	
 	   private void ManipulateFlyoutItemForPlatform(FlyoutItem flyoutItem)
@@ -38,7 +38,7 @@ public partial class AppShell : Shell
 		Preferences.Default.Set("IsLoggedIn", false);
 		await Shell.Current.GoToAsync("//loginPage");
 	}
-	private void ExpandCollapse(object sender, TappedEventArgs e)
+	/*private void ExpandCollapse(object sender, TappedEventArgs e)
 	{
 		if(Expand.IsVisible)
 		{
@@ -68,7 +68,7 @@ public partial class AppShell : Shell
 				Role.IsVisible = false;
 			});	
 		}
-	}
+	}*/
 	 private void ProfileBorder_SizeChanged(object sender, EventArgs e)
         {
             if (sender is Border border)
