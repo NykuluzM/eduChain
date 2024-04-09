@@ -1,8 +1,8 @@
 ﻿using Android.App;
 using Android.Runtime;
+using Microsoft.Maui.Networking;
 
 namespace eduChain;
-
 [Application]
 public class MainApplication : MauiApplication
 {

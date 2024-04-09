@@ -74,6 +74,7 @@
 		<PackageReference Include="npgsql" Version="8.0.2" />
 		<PackageReference Include="Pinata.Client" Version="1.0.0" />
 		<PackageReference Include="Plugin.Maui.Audio" Version="2.1.0" />
+		<PackageReference Include="SkiaSharp" Version="2.88.7" />
 		<PackageReference Include="supabase-csharp" Version="0.16.1" />
 		<PackageReference Include="UraniumUI" Version="2.8.1" />
 		<PackageReference Include="UraniumUI.Icons.FontAwesome" Version="2.8.1" />

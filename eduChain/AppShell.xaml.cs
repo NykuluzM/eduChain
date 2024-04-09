@@ -38,6 +38,10 @@ public partial class AppShell : Shell
 		Preferences.Default.Set("IsLoggedIn", false);
 		await Shell.Current.GoToAsync("//loginPage");
 	}
+	private async void ProfileTapped(object sender, EventArgs e)
+	{
+		await Shell.Current.GoToAsync("//myProfilePage");
+	}
 	/*private void ExpandCollapse(object sender, TappedEventArgs e)
 	{
 		if(Expand.IsVisible)
@@ -69,17 +73,5 @@ public partial class AppShell : Shell
 			});	
 		}
 	}*/
-	 private void ProfileBorder_SizeChanged(object sender, EventArgs e)
-        {
-            if (sender is Border border)
-            {
-                // Calculate the size to maintain aspect ratio and fill the circular border
-                double radius = border.Height / 2;
-                double imageSize = radius * Math.Sqrt(2); // Diagonal of the circle
-
-                // Update the WidthRequest and HeightRequest of the Image
-                ProfileImage.WidthRequest = imageSize;
-                ProfileImage.HeightRequest = imageSize;
-            }
-        }
+	
 }

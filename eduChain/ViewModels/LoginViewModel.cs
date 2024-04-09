@@ -66,6 +66,12 @@ namespace eduChain.ViewModels
 
             public async void Login()
             {
+                NetworkAccess networkAccess = Connectivity.NetworkAccess;
+                if(networkAccess == NetworkAccess.None)
+                {
+                    Application.Current?.MainPage?.DisplayAlert("No Connection", "Lost Internet Connection", "OK");
+                    return;
+                }
                 if (string.IsNullOrWhiteSpace(Email) && string.IsNullOrWhiteSpace(Password))
                 {
                     ShowInvalidCredentialsAlert("inputnothing");
@@ -86,7 +92,9 @@ namespace eduChain.ViewModels
 
 
                 // Check username and password authenticity
-                if (LoginModel != null && isValid)
+             
+                
+                if (isValid)
                 {
                     if(KeepLoggedIn)
                     {

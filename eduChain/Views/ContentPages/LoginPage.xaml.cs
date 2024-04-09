@@ -25,12 +25,6 @@ public partial class LoginPage : ContentPage
             BindingContext = loginViewModel;
             //InitializeSupabaseAsync();
         }
-
-
-        private void TextFieldPasswordShowHideAttachment_LayoutChanged(object sender, EventArgs e)
-        {
-
-        }
         private void LoginButton_Clicked(object sender, EventArgs e)
         {
             // Handle the Login button click event
@@ -39,6 +33,12 @@ public partial class LoginPage : ContentPage
         }
         private void RegisterButton_Clicked(object sender, EventArgs e)
         {
+            NetworkAccess networkAccess = Connectivity.NetworkAccess;
+                if(networkAccess == NetworkAccess.None)
+                {
+                    Application.Current?.MainPage?.DisplayAlert("No Connection", "Lost Internet Connection", "OK");
+                    return;
+                }
             var registerPage = new RegisterPage();
             Shell.Current.Navigation.PushAsync(registerPage);
         }
@@ -46,9 +46,5 @@ public partial class LoginPage : ContentPage
              var forgotPasswordPage = new ForgotPasswordPage();
             Shell.Current.Navigation.PushAsync(forgotPasswordPage);
         }
-    private async void GetDataButton_Clicked(object sender, EventArgs e)
-    {
-                
-    }
 }
 }

@@ -16,6 +16,7 @@ using Plugin.Maui.Audio;
 namespace eduChain
 {
 	[AutoRoutes("Page")]
+
 	public static class MauiProgram
 	{
 		public static MauiApp CreateMauiApp()

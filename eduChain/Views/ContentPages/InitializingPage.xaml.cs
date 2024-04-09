@@ -34,7 +34,19 @@ public partial class InitializingPage : ContentPage
 			player.Dispose();
 	}
 	public async void CheckisLoggedIn(){
-		await Task.Delay(16000);
+		await Task.Delay(8000);
+		NetworkAccess networkAccess = Connectivity.NetworkAccess;
+		
+		if(networkAccess == NetworkAccess.None)
+		{
+			if(Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.MacCatalyst || Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.WinUI){
+				await Shell.Current.DisplayAlert("No Internet Connection", "Please Connect to the Internet", "OK");
+				player.Dispose();
+				Application.Current.Quit();	
+				return;
+			}
+		}
+		
 		if(Preferences.Default.Get("IsLoggedIn",false))
 			{		
 				try{

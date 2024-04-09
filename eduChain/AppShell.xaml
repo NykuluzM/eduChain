@@ -21,8 +21,10 @@
     </Shell.Resources>
     
     <Shell.FlyoutHeader >
-        <Border Stroke="#C49B33"
-        StrokeThickness="4">
+        <Border Stroke="#C49B33" StrokeThickness="4">
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="ProfileTapped" />
+            </Border.GestureRecognizers>
             <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto" BackgroundColor="#41406d">
                 <Border Grid.Column="0" HeightRequest="65" WidthRequest="65"
                     Stroke="{StaticResource grad}" StrokeThickness="2">
@@ -35,11 +37,29 @@
                 <Label Grid.Column="1" Grid.Row="0" Margin="0,0,0,5" Text="Student" TextDecorations="Underline" TextColor="Yellow" HeightRequest="20" x:Name="Role" FontSize="15" HorizontalOptions="Center" VerticalOptions="End"/>
             </Grid>
         </Border>
+        
     </Shell.FlyoutHeader>
 
     <Shell.ItemTemplate>
         <DataTemplate>
             <Grid ColumnSpacing="10" RowDefinitions="7,Auto,7,1" ColumnDefinitions="50,*">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="LightGray" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Selected">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="LightGreen" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+
+                </VisualStateManager.VisualStateGroups>
                 <Image Grid.Row="1" Grid.Column="0" Source="{Binding FlyoutIcon}" WidthRequest="30" />
                 <Label Grid.Row="1" Grid.Column="1" Text="{Binding Title}" FontSize="15" VerticalOptions="Center" TextColor="Black" FontAttributes="Bold"/>
                 <BoxView Grid.Row="3" Color="GreenYellow" Grid.Column="0" Grid.ColumnSpan="2"/>
@@ -69,6 +89,7 @@
 			Shell.TabBarBackgroundColor="#FFFACD"
             Shell.TabBarForegroundColor="DarkSeaGreen"
             Shell.TabBarUnselectedColor="Black"
+            Shell.TabBarDisabledColor="Transparent"
             Shell.TabBarTitleColor="Green"
             Shell.FlyoutBehavior="Flyout"
             ContentTemplate="{DataTemplate pages:HomePage}"
@@ -89,6 +110,7 @@
                 />
     </FlyoutItem>
 
+
     <FlyoutItem Title="Settings" FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent
             Title="Settings"
@@ -102,6 +124,16 @@
     />
     </FlyoutItem>
 
+    
+        <ShellContent
+            Icon="profilelogo"
+            FlyoutItemIsVisible="False"
+            Shell.NavBarIsVisible="{x:OnPlatform Android=True, iOS=True, MacCatalyst=True, WinUI=False}"
+            Shell.FlyoutBehavior="Flyout"
+            ContentTemplate="{DataTemplate pages:MyProfilePage}"
+            Route="myProfilePage" 
+        />
+        
 
 
 
