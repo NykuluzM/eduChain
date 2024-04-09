@@ -96,7 +96,6 @@
                               
                                 <Button 
                                 StyleClass="FilledButton"
-                                input:FormView.IsSubmitButton="True" 
                                 Text="Register"
                                 WidthRequest="200" 
                                 BackgroundColor="PaleVioletRed" 
