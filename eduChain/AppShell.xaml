@@ -63,24 +63,25 @@
         <ShellContent
             Title="Home"
             FlyoutIcon="homelogo.png"
-            Icon="dotnet_bot.png"
             FlyoutItemIsVisible="True"
+            Icon="homelogo.png"
             Shell.NavBarIsVisible="{x:OnPlatform Android=True, iOS=True, MacCatalyst=True, WinUI=False}"
-			Shell.TabBarBackgroundColor="Beige"
+			Shell.TabBarBackgroundColor="#F5F5DC"
             Shell.TabBarForegroundColor="DarkSeaGreen"
             Shell.TabBarTitleColor="Green"
             Shell.FlyoutBehavior="Flyout"
             ContentTemplate="{DataTemplate pages:HomePage}"
             Route="homePage" />
-        <ShellContent
-            Title="Settings"
-            Icon="dotnet_bot.png"
-            FlyoutItemIsVisible="False"
-            Shell.NavBarIsVisible="{x:OnPlatform Android=True, iOS=True, MacCatalyst=True, WinUI=False}"
-            Shell.FlyoutBehavior="Flyout"
-            ContentTemplate="{DataTemplate pages:SettingsPage}"
-            Route="settingsPage"
-            />
+        
+            <ShellContent
+                Title="Settings"
+                FlyoutItemIsVisible="False"
+                Icon="settingslogo.png"
+                Shell.NavBarIsVisible="{x:OnPlatform Android=True, iOS=True, MacCatalyst=True, WinUI=False}"
+                Shell.FlyoutBehavior="Flyout"
+                ContentTemplate="{DataTemplate pages:SettingsPage}"
+                Route="settingsPage"
+                />
     </FlyoutItem>
 
     <FlyoutItem Title="Settings" FlyoutDisplayOptions="AsMultipleItems">

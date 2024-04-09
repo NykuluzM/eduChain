@@ -81,6 +81,8 @@
 		<PackageReference Include="UraniumUI.Icons.SegoeFluent" Version="2.8.1" />
 		<PackageReference Include="UraniumUI.Material" Version="2.8.1" />
 		<PackageReference Include="WalletConnect.Web3Wallet" Version="2.3.1" />
+		<MauiImage Update="Resources\Images\homelogo.png" BaseSize="35,35" />
+
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="7.0.1" />
