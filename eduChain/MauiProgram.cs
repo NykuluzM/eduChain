@@ -43,7 +43,8 @@ namespace eduChain
 			builder.Services.AddSingleton<ISupabaseConnection>(new DatabaseConnection("User Id=postgres.wcbvpqecetfhnfphtmae;Password=notthatexcellent3224;Server=aws-0-ap-southeast-1.pooler.supabase.com;Port=5432;Database=postgres;"));
 			builder.Services.AddSingleton(AudioManager.Current);
 			builder.Services.AddTransient<InitializingPage>();
-			
+			builder.Services.AddFilePicker();
+			builder.ConfigureFilePicker(100);
 			var app = builder.Build();
 			return app;
 		}

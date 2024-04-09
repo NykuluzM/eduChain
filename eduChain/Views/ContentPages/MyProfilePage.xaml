@@ -6,7 +6,7 @@
     <StackLayout>
         <Button Text="Select Image" Clicked="SelectImageButton_Clicked" />
 
-        <Image x:Name="SelectedImage" />
+        <Image x:Name="SelectedImage"/>
         <!-- Add cropping controls here -->
     </StackLayout>
 </ContentPage>
