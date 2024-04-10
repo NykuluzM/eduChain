@@ -35,7 +35,7 @@ public partial class AppShell : Shell
         }
 	private async void OnLogoutClicked(object sender, EventArgs e)
 	{
-		Preferences.Default.Set("IsLoggedIn", false);
+		Preferences.Default.Clear();
 		await Shell.Current.GoToAsync("//loginPage");
 	}
 	private async void ProfileTapped(object sender, EventArgs e)

@@ -3,10 +3,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="eduChain.Views.ContentPages.MyProfilePage"
              Title="MyProfilePage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <LinearGradientBrush x:Key="grad" EndPoint="0,1">
+                <GradientStop Offset = "0" Color="#6C06E6" />
+                <GradientStop Offset = "1" Color="#FF228B" />
+            </LinearGradientBrush>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+     
     <StackLayout>
         <Button Text="Select Image" Clicked="SelectImageButton_Clicked" />
 
-        <Image x:Name="SelectedImage"/>
+        <Border HeightRequest="125" WidthRequest="125"
+                    Stroke="{StaticResource grad}" StrokeThickness="2">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="40,40,40,40" />
+                    </Border.StrokeShape>
+                    <Image  x:Name="ProfileImage" Aspect="AspectFill" />
+
+        </Border>
         <!-- Add cropping controls here -->
     </StackLayout>
 </ContentPage>

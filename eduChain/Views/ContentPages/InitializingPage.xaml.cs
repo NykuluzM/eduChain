@@ -50,7 +50,9 @@ public partial class InitializingPage : ContentPage
 		if(Preferences.Default.Get("IsLoggedIn",false))
 			{		
 				try{
-				await firebaseAuthClient.SignInWithEmailAndPasswordAsync(Preferences.Default.Get("email", ""), Preferences.Default.Get("password", ""));
+				var userCredential = await firebaseAuthClient.SignInWithEmailAndPasswordAsync(Preferences.Default.Get("email", ""), Preferences.Default.Get("password", ""));
+				Preferences.Default.Set("firebase_uid", userCredential.User.Uid);
+
 				await Shell.Current.GoToAsync("//homePage");
 				}
 				catch(FirebaseAuthException){
