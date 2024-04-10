@@ -48,7 +48,7 @@
                         <VisualStateGroup x:Name="CommonStates">
                             <VisualState x:Name="Normal">
                                 <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="LightGray" />
+                                    <Setter Property="BackgroundColor" Value="LightGray"/>
                                 </VisualState.Setters>
                             </VisualState>
                             <VisualState x:Name="Selected">
@@ -61,7 +61,7 @@
 
                 </VisualStateManager.VisualStateGroups>
                 <Image Grid.Row="1" Grid.Column="0" Source="{Binding FlyoutIcon}" WidthRequest="30" />
-                <Label Grid.Row="1" Grid.Column="1" Text="{Binding Title}" FontSize="15" VerticalOptions="Center" TextColor="Black" FontAttributes="Bold"/>
+                <Label Grid.Row="1" Grid.Column="1" Text="{Binding Title}" FontSize="15" VerticalOptions="Center" TextColor="Black" FontAttributes="Bold" WidthRequest="{x:OnPlatform WinUI= 350}"/>
                 <BoxView Grid.Row="3" Color="GreenYellow" Grid.Column="0" Grid.ColumnSpan="2"/>
             </Grid>
         </DataTemplate>
