@@ -105,8 +105,6 @@ namespace eduChain.ViewModels
                     }                     
                     Email = string.Empty;
                     Password = string.Empty;
-                    Application.Current?.MainPage?.DisplayAlert("Error", $"KeepLoggedIn: {KeepLoggedIn}", "OK");
-
                     await Shell.Current.GoToAsync("//homePage");
                 }
                 else
@@ -123,7 +121,7 @@ namespace eduChain.ViewModels
                 // Authenticate user with email and password using Firebase Authentication
                 var userCredential = await _firebaseAuthClient.SignInWithEmailAndPasswordAsync(email, password);
                 Preferences.Default.Set("firebase_uid", userCredential.User.Uid);
-                
+
                 // Check if user authentication was successful
                 if (userCredential != null && userCredential.User != null)
                 {

@@ -89,7 +89,6 @@
 			Shell.TabBarBackgroundColor="#FFFACD"
             Shell.TabBarForegroundColor="DarkSeaGreen"
             Shell.TabBarUnselectedColor="Black"
-            Shell.TabBarDisabledColor="Transparent"
             Shell.TabBarTitleColor="Green"
             Shell.FlyoutBehavior="Flyout"
             ContentTemplate="{DataTemplate pages:HomePage}"
@@ -111,14 +110,31 @@
     </FlyoutItem>
 
 
-    <FlyoutItem Title="Settings" FlyoutDisplayOptions="AsMultipleItems">
+    <FlyoutItem Title="School Website" FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent
-            Title="Settings"
-            FlyoutIcon="settingslogo.png"
-            Icon="dotnet_bot.png"
+            Title="Site"
+            FlyoutIcon="weblogo.png"
+            Icon="weblogo.png"
             FlyoutItemIsVisible="True"
             Shell.NavBarIsVisible="{x:OnPlatform Android=True, iOS=True, MacCatalyst=True, WinUI=False}"
             Shell.FlyoutBehavior="Flyout"
+            Shell.TabBarBackgroundColor="#FFFACD"
+            Shell.TabBarForegroundColor="DarkSeaGreen"
+            Shell.TabBarUnselectedColor="Black"
+            Shell.TabBarTitleColor="Green"
+            ContentTemplate="{DataTemplate pages:WebConnectPage}"
+            Route="webConnectPage"
+        />
+        <ShellContent
+            Title="Settings"
+            FlyoutItemIsVisible="False"
+            Icon="settingslogo.png"
+            Shell.NavBarIsVisible="{x:OnPlatform Android=True, iOS=True, MacCatalyst=True, WinUI=False}"
+            Shell.FlyoutBehavior="Flyout"
+            Shell.TabBarBackgroundColor="#FFFACD"
+            Shell.TabBarForegroundColor="DarkSeaGreen"
+            Shell.TabBarUnselectedColor="Black"
+            Shell.TabBarTitleColor="Green"
             ContentTemplate="{DataTemplate pages:SettingsPage}"
             Route="settingsPage"
     />

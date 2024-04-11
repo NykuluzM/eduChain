@@ -5,7 +5,8 @@
              Title=""
             Background="#195a7a"
             Shell.BackgroundColor="#195a7a" 
-            Shell.NavBarHasShadow="false">
+            Shell.NavBarHasShadow="false"
+            >
     <VerticalStackLayout>
         <Label 
             Text="Welcome to .NET MAUI!"
