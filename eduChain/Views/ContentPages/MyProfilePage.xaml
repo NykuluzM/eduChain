@@ -5,7 +5,9 @@
             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
             xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
-             Title="MyProfilePage">
+             Title="MyProfilePage"
+             Shell.NavBarIsVisible="True"
+             Background="Black">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Forgot Password?" IconImageSource="profileedit.png" Order="Primary" Priority="0" />   
     </ContentPage.ToolbarItems>
@@ -19,7 +21,7 @@
     <DataTemplate x:Key="BlurTemplate">
         <Image Aspect="AspectFill">
             <Image.Effects>
-                <uranium:BlurEffect Mode="Dark" />
+                <uranium:BlurEffect Mode="Light" />
             </Image.Effects>
         </Image>
     </DataTemplate>
@@ -38,14 +40,14 @@
         <Grid>
         <Image x:Name="ProfileImageBlurred" IsVisible="False" Aspect="AspectFill">
             <Image.Effects>
-                <uranium:BlurEffect Mode="Dark" AccentOpacity="0.1"/>
+                <uranium:BlurEffect Mode="Dark" AccentOpacity="0.8" AccentColor="Purple" />
             </Image.Effects>
         </Image>    
         <Image x:Name="ProfileImage" Aspect="AspectFill" IsVisible="True">
             
         </Image>
         <ImageButton x:Name="editProfile"  IsVisible="False" Clicked="SelectImageButton_Clicked" WidthRequest="40"
-              Source="imageedit.png"  VerticalOptions="Center" HorizontalOptions="Center" Margin="0,0,0,0">
+              Source="profileedit.png" Background="Transparent"  VerticalOptions="Center" HorizontalOptions="Center" Margin="0,0,0,0">
                 
         </ImageButton>
        
