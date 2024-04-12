@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="eduChain.Views.ContentPages.LoadingOnePage"
+             NavigationPage.HasNavigationBar="False"
+             Shell.NavBarIsVisible="False"
+             Title=""
+            >
+   <ActivityIndicator IsRunning="True" IsVisible="True" />
+   <VerticalStackLayout  HorizontalOptions="Center" VerticalOptions="Center">
+        <Label Text="Initializing Application" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center"/>
+            <Image Source="loading.gif" IsAnimationPlaying="true" WidthRequest="250" HeightRequest="100"/>
+            <Image Source="baby.gif" IsAnimationPlaying="true" WidthRequest="300" HeightRequest="200"/>
+   </VerticalStackLayout>
+</ContentPage>

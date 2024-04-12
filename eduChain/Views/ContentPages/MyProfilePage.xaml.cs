@@ -4,12 +4,16 @@ using Supabase;
 using Npgsql;
 using eduChain.Models;
 using System.ComponentModel;
+using eduChain.ViewModels;
+using eduChain.ViewModelsx;
+using Plugin.Maui.Audio;
 
 namespace eduChain.Views.ContentPages{
 	public partial class MyProfilePage : ContentPage
 	{
         readonly IFilePickerService picker;
-                    private readonly ISupabaseConnection _supabaseConnection;
+                private MyProfileViewModel _viewModel;
+
 
          Dictionary<DevicePlatform, IEnumerable<string>> FileType = new()
                 {
@@ -23,12 +27,19 @@ namespace eduChain.Views.ContentPages{
 		{
 			InitializeComponent();
             picker = IPlatformApplication.Current.Services.GetRequiredService<IFilePickerService>();
+            _viewModel = new MyProfileViewModel();
+
+            BindingContext = _viewModel;
 
 		}
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
+            //var plp = IPlatformApplication.Current.Services.GetRequiredService<IAudioManager>();
             LoadProfilePicture();
+            //await Shell.Current.Navigation.PushAsync(new LoadingOnePage(plp)); // Push LoadingPage
+            //await _viewModel.LoadProfileAsync(Preferences.Default.Get("firebase_uid", String.Empty));
+            //await Shell.Current.Navigation.PopAsync(); // Pop LoadingPage
         }
  private async void LoadProfilePicture()
         {

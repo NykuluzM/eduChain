@@ -10,6 +10,6 @@
             HorizontalOptions="Center" />
         <Button
             Text="Check IPFS Connection"
-            Clicked="OnUploadButtonClicked" />
+            />
     </VerticalStackLayout>
 </ContentPage>

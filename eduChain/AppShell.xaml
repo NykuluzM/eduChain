@@ -140,7 +140,18 @@
     />
     </FlyoutItem>
 
-    
+    <FlyoutItem Title="IPFS" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent
+            Title="IPFS"
+            FlyoutIcon="ipfslogo.png"
+            Icon="ipfslogo.png"
+            FlyoutItemIsVisible="True"
+            Shell.NavBarIsVisible="{x:OnPlatform Android=True, iOS=True, MacCatalyst=True, WinUI=False}"
+            Shell.FlyoutBehavior="Flyout"
+            ContentTemplate="{DataTemplate pages:IpfsConnectPage}"
+            Route="ipfsConnectPage"
+            />
+    </FlyoutItem>
         <ShellContent
             Icon="profilelogo"
             FlyoutItemIsVisible="False"
@@ -150,8 +161,12 @@
             Route="myProfilePage" 
         />
         
-
-
+        <ShellContent
+            FlyoutItemIsVisible="False"
+            Shell.FlyoutBehavior="Disabled"
+            ContentTemplate="{DataTemplate pages:LoadingOnePage}"
+            Route="loadingOnePage"
+            />
 
         <Shell.FlyoutFooter>
        <Grid>
