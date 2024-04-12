@@ -78,6 +78,7 @@
 		<PackageReference Include="SkiaSharp" Version="2.88.7" />
 		<PackageReference Include="supabase-csharp" Version="0.16.1" />
 		<PackageReference Include="UraniumUI" Version="2.8.1" />
+		<PackageReference Include="UraniumUI.Blurs" Version="2.8.1" />
 		<PackageReference Include="UraniumUI.Icons.FontAwesome" Version="2.8.1" />
 		<PackageReference Include="UraniumUI.Icons.MaterialIcons" Version="2.8.1" />
 		<PackageReference Include="UraniumUI.Icons.SegoeFluent" Version="2.8.1" />

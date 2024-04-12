@@ -2,8 +2,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="eduChain.Views.ContentPages.MyProfilePage"
+            xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+            xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
+            xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
              Title="MyProfilePage">
-
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Forgot Password?" IconImageSource="profileedit.png" Order="Primary" Priority="0" />   
+    </ContentPage.ToolbarItems>
     <ContentPage.Resources>
         <ResourceDictionary>
             <LinearGradientBrush x:Key="grad" EndPoint="0,1">
@@ -11,20 +16,51 @@
                 <GradientStop Offset = "1" Color="#FF228B" />
             </LinearGradientBrush>
         </ResourceDictionary>
+    <DataTemplate x:Key="BlurTemplate">
+        <Image Aspect="AspectFill">
+            <Image.Effects>
+                <uranium:BlurEffect Mode="Dark" />
+            </Image.Effects>
+        </Image>
+    </DataTemplate>
     </ContentPage.Resources>
 
+    
      
-    <StackLayout>
-        <Button Text="Select Image" Clicked="SelectImageButton_Clicked" />
-
-        <Border HeightRequest="125" WidthRequest="125"
-                    Stroke="{StaticResource grad}" StrokeThickness="2">
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="40,40,40,40" />
-                    </Border.StrokeShape>
-                    <Image  x:Name="ProfileImage" Aspect="AspectFill" />
-
-        </Border>
+    <ScrollView>
+        
+        <toolkit:UniformItemsLayout MaxColumns="2" HorizontalOptions="Center" >
+            <Border HeightRequest="120" WidthRequest="120" Margin="15"
+                        Stroke="{StaticResource grad}" StrokeThickness="2">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="40,40,40,40" />
+                        </Border.StrokeShape>
+        <Grid>
+        <Image x:Name="ProfileImageBlurred" IsVisible="False" Aspect="AspectFill">
+            <Image.Effects>
+                <uranium:BlurEffect Mode="Dark" AccentOpacity="0.1"/>
+            </Image.Effects>
+        </Image>    
+        <Image x:Name="ProfileImage" Aspect="AspectFill" IsVisible="True">
+            
+        </Image>
+        <ImageButton x:Name="editProfile"  IsVisible="False" Clicked="SelectImageButton_Clicked" WidthRequest="40"
+              Source="imageedit.png"  VerticalOptions="Center" HorizontalOptions="Center" Margin="0,0,0,0">
+                
+        </ImageButton>
+       
+        </Grid> 
+            </Border>
+            <VerticalStackLayout WidthRequest="240"  HeightRequest="51" Padding="40,0,0,0"> 
+                <Label Text="carlslasieer1@gmail.com"  FontSize="12" MaxLines="1" LineBreakMode="NoWrap"  TextColor="White"/>
+                <Label Text="dnXBDX3Nx1diekwU53n9L8aOaTz1" FontSize="12" MaxLines="1" LineBreakMode="NoWrap"  TextColor="White"/>
+            </VerticalStackLayout>
+        <Button Text="Unblur Image" IsVisible="True" Clicked="UnBlurImageButton_Clicked" WidthRequest="120"
+                VerticalOptions="End" HorizontalOptions="Center" Margin="0,0,0,0" />
+        <Button Text="Blur Image" IsVisible="True" Clicked="BlurImageButton_Clicked" WidthRequest="120"
+                VerticalOptions="End" HorizontalOptions="Center" Margin="0,0,0,0" />
+        </toolkit:UniformItemsLayout>
+   
         <!-- Add cropping controls here -->
-    </StackLayout>
+    </ScrollView>
 </ContentPage>

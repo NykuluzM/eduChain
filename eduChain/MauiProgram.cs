@@ -12,7 +12,6 @@ using Supabase;
 using eduChain.Views.ContentPages;
 using epj.RouteGenerator;
 using Plugin.Maui.Audio;
-
 namespace eduChain
 {
 	[AutoRoutes("Page")]
@@ -27,6 +26,7 @@ namespace eduChain
 				.UseMauiApp<App>()
 				.UseUraniumUI()
 				.UseUraniumUIMaterial()
+				.UseUraniumUIBlurs()
 				.ConfigureFonts(fonts =>
 				{
 					fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

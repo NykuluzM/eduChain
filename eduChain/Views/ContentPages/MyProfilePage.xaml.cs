@@ -46,7 +46,9 @@ namespace eduChain.Views.ContentPages{
 
                         // Set the Image Source to the decoded bitmap
                         SKImage image = SKImage.FromBitmap(bitmap);
-                ProfileImage.Source = ImageSource.FromStream(() => image.Encode().AsStream());
+                        ProfileImageBlurred.Source = ImageSource.FromStream(() => image.Encode().AsStream());
+                        ProfileImage.Source = ImageSource.FromStream(() => image.Encode().AsStream());
+
                     }
                 }
             }
@@ -85,7 +87,8 @@ private async void SelectImageButton_Clicked(object sender, EventArgs e)
 
                         // Upload image to Supabase storage
                     if(Preferences.Default.Get("firebase_uid",String.Empty) != String.Empty){
-                        await UploadImageToSupabase(imageBytes,Preferences.Default.Get("firebase_uid", String.Empty));                
+                        await UploadImageToSupabase(imageBytes,Preferences.Default.Get("firebase_uid", String.Empty));
+                                      
                     } else {
                         await Application.Current.MainPage.DisplayAlert("Error", "Please login to upload image", "OK");
                         await Shell.Current.GoToAsync("//loginPage");
@@ -143,6 +146,18 @@ private async Task<byte[]> GetProfilePicAsync()
     return profilePic;
 }
 
+private void BlurImageButton_Clicked(object sender, EventArgs e)
+{
+    ProfileImageBlurred.IsVisible = true;
+    ProfileImage.IsVisible = false;
+    editProfile.IsVisible = true;
+}
+private void UnBlurImageButton_Clicked(object sender, EventArgs e)
+{
+    ProfileImageBlurred.IsVisible = false;
+    ProfileImage.IsVisible = true;
+    editProfile.IsVisible = false;  
+}
 private async Task UploadImageToSupabase(byte[] imageBytes, string firebase_id){
     //Application.Current.MainPage.DisplayAlert("Upload", "Uploading", "OK");
             try{
