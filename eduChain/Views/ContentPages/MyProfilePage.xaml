@@ -1,62 +1,75 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
              x:Class="eduChain.Views.ContentPages.MyProfilePage"
-            xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-            xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
-            xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
              Title="MyProfilePage"
              Shell.NavBarIsVisible="True"
              Background="Black">
+
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Forgot Password?" IconImageSource="profileedit.png" Order="Primary" Priority="0" />   
     </ContentPage.ToolbarItems>
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <LinearGradientBrush x:Key="grad" EndPoint="0,1">
-                <GradientStop Offset = "0" Color="#6C06E6" />
-                <GradientStop Offset = "1" Color="#FF228B" />
+                <GradientStop Offset="0" Color="#6C06E6" />
+                <GradientStop Offset="1" Color="#FF228B" />
             </LinearGradientBrush>
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    
-     
     <ScrollView>
-        
-        <toolkit:UniformItemsLayout MaxColumns="2" HorizontalOptions="Center" >
-            <Border HeightRequest="120" WidthRequest="120" Margin="15"
+        <StackLayout HorizontalOptions="Center" Spacing="10">
+            <!-- Profile Picture and Information -->
+            <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" /> <!-- Profile Picture Column -->
+                    <ColumnDefinition Width="Auto" /> <!-- Spacing Column -->
+                    <ColumnDefinition Width="Auto" /> <!-- Profile Information Column -->
+                </Grid.ColumnDefinitions>
+
+                <!-- Profile Picture -->
+                <Border Grid.Column="0" HeightRequest="105" WidthRequest="105" Margin="15"
                         Stroke="{StaticResource grad}" StrokeThickness="2">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="40,40,40,40" />
-                        </Border.StrokeShape>
-        <Grid>
-        <Image x:Name="ProfileImageBlurred" IsVisible="False" Aspect="AspectFill">
-            <Image.Effects>
-                <uranium:BlurEffect Mode="Dark" AccentOpacity="0.8" AccentColor="Purple" />
-            </Image.Effects>
-        </Image>    
-        <Image x:Name="ProfileImage" Aspect="AspectFill" IsVisible="True">
-            
-        </Image>
-        <ImageButton x:Name="editProfile"  IsVisible="False" Clicked="SelectImageButton_Clicked" WidthRequest="40"
-              Source="profileedit.png" Background="Transparent"  VerticalOptions="Center" HorizontalOptions="Center" Margin="0,0,0,0">
-                
-        </ImageButton>
-       
-        </Grid> 
-            </Border>
-            <VerticalStackLayout WidthRequest="240"  HeightRequest="51" Padding="40,0,0,0"> 
-                <Label Text="carlslasieer1@gmail.com"  FontSize="12" MaxLines="1" LineBreakMode="NoWrap"  TextColor="White"/>
-                <Label Text="dnXBDX3Nx1diekwU53n9L8aOaTz1" FontSize="12" MaxLines="1" LineBreakMode="NoWrap"  TextColor="White"/>
-            </VerticalStackLayout>
-        <Button Text="Unblur Image" IsVisible="True" Clicked="UnBlurImageButton_Clicked" WidthRequest="120"
-                VerticalOptions="End" HorizontalOptions="Center" Margin="0,0,0,0" />
-        <Button Text="Blur Image" IsVisible="True" Clicked="BlurImageButton_Clicked" WidthRequest="120"
-                VerticalOptions="End" HorizontalOptions="Center" Margin="0,0,0,0" />
-        </toolkit:UniformItemsLayout>
-   
-            
-        <!-- Add cropping controls here -->
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="40,40,40,40" />
+                    </Border.StrokeShape>
+                    <Grid>
+                        <Image x:Name="ProfileImageBlurred" Aspect="AspectFill" Source="{Binding ProfilePicture}" IsVisible="False">
+
+                            <Image.Effects>
+                                <uranium:BlurEffect Mode="Dark" AccentOpacity="0.8" AccentColor="Purple" />
+                            </Image.Effects>
+                        </Image>    
+                        <Image x:Name="ProfileImage" Aspect="AspectFill" Source="{Binding ProfileImage}" IsVisible="True"/>
+                        <ImageButton x:Name="editProfile" IsVisible="False" Clicked="SelectImageButton_Clicked" WidthRequest="40"
+                                    Source="profileedit.png" Background="Transparent" VerticalOptions="Center" Margin="0,0,0,0">
+                        </ImageButton>
+                    </Grid>
+                </Border>
+
+                <!-- Spacing -->
+
+                <!-- Profile Information -->
+                <StackLayout Grid.Column="2" Margin="10"
+                             VerticalOptions="Center">
+                    <Label x:Name="EmailLabel" FontSize="12" MaxLines="1" LineBreakMode="NoWrap" TextColor="White"/>
+                    <Label Text="{Binding Profile.FirebaseId}" FontSize="12" MaxLines="1" LineBreakMode="NoWrap" TextColor="White"/>
+                </StackLayout>
+            </Grid>
+
+            <!-- Blur/Unblur Buttons -->
+            <StackLayout Orientation="Horizontal" Margin="10">
+                <Button Text="Unblur Image" IsVisible="True" Clicked="UnBlurImageButton_Clicked" WidthRequest="120"
+                        VerticalOptions="End" HorizontalOptions="Center" Margin="0,0,10,0" />
+                <Button Text="Blur Image" IsVisible="True" Clicked="BlurImageButton_Clicked" WidthRequest="120"
+                        VerticalOptions="End" HorizontalOptions="Center" Margin="0,0,0,0" />
+            </StackLayout>
+
+            <!-- Add more controls as needed -->
+
+        </StackLayout>
     </ScrollView>
 </ContentPage>

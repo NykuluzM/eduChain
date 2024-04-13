@@ -52,9 +52,9 @@ public class MyProfileModel : INotifyPropertyChanged
                             }
     public string FirebaseId { get; set; }
                                 
-     private string _profilePic;
+     private byte[] _profilePic;
     [AllowNull]
-    public string ProfilePic {
+    public byte[] ProfilePic {
                                 get { return _profilePic; }
                                 set
                                 {

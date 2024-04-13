@@ -28,6 +28,7 @@ namespace eduChain.Views.ContentPages{
 			InitializeComponent();
             picker = IPlatformApplication.Current.Services.GetRequiredService<IFilePickerService>();
             _viewModel = new MyProfileViewModel();
+            EmailLabel.Text = Preferences.Get("email", String.Empty);
 
             BindingContext = _viewModel;
 
@@ -36,38 +37,11 @@ namespace eduChain.Views.ContentPages{
         {
             base.OnAppearing();
             //var plp = IPlatformApplication.Current.Services.GetRequiredService<IAudioManager>();
-            LoadProfilePicture();
             //await Shell.Current.Navigation.PushAsync(new LoadingOnePage(plp)); // Push LoadingPage
-            //await _viewModel.LoadProfileAsync(Preferences.Default.Get("firebase_uid", String.Empty));
+            await _viewModel.LoadProfileAsync(Preferences.Default.Get("firebase_uid", String.Empty));
+            await _viewModel.LoadProfilePicture();
+
             //await Shell.Current.Navigation.PopAsync(); // Pop LoadingPage
-        }
- private async void LoadProfilePicture()
-        {
-            try
-            {
-                // Your existing code to fetch the profile picture
-                byte[] profilePic = await GetProfilePicAsync();
-
-                if (profilePic != null)
-                {
-                    // Convert the byte array to an SKBitmap
-                    using (var stream = new MemoryStream(profilePic))
-                    {
-                        SKBitmap bitmap = SKBitmap.Decode(stream);
-
-                        // Set the Image Source to the decoded bitmap
-                        SKImage image = SKImage.FromBitmap(bitmap);
-                        ProfileImageBlurred.Source = ImageSource.FromStream(() => image.Encode().AsStream());
-                        ProfileImage.Source = ImageSource.FromStream(() => image.Encode().AsStream());
-
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Application.Current?.MainPage?.DisplayAlert("Error", ex.Message, "OK");
-                // Handle errors
-            }
         }
 private async void SelectImageButton_Clicked(object sender, EventArgs e)
 {
@@ -189,7 +163,7 @@ private async Task UploadImageToSupabase(byte[] imageBytes, string firebase_id){
             }
             finally{
                 await DatabaseManager.CloseConnectionAsync(); // Close the database connection
-                LoadProfilePicture();
+//                LoadProfilePicture();
 
             }
 }

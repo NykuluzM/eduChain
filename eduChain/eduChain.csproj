@@ -67,6 +67,8 @@
 		<PackageReference Include="epj.RouteGenerator" Version="1.0.1" />
 		<PackageReference Include="FirebaseAuthentication.net" Version="4.1.0" />
 		<PackageReference Include="Ipfs.Core" Version="0.55.0" />
+		<PackageReference Include="Ipfs.Engine" Version="0.13.0" />
+		<PackageReference Include="IpfsShipyard.Ipfs.Core" Version="0.5.0" />
 		<PackageReference Include="IpfsShipyard.Ipfs.Http.Client" Version="0.4.0" />
 		<PackageReference Include="LukeMauiFilePicker" Version="1.1.0" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
