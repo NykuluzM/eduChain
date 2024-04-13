@@ -20,12 +20,12 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <ScrollView HorizontalOptions="Center">
-        <StackLayout HorizontalOptions="Center" Spacing="10" Margin="0,60,0,0">
+    <ScrollView HorizontalOptions="CenterAndExpand">
+        <StackLayout HorizontalOptions="CenterAndExpand" Spacing="10" Margin="0,60,0,0">
             <!-- Profile Picture and Information -->
-            <Grid HorizontalOptions="Center" VerticalOptions="Center">
+            <Grid HorizontalOptions="CenterAndExpand" VerticalOptions="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" /> <!-- Profile Picture Column -->
+                    <ColumnDefinition Width="Auto"  /> <!-- Profile Picture Column -->
                     <ColumnDefinition Width="Auto" /> <!-- Spacing Column -->
                     <ColumnDefinition Width="Auto" /> <!-- Profile Information Column -->
                 </Grid.ColumnDefinitions>
@@ -45,7 +45,7 @@
                         </Image>    
                         <Image x:Name="ProfileImage" Aspect="AspectFill" Source="{Binding ProfileImage}" IsVisible="True"/>
                         <ImageButton x:Name="editProfile" IsVisible="False" Clicked="SelectImageButton_Clicked" WidthRequest="40"
-                                    Source="profileedit.png" Background="Transparent" VerticalOptions="Center" Margin="0,0,0,0">
+                                    Source="profileedit.png" Background="Transparent" VerticalOptions="Center">
                         </ImageButton>
                     </Grid>
                 </Border>
@@ -53,7 +53,7 @@
                 <!-- Spacing -->
 
                 <!-- Profile Information -->
-                <StackLayout Grid.Column="2" Margin="10"
+                <StackLayout Grid.Column="2" Padding="10"
                              VerticalOptions="Center">
                     <Label x:Name="EmailLabel" FontSize="12" MaxLines="1" LineBreakMode="NoWrap" TextColor="White"/>
                     <Label Text="{Binding Profile.FirebaseId}" FontSize="12" MaxLines="1" LineBreakMode="NoWrap" TextColor="White"/>
