@@ -4,8 +4,8 @@
              xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
              x:Class="eduChain.Views.ContentPages.MyProfilePage"
              Title="MyProfilePage"
-             Shell.NavBarIsVisible="True"
-             Background="Black">
+             Shell.BackgroundColor="MediumVioletRed"
+             Background="MediumVioletRed">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Forgot Password?" IconImageSource="profileedit.png" Order="Primary" Priority="0" />   
@@ -20,8 +20,8 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <ScrollView>
-        <StackLayout HorizontalOptions="Center" Spacing="10">
+    <ScrollView HorizontalOptions="Center">
+        <StackLayout HorizontalOptions="Center" Spacing="10" Margin="0,60,0,0">
             <!-- Profile Picture and Information -->
             <Grid HorizontalOptions="Center" VerticalOptions="Center">
                 <Grid.ColumnDefinitions>
@@ -31,7 +31,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Profile Picture -->
-                <Border Grid.Column="0" HeightRequest="105" WidthRequest="105" Margin="15"
+                <Border Grid.Column="0" HeightRequest="105" WidthRequest="105" 
                         Stroke="{StaticResource grad}" StrokeThickness="2">
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="40,40,40,40" />
