@@ -33,7 +33,7 @@
                     </Border.StrokeShape>
                     <Image x:Name="ProfileImage" Source="output.png" Aspect="AspectFill"/>
                 </Border>
-                <Label Grid.Column="1" Grid.Row="0"  Text="Carl Irven Nykuluz" TextColor="Black" FontSize="15" x:Name="Name" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="30" />
+                <Label Grid.Column="1" Grid.Row="0"  Text="{Binding Profile.FullName}" TextColor="Black" FontSize="15" x:Name="Name" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="30" />
                 <Label Grid.Column="1" Grid.Row="0" Margin="0,0,0,5" Text="Student" TextDecorations="Underline" TextColor="Yellow" HeightRequest="20" x:Name="Role" FontSize="15" HorizontalOptions="Center" VerticalOptions="End"/>
             </Grid>
         </Border>
@@ -110,7 +110,7 @@
     </FlyoutItem>
 
 
-    <FlyoutItem Title="School Website" FlyoutDisplayOptions="AsMultipleItems">
+    <FlyoutItem Title="School Website" FlyoutDisplayOptions="AsMultipleItems" IsVisible="False">
         <ShellContent
             Title="Site"
             FlyoutIcon="weblogo.png"
@@ -152,15 +152,17 @@
             Route="ipfsConnectPage"
             />
     </FlyoutItem>
+    <FlyoutItem IsVisible="False">
         <ShellContent
             Icon="profilelogo"
             FlyoutItemIsVisible="False"
             Shell.NavBarIsVisible="{x:OnPlatform Android=True, iOS=True, MacCatalyst=True, WinUI=True}"
             Shell.FlyoutBehavior="Flyout"
+            Shell.TabBarIsVisible="False"
             ContentTemplate="{DataTemplate pages:MyProfilePage}"
             Route="myProfilePage" 
         />
-        
+    </FlyoutItem>
         <ShellContent
             FlyoutItemIsVisible="False"
             Shell.FlyoutBehavior="Disabled"

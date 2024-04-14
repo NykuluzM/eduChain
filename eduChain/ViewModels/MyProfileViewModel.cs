@@ -7,7 +7,8 @@ namespace eduChain.ViewModelsx;
 
 public class MyProfileViewModel : ViewModelBase 
 {
-    private readonly MyProfileService _myProfileService;
+        public Command UpdateProfileCommand { get; private set; }
+
     private MyProfileModel _profile;
 
     private ImageSource _profileImage;
@@ -24,19 +25,13 @@ public class MyProfileViewModel : ViewModelBase
 
     public MyProfileViewModel()
     {
-        var supabaseConnection = IPlatformApplication.Current.Services.GetRequiredService<ISupabaseConnection>();
-        _myProfileService = new MyProfileService(supabaseConnection);
+                UpdateProfileCommand = new Command(async () => await UpdateProfileAsync());
+
     }
-    public MyProfileModel Profile
-        {
-            get { return _profile; }
-            set
-            {
-                _profile = value;
-                OnPropertyChanged(nameof(Profile));
-            }
-        }
-       
+    
+    public async Task UpdateProfileAsync(){
+        await MyProfileService.Instance.UpdateUserProfileAsync(Profile);
+    } 
      public async Task LoadProfilePicture()
         {
             try
@@ -64,11 +59,7 @@ public class MyProfileViewModel : ViewModelBase
                 // Handle errors
             }
         }
-    public async Task LoadProfileAsync(string uid)
-    {
-            Profile = await _myProfileService.GetUserProfileAsync(uid);
-    }
-    
+       
      public byte[] ConvertSKImageToByteArray(SKImage image)
         {
             using (var stream = new MemoryStream())

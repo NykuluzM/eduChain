@@ -1,23 +1,33 @@
 ﻿namespace eduChain;
 using eduChain.Views.ContentPages;
+using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 using Microsoft.Maui.Storage;
 using Nethereum.Model;
 
 public partial class AppShell : Shell
 {
+	AppShellViewModel _viewModel;
+
 	public AppShell()
 	{
 		InitializeComponent();
 		Routing.RegisterRoute(Routes.RegisterPage, typeof(RegisterPage));
 		Routing.RegisterRoute("forgotPasswordPage", typeof(ForgotPasswordPage));
-		this.BindingContext = new AppShellViewModel();
+		_viewModel = new AppShellViewModel();
+		this.BindingContext = _viewModel;
 		//ManipulateFlyoutItemForPlatform(SettingsItem);
 		//ManipulateFlyoutItemForPlatform(IpfsItem);
 		//ManipulateFlyoutItemForPlatform(HomeItem);
 		//ManipulateFlyoutItemForPlatform(ProfileItem);
 	}
-	
-	   private void ManipulateFlyoutItemForPlatform(FlyoutItem flyoutItem)
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+		await _viewModel.LoadProfileAsync(Preferences.Default.Get("firebase_uid", String.Empty));
+		await Shell.Current.DisplayAlert("Welcome", "Welcome to eduChain", "OK");
+    }
+
+    private void ManipulateFlyoutItemForPlatform(FlyoutItem flyoutItem)
         {
             if (flyoutItem != null)
             {
@@ -40,7 +50,8 @@ public partial class AppShell : Shell
 	}
 	private async void ProfileTapped(object sender, EventArgs e)
 	{
-		await Shell.Current.GoToAsync("//myProfilePage");
+		await Shell.Current.Navigation.PushAsync(new MyProfilePage());
+		//await Shell.Current.GoToAsync("//myProfilePage");
 	}
 	/*private void ExpandCollapse(object sender, TappedEventArgs e)
 	{

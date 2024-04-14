@@ -1,14 +1,21 @@
-﻿using  System.Windows.Input;    
+﻿using  System.Windows.Input; 
+using eduChain.Models;  
+using eduChain.Services; 
 namespace eduChain;
 
 public class AppShellViewModel : ViewModelBase
 {
+    private readonly MyProfileService _myProfileService;
     public ICommand LogoutCommand { get; }
 
     public AppShellViewModel()
     {
+         var supabaseConnection = IPlatformApplication.Current.Services.GetRequiredService<ISupabaseConnection>();
+        _myProfileService = new MyProfileService(supabaseConnection);
         LogoutCommand = new Command(ExecuteLogout);
     }
+     private string _fullName;
+    
     async void ExecuteLogout()
     {
         // Handle the logout logic here

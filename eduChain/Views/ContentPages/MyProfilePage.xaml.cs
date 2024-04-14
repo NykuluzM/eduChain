@@ -7,6 +7,7 @@ using System.ComponentModel;
 using eduChain.ViewModels;
 using eduChain.ViewModelsx;
 using Plugin.Maui.Audio;
+using eduChain.Services;
 
 namespace eduChain.Views.ContentPages{
 	public partial class MyProfilePage : ContentPage
@@ -28,10 +29,8 @@ namespace eduChain.Views.ContentPages{
 			InitializeComponent();
             picker = IPlatformApplication.Current.Services.GetRequiredService<IFilePickerService>();
             _viewModel = new MyProfileViewModel();
-            EmailLabel.Text = Preferences.Get("email", String.Empty);
-
+            EmailLabel.Text = "Email: " + Preferences.Get("email", String.Empty);
             BindingContext = _viewModel;
-
 		}
         protected override async void OnAppearing()
         {

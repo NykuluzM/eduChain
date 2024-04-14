@@ -2,74 +2,75 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
+             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
              x:Class="eduChain.Views.ContentPages.MyProfilePage"
              Title="MyProfilePage"
              Shell.BackgroundColor="MediumVioletRed"
+			 Shell.TabBarIsVisible="False"
              Background="MediumVioletRed">
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Forgot Password?" IconImageSource="profileedit.png" Order="Primary" Priority="0" />   
-    </ContentPage.ToolbarItems>
+	<ContentPage.ToolbarItems>
+		<ToolbarItem Text="Forgot Password?" IconImageSource="profileedit.png" Order="Primary" Priority="0" />
+	</ContentPage.ToolbarItems>
 
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <LinearGradientBrush x:Key="grad" EndPoint="0,1">
-                <GradientStop Offset="0" Color="#6C06E6" />
-                <GradientStop Offset="1" Color="#FF228B" />
-            </LinearGradientBrush>
-        </ResourceDictionary>
-    </ContentPage.Resources>
+	<ContentPage.Resources>
+		<ResourceDictionary>
+			<LinearGradientBrush x:Key="grad" EndPoint="0,1">
+				<GradientStop Offset="0" Color="#6C06E6" />
+				<GradientStop Offset="1" Color="#FF228B" />
+			</LinearGradientBrush>
+		</ResourceDictionary>
+	</ContentPage.Resources>
+	<ScrollView>
+		<StackLayout>
+			<Frame BorderColor="Black" CornerRadius="20" WidthRequest="280" Margin="0,30,0,0" BackgroundColor="Black">
+				<VerticalStackLayout Spacing="10" >
+					<Border Grid.Column="0" HeightRequest="105" WidthRequest="105" Margin="0,20,0,0"
+                                            Stroke="{StaticResource grad}" StrokeThickness="2">
+						<Border.StrokeShape>
+							<RoundRectangle CornerRadius="40,40,40,40" />
+						</Border.StrokeShape>
+						<Grid>
+							<Image x:Name="ProfileImageBlurred" Aspect="AspectFill" Source="{Binding ProfilePicture}" IsVisible="False">
 
-    <ScrollView HorizontalOptions="CenterAndExpand">
-        <StackLayout HorizontalOptions="CenterAndExpand" Spacing="10" Margin="0,60,0,0">
-            <!-- Profile Picture and Information -->
-            <Grid HorizontalOptions="CenterAndExpand" VerticalOptions="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"  /> <!-- Profile Picture Column -->
-                    <ColumnDefinition Width="Auto" /> <!-- Spacing Column -->
-                    <ColumnDefinition Width="Auto" /> <!-- Profile Information Column -->
-                </Grid.ColumnDefinitions>
+								<Image.Effects>
+									<uranium:BlurEffect Mode="Dark" AccentOpacity="0.8" AccentColor="Purple" />
+								</Image.Effects>
+							</Image>
+							<Image x:Name="ProfileImage" Aspect="AspectFill" Source="{Binding ProfileImage}" IsVisible="True"/>
+							<ImageButton x:Name="editProfile" IsVisible="False" Clicked="SelectImageButton_Clicked" WidthRequest="40"
+										Source="profileedit.png" Background="Transparent" VerticalOptions="Center">
+							</ImageButton>
+						</Grid>
+					</Border>
+					<StackLayout Grid.Column="2" HorizontalOptions="CenterAndExpand"
+                                        VerticalOptions="Center">
+						<Label x:Name="EmailLabel" FontSize="12" MaxLines="1" LineBreakMode="NoWrap" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center"/>
+						<Label Text="{Binding Profile.FirebaseId, StringFormat='Uid: {0}'}" FontSize="12" MaxLines="1" LineBreakMode="NoWrap" TextColor="White"/>
+					</StackLayout>
+				</VerticalStackLayout>
+			</Frame>
+			<Frame CornerRadius="20" Margin="30,30,30,0" BackgroundColor="Black">
+				<input:FormView HorizontalOptions="FillAndExpand" Padding="15,15,15,15">
+					<toolkit:UniformItemsLayout MaxRows="2" MaxColumns="2">
+						<material:TextField Title="First Name"  Text="{Binding Profile.FirstName, Mode=TwoWay}" Margin="25,20,25,10" IsReadOnly="False" />
+						<material:TextField Title="Last Name"  Text="{Binding Profile.LastName, Mode=TwoWay}" Margin="25,20,25,10" IsReadOnly="True" />
+					</toolkit:UniformItemsLayout>
+					<toolkit:UniformItemsLayout MaxRows="3" MaxColumns="3">
+						<material:TextField Title="Gender"  Text="{Binding Profile.Gender, Mode=TwoWay}" Margin="25,20,25,10" IsReadOnly="True" />
+						<material:TextField Title="Age"  Text="{Binding Profile.Age}" Margin="25,20,25,10" IsReadOnly="True" />
+						<material:TextField Title="Role"  Text="{Binding Profile.Age}" Margin="25,20,25,10" IsReadOnly="True" />
 
-                <!-- Profile Picture -->
-                <Border Grid.Column="0" HeightRequest="105" WidthRequest="105" 
-                        Stroke="{StaticResource grad}" StrokeThickness="2">
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="40,40,40,40" />
-                    </Border.StrokeShape>
-                    <Grid>
-                        <Image x:Name="ProfileImageBlurred" Aspect="AspectFill" Source="{Binding ProfilePicture}" IsVisible="False">
+					</toolkit:UniformItemsLayout>
 
-                            <Image.Effects>
-                                <uranium:BlurEffect Mode="Dark" AccentOpacity="0.8" AccentColor="Purple" />
-                            </Image.Effects>
-                        </Image>    
-                        <Image x:Name="ProfileImage" Aspect="AspectFill" Source="{Binding ProfileImage}" IsVisible="True"/>
-                        <ImageButton x:Name="editProfile" IsVisible="False" Clicked="SelectImageButton_Clicked" WidthRequest="40"
-                                    Source="profileedit.png" Background="Transparent" VerticalOptions="Center">
-                        </ImageButton>
-                    </Grid>
-                </Border>
+                    <toolkit:UniformItemsLayout MaxRows="2" MaxColumns="2">
 
-                <!-- Spacing -->
-
-                <!-- Profile Information -->
-                <StackLayout Grid.Column="2" Padding="10"
-                             VerticalOptions="Center">
-                    <Label x:Name="EmailLabel" FontSize="12" MaxLines="1" LineBreakMode="NoWrap" TextColor="White"/>
-                    <Label Text="{Binding Profile.FirebaseId}" FontSize="12" MaxLines="1" LineBreakMode="NoWrap" TextColor="White"/>
-                </StackLayout>
-            </Grid>
-
-            <!-- Blur/Unblur Buttons -->
-            <StackLayout Orientation="Horizontal" Margin="10">
-                <Button Text="Unblur Image" IsVisible="True" Clicked="UnBlurImageButton_Clicked" WidthRequest="120"
-                        VerticalOptions="End" HorizontalOptions="Center" Margin="0,0,10,0" />
-                <Button Text="Blur Image" IsVisible="True" Clicked="BlurImageButton_Clicked" WidthRequest="120"
-                        VerticalOptions="End" HorizontalOptions="Center" Margin="0,0,0,0" />
-            </StackLayout>
-
-            <!-- Add more controls as needed -->
-
-        </StackLayout>
-    </ScrollView>
+                        <material:TextField Title="Created At"  Text="{Binding Profile.CreatedAt, Mode=TwoWay}" Margin="25,20,25,10" IsReadOnly="True" />
+						<Button  Text="Update Profile" Command="{Binding UpdateProfileCommand}"  Margin="25,20,25,10" />
+                    </toolkit:UniformItemsLayout>
+                </input:FormView>
+			</Frame>
+		</StackLayout>
+	</ScrollView>
 </ContentPage>
