@@ -7,7 +7,17 @@ namespace eduChain.ViewModelsx;
 
 public class MyProfileViewModel : ViewModelBase 
 {
+        readonly IFilePickerService picker;
+         Dictionary<DevicePlatform, IEnumerable<string>> FileType = new()
+                {
+                    { DevicePlatform.Android, new[] { "image/*" } },
+                    { DevicePlatform.iOS, new[] { "public.image" } },
+                    { DevicePlatform.MacCatalyst, new[] { "public.jpeg", "public.png" } },
+                    { DevicePlatform.WinUI, new[] { ".jpg", ".png" } }
+                };
+
         public Command UpdateProfileCommand { get; private set; }
+        public Command EditImageCommand { get; private set; }
 
     private MyProfileModel _profile;
 
@@ -25,7 +35,9 @@ public class MyProfileViewModel : ViewModelBase
 
     public MyProfileViewModel()
     {
+        picker = IPlatformApplication.Current.Services.GetRequiredService<IFilePickerService>();
         UpdateProfileCommand = new Command(async () => await UpdateProfileAsync());
+        EditImageCommand = new Command(async () => await EditImage());
     }
     
     public async Task UpdateProfileAsync(){
@@ -58,16 +70,71 @@ public class MyProfileViewModel : ViewModelBase
                 // Handle errors
             }
         }
-       
-     public byte[] ConvertSKImageToByteArray(SKImage image)
-        {
-            using (var stream = new MemoryStream())
-            {
-                // Encode the SKImage to PNG format and write to the memory stream
-                image.Encode(SKEncodedImageFormat.Png, 100).SaveTo(stream);
+    private async Task EditImage()
+{
+    try
+    {
+        // Select an image from the device
+        var file = await picker.PickFileAsync("Select a file", FileType);
+        if (file is null) { return; }
+        // Set the image source aof SelectedImage
+       // Convert image to byte array
+                using (var stream = await file.OpenReadAsync())
+                {
+                    // using (var memoryStream = new MemoryStream())
+                    // {
+                    //     // SKBitmap bitmap = SKBitmap.Decode(stream);
+                    //     // SKImage image = SKImage.FromBitmap(bitmap);
+                    //     // SelectedImage.Source = ImageSource.FromStream(() => image.Encode().AsStream());
+                    //                         // Decode image and convert to byte array
+                        
+                    // }
 
-                // Return the byte array
-                return stream.ToArray();
-            }
+                    // Upload image to Supabase storage
+                    SKBitmap originalBitmap = SKBitmap.Decode(stream);
+                    SKBitmap resizedBitmap = originalBitmap.Resize(new SKImageInfo(250, 250), SKFilterQuality.High);
+
+                    byte[] imageBytes = resizedBitmap.Encode(SKEncodedImageFormat.Png, 100).ToArray();
+                    await Application.Current.MainPage.DisplayAlert("Upload", Preferences.Default.Get("firebase_uid", String.Empty), "OK");
+
+                        // Upload image to Supabase storage
+                    if(Preferences.Default.Get("firebase_uid",String.Empty) != String.Empty){
+                        await UploadImageToSupabase(imageBytes,Preferences.Default.Get("firebase_uid", String.Empty));
+                    } else {
+                        await Application.Current.MainPage.DisplayAlert("Error", "Please login to upload image", "OK");
+                        await Shell.Current.GoToAsync("//loginPage");
+                    }
+            } 
         }
+    catch (Exception ex)
+    {
+        Application.Current?.MainPage?.DisplayAlert("No Connection", ex.Message, "OK");
+        // Handle errors
+    }
+} 
+
+private async Task UploadImageToSupabase(byte[] imageBytes, string firebase_id){
+    //Application.Current.MainPage.DisplayAlert("Upload", "Uploading", "OK");
+            try{
+                await DatabaseManager.OpenConnectionAsync(); // Open the database connection
+                using (var command = DatabaseManager.Connection.CreateCommand()){
+                    var parameters = command.Parameters;
+                    if(parameters is NpgsqlParameterCollection){
+                        parameters.AddWithValue("firebase_id", firebase_id);
+                        parameters.AddWithValue("profile_pic", imageBytes);
+                        command.CommandText = "UPDATE \"Users\" SET \"profile_pic\" = @profile_pic WHERE \"firebase_id\" = @firebase_id";
+                        await command.ExecuteNonQueryAsync();
+                        await Application.Current.MainPage.DisplayAlert("Upload", "Image uploaded successfully", "OK");
+                        Profile.ProfilePic = imageBytes;
+                    }
+                }
+            } catch(Exception ex){
+                await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+            }
+            finally{
+                await DatabaseManager.CloseConnectionAsync(); // Close the database connection
+
+                LoadProfilePicture();
+            }
+}
 } 

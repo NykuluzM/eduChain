@@ -39,7 +39,7 @@
 								</Image.Effects>
 							</Image>
 							<Image x:Name="ProfileImage" Aspect="AspectFill" Source="{Binding ProfileImage}" IsVisible="True"/>
-							<ImageButton x:Name="editProfile" IsVisible="True" Clicked="SelectImageButton_Clicked" WidthRequest="40"
+							<ImageButton x:Name="editProfile" IsVisible="True" Command="{Binding EditImageCommand}" WidthRequest="40"
 										Source="profileedit.png" Background="Transparent" VerticalOptions="Center">
 							</ImageButton>
 						</Grid>
