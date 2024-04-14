@@ -54,17 +54,17 @@ public partial class LoginPage : ContentPage
             if(result == "Student")
             {
                 var registerPage = new RegisterPage();
-                Shell.Current.Navigation.PushAsync(registerPage);
+                await Shell.Current.Navigation.PushAsync(registerPage);
             }
             else if(result == "Organization")
             {
                 var registerOrgPage = new RegisterOrgPage();
-                Shell.Current.Navigation.PushAsync(registerOrgPage);
+                await Shell.Current.Navigation.PushAsync(registerOrgPage);
             }
             else if(result == "Guardian")
             {
                 var registerPage = new RegisterPage();
-                Shell.Current.Navigation.PushAsync(registerPage);
+                await Shell.Current.Navigation.PushAsync(registerPage);
             }
         }
         private void PasswordForgotten(object sender, EventArgs e){
