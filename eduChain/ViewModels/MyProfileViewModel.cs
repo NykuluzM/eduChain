@@ -25,8 +25,7 @@ public class MyProfileViewModel : ViewModelBase
 
     public MyProfileViewModel()
     {
-                UpdateProfileCommand = new Command(async () => await UpdateProfileAsync());
-
+        UpdateProfileCommand = new Command(async () => await UpdateProfileAsync());
     }
     
     public async Task UpdateProfileAsync(){

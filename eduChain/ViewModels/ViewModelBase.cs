@@ -7,7 +7,6 @@ using System.Runtime.CompilerServices;
     public class ViewModelBase : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler PropertyChanged;
-    bool _isProfileLoaded;
     MyProfileService _myProfileService;
     public ViewModelBase(){
         _myProfileService = MyProfileService.Instance;
@@ -24,11 +23,9 @@ using System.Runtime.CompilerServices;
     
       public async Task LoadProfileAsync(string uid)
         {
-            if (!_isProfileLoaded) // Check if the profile is not loaded
-            {
+           
                 Profile = await _myProfileService.GetUserProfileAsync(uid, MyProfileModel.Instance);
-                _isProfileLoaded = true; // Set the flag to indicate profile is loaded
-            }
+    
         }
     
     protected void OnPropertyChanged([CallerMemberName] string propertyName = null)

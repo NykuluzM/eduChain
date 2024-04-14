@@ -103,8 +103,11 @@ namespace eduChain.ViewModels
                         Preferences.Default.Set("IsLoggedIn", true);
                             Application.Current?.MainPage?.DisplayAlert("Error", "saved", "OK");
                     }                     
-                    Email = string.Empty;
                     Password = string.Empty;
+                    Preferences.Default.Set("email", Email);
+                    Email = string.Empty;
+                    // Navigate to the home page
+                    var homePage = new HomePage();
                     await Shell.Current.GoToAsync("//homePage");
                 }
                 else

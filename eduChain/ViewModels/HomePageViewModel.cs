@@ -1,15 +1,20 @@
 ﻿using System.ComponentModel;
+using eduChain.Models;
 using System.Windows.Input;
+using eduChain;
 
-public class HomePageViewModel
+public class HomePageViewModel : ViewModelBase
 {
     public ICommand LogoutCommand { get; }
+
+    private MyProfileModel _profile;
 
     public HomePageViewModel()
     {
         LogoutCommand = new Command(ExecuteLogout);
-    }
 
+    }
+    
     private async void ExecuteLogout()
     {
         // Handle the logout logic here

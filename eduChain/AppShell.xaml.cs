@@ -25,7 +25,6 @@ public partial class AppShell : Shell
     {
         base.OnAppearing();
 		await _viewModel.LoadProfileAsync(Preferences.Default.Get("firebase_uid", String.Empty));
-		await Shell.Current.DisplayAlert("Welcome", "Welcome to eduChain", "OK");
     }
 
     private void ManipulateFlyoutItemForPlatform(FlyoutItem flyoutItem)

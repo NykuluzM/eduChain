@@ -63,8 +63,8 @@ public partial class LoginPage : ContentPage
             }
             else if(result == "Guardian")
             {
-                var registerPage = new RegisterPage();
-                await Shell.Current.Navigation.PushAsync(registerPage);
+                var registerGuardianPage = new RegisterGuardianPage();
+                await Shell.Current.Navigation.PushAsync(registerGuardianPage);
             }
         }
         private void PasswordForgotten(object sender, EventArgs e){

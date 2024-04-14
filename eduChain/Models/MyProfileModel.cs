@@ -19,6 +19,10 @@ public class MyProfileModel : INotifyPropertyChanged
             }
             return instance;
         }
+        set
+        {
+            instance = value;
+        }
     } 
     public string Email { get; set; }
     private string _firstName;

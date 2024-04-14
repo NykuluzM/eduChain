@@ -203,9 +203,11 @@ public async Task SaveUserDetailsAsync(string uid)
                 pgParameters.AddWithValue("@last_name", LastName);
                 pgParameters.AddWithValue("@gender", Gender);
                 pgParameters.AddWithValue("@birth_date", BirthDate);
+                pgParameters.AddWithValue("@role", "Student");
+
             }
 
-            command.CommandText = "INSERT INTO \"Users\" (\"firebase_id\", \"first_name\", \"last_name\", \"gender\", \"birth_date\") VALUES (@firebase_id, @first_name, @last_name, @gender, @birth_date)";
+            command.CommandText = "INSERT INTO \"Users\" (\"firebase_id\", \"first_name\", \"last_name\", \"gender\", \"birth_date\", \"role\" ) VALUES (@firebase_id, @first_name, @last_name, @gender, @birth_date, @role)";
             await command.ExecuteNonQueryAsync();
             Email = string.Empty;
             Password = string.Empty;
