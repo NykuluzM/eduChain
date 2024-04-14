@@ -4,8 +4,12 @@ using eduChain;
 using eduChain.Models;
 using Firebase.Auth;
 using Microsoft.Maui.Storage;
+using Mopups.Services;
+using CommunityToolkit.Maui.Views;
+using UraniumUI.Dialogs;
+using UraniumUI.Dialogs.CommunityToolkit;
 namespace eduChain.Views.ContentPages{
-public partial class LoginPage : ContentPage
+public partial class LoginPage : ContentPage 
 {
         private readonly FirebaseService _firebaseService;
 
@@ -31,7 +35,7 @@ public partial class LoginPage : ContentPage
             ((LoginViewModel)BindingContext).Login();
 
         }
-        private void RegisterButton_Clicked(object sender, EventArgs e)
+        private async void RegisterButton_Clicked(object sender, EventArgs e)
         {
             NetworkAccess networkAccess = Connectivity.NetworkAccess;
                 if(networkAccess == NetworkAccess.None)
@@ -39,8 +43,29 @@ public partial class LoginPage : ContentPage
                     Application.Current?.MainPage?.DisplayAlert("No Connection", "Lost Internet Connection", "OK");
                     return;
                 }
-            var registerPage = new RegisterPage();
-            Shell.Current.Navigation.PushAsync(registerPage);
+            //var registerPage = new RegisterPage();
+            //this.ShowPopup(new FormatRegPopup());
+            //var result = await DefaultDialogService.
+            //Shell.Current.Navigation.PushAsync(registerPage);
+             var result = await this.DisplayRadioButtonPromptAsync(
+            "Pick your Role",
+            new [] {"Student", "Organization", "Guardian"});
+
+            if(result == "Student")
+            {
+                var registerPage = new RegisterPage();
+                Shell.Current.Navigation.PushAsync(registerPage);
+            }
+            else if(result == "Organization")
+            {
+                var registerOrgPage = new RegisterOrgPage();
+                Shell.Current.Navigation.PushAsync(registerOrgPage);
+            }
+            else if(result == "Guardian")
+            {
+                var registerPage = new RegisterPage();
+                Shell.Current.Navigation.PushAsync(registerPage);
+            }
         }
         private void PasswordForgotten(object sender, EventArgs e){
              var forgotPasswordPage = new ForgotPasswordPage();

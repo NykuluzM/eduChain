@@ -12,6 +12,7 @@ using Supabase;
 using eduChain.Views.ContentPages;
 using epj.RouteGenerator;
 using Plugin.Maui.Audio;
+using Mopups.Hosting;
 namespace eduChain
 {
 	[AutoRoutes("Page")]
@@ -24,6 +25,7 @@ namespace eduChain
 			builder
 				.UseMauiCommunityToolkit()
 				.UseMauiApp<App>()
+				.ConfigureMopups()
 				.UseUraniumUI()
 				.UseUraniumUIMaterial()
 				.UseUraniumUIBlurs()
@@ -45,6 +47,8 @@ namespace eduChain
 			builder.Services.AddTransient<InitializingPage>();
 			builder.Services.AddTransient<RegisterPage>();
 			builder.Services.AddTransient<MyProfilePage>();
+			builder.Services.AddCommunityToolkitDialogs();
+			builder.Services.AddMopupsDialogs();
 			builder.Services.AddFilePicker();
 			builder.ConfigureFilePicker(100);
 			var app = builder.Build();

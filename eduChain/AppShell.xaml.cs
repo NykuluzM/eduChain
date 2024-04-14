@@ -12,6 +12,7 @@ public partial class AppShell : Shell
 	{
 		InitializeComponent();
 		Routing.RegisterRoute(Routes.RegisterPage, typeof(RegisterPage));
+
 		Routing.RegisterRoute("forgotPasswordPage", typeof(ForgotPasswordPage));
 		_viewModel = new AppShellViewModel();
 		this.BindingContext = _viewModel;
