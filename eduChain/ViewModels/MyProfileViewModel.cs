@@ -8,6 +8,7 @@ namespace eduChain.ViewModelsx;
 public class MyProfileViewModel : ViewModelBase 
 {
         readonly IFilePickerService picker;
+        public byte[] imageBytes { get; set;}
          Dictionary<DevicePlatform, IEnumerable<string>> FileType = new()
                 {
                     { DevicePlatform.Android, new[] { "image/*" } },
@@ -16,7 +17,6 @@ public class MyProfileViewModel : ViewModelBase
                     { DevicePlatform.WinUI, new[] { ".jpg", ".png" } }
                 };
 
-        public Command UpdateProfileCommand { get; private set; }
         public Command EditImageCommand { get; private set; }
 
     private MyProfileModel _profile;
@@ -36,12 +36,13 @@ public class MyProfileViewModel : ViewModelBase
     public MyProfileViewModel()
     {
         picker = IPlatformApplication.Current.Services.GetRequiredService<IFilePickerService>();
-        UpdateProfileCommand = new Command(async () => await UpdateProfileAsync());
         EditImageCommand = new Command(async () => await EditImage());
     }
-    
+
     public async Task UpdateProfileAsync(){
         await MyProfileService.Instance.UpdateUserProfileAsync(Profile);
+        await UploadImageToSupabase(imageBytes,Preferences.Default.Get("firebase_uid", String.Empty));
+
     } 
      public async Task LoadProfilePicture()
         {
@@ -94,12 +95,10 @@ public class MyProfileViewModel : ViewModelBase
                     SKBitmap originalBitmap = SKBitmap.Decode(stream);
                     SKBitmap resizedBitmap = originalBitmap.Resize(new SKImageInfo(250, 250), SKFilterQuality.High);
 
-                    byte[] imageBytes = resizedBitmap.Encode(SKEncodedImageFormat.Png, 100).ToArray();
-                    await Application.Current.MainPage.DisplayAlert("Upload", Preferences.Default.Get("firebase_uid", String.Empty), "OK");
+                    imageBytes = resizedBitmap.Encode(SKEncodedImageFormat.Png, 100).ToArray();
 
                         // Upload image to Supabase storage
                     if(Preferences.Default.Get("firebase_uid",String.Empty) != String.Empty){
-                        await UploadImageToSupabase(imageBytes,Preferences.Default.Get("firebase_uid", String.Empty));
                     } else {
                         await Application.Current.MainPage.DisplayAlert("Error", "Please login to upload image", "OK");
                         await Shell.Current.GoToAsync("//loginPage");
@@ -115,6 +114,9 @@ public class MyProfileViewModel : ViewModelBase
 
 private async Task UploadImageToSupabase(byte[] imageBytes, string firebase_id){
     //Application.Current.MainPage.DisplayAlert("Upload", "Uploading", "OK");
+        if(imageBytes == null){
+            return;
+        }
             try{
                 await DatabaseManager.OpenConnectionAsync(); // Open the database connection
                 using (var command = DatabaseManager.Connection.CreateCommand()){
@@ -129,7 +131,7 @@ private async Task UploadImageToSupabase(byte[] imageBytes, string firebase_id){
                     }
                 }
             } catch(Exception ex){
-                await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error Try", $"An error occurred: {ex.Message}", "OK");
             }
             finally{
                 await DatabaseManager.CloseConnectionAsync(); // Close the database connection

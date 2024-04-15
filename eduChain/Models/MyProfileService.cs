@@ -55,6 +55,7 @@ namespace eduChain.Services
                             profile.BirthDate = reader["birth_date"] is DBNull ? null : reader["birth_date"].ToString();
                             profile.CreatedAt = reader["created_at"] is DBNull ? null : reader["created_at"].ToString();
                             profile.FirebaseId = reader["firebase_id"] is DBNull ? null : reader["firebase_id"].ToString();
+                            profile.Role = reader["role"] is DBNull ? null : reader["role"].ToString();
                             profile.ProfilePic = reader["profile_pic"] is DBNull ? null : reader["profile_pic"] as byte[];
                                 // Add other properties as needed
                             await DatabaseManager.CloseConnectionAsync(); 

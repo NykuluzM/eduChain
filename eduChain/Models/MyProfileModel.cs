@@ -124,6 +124,17 @@ public string Age {
                                     }
                                 }
                             }
+    private string _role;
+    public string Role {
+                                get { return _role; }
+                                set
+                                {
+                                    if(_role != value){
+                                        _role = value;
+                                        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Role)));
+                                    }
+                                }
+                            }
     public string FirebaseId { get; set; }
                                 
      private byte[] _profilePic;

@@ -11,7 +11,7 @@
              Background="MediumVioletRed">
 
 	<ContentPage.ToolbarItems>
-		<ToolbarItem Text="Forgot Password?" IconImageSource="profileedit.png" Order="Primary" Priority="0" />
+		<ToolbarItem Text="Forgot Password?" Clicked="EditProfile" IconImageSource="profileedit.png" Order="Primary" Priority="0" />
 	</ContentPage.ToolbarItems>
 
 	<ContentPage.Resources>
@@ -32,14 +32,14 @@
 							<RoundRectangle CornerRadius="40,40,40,40" />
 						</Border.StrokeShape>
 						<Grid>
-							<Image x:Name="ProfileImageBlurred" Aspect="AspectFill" Source="{Binding ProfilePicture}" IsVisible="False">
+							<Image x:Name="ProfileImageBlurred" Aspect="AspectFill" Source="{Binding ProfileImage}" IsVisible="False">
 
 								<Image.Effects>
-									<uranium:BlurEffect Mode="Dark" AccentOpacity="0.8" AccentColor="Purple" />
+									<uranium:BlurEffect Mode="Dark" AccentOpacity="0.1" />
 								</Image.Effects>
 							</Image>
 							<Image x:Name="ProfileImage" Aspect="AspectFill" Source="{Binding ProfileImage}" IsVisible="True"/>
-							<ImageButton x:Name="editProfile" IsVisible="True" Command="{Binding EditImageCommand}" WidthRequest="40"
+							<ImageButton x:Name="editProfile" IsVisible="False" Command="{Binding EditImageCommand}" WidthRequest="40"
 										Source="profileedit.png" Background="Transparent" VerticalOptions="Center">
 							</ImageButton>
 						</Grid>
@@ -54,22 +54,24 @@
 			<Frame CornerRadius="20" Margin="30,30,30,0" BackgroundColor="Black">
 				<input:FormView HorizontalOptions="FillAndExpand" Padding="15,15,15,15">
 					<toolkit:UniformItemsLayout MaxRows="2" MaxColumns="2">
-						<material:TextField Title="First Name"  Text="{Binding Profile.FirstName, Mode=TwoWay}" Margin="25,20,25,10" IsReadOnly="False" />
+						<material:TextField Title="First Name"  Text="{Binding Profile.FirstName, Mode=TwoWay}" Margin="25,20,25,10" IsReadOnly="True" />
 						<material:TextField Title="Last Name"  Text="{Binding Profile.LastName, Mode=TwoWay}" Margin="25,20,25,10" IsReadOnly="True" />
 					</toolkit:UniformItemsLayout>
 					<toolkit:UniformItemsLayout MaxRows="3" MaxColumns="3">
 						<material:TextField Title="Gender"  Text="{Binding Profile.Gender, Mode=TwoWay}" Margin="25,20,25,10" IsReadOnly="True" />
 						<material:TextField Title="Age"  Text="{Binding Profile.Age}" Margin="25,20,25,10" IsReadOnly="True" />
-						<material:TextField Title="Role"  Text="{Binding Profile.Age}" Margin="25,20,25,10" IsReadOnly="True" />
+						<material:TextField Title="Role"  Text="{Binding Profile.Role}" Margin="25,20,25,10" IsReadOnly="True" />
 
 					</toolkit:UniformItemsLayout>
 
                     <toolkit:UniformItemsLayout MaxRows="2" MaxColumns="2">
 
                         <material:TextField Title="Created At"  Text="{Binding Profile.CreatedAt, Mode=TwoWay}" Margin="25,20,25,10" IsReadOnly="True" />
-						<Button  Text="Update Profile" Command="{Binding UpdateProfileCommand}"  Margin="25,20,25,10" />
                     </toolkit:UniformItemsLayout>
                 </input:FormView>
+			</Frame>
+			<Frame Margin="0,20,0,20"  WidthRequest="400">
+				<Button Text="Save Changes" class="Filled" Clicked="SaveChanges" />
 			</Frame>
 		</StackLayout>
 	</ScrollView>
