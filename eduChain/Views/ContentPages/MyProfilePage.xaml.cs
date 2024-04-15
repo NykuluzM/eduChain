@@ -31,7 +31,6 @@ namespace eduChain.Views.ContentPages{
             //var plp = IPlatformApplication.Current.Services.GetRequiredService<IAudioManager>();
             //await Shell.Current.Navigation.PushAsync(new LoadingOnePage(plp)); // Push LoadingPage
             await _viewModel.LoadProfileAsync(Preferences.Default.Get("firebase_uid", String.Empty));
-            await _viewModel.LoadProfilePicture();
             _viewModel.imageBytes = null;
 
             //await Shell.Current.Navigation.PopAsync(); // Pop LoadingPage
