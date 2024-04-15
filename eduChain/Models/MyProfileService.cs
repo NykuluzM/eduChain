@@ -65,6 +65,8 @@ namespace eduChain.Services
                                 profile.Role = reader["role"] is DBNull ? null : reader["role"].ToString();
                                 profile.ProfilePic = reader["profile_pic"] is DBNull ? null : reader["profile_pic"] as byte[];
                                     // Add other properties as needed
+                                await reader.CloseAsync(); // Close the reader
+
                                 await DatabaseManager.CloseConnectionAsync(); 
                                 return profile;
                             }
