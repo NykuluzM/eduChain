@@ -34,6 +34,8 @@ namespace eduChain.Services
                 await DatabaseManager.OpenConnectionAsync();
                 using (var command = DatabaseManager.Connection.CreateCommand())
                 {
+                    command.CommandTimeout = 5; // Example: 30 seconds
+
                     var parameters = command.Parameters;
 
                     if (parameters is NpgsqlParameterCollection pgParameters)
@@ -42,31 +44,46 @@ namespace eduChain.Services
                     }
 
                     command.CommandText = "SELECT * FROM \"Users\" WHERE \"firebase_id\" = @firebase_id";
-                    try{
-                    using (var reader = await command.ExecuteReaderAsync())
+                       const int maxRetries = 3;
+                    int retries = 0;
+
+                    while (retries < maxRetries)
                     {
-                        if (await reader.ReadAsync())
+                        try{
+                        using (var reader = await command.ExecuteReaderAsync())
                         {
-                           
-                            profile.Email = Preferences.Default.Get("email", String.Empty);
-                            profile.FirstName = reader["first_name"] is DBNull ? null : reader["first_name"].ToString();
-                            profile.LastName = reader["last_name"] is DBNull ? null : reader["last_name"].ToString();
-                            profile.Gender = reader["gender"] is DBNull ? null : reader["gender"].ToString();
-                            profile.BirthDate = reader["birth_date"] is DBNull ? null : reader["birth_date"].ToString();
-                            profile.CreatedAt = reader["created_at"] is DBNull ? null : reader["created_at"].ToString();
-                            profile.FirebaseId = reader["firebase_id"] is DBNull ? null : reader["firebase_id"].ToString();
-                            profile.Role = reader["role"] is DBNull ? null : reader["role"].ToString();
-                            profile.ProfilePic = reader["profile_pic"] is DBNull ? null : reader["profile_pic"] as byte[];
-                                // Add other properties as needed
-                            await DatabaseManager.CloseConnectionAsync(); 
-                            return profile;
+                            if (await reader.ReadAsync())
+                            {
+                            
+                                profile.Email = Preferences.Default.Get("email", String.Empty);
+                                profile.FirstName = reader["first_name"] is DBNull ? null : reader["first_name"].ToString();
+                                profile.LastName = reader["last_name"] is DBNull ? null : reader["last_name"].ToString();
+                                profile.Gender = reader["gender"] is DBNull ? null : reader["gender"].ToString();
+                                profile.BirthDate = reader["birth_date"] is DBNull ? null : reader["birth_date"].ToString();
+                                profile.CreatedAt = reader["created_at"] is DBNull ? null : reader["created_at"].ToString();
+                                profile.FirebaseId = reader["firebase_id"] is DBNull ? null : reader["firebase_id"].ToString();
+                                profile.Role = reader["role"] is DBNull ? null : reader["role"].ToString();
+                                profile.ProfilePic = reader["profile_pic"] is DBNull ? null : reader["profile_pic"] as byte[];
+                                    // Add other properties as needed
+                                await DatabaseManager.CloseConnectionAsync(); 
+                                return profile;
+                            }
                         }
-                    }
-                    }
+                        }  catch (TimeoutException)
+                            {
+                                // Retry after delay
+                                retries++;
+                                await Task.Delay(TimeSpan.FromSeconds(3)); // Example delay
+                            }
+                    
                     catch (Exception ex)
                     {
                         await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
                     }
+                    
+                }
+                        await Application.Current.MainPage.DisplayAlert("Error", "Failed to retrieve data after multiple retries.", "OK");
+
                 }
             }
             catch (Exception ex)

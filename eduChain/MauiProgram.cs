@@ -13,6 +13,7 @@ using eduChain.Views.ContentPages;
 using epj.RouteGenerator;
 using Plugin.Maui.Audio;
 using Mopups.Hosting;
+using ZXing.Net.Maui.Controls;
 namespace eduChain
 {
 	[AutoRoutes("Page")]
@@ -29,6 +30,7 @@ namespace eduChain
 				.UseUraniumUI()
 				.UseUraniumUIMaterial()
 				.UseUraniumUIBlurs()
+				.UseBarcodeReader()
 				.ConfigureFonts(fonts =>
 				{
 					fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

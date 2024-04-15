@@ -2,6 +2,7 @@
 using eduChain.Views.ContentPages;
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 using Microsoft.Maui.Storage;
+using eduChain.Models;
 using Nethereum.Model;
 
 public partial class AppShell : Shell

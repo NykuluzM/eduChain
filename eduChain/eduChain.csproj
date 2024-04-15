@@ -91,6 +91,7 @@
 		<PackageReference Include="UraniumUI.Material" Version="2.8.1" />
 		<PackageReference Include="WalletConnect.Web3Wallet" Version="2.3.2" />
 		<MauiImage Update="Resources\Images\homelogo.png" BaseSize="35,35" />
+		<PackageReference Include="ZXing.Net.Maui.Controls" Version="0.4.0" />
 
 	</ItemGroup>
 	<ItemGroup>
