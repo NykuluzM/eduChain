@@ -14,7 +14,8 @@
     <Shell.Resources>
         <ResourceDictionary>
             <LinearGradientBrush x:Key="grad" EndPoint="0,1">
-                <GradientStop Offset = "0" Color="#6C06E6" />
+                <GradientStop
+                 Offset = "0" Color="#6C06E6" />
                 <GradientStop Offset = "1" Color="#FF228B" />
             </LinearGradientBrush>
         </ResourceDictionary>
@@ -31,7 +32,7 @@
                     <Border.StrokeShape>
                         <Ellipse />
                     </Border.StrokeShape>
-                    <Image x:Name="ProfileImage" Source="output.png" Aspect="AspectFill"/>
+                    <Image x:Name="ProfileImage" Source="{Binding Profile.ProfileImage}" Aspect="AspectFill"/>
                 </Border>
                 <Label Grid.Column="1" Grid.Row="0"  Text="{Binding Profile.FullName}" TextColor="Black" FontSize="15" x:Name="Name" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="30" />
                 <Label Grid.Column="1" Grid.Row="0"  Margin="0,0,0,5" Text="{Binding Profile.Role}" TextDecorations="Underline" TextColor="Yellow" HeightRequest="20" x:Name="Role" FontSize="15" HorizontalOptions="Center" VerticalOptions="End"/>

@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
     MyProfileService _myProfileService;
     public ViewModelBase(){
         _myProfileService = MyProfileService.Instance;
+        _profile = MyProfileModel.Instance;
     }
      private MyProfileModel _profile;
     public MyProfileModel Profile
@@ -25,7 +26,7 @@ using System.Runtime.CompilerServices;
         {
            
                 Profile = await _myProfileService.GetUserProfileAsync(uid, MyProfileModel.Instance);
-    
+                
         }
     
     protected void OnPropertyChanged([CallerMemberName] string propertyName = null)

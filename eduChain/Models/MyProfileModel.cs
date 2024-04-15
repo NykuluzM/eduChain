@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-
+using SkiaSharp;
 namespace eduChain.Models;
 
 public class MyProfileModel : INotifyPropertyChanged
@@ -9,6 +9,9 @@ public class MyProfileModel : INotifyPropertyChanged
 
    private static MyProfileModel instance;
     
+    public MyProfileModel(){
+        LoadProfileImage();
+    }
     public static MyProfileModel Instance
     {
         get
@@ -136,7 +139,19 @@ public string Age {
                                 }
                             }
     public string FirebaseId { get; set; }
-                                
+     private ImageSource _profileImage;
+    public ImageSource ProfileImage
+    { 
+        get {  return _profileImage; }
+        set
+        {
+            if (_profileImage != value)
+            {
+                _profileImage = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ProfileImage)));
+            }
+        }
+    }            
      private byte[] _profilePic;
     [AllowNull]
     public byte[] ProfilePic {
@@ -145,9 +160,38 @@ public string Age {
                                 {
                                     if(_profilePic != value){
                                         _profilePic = value;
+                                        LoadProfileImage(); // Call the method to load the profile image when the property is set
+
                                         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ProfilePic)));
                                     }
                                 }
                             }
+
+private async void LoadProfileImage()
+    {
+        try
+        {
+            if (ProfilePic != null)
+            {
+                // Convert the byte array to an SKBitmap
+                using (var stream = new MemoryStream(ProfilePic))
+                {
+                    SKBitmap bitmap = SKBitmap.Decode(stream);
+
+                    // Set the Image Source to the decoded bitmap
+                    SKImage image = SKImage.FromBitmap(bitmap);
+                    ProfileImage = ImageSource.FromStream(() => image.Encode().AsStream());
+                }
+            } else {
+                ProfileImage = "dotnet_bot.png";
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle errors
+            Application.Current?.MainPage?.DisplayAlert("Error", ex.Message, "OK");
+        }
+    }
+
 
 }

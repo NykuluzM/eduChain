@@ -2,13 +2,13 @@
 using eduChain.Models;
 using System.Windows.Input;
 using eduChain;
+using SkiaSharp;
 
 public class HomePageViewModel : ViewModelBase
 {
     public ICommand LogoutCommand { get; }
 
     private MyProfileModel _profile;
-
     public HomePageViewModel()
     {
         LogoutCommand = new Command(ExecuteLogout);

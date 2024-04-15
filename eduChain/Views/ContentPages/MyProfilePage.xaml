@@ -32,13 +32,13 @@
 							<RoundRectangle CornerRadius="40,40,40,40" />
 						</Border.StrokeShape>
 						<Grid>
-							<Image x:Name="ProfileImageBlurred" Aspect="AspectFill" Source="{Binding ProfileImage}" IsVisible="False">
+							<Image x:Name="ProfileImageBlurred" Aspect="AspectFill" Source="{Binding Profile.ProfileImage}" IsVisible="False">
 
 								<Image.Effects>
 									<uranium:BlurEffect Mode="Dark" AccentOpacity="0.1" />
 								</Image.Effects>
 							</Image>
-							<Image x:Name="ProfileImage" Aspect="AspectFill" Source="{Binding ProfileImage}" IsVisible="True"/>
+							<Image x:Name="ProfileImage" Aspect="AspectFill" Source="{Binding Profile.ProfileImage}" IsVisible="True"/>
 							<ImageButton x:Name="editProfile" IsVisible="False" Command="{Binding EditImageCommand}" WidthRequest="40"
 										Source="profileedit.png" Background="Transparent" VerticalOptions="Center">
 							</ImageButton>
