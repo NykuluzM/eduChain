@@ -27,14 +27,14 @@
                 <TapGestureRecognizer Tapped="ProfileTapped" />
             </Border.GestureRecognizers>
             <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto" BackgroundColor="#41406d">
-                <Border Grid.Column="0" HeightRequest="65" WidthRequest="65"
+                <Border Grid.Column="0" HeightRequest="65" WidthRequest="65" Margin="15,0,0,0"
                     Stroke="{StaticResource grad}" StrokeThickness="2">
                     <Border.StrokeShape>
                         <Ellipse />
                     </Border.StrokeShape>
                     <Image x:Name="ProfileImage" Source="{Binding Profile.ProfileImage}" Aspect="AspectFill"/>
                 </Border>
-                <Label Grid.Column="1" Grid.Row="0"  Text="{Binding Profile.FullName}" TextColor="Black" FontSize="15" x:Name="Name" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="30" />
+                <Label Grid.Column="1" Grid.Row="0"  Text="{Binding Profile.FullName}" TextColor="Black" FontSize="15" x:Name="Name" HorizontalOptions="Center" VerticalOptions="Center" Margin="10" HeightRequest="30" />
                 <Label Grid.Column="1" Grid.Row="0"  Margin="0,0,0,5" Text="{Binding Profile.Role}" TextDecorations="Underline" TextColor="Yellow" HeightRequest="20" x:Name="Role" FontSize="15" HorizontalOptions="Center" VerticalOptions="End"/>
             </Grid>
         </Border>
@@ -179,7 +179,8 @@
         </Grid.RowDefinitions>
 
         <!-- Button in the first row -->
-        <Button x:Name="Logout" MinimumWidthRequest="150" FontSize="15" Text="Logout" Clicked="OnLogoutClicked" HorizontalOptions="CenterAndExpand" Margin="0,0,0,30" 
+        <Button x:Name="Logout" MinimumWidthRequest="150" FontSize="15" Text="Logout" Command="{Binding LogoutCommand}" HorizontalOptions="CenterAndExpand" Margin="0,0,0,30" 
+    
                 Grid.Row="0"/>
 
         <!-- Existing content in the second row -->

@@ -8,25 +8,35 @@ public class MyProfileModel : INotifyPropertyChanged
     public event PropertyChangedEventHandler PropertyChanged;
 
    private static MyProfileModel instance;
+    private static readonly object lockObject = new object();
+
     
     public MyProfileModel(){
         LoadProfileImage();
     }
-    public static MyProfileModel Instance
-    {
-        get
+    
+        public static MyProfileModel Instance
         {
-            if (instance == null)
+            get
             {
-                instance = new MyProfileModel();
+                if (instance == null)
+                {
+                    lock (lockObject)
+                    {
+                        if (instance == null)
+                        {
+                            instance = new MyProfileModel();
+                        }
+                    }
+                }
+                return instance;
             }
-            return instance;
+            set
+            {
+                instance = value;
+            }
         }
-        set
-        {
-            instance = value;
-        }
-    } 
+
     public string Email { get; set; }
     private string _firstName;
     public string FirstName { 

@@ -78,20 +78,14 @@ namespace eduChain.Services
                                 await Task.Delay(TimeSpan.FromSeconds(3)); // Example delay
                             }
                     
-                    catch (Exception ex)
-                    {
-                        await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
-                    }
+            
                     
                 }
                         await Application.Current.MainPage.DisplayAlert("Error", "Failed to retrieve data after multiple retries.", "OK");
 
                 }
             }
-            catch (Exception ex)
-            {
-                await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
-            }
+        
             finally
             {
                 await DatabaseManager.CloseConnectionAsync();

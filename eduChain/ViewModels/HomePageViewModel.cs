@@ -12,9 +12,9 @@ public class HomePageViewModel : ViewModelBase
     public HomePageViewModel()
     {
         LogoutCommand = new Command(ExecuteLogout);
+        LoadProfileAsync(Preferences.Default.Get("firebase_uid", string.Empty));
 
     }
-    
     private async void ExecuteLogout()
     {
         // Handle the logout logic here
