@@ -27,7 +27,7 @@
                 <TapGestureRecognizer Tapped="ProfileTapped" />
             </Border.GestureRecognizers>
             <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto" BackgroundColor="#41406d">
-                <Border Grid.Column="0" HeightRequest="65" WidthRequest="65" Margin="20,5,0,10"
+                <Border Grid.Column="0" HeightRequest="65" WidthRequest="65" Margin="10,5,0,10"
                     Stroke="{StaticResource grad}" StrokeThickness="2">
                     <Border.StrokeShape>
                         <Ellipse />
@@ -46,7 +46,7 @@
                     </Label.Triggers>
                 </Label>
                 <Border Grid.Column="1" Grid.Row="0" Background="Black"  Margin="0,25,0,0" Stroke="{StaticResource grad}" StrokeThickness="2" HeightRequest="20" HorizontalOptions="Center" VerticalOptions="End">
-                <Label  Text="{Binding Profile.Role}" Padding="20,0,20,0" TextDecorations="Underline" TextColor="Yellow"  x:Name="Role" FontSize="15"  HorizontalOptions="Center" VerticalOptions="End"/>
+                <Label  Text="{Binding Profile.Role}" Padding="20,0,20,0" TextDecorations="Underline" TextColor="Yellow"  x:Name="Role" FontSize="12"  HorizontalOptions="Center" VerticalOptions="End"/>
                 </Border>
             </Grid>
         </Border>

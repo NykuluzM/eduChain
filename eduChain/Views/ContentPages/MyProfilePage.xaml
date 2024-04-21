@@ -11,7 +11,7 @@
              Background="MediumVioletRed">
 
 	<ContentPage.ToolbarItems>
-		<ToolbarItem Text="Forgot Password?" Clicked="EditProfile" IconImageSource="profileedit.png" Order="Primary" Priority="0" />
+		<ToolbarItem Text="Edit Profile" Clicked="EditProfile" IconImageSource="profileedit.png" Order="Primary" Priority="0" />
 	</ContentPage.ToolbarItems>
 
 	<ContentPage.Resources>
