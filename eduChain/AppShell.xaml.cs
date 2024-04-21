@@ -22,7 +22,7 @@ public partial class AppShell : Shell
 	private async void ProfileTapped(object sender, EventArgs e)
 	{
 		if(Preferences.Default.Get("Role", String.Empty) == "Student"){
-			await Shell.Current.Navigation.PushAsync(new MyProfilePage());
+			await Shell.Current.Navigation.PushAsync(new StudentProfilePage());
 		}
 		else if(Preferences.Default.Get("Role", String.Empty) == "Organization"){
 			await Shell.Current.Navigation.PushAsync(new OrganizationProfilePage());
@@ -30,9 +30,7 @@ public partial class AppShell : Shell
 		else if(Preferences.Default.Get("Role", String.Empty) == "Guardian"){
 			await Shell.Current.Navigation.PushAsync(new GuardianProfilePage());
 		}
-		else{
-			await Shell.Current.Navigation.PushAsync(new MyProfilePage());
-		}
+		
 	}
 	
 }

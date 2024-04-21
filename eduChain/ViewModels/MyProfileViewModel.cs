@@ -3,11 +3,13 @@ using eduChain.Services;
 using LukeMauiFilePicker;
 using SkiaSharp;
 using Npgsql;
+using eduChain.Models.MyProfileModels;
 namespace eduChain.ViewModelsx;
 
 public class MyProfileViewModel : ViewModelBase 
 {
         readonly IFilePickerService picker;
+        MyProfileService _myProfileService = MyProfileService.Instance;
         public byte[] imageBytes { get; set;}
          Dictionary<DevicePlatform, IEnumerable<string>> FileType = new()
                 {
@@ -26,9 +28,26 @@ public class MyProfileViewModel : ViewModelBase
         picker = IPlatformApplication.Current.Services.GetRequiredService<IFilePickerService>();
         EditImageCommand = new Command(async () => await EditImage());
     }
+    public async Task LoadProfileAsync(string uid, StudentProfileModel _studentProfile)
+    {   
+            StudentProfile = await _myProfileService.StudentUserProfileAsync(uid, _studentProfile);
+    }
+    // public async Task LoadProfileAsync(string uid, OrganizationProfileModel _organizationProfile)
+    // {
+    //     OrganizationProfile = await _myProfileService.OrganizationUserProfileAsync(uid, _organizationProfile);
+    // }
 
+    private StudentProfileModel _studentProfile;
+    public StudentProfileModel StudentProfile
+    {
+        get { return _studentProfile; }
+        set
+        {
+        SetProperty(ref _studentProfile, value);
+        }
+    }
     public async Task UpdateProfileAsync(){
-        await MyProfileService.Instance.UpdateUserProfileAsync(Profile);
+        await MyProfileService.Instance.UpdateStudentUserProfileAsync(StudentProfile);
         await UploadImageToSupabase(imageBytes,Preferences.Default.Get("firebase_uid", String.Empty));
 
     } 
@@ -77,7 +96,9 @@ private async Task UploadImageToSupabase(byte[] imageBytes, string firebase_id){
                         command.CommandText = "UPDATE \"Users\" SET \"profile_pic\" = @profile_pic WHERE \"firebase_id\" = @firebase_id";
                         await command.ExecuteNonQueryAsync();
                          
-                        Profile.ProfilePic = imageBytes;
+                        UsersProfile.ProfilePic = imageBytes;
+                        await Application.Current.MainPage.DisplayAlert("Success", "Profile Updated", "OK");
+
                     }
                 }
             } catch(Exception ex){

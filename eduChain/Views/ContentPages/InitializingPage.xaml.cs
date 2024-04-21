@@ -53,7 +53,6 @@ public partial class InitializingPage : ContentPage
 				try{
 				var userCredential = await firebaseAuthClient.SignInWithEmailAndPasswordAsync(Preferences.Default.Get("email", ""), Preferences.Default.Get("password", ""));
 				Preferences.Default.Set("firebase_uid", userCredential.User.Uid);
-
 				await Shell.Current.GoToAsync("//homePage");
 				}
 				catch(FirebaseAuthException){

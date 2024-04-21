@@ -28,9 +28,8 @@ namespace eduChain.Services
                 return instance;
             }
         }
-        public async Task<MyProfileModel> GetUserProfileAsync(string uid, MyProfileModel profile)
+        public async Task<StudentProfileModel> StudentUserProfileAsync(string uid, StudentProfileModel profile)
         {
-            var role = await GetUserRoleAsync(uid);
             try
             {
                 await DatabaseManager.OpenConnectionAsync();
@@ -43,13 +42,11 @@ namespace eduChain.Services
                     {
                         pgParameters.AddWithValue("@firebase_id", uid);
                     }
-                     switch (role){
-                        case "Student":
-                            string sqlQuery = @"
-                                                SELECT u.*, s.*
-                                                FROM ""Users"" u
-                                                INNER JOIN ""Students"" s ON u.""firebase_id"" = s.""user_firebase_id""
-                                                WHERE u.""firebase_id"" = @firebase_id";
+                    
+                           string sqlQuery = @"
+                                                SELECT *
+                                                FROM ""Students""
+                                                WHERE ""user_firebase_id"" = @firebase_id";
                             command.CommandText = sqlQuery;
                             try{
                             using (var reader = await command.ExecuteReaderAsync())
@@ -62,10 +59,7 @@ namespace eduChain.Services
                                     profile.LastName = reader["last_name"] is DBNull ? null : reader["last_name"].ToString();
                                     profile.Gender = reader["gender"] is DBNull ? null : reader["gender"].ToString();
                                     profile.BirthDate = reader["birth_date"] is DBNull ? null : reader["birth_date"].ToString();
-                                    profile.CreatedAt = reader["created_at"] is DBNull ? null : reader["created_at"].ToString();
-                                    profile.FirebaseId = reader["firebase_id"] is DBNull ? null : reader["firebase_id"].ToString();
-                                    profile.Role = reader["role"] is DBNull ? null : reader["role"].ToString();
-                                    profile.ProfilePic = reader["profile_pic"] is DBNull ? null : reader["profile_pic"] as byte[];
+                                    profile.FirebaseId = reader["user_firebase_id"] is DBNull ? null : reader["user_firebase_id"].ToString();
                                         // Add other properties as needed
                                     await reader.CloseAsync(); // Close the reader
 
@@ -78,53 +72,14 @@ namespace eduChain.Services
                                 // Retry after delay
                                 await Task.Delay(TimeSpan.FromSeconds(3)); // Example delay
                             }
-                            break;
-                        case "Organization":
-                            string organizationSqlQuery = @"
-                                                            SELECT u.*, o.*
-                                                            FROM ""Users"" u
-                                                            INNER JOIN ""Organizations"" o ON u.""firebase_id"" = o.""user_firebase_id""
-                                                            WHERE u.""firebase_id"" = @firebase_id"; 
-                            command.CommandText = organizationSqlQuery;
-                            try
+                            catch (Exception ex)
                             {
-                                using (var reader = await command.ExecuteReaderAsync())
-                                {
-                                    if (await reader.ReadAsync())
-                                    {
-                                        profile.Email = Preferences.Default.Get("email", String.Empty);
-                                        // Update other profile properties based on the organization data
-                                        profile.OrgName = reader["name"] is DBNull ? null : reader["name"].ToString();
-                                        profile.FirebaseId = reader["firebase_id"] is DBNull ? null : reader["firebase_id"].ToString();
-                                        profile.Role = reader["role"] is DBNull ? null : reader["role"].ToString();
-                                        profile.ProfilePic = reader["profile_pic"] is DBNull ? null : reader["profile_pic"] as byte[];
-                                        // Add other properties as needed
-                                        await reader.CloseAsync(); // Close the reader
-                                        await DatabaseManager.CloseConnectionAsync();
-                                        return profile;
-                                    }
-                                }
+                                // Handle the exception appropriately
+                                await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
                             }
-                            catch (TimeoutException)
-                            {
-                                // Retry after delay
-                                await Task.Delay(TimeSpan.FromSeconds(3)); // Example delay
-                            }
-                            break;
-                        case "Guardian":
-                            command.CommandText = "SELECT * FROM \"Guardians\" WHERE \"firebase_id\" = @firebase_id";
-                            break;      
-                        default:
-                            command.CommandText = "SELECT * FROM \"Users\" WHERE \"firebase_id\" = @firebase_id";
-                            break;
-                    }
-                     
-                      
-                    
-                }
+                        }
                         await Application.Current.MainPage.DisplayAlert("Error", "Failed to retrieve data after multiple retries.", "OK");
-
-            }
+                    }
         
             finally
             {
@@ -134,7 +89,7 @@ namespace eduChain.Services
             return null;
         }
 
-         public async Task UpdateUserProfileAsync(MyProfileModel profile)
+         public async Task UpdateStudentUserProfileAsync(StudentProfileModel profile)
         {
             try
             {
@@ -232,6 +187,7 @@ namespace eduChain.Services
                
             }
         }
+        Preferences.Default.Set("Role", profile.Role);
         await DatabaseManager.CloseConnectionAsync();
         return profile;
         }

@@ -155,17 +155,7 @@
             Route="ipfsConnectPage"
             />
     </FlyoutItem>
-    <FlyoutItem IsVisible="False">
-        <ShellContent
-            Icon="profilelogo"
-            FlyoutItemIsVisible="False"
-            Shell.NavBarIsVisible="{x:OnPlatform Android=True, iOS=True, MacCatalyst=True, WinUI=True}"
-            Shell.FlyoutBehavior="Flyout"
-            Shell.TabBarIsVisible="False"
-            ContentTemplate="{DataTemplate pages:MyProfilePage}"
-            Route="myProfilePage" 
-        />
-    </FlyoutItem>
+    
         <ShellContent
             FlyoutItemIsVisible="False"
             Shell.FlyoutBehavior="Disabled"

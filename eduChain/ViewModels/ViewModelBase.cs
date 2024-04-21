@@ -11,7 +11,6 @@ using System.Runtime.CompilerServices;
     MyProfileService _myProfileService;
     public ViewModelBase(){
         _myProfileService = MyProfileService.Instance;
-        _profile = MyProfileModel.Instance;
         _usersProfile = UsersProfileModel.Instance;
     }
     private UsersProfileModel _usersProfile;
@@ -23,24 +22,7 @@ using System.Runtime.CompilerServices;
             SetProperty(ref _usersProfile, value);
         }
     }
-     private MyProfileModel _profile;
-    public MyProfileModel Profile
-        {
-            get { return _profile; }
-            set
-            {
-                _profile = value;
-                OnPropertyChanged(nameof(Profile));            }
-        }
-    private StudentProfileModel _studentProfile;
-  public StudentProfileModel StudentProfile
-  {
-    get { return _studentProfile; }
-    set
-    {
-      SetProperty(ref _studentProfile, value);
-    }
-  }
+ 
 
   private OrganizationProfileModel _organizationProfile;
   public OrganizationProfileModel OrganizationProfile
@@ -64,12 +46,7 @@ using System.Runtime.CompilerServices;
     public async Task LoadUsers(string uid){
         UsersProfile = await _myProfileService.LoadUserAsync(uid, UsersProfileModel.Instance);
     }
-      public async Task LoadProfileAsync(string uid)
-        {
-                MyProfileModel.Instance.ProfileImage = "profiledefault.png";
-                Profile = await _myProfileService.GetUserProfileAsync(uid, MyProfileModel.Instance);
-                
-        }
+     
     
     protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
     {
