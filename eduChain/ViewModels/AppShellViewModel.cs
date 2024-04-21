@@ -19,6 +19,7 @@ public class AppShellViewModel : ViewModelBase
     {
         // Handle the logout logic here
        Preferences.Default.Clear();
-        await Shell.Current.GoToAsync("//loginPage");
+       MyProfileModel.Instance.ProfileImage = "profiledefault.png";
+       await Shell.Current.GoToAsync("//loginPage");
     }
 }

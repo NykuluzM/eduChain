@@ -176,7 +176,17 @@ public string Age {
                                     }
                                 }
                             }
-
+    private string _orgName;
+    public string OrgName {
+                                get { return _orgName; }
+                                set
+                                {
+                                    if(_orgName != value){
+                                        _orgName = value;
+                                        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(OrgName)));
+                                    }
+                                }
+                            }
 private async void LoadProfileImage()
     {
         try
@@ -193,7 +203,7 @@ private async void LoadProfileImage()
                     ProfileImage = ImageSource.FromStream(() => image.Encode().AsStream());
                 }
             } else {
-                ProfileImage = "dotnet_bot.png";
+                ProfileImage = ImageSource.FromFile("profiledefault.png");
             }
         }
         catch (Exception ex)

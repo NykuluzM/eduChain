@@ -42,27 +42,26 @@ public partial class LoginPage : ContentPage
                 {
                     Application.Current?.MainPage?.DisplayAlert("No Connection", "Lost Internet Connection", "OK");
                     return;
-                }
-            //var registerPage = new RegisterPage();
-            //this.ShowPopup(new FormatRegPopup());
-            //var result = await DefaultDialogService.
-            //Shell.Current.Navigation.PushAsync(registerPage);
+                } 
              var result = await this.DisplayRadioButtonPromptAsync(
             "Pick your Role",
             new [] {"Student", "Organization", "Guardian"});
 
             if(result == "Student")
             {
+                Preferences.Set("Role", "Student");
                 var registerPage = new RegisterPage();
                 await Shell.Current.Navigation.PushAsync(registerPage);
             }
             else if(result == "Organization")
             {
+                Preferences.Set("Role", "Organization");
                 var registerOrgPage = new RegisterOrgPage();
                 await Shell.Current.Navigation.PushAsync(registerOrgPage);
             }
             else if(result == "Guardian")
             {
+                Preferences.Set("Role", "Guardian");
                 var registerGuardianPage = new RegisterGuardianPage();
                 await Shell.Current.Navigation.PushAsync(registerGuardianPage);
             }

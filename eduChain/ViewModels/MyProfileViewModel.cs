@@ -39,20 +39,9 @@ public class MyProfileViewModel : ViewModelBase
         // Select an image from the device
         var file = await picker.PickFileAsync("Select a file", FileType);
         if (file is null) { return; }
-        // Set the image source aof SelectedImage
        // Convert image to byte array
                 using (var stream = await file.OpenReadAsync())
                 {
-                    // using (var memoryStream = new MemoryStream())
-                    // {
-                    //     // SKBitmap bitmap = SKBitmap.Decode(stream);
-                    //     // SKImage image = SKImage.FromBitmap(bitmap);
-                    //     // SelectedImage.Source = ImageSource.FromStream(() => image.Encode().AsStream());
-                    //                         // Decode image and convert to byte array
-                        
-                    // }
-
-                    // Upload image to Supabase storage
                     SKBitmap originalBitmap = SKBitmap.Decode(stream);
                     SKBitmap resizedBitmap = originalBitmap.Resize(new SKImageInfo(250, 250), SKFilterQuality.High);
 
@@ -87,7 +76,7 @@ private async Task UploadImageToSupabase(byte[] imageBytes, string firebase_id){
                         parameters.AddWithValue("profile_pic", imageBytes);
                         command.CommandText = "UPDATE \"Users\" SET \"profile_pic\" = @profile_pic WHERE \"firebase_id\" = @firebase_id";
                         await command.ExecuteNonQueryAsync();
-                        await Application.Current.MainPage.DisplayAlert("Upload", "Image uploaded successfully", "OK");
+                         
                         Profile.ProfilePic = imageBytes;
                     }
                 }

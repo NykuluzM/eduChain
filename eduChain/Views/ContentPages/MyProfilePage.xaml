@@ -54,7 +54,7 @@
 			<Frame CornerRadius="20" Margin="30,30,30,0" BackgroundColor="Black">
 				<input:FormView HorizontalOptions="FillAndExpand" Padding="15,15,15,15">
 					<toolkit:UniformItemsLayout MaxRows="2" MaxColumns="2">
-						<material:TextField Title="First Name"  Text="{Binding Profile.FirstName, Mode=TwoWay}" Margin="25,20,25,10" IsReadOnly="True" />
+						<material:TextField x:Name="fName" Title="First Name"  Text="{Binding Profile.FirstName, Mode=TwoWay}" Margin="25,20,25,10" IsReadOnly="True" />
 						<material:TextField Title="Last Name"  Text="{Binding Profile.LastName, Mode=TwoWay}" Margin="25,20,25,10" IsReadOnly="True" />
 					</toolkit:UniformItemsLayout>
 					<toolkit:UniformItemsLayout MaxRows="3" MaxColumns="3">
@@ -70,8 +70,8 @@
                     </toolkit:UniformItemsLayout>
                 </input:FormView>
 			</Frame>
-			<Frame Margin="0,20,0,20"  WidthRequest="400">
-				<Button Text="Save Changes" class="Filled" Clicked="SaveChanges" />
+			<Frame Margin="0,20,0,20"  WidthRequest="400" x:Name="saveButton" IsVisible="False">
+				<Button  Text="Save Changes" class="Filled" Clicked="SaveChanges" />
 			</Frame>
 		</StackLayout>
 	</ScrollView>

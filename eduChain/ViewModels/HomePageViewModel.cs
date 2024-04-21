@@ -7,15 +7,24 @@ using SkiaSharp;
 public class HomePageViewModel : ViewModelBase
 {
     public ICommand LogoutCommand { get; }
-
     private MyProfileModel _profile;
+
+    private bool _isLoading = true;
+    public bool IsLoading
+    {
+        get { return _isLoading; }
+        set
+        {
+            _isLoading = value;
+            OnPropertyChanged(nameof(IsLoading));
+        }
+    }
+
     public HomePageViewModel()
     {
         LogoutCommand = new Command(ExecuteLogout);
-        LoadProfileAsync(Preferences.Default.Get("firebase_uid", string.Empty));
-
     }
-    private async void ExecuteLogout()
+       private async void ExecuteLogout()
     {
         // Handle the logout logic here
         Preferences.Default.Set("email", string.Empty);

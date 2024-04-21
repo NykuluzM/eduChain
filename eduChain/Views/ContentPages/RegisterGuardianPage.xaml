@@ -9,13 +9,14 @@
              Title="RegisterGuardianPage">
     <ScrollView>
         <VerticalStackLayout>
-            <material:TextField Title="Organization Name"  Margin="25,20,25,10" />
-            <material:TextField Title="Type"  Margin="25,20,25,10" />
-            <material:TextField Title="Contact Email"  Margin="25,20,25,10" />
-            <material:TextField Title="Contact Email"  Margin="25,20,25,10" />
-            <material:TextField Title="Password"  Margin="25,20,25,10" />
+            
+            <material:TextField Title="Organization Name" Text="{Binding Name}" Margin="25,20,25,10" />
+            <material:TextField Title="Type" Text="{Binding Type}"  Margin="25,20,25,10" />
+            
+            <material:TextField Title="Email" Text="{Binding Email}" Margin="25,20,25,10" />
+            <material:TextField Title="Password" Text="{Binding Password}"  Margin="25,20,25,10" />
             <material:TextField Title="Confirm Password"  Margin="25,20,25,10" />
-            <Button Text="Register" Margin="25,20,25,10" />
+            <Button Text="Register" Command="{Binding RegisterCommand}" Margin="25,20,25,10" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

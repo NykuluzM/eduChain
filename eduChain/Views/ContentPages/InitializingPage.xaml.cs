@@ -16,7 +16,8 @@ public partial class InitializingPage : ContentPage
     public InitializingPage(IAudioManager audioManager)
 	{
 		firebaseAuthClient = firebaseService.GetFirebaseAuthClient();
-		this.audioManager = audioManager; 
+		this.audioManager = audioManager;
+		Preferences.Default.Set("isloaded", "false"); 
 		InitializeComponent();
 		CheckisLoggedIn();
 	}

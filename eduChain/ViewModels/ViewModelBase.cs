@@ -24,7 +24,7 @@ using System.Runtime.CompilerServices;
     
       public async Task LoadProfileAsync(string uid)
         {
-           
+                MyProfileModel.Instance.ProfileImage = "profiledefault.png";
                 Profile = await _myProfileService.GetUserProfileAsync(uid, MyProfileModel.Instance);
                 
         }

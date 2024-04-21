@@ -41,6 +41,8 @@ private void EditProfile(object sender, EventArgs e)
     ProfileImageBlurred.IsVisible = true;
     ProfileImage.IsVisible = false;
     editProfile.IsVisible = true;
+    fName.IsReadOnly = false;
+    saveButton.IsVisible = true;    
 }
 
 private async void SaveChanges(object sender, EventArgs e)

@@ -58,8 +58,7 @@
                             <ur:DatePickerField Title="Birth Date" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" MinimumWidthRequest="250"
                                     Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Alarm}}" Date="{Binding BirthDate}">
                                 <validation:RequiredValidation />
-                                <validation:MinValueValidation MinValue="1/1/1970" Message="Age must be lesser than 50"/>
-                                <validation:MaxValueValidation MaxValue="1/1/2024" Message="Age must be greater than 1" />
+                                <validation:MaxValueValidation MaxValue="1/1/2020" Message="Age must be 4 Minimum" />
                             </ur:DatePickerField>
                         </input:FormView>        
                     </toolkit:UniformItemsLayout>
@@ -71,7 +70,7 @@
                             <validation:RequiredValidation />
                             <validation:RegexValidation Pattern="^(?:\s*|(?:[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}))$" Message="Email must be valid" />
                         </ur:TextField>
-                        <ur:TextField Title="Password" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" IsPassword="True" Text="{Binding Password}"
+                        <ur:TextField Title="Password" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" IsPassword="True" Text="{Binding Password, Mode=TwoWay}"
                             Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Password}}">
 
                             <validation:RequiredValidation />

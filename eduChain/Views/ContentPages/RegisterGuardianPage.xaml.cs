@@ -6,4 +6,9 @@ public partial class RegisterGuardianPage : ContentPage
 	{
 		InitializeComponent();
 	}
+	protected override void OnDisappearing()
+	{
+		base.OnDisappearing();
+		BindingContext = null;	
+	}
 }

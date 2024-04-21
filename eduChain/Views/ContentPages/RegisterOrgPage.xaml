@@ -3,17 +3,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="eduChain.Views.ContentPages.RegisterOrgPage"
             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
-
+            xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
+            xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
+             xmlns:local="clr-namespace:eduChain.ViewModels;assembly=eduChain"
              Title="RegisterOrgPage">
     <ScrollView>
         <VerticalStackLayout>
-            <material:TextField Title="Organization Name"  Margin="25,20,25,10" />
-            <material:TextField Title="Type"  Margin="25,20,25,10" />
-            <material:TextField Title="Contact Email"  Margin="25,20,25,10" />
-            <material:TextField Title="Contact Email"  Margin="25,20,25,10" />
-            <material:TextField Title="Password"  Margin="25,20,25,10" />
-            <material:TextField Title="Confirm Password"  Margin="25,20,25,10" />
-            <Button Text="Register" Margin="25,20,25,10" />
+            <input:FormView>
+
+            <material:TextField Title="Organization Name"  Text="{Binding OrgName}"  Margin="25,20,25,10" />
+            <material:TextField Title="Type" Text="{Binding Type}"  Margin="25,20,25,10" />
+            <material:TextField Title="Email" Text="{Binding Email}"  Margin="25,20,25,10" />
+            <material:TextField Title="Password" Text="{Binding Password}"  Margin="25,20,25,10" />
+            <material:TextField Title="Confirm Password"  Margin="25,20,25,10" >
+                <material:TextField.Validations>
+                                <local:ConfirmPasswordValidation />
+                                <validation:RequiredValidation />
+                </material:TextField.Validations>
+            </material:TextField>
+            <Button Text="Register" Command="{Binding RegisterCommand}" Margin="25,20,25,10" />
+            </input:FormView>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

@@ -107,8 +107,10 @@ namespace eduChain.ViewModels
                     Preferences.Default.Set("email", Email);
                     Email = string.Empty;
                     // Navigate to the home page
-                    var homePage = new HomePage();
-                    await Shell.Current.GoToAsync("//homePage");
+                    //var homePage = new HomePage();
+                        Preferences.Default.Set("isloaded", "false");
+                          await Shell.Current.GoToAsync($"//homePage?forceNewInstance=true");
+
                 }
                 else
                 {
