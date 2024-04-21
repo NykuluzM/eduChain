@@ -32,21 +32,11 @@
                     <Border.StrokeShape>
                         <Ellipse />
                     </Border.StrokeShape>
-                    <Image x:Name="ProfileImage" Source="{Binding Profile.ProfileImage}" Aspect="AspectFill"/>
+                    <Image x:Name="ProfileImage" Source="{Binding UsersProfile.ProfileImage}" Aspect="AspectFill"/>
                 </Border>
-                <Label Grid.Column="1" Grid.Row="0" TextColor="Black" FontAttributes="Bold" FontSize="13" x:Name="Name" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="40">
-                    <Label.Triggers>
-                        <DataTrigger TargetType="Label" Binding="{Binding Profile.Role}" Value="Student">
-                            <Setter Property="Text" Value="{Binding Profile.FullName}" />
-                        </DataTrigger>
-                        <DataTrigger TargetType="Label" Binding="{Binding Profile.Role}" Value="Organization">
-                            <Setter Property="Text" Value="{Binding Profile.OrgName}" />
-                        </DataTrigger>
-                        <!-- Add more data triggers for other roles if needed -->
-                    </Label.Triggers>
-                </Label>
+                <Label Grid.Column="1" Grid.Row="0" TextColor="Black" FontAttributes="Bold" FontSize="13" Text="{Binding UsersProfile.DisplayName}" x:Name="Name" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="40"/>
                 <Border Grid.Column="1" Grid.Row="0" Background="Black"  Margin="0,25,0,0" Stroke="{StaticResource grad}" StrokeThickness="2" HeightRequest="20" HorizontalOptions="Center" VerticalOptions="End">
-                <Label  Text="{Binding Profile.Role}" Padding="20,0,20,0" TextDecorations="Underline" TextColor="Yellow"  x:Name="Role" FontSize="12"  HorizontalOptions="Center" VerticalOptions="End"/>
+                <Label  Text="{Binding UsersProfile.Role}" Padding="20,0,20,0" TextDecorations="Underline" TextColor="Yellow"  x:Name="Role" FontSize="12"  HorizontalOptions="Center" VerticalOptions="End"/>
                 </Border>
             </Grid>
         </Border>

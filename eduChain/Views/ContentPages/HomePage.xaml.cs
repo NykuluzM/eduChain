@@ -34,6 +34,7 @@ namespace eduChain.Views.ContentPages{
 				loadingPopup = new LoadingPopup(audioConnection);
 				this.ShowPopup(loadingPopup);
 				await Task.Delay(5000);
+				await homePageViewModel.LoadUsers(Preferences.Default.Get("firebase_uid", string.Empty));
 				await homePageViewModel.LoadProfileAsync(Preferences.Default.Get("firebase_uid", string.Empty));
 			}
 			catch{

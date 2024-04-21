@@ -1,4 +1,5 @@
 ﻿using eduChain.Models;
+using eduChain.Models.MyProfileModels;
 using Npgsql;
 using System;
 using System.Threading.Tasks;
@@ -172,6 +173,77 @@ namespace eduChain.Services
                 await DatabaseManager.CloseConnectionAsync();
             }
         }
+
+        public async Task<UsersProfileModel> LoadUserAsync(string uid, UsersProfileModel profile)
+        {
+        try
+        {
+            await DatabaseManager.OpenConnectionAsync();
+
+            using (var command = DatabaseManager.Connection.CreateCommand())
+            {
+            command.Parameters.AddWithValue("@firebase_id", uid);
+            command.CommandText = "SELECT * FROM \"Users\" WHERE \"firebase_id\" = @firebase_id";
+
+            using (var reader = await command.ExecuteReaderAsync())
+            {
+                if (await reader.ReadAsync())
+                {
+                profile.FirebaseId = reader.GetString(reader.GetOrdinal("firebase_id"));
+                int profilePicOrdinal = reader.GetOrdinal("profile_pic");
+                if (!reader.IsDBNull(profilePicOrdinal))
+                {
+                    profile.ProfilePic = reader.GetFieldValue<byte[]>(profilePicOrdinal);
+                } else {
+                    profile.ProfilePic = null;
+                }
+                profile.Role = reader.GetString(reader.GetOrdinal("role"));
+                profile.CreatedAt = reader.GetDateTime(reader.GetOrdinal("created_at"));
+                await reader.CloseAsync();
+                if (profile.Role == "Student")
+                {
+                    // Query additional information for student profile
+                    command.CommandText = "SELECT * FROM \"Students\" WHERE \"user_firebase_id\" = @firebase_id";
+                    using (var secondReader = await command.ExecuteReaderAsync())
+                    {
+                        if (await secondReader.ReadAsync())
+                        {
+                            string firstName = secondReader.GetString(secondReader.GetOrdinal("first_name"));
+                            string lastName = secondReader.GetString(secondReader.GetOrdinal("last_name"));
+                            profile.DisplayName = $"{firstName} {lastName}";
+                        }
+                        await secondReader.CloseAsync();
+                    }
+                }
+                else if (profile.Role == "Organization")
+                {
+                    // Query additional information for organization profile
+                    command.CommandText = "SELECT * FROM \"Organizations\" WHERE \"user_firebase_id\" = @firebase_id";
+                    using (var secondReader = await command.ExecuteReaderAsync())
+                    {
+                        if (await secondReader.ReadAsync())
+                        {
+                            string orgName = secondReader.GetString(secondReader.GetOrdinal("name"));
+                            profile.DisplayName = orgName;
+                            await secondReader.CloseAsync();
+                        }
+                    }
+                } 
+               
+            }
+        }
+        await DatabaseManager.CloseConnectionAsync();
+        return profile;
+        }
+        }
+        catch (Exception ex)
+        {
+            // Handle database errors gracefully (log, display error message)
+            await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+            return null;
+        }
+        }
+
         public async Task<string> GetUserRoleAsync(string uid)
         {
             try

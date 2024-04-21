@@ -17,7 +17,7 @@ public partial class AppShell : Shell
 		Routing.RegisterRoute("forgotPasswordPage", typeof(ForgotPasswordPage));
 		_viewModel = new AppShellViewModel();
 		this.BindingContext = _viewModel;
-
+		
 	}
 	private async void ProfileTapped(object sender, EventArgs e)
 	{
