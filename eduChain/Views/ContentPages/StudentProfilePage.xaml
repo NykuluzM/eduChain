@@ -4,16 +4,14 @@
              xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
+             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
              x:Class="eduChain.Views.ContentPages.StudentProfilePage"
-             Title="MyProfilePage"
              Shell.BackgroundColor="MediumVioletRed"
 			 Shell.TabBarIsVisible="False"
+			 Shell.NavBarIsVisible="False"
              Background="MediumVioletRed">
 
-	<ContentPage.ToolbarItems>
-		<ToolbarItem Text="Edit Profile" Clicked="EditProfile" IconImageSource="profileedit.png" Order="Primary" Priority="0" />
-	</ContentPage.ToolbarItems>
-
+	
 	<ContentPage.Resources>
 		<ResourceDictionary>
 			<LinearGradientBrush x:Key="grad" EndPoint="0,1">
@@ -22,17 +20,43 @@
 			</LinearGradientBrush>
 		</ResourceDictionary>
 	</ContentPage.Resources>
-	<ScrollView>
-		<StackLayout>
-			<Frame BorderColor="Black" CornerRadius="20" WidthRequest="280" Margin="0,30,0,0" BackgroundColor="Black">
-				<VerticalStackLayout Spacing="10" >
-					<Border Grid.Column="0" HeightRequest="105" WidthRequest="105" Margin="0,20,0,0"
+    
+        <ScrollView>
+		<StackLayout HorizontalOptions="FillAndExpand">
+             
+            <Grid ColumnSpacing="10">
+                <!-- Back Button -->
+                <Button Grid.Column="0" Grid.Row="0" IsVisible="{OnPlatform Android=true, MacCatalyst=true, WinUI=true, iOS=true}" StyleClass="TextButton" Clicked="Back" VerticalOptions="Start" WidthRequest="80" HorizontalOptions="Start" Margin="-10,0,0,0">
+                    <Button.ImageSource>
+                        <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Arrow_back}" />
+                    </Button.ImageSource>
+                </Button>
+
+               
+                <!-- Edit Button -->
+                <Button x:Name="EditButton" Grid.Column="2" Grid.Row="0" StyleClass="TextButton" Margin="0,2,-10,0" Text="Edit Profile" Clicked="EditProfile" VerticalOptions="Start" HorizontalOptions="End">
+                    <Button.ImageSource>
+                        <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Edit}" />
+                    </Button.ImageSource>
+                </Button>
+
+                <!-- Cancel Button -->
+                <Button x:Name="CancelButton" Grid.Column="2" StyleClass="TextButton" Margin="0,2,-10,0" Text="Cancel Edit" Clicked="CancelEditProfile" VerticalOptions="Start" HorizontalOptions="End" IsVisible="False">
+                    <Button.ImageSource>
+                        <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Edit_off}" />
+                    </Button.ImageSource>
+                </Button>
+            </Grid>
+            <Frame BorderColor="Black" CornerRadius="20" WidthRequest="280" Margin="0,30,0,0" BackgroundColor="Black">
+				<VerticalStackLayout >
+                    <Label  Text="{Binding UsersProfile.Role, StringFormat='{0} Profile'}" HorizontalOptions="Center" TextColor="Gold"/>
+                    <Border Grid.Column="0" HeightRequest="105" WidthRequest="105" Margin="0,20,0,20"
                                             Stroke="{StaticResource grad}" StrokeThickness="2">
 						<Border.StrokeShape>
 							<RoundRectangle CornerRadius="40,40,40,40" />
 						</Border.StrokeShape>
 						<Grid>
-							<Image x:Name="ProfileImageBlurred" Aspect="AspectFill" Source="{Binding UsersProfile.ProfileImage}" IsVisible="False">
+							<Image x:Name="ProfileImageBlurred" Aspect="AspectFill" Source="{Binding PreviewImage}" IsVisible="False">
 
 								<Image.Effects>
 									<uranium:BlurEffect Mode="Dark" AccentOpacity="0.1" />
@@ -48,25 +72,44 @@
                                         VerticalOptions="Center">
 						<Label x:Name="EmailLabel" FontSize="12" MaxLines="1" LineBreakMode="NoWrap" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center"/>
 						<Label Text="{Binding StudentProfile.FirebaseId, StringFormat='Uid: {0}'}" FontSize="12" MaxLines="1" LineBreakMode="NoWrap" TextColor="White"/>
-					</StackLayout>
+                        <Label Text="{Binding UsersProfile.CreatedAt, StringFormat='Account Created: {0}'}" HorizontalOptions="Center"  FontSize="11" MaxLines="1" LineBreakMode="NoWrap" TextColor="White"/>
+                    </StackLayout>
 				</VerticalStackLayout>
 			</Frame>
-			<Frame CornerRadius="20" Margin="30,30,30,0" BackgroundColor="Black">
-				<input:FormView HorizontalOptions="FillAndExpand" Padding="15,15,15,15">
-					<toolkit:UniformItemsLayout MaxRows="2" MaxColumns="2">
-						<material:TextField x:Name="fName" Title="First Name"  Text="{Binding StudentProfile.FirstName, Mode=TwoWay}" Margin="25,20,25,10" IsReadOnly="True" />
-						<material:TextField Title="Last Name"  Text="{Binding StudentProfile.LastName, Mode=TwoWay}" Margin="25,20,25,10" IsReadOnly="True" />
+			<Frame CornerRadius="20" Margin="{OnPlatform Android='15,30,15,0', iOS='20,30,20,0', MacCatalyst='60,30,60,0', WinUI='120,30,120,0'}" BackgroundColor="Black">
+                <input:FormView HorizontalOptions="FillAndExpand" Padding="0,15,0,15">
+                    <HorizontalStackLayout>
+                        <Button  StyleClass="Header" Text="Personal Information" IsEnabled="False">
+                            <Button.ImageSource>
+                                <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Person_outline}" Size="20" />
+                            </Button.ImageSource>
+                        </Button>
+
+                        <Button x:Name="ShowButton1" StyleClass="TextButton" Text="Show" IsVisible="True" FontSize="12" Clicked="ShowPersonal" HorizontalOptions="Center" ContentLayout="Right,5" HeightRequest="40">
+
+                            <Button.ImageSource >
+                                <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Read_more}" Size="20" />
+                            </Button.ImageSource>
+                        </Button>
+                        <Button x:Name="HideButton1" StyleClass="TextButton" Text="Hide" IsVisible="False" FontSize="12" Clicked="HidePersonal" HorizontalOptions="Center" ContentLayout="Right,5" HeightRequest="40">
+
+                            <Button.ImageSource >
+                                <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Email}" Size="20" />
+                            </Button.ImageSource>
+                        </Button>
+                    </HorizontalStackLayout>
+                   
+                       
+                
+                    <toolkit:UniformItemsLayout  MaxRows="2" MaxColumns="2">
+						<material:TextField x:Name="fName" BorderColor="Bisque" TextColor="Azure" TitleColor="LightGreen" IsVisible="False" Title="First Name"  Text="{Binding StudentProfile.FirstName, Mode=TwoWay}" Margin="5,20,5,10" IsReadOnly="True"/>
+                        <material:TextField x:Name="lName" Title="Last Name"  TextColor="Azure" TitleColor="LightGreen"  IsVisible="False" Text="{Binding StudentProfile.LastName, Mode=TwoWay}" Margin="5,20,5,10" IsReadOnly="True" />
 					</toolkit:UniformItemsLayout>
-					<toolkit:UniformItemsLayout MaxRows="3" MaxColumns="3">
-						<material:TextField Title="Gender"  Text="{Binding StudentProfile.Gender, Mode=TwoWay}" Margin="25,20,25,10" IsReadOnly="True" />
-						<material:TextField Title="Age"  Text="{Binding StudentProfile.Age}" Margin="25,20,25,10" IsReadOnly="True" />
-						<material:TextField Title="Role"  Text="{Binding UsersProfile.Role}" Margin="25,20,25,10" IsReadOnly="True" />
+					<toolkit:UniformItemsLayout MaxRows="3" MaxColumns="4">
+                        <material:TextField x:Name="gender" Title="Gender"   TextColor="Azure" TitleColor="LightGreen" IsVisible="False" Text="{Binding StudentProfile.Gender, Mode=TwoWay}" Margin="5,20,5,10" IsReadOnly="True" />
+                        <material:TextField x:Name="age" Title="Age"   TextColor="Azure" TitleColor="LightGreen" IsVisible="False" Text="{Binding StudentProfile.Age}"  Margin="5,20,5,10" IsReadOnly="True" />
 
-					</toolkit:UniformItemsLayout>
-
-                    <toolkit:UniformItemsLayout MaxRows="2" MaxColumns="2">
-
-                        <material:TextField Title="Created At"  Text="{Binding UsersProfile.CreatedAt, Mode=TwoWay}" Margin="25,20,25,10" IsReadOnly="True" />
+                  
                     </toolkit:UniformItemsLayout>
                 </input:FormView>
 			</Frame>

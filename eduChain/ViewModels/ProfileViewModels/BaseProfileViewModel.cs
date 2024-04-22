@@ -1,4 +1,5 @@
 ﻿using eduChain.Models;
+using eduChain.Models.MyProfileModels;
 using eduChain.Services;
 using eduChain.ViewModels;
 using LukeMauiFilePicker;
@@ -11,6 +12,12 @@ public class BaseProfileViewModel : ViewModelBase
       protected readonly IFilePickerService picker;
        protected MyProfileService _myProfileService = MyProfileService.Instance;
         public byte[] imageBytes { get; set;}
+        private ImageSource _previewImage;
+        public ImageSource PreviewImage
+    {
+            get { return _previewImage; }
+        set { SetProperty(ref _previewImage, value); }
+    }
          Dictionary<DevicePlatform, IEnumerable<string>> FileType = new()
                 {
                     { DevicePlatform.Android, new[] { "image/*" } },
@@ -43,9 +50,11 @@ public class BaseProfileViewModel : ViewModelBase
                         SKBitmap resizedBitmap = originalBitmap.Resize(new SKImageInfo(250, 250), SKFilterQuality.High);
 
                         imageBytes = resizedBitmap.Encode(SKEncodedImageFormat.Png, 100).ToArray();
+                  
+                        PreviewImage = ImageSource.FromStream(() => new MemoryStream(imageBytes));
 
-                            // Upload image to Supabase storage
-                        if(Preferences.Default.Get("firebase_uid",String.Empty) != String.Empty){
+                // Upload image to Supabase storage
+                if (Preferences.Default.Get("firebase_uid",String.Empty) != String.Empty){
                         } else {
                             await Application.Current.MainPage.DisplayAlert("Error", "Please login to upload image", "OK");
                             await Shell.Current.GoToAsync("//loginPage");
@@ -57,8 +66,9 @@ public class BaseProfileViewModel : ViewModelBase
             Application.Current?.MainPage?.DisplayAlert("No Connection", ex.Message, "OK");
             // Handle errors
         }
-    } 
-
+    }
+   
+   
     protected async Task UploadImageToSupabase(byte[] imageBytes, string firebase_id){
         if(imageBytes == null){
             return;
