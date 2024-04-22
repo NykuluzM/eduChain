@@ -28,7 +28,64 @@ namespace eduChain.Services
                 return instance;
             }
         }
-        public async Task<StudentProfileModel> StudentUserProfileAsync(string uid, StudentProfileModel profile)
+        public async Task<OrganizationProfileModel> UserProfileAsync(string uid, OrganizationProfileModel profile)
+        {
+            try
+            {
+                await DatabaseManager.OpenConnectionAsync();
+                using (var command = DatabaseManager.Connection.CreateCommand())
+                {   
+                    var parameters = command.Parameters;
+
+                    if (parameters is NpgsqlParameterCollection pgParameters)
+                    {
+                        pgParameters.AddWithValue("@firebase_id", uid);
+                    }
+                    
+                           string sqlQuery = @"
+                                                SELECT *
+                                                FROM ""Organizations""
+                                                WHERE ""user_firebase_id"" = @firebase_id";
+                            command.CommandText = sqlQuery;
+                            try{
+                            using (var reader = await command.ExecuteReaderAsync())
+                            {
+                                if (await reader.ReadAsync())
+                                {
+                                
+                                    profile.Email = Preferences.Default.Get("email", String.Empty);
+                                    profile.Name = reader["name"] is DBNull ? null : reader["name"].ToString();
+                                    profile.Type = reader["type"] is DBNull ? null : reader["type"].ToString();
+                                    profile.FirebaseId = reader["user_firebase_id"] is DBNull ? null : reader["user_firebase_id"].ToString();
+                                        // Add other properties as needed
+                                    await reader.CloseAsync(); // Close the reader
+
+                                    await DatabaseManager.CloseConnectionAsync(); 
+                                    return profile;
+                                }
+                            }
+                            }  catch (TimeoutException)
+                            {
+                                // Retry after delay
+                                await Task.Delay(TimeSpan.FromSeconds(3)); // Example delay
+                            }
+                            catch (Exception ex)
+                            {
+                                // Handle the exception appropriately
+                                await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+                            }
+                        }
+                        await Application.Current.MainPage.DisplayAlert("Error", "Failed to retrieve data after multiple retries.", "OK");
+                    }
+        
+            finally
+            {
+                await DatabaseManager.CloseConnectionAsync();
+            }
+
+            return null;
+        }
+        public async Task<StudentProfileModel> UserProfileAsync(string uid, StudentProfileModel profile)
         {
             try
             {

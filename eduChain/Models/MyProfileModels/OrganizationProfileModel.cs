@@ -83,6 +83,6 @@ public class OrganizationProfileModel : INotifyPropertyChanged, IProfileModel
                                 }
                             }
                         }
-    public string user_firebase_id { get; set; }    
+    public string FirebaseId { get; set; }    
 
 }

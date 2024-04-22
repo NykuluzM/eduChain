@@ -16,7 +16,7 @@ public class StudentProfileViewModel : BaseProfileViewModel
     }
     public async Task LoadProfileAsync(string uid, StudentProfileModel _studentProfile)
     {   
-            StudentProfile = await _myProfileService.StudentUserProfileAsync(uid, _studentProfile);
+            StudentProfile = await _myProfileService.UserProfileAsync(uid, _studentProfile);
     }
     public async Task UpdateProfileAsync(){
             await MyProfileService.Instance.UpdateStudentUserProfileAsync(StudentProfile);
