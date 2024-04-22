@@ -55,7 +55,7 @@
                         </input:FormView>                
                         
                         <input:FormView Padding="15,0,15,15" MaximumWidthRequest="700">
-                            <ur:DatePickerField Title="Birth Date" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" MinimumWidthRequest="250"
+                            <ur:DatePickerField Title="Birth Date"  BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" AllowClear="False" MinimumWidthRequest="250"
                                     Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Alarm}}" Date="{Binding BirthDate}">
                                 <validation:RequiredValidation />
                                 <validation:MaxValueValidation MaxValue="1/1/2020" Message="Age must be 4 Minimum" />
@@ -101,12 +101,7 @@
                                 TextColor="White" 
                                 Command = "{Binding RegisterCommand}"
                                 />
-                                <Button
-                                StyleClass="FilledButton"
-                                Text="Trial"
-                                WidthRequest="200"
-                                Command="{Binding TrialCommand}"
-                                />
+                               
                     </StackLayout>
                     </input:FormView>
                     <BoxView StyleClass="Divider" />

@@ -89,22 +89,28 @@
 
                         </input:FormView>
                     <Button 
-Text="Forgot Password?"
-WidthRequest="320" 
-TextColor="Red" 
-Clicked="PasswordForgotten" BorderColor="Transparent" BackgroundColor="Transparent"/>
+                        Text="☛​𝙁​̳𝙤​̳𝙧​̳𝙜​̳𝙤​̳𝙩​̳ ​̳𝙋​̳𝙖​̳𝙨​̳𝙨​̳𝙬​̳𝙤​̳𝙧​̳𝙙 ̳?☚"
+                        FontAttributes="Bold"
+                        StyleClass="TextButton"
+                        WidthRequest="320" 
+                        TextColor="Red" 
+                        Clicked="PasswordForgotten"/>      
 
                     <StackLayout Spacing="40" HorizontalOptions="Center">
-                
+
 
                         <Button 
-                             StyleClass="FilledButton" 
-                             Text="You don't have an account? Register here!"
-                  
-                             WidthRequest="320" 
-                             BackgroundColor="Transparent" 
-                             TextColor="White" 
-                             Clicked="RegisterButton_Clicked"/> 
+                             StyleClass="TextButton" 
+                             Text="☛​𝙔​̳𝙤​̳𝙪​̳ ​̳𝙙​̳𝙤​̳𝙣​̳'​̳𝙩​̳ ​̳𝙝​̳𝙖​̳𝙫​̳𝙚​̳ ​̳𝙖​̳𝙣​̳ ​̳𝙖​̳𝙘​̳𝙘​̳𝙤​̳𝙪​̳𝙣​̳𝙩​̳?​̳ ​̳𝙍​̳𝙚​̳𝙜​̳𝙞​̳𝙨​̳𝙩​̳𝙚​̳𝙧​̳ ​̳𝙝​̳𝙚​̳𝙧​̳𝙚​̳ !☚​"
+                                FontAttributes="Bold"
+                           
+                             WidthRequest="380" 
+                             TextColor="YellowGreen" 
+                             Clicked="RegisterButton_Clicked">
+
+                           
+                        </Button>
+
                     </StackLayout>
                     </StackLayout>
                     
