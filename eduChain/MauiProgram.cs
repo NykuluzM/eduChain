@@ -13,7 +13,8 @@ using eduChain.Views.ContentPages;
 using eduChain.Views.ContentPages.ProfileViews;
 using epj.RouteGenerator;
 using Plugin.Maui.Audio;
-using Mopups.Hosting;	
+using Mopups.Hosting;
+using eduChain.Models;
 using ZXing.Net.Maui.Controls;
 namespace eduChain
 {
@@ -49,6 +50,7 @@ namespace eduChain
         	builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("Supabase"));
 			builder.Services.AddSingleton<ISupabaseConnection>(new DatabaseConnection("User Id=postgres.wcbvpqecetfhnfphtmae;Password=notthatexcellent3224;Server=aws-0-ap-southeast-1.pooler.supabase.com;Port=5432;Database=postgres;"));
 			builder.Services.AddSingleton(AudioManager.Current);
+			builder.Services.AddSingleton<StudentProfileModel>();
 			builder.Services.AddTransient<InitializingPage>();
 			builder.Services.AddTransient<RegisterPage>();
 			builder.Services.AddTransient<StudentProfilePage>();

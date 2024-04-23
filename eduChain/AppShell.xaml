@@ -8,9 +8,11 @@
     xmlns:viewmodel="clr-namespace:eduChain.ViewModels"
     xmlns:preferences="Microsoft.Maui.Storage; Assembly=Microsoft.Maui"
     xmlns:models="clr-namespace:eduChain.Models"
-    FlyoutBackgroundColor="LightGray"  FlyoutWidth="270" FlyoutBackdrop="#66FFFFFF"
+    xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
+
+    FlyoutBackgroundColor="Bisque"  FlyoutWidth="270" FlyoutBackdrop="#66FFFFFF"
     Title="eduChain" >
-       
+   
     <Shell.Resources>
         <ResourceDictionary>
             <LinearGradientBrush x:Key="grad" EndPoint="0,1">
@@ -38,35 +40,43 @@
                 <Border Grid.Column="1" Grid.Row="0" Background="Black"  Margin="0,25,0,0" Stroke="{StaticResource grad}" StrokeThickness="2" HeightRequest="20" HorizontalOptions="Center" VerticalOptions="End">
                 <Label  Text="{Binding UsersProfile.Role}" Padding="20,0,20,0" TextDecorations="Underline" TextColor="Yellow"  x:Name="Role" FontSize="12"  HorizontalOptions="Center" VerticalOptions="End"/>
                 </Border>
+
             </Grid>
+
+
         </Border>
         
     </Shell.FlyoutHeader>
-
+   
     <Shell.ItemTemplate>
         <DataTemplate>
-            <Grid ColumnSpacing="10" RowDefinitions="7,Auto,7,1" ColumnDefinitions="50,*">
-                <VisualStateManager.VisualStateGroups>
-                    <VisualStateGroupList>
-                        <VisualStateGroup x:Name="CommonStates">
-                            <VisualState x:Name="Normal">
-                                <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="LightGray"/>
-                                </VisualState.Setters>
-                            </VisualState>
-                            <VisualState x:Name="Selected">
-                                <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="LightGreen" />
-                                </VisualState.Setters>
-                            </VisualState>
-                        </VisualStateGroup>
-                    </VisualStateGroupList>
+            <StackLayout>
+                <Grid ColumnSpacing="20" RowDefinitions="7,Auto,7,1" ColumnDefinitions="50,*">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroupList>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="LightGray"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="LightGreen" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateGroupList>
 
-                </VisualStateManager.VisualStateGroups>
-                <Image Grid.Row="1" Grid.Column="0" Source="{Binding FlyoutIcon}" WidthRequest="30" />
-                <Label Grid.Row="1" Grid.Column="1" Text="{Binding Title}" FontSize="15" VerticalOptions="Center" TextColor="Black" FontAttributes="Bold" WidthRequest="{x:OnPlatform WinUI= 350}"/>
-                <BoxView Grid.Row="3" Color="GreenYellow" Grid.Column="0" Grid.ColumnSpan="2"/>
-            </Grid>
+                    </VisualStateManager.VisualStateGroups>
+                    <Image Grid.Row="1" Grid.Column="0" Source="{Binding FlyoutIcon}" WidthRequest="27" />
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Title}" FontSize="15" VerticalOptions="Center" TextColor="Black" FontAttributes="Bold" WidthRequest="{x:OnPlatform WinUI= 350}"/>
+                    <BoxView Grid.Row="3" Color="GreenYellow" Grid.Column="0" Grid.ColumnSpan="2"/>
+
+                </Grid>
+            </StackLayout>
+         
+
         </DataTemplate>
     </Shell.ItemTemplate>
 
@@ -96,6 +106,7 @@
             Shell.FlyoutBehavior="Flyout"
             ContentTemplate="{DataTemplate pages:HomePage}"
             Shell.NavBarHasShadow="false"
+       
             Route="homePage" />
         
             <ShellContent
@@ -166,19 +177,33 @@
             Route="loadingOnePage"
             />
 
-        <Shell.FlyoutFooter>
-       <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" /> <!-- Row for Button -->
-            <RowDefinition Height="*" /> <!-- Row for existing content -->
-        </Grid.RowDefinitions>
+    <Shell.FlyoutFooter>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <!-- Row for Button -->
+                <RowDefinition Height="*" />
+                <!-- Row for existing content -->
+            </Grid.RowDefinitions>
 
-        <!-- Button in the first row -->
-        <Button x:Name="Logout" MinimumWidthRequest="150" FontSize="15" Text="Logout" Command="{Binding LogoutCommand}" HorizontalOptions="CenterAndExpand" Margin="0,0,0,30" 
+            <!-- Button in the first row -->
+            <Button x:Name="Logout" MinimumWidthRequest="150" FontSize="15" Text="Logout" Command="{Binding LogoutCommand}" HorizontalOptions="CenterAndExpand" Margin="0,0,0,30" 
     
                 Grid.Row="0"/>
 
-        <!-- Existing content in the second row -->
-    </Grid>        
+            <!-- Existing content in the second row -->
+        
+                <Button WidthRequest="40" BackgroundColor="FloralWhite" Padding="10,10,10,10" Margin="10"  Grid.Row="1" Clicked="ExitFlyout">
+                    <Button.ImageSource>
+                    <FileImageSource File="collapse.png"/>
+
+                </Button.ImageSource>
+
+                </Button>
+            
+           
+        </Grid>
     </Shell.FlyoutFooter>
+   
+
 </Shell>

@@ -5,7 +5,6 @@
              Title=""
             Background="#195a7a"
             Shell.BackgroundColor="#195a7a" 
-        
             >
             <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
 
@@ -14,7 +13,7 @@
             Text="Welcome to eduChain" FontSize="Large" HorizontalOptions="Center" TextColor="Gold" FontAttributes="Bold"
             />
             <Label 
-            Text="We are still constructing this Application" FontSize="Large"  TextColor="Red" FontAttributes="Bold"
+            Text="We are still constructing this Application" HorizontalOptions="Center" MaxLines="1"  FontSize="15"  TextColor="Red" FontAttributes="Bold"
             />
         <Image Source="dance.gif" IsAnimationPlaying="True" HeightRequest="200" WidthRequest="200" VerticalOptions="Center" HorizontalOptions="Center"/>   
           

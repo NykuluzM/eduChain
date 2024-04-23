@@ -1,5 +1,6 @@
 
 using CommunityToolkit.Maui.Views;
+using eduChain.Models;
 using eduChain.Services;
 using eduChain.Views.Popups;
 using IAudioManager = Plugin.Maui.Audio.IAudioManager;

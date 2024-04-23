@@ -18,8 +18,11 @@ public class StudentProfileViewModel : BaseProfileViewModel
     {   
             StudentProfile = await _myProfileService.UserProfileAsync(uid, _studentProfile);
     }
+    public async Task UpdateProfilePicture()
+    {
+       await UploadImageToSupabase(imageBytes, Preferences.Default.Get("firebase_uid", String.Empty));
+    }
     public async Task UpdateProfileAsync(){
-            await MyProfileService.Instance.UpdateStudentUserProfileAsync(StudentProfile);
-            await UploadImageToSupabase(imageBytes,Preferences.Default.Get("firebase_uid", String.Empty));
+        await MyProfileService.Instance.UpdateStudentUserProfileAsync(StudentProfile);
     } 
 }

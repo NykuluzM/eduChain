@@ -11,7 +11,7 @@ namespace eduChain.Services
         private static MyProfileService instance;
 
         private readonly ISupabaseConnection _supabaseConnection;
-
+      
         public MyProfileService(ISupabaseConnection supabaseConnection)
         {
             _supabaseConnection = supabaseConnection;
@@ -30,6 +30,7 @@ namespace eduChain.Services
         }
         public async Task<OrganizationProfileModel> UserProfileAsync(string uid, OrganizationProfileModel profile)
         {
+
             try
             {
                 await DatabaseManager.OpenConnectionAsync();
@@ -119,8 +120,9 @@ namespace eduChain.Services
                                     profile.FirebaseId = reader["user_firebase_id"] is DBNull ? null : reader["user_firebase_id"].ToString();
                                         // Add other properties as needed
                                     await reader.CloseAsync(); // Close the reader
-
-                                    await DatabaseManager.CloseConnectionAsync(); 
+                                    
+                                    await DatabaseManager.CloseConnectionAsync();
+                                    StudentProfileModel.Instance = profile;    
                                     return profile;
                                 }
                             }
@@ -165,6 +167,7 @@ namespace eduChain.Services
                             command.Parameters.AddWithValue("@firebase_id", profile.FirebaseId);
 
                             await command.ExecuteNonQueryAsync();
+                            Shell.Current.DisplayAlert("Success", "Profile updated successfully", "OK");
                         break;
                         case "Organization":
                         break;

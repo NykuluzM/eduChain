@@ -32,5 +32,18 @@ public partial class AppShell : Shell
 		}
 		
 	}
-	
+	private void ExitFlyout(object sender, EventArgs e)
+	{
+        Shell.Current.FlyoutIsPresented = false;
+    }
+    protected override void OnNavigating(ShellNavigatingEventArgs args)
+    {
+        base.OnNavigating(args);
+		NavBarHasShadowProperty.Equals(false);
+    }
+	protected override void OnNavigated(ShellNavigatedEventArgs args)
+	{
+        base.OnNavigated(args);
+        NavBarHasShadowProperty.Equals(false);
+    }
 }

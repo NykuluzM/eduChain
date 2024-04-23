@@ -69,9 +69,11 @@ public class BaseProfileViewModel : ViewModelBase
     }
    
    
-    protected async Task UploadImageToSupabase(byte[] imageBytes, string firebase_id){
+    protected async Task<int> UploadImageToSupabase(byte[] imageBytes, string firebase_id){
         if(imageBytes == null){
-            return;
+            await Application.Current.MainPage.DisplayAlert("Error", "Please select an image", "OK");
+
+            return 0;
         }
         try{
             await DatabaseManager.OpenConnectionAsync(); // Open the database connection
@@ -84,15 +86,20 @@ public class BaseProfileViewModel : ViewModelBase
                     await command.ExecuteNonQueryAsync();
                         
                     UsersProfile.ProfilePic = imageBytes;
-                    await Application.Current.MainPage.DisplayAlert("Success", "Profile Updated", "OK");
+                    await Shell.Current.DisplayAlert("Success", "Profile picture updated", "OK");
 
                 }
             }
+            await DatabaseManager.CloseConnectionAsync(); // Close the database connection
+
+            return 1;
         } catch(Exception ex){
             await Application.Current.MainPage.DisplayAlert("Error Try", $"An error occurred: {ex.Message}", "OK");
-        }
-        finally{
             await DatabaseManager.CloseConnectionAsync(); // Close the database connection
+
+            return 0;
         }
+        
+        
     }
 }
