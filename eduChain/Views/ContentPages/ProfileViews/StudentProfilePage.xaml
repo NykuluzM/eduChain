@@ -66,7 +66,7 @@
                         <Label Text="{Binding StudentProfile.FirebaseId, StringFormat='Uid: {0}'}" FontSize="12" MaxLines="1" LineBreakMode="NoWrap" TextColor="White"/>
                       
                     </StackLayout>
-                    <Button WidthRequest="150" Margin="0,20,0,0" IsVisible="True" x:Name="ProfileChange" Clicked="EditPicture" StyleClass="Filled" BackgroundColor="AntiqueWhite" Opacity="0.8"  Text="Change Profile Picture" FontFamily="Sans-Serif" FontSize="12" >
+                    <Button WidthRequest="160" Margin="0,20,0,0" IsVisible="True" x:Name="ProfileChange" Clicked="EditPicture" StyleClass="Filled" BackgroundColor="AntiqueWhite" Opacity="0.8"  Text="Change Profile Picture" FontFamily="Sans-Serif" FontSize="12" >
 
                     </Button>
                     <HorizontalStackLayout Margin="0,20,0,0" Spacing="20" HorizontalOptions="Center">
