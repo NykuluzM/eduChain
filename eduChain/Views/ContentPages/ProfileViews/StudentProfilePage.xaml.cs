@@ -64,7 +64,7 @@ namespace eduChain.Views.ContentPages.ProfileViews{
                     HideButton1.IsEnabled = false;
                     var cancellationTokenSource = new CancellationTokenSource();
                     var text = "Hide Button is Disabled, Either Cancel or Save";
-                    var duration = ToastDuration.Short;
+                    var duration = ToastDuration.Long;
                     var fontSize = 14;
                     var toast = Toast.Make(text, duration, fontSize);
                     await toast.Show(cancellationTokenSource.Token);

@@ -83,15 +83,18 @@
             <Frame BorderColor="Black"  WidthRequest="250" Margin="0,30,0,0" BackgroundColor="Black">
 				<Label Text="{Binding UsersProfile.CreatedAt, StringFormat='Account Created: {0}'}" HorizontalOptions="Center"  FontSize="11" MaxLines="1" LineBreakMode="NoWrap" TextColor="White"/>
 			</Frame>
-			<Frame CornerRadius="20" Margin="{OnPlatform Android='15,30,15,0', iOS='20,30,20,0', MacCatalyst='60,30,60,0', WinUI='120,30,120,0'}" BackgroundColor="Black">
+			<Frame CornerRadius="20" Margin="{OnPlatform Android='10,30,10,400', iOS='10,30,10,400', MacCatalyst='60,30,60,0', WinUI='120,30,120,0'}" BackgroundColor="Black">
                 <input:FormView HorizontalOptions="FillAndExpand" Padding="0,15,0,15">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-
-                        <StackLayout Grid.Column="0" Orientation="Horizontal" Spacing="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto"  />
+                        </Grid.RowDefinitions>
+                        <StackLayout Grid.Column="0" Grid.Row="0" Orientation="Horizontal" Spacing="10" >
                             <Button StyleClass="Header" Text="Personal Information" IsEnabled="False">
                                 <Button.ImageSource>
                                     <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Person_outline}" Size="20" />
@@ -104,7 +107,7 @@
                                     </Button.ImageSource>
                                 </Button>
                             </Frame>
-                            <Frame x:Name="HideButton1" BorderColor="Transparent" Padding="0,-10,0,-10" IsVisible="False" BackgroundColor="Crimson" CornerRadius="20">
+                            <Frame x:Name="HideButton1" BorderColor="Transparent" Padding="0,-10,0,-10" IsVisible="False" BackgroundColor="Crimson" CornerRadius="20" IsEnabled="True">
                                 <Button BorderWidth="5" StyleClass="TextButton" TextColor="Black" Text="Hide" FontSize="12" Clicked="HidePersonal" HorizontalOptions="Center" VerticalOptions="Center" ContentLayout="Right,10" HeightRequest="40">
                                     <Button.ImageSource>
                                         <FontImageSource Color="Black" FontFamily="FARegular" Glyph="{x:Static fa:Regular.EyeSlash}" Size="15" />
@@ -113,22 +116,27 @@
                                 </Button>
                             </Frame>
                         </StackLayout>
+                        <!--Need to be adjusted if android/ios-->
+                        <StackLayout Orientation="Horizontal" Grid.Row="{x:OnPlatform Android=1, WinUI=0, MacCatalyst=0, iOS=1}" Margin="{x:OnPlatform Android='0,20,0,0'}" HorizontalOptions="{x:OnPlatform Android=Center, MacCatalyst=End, WinUI=End, iOS=Center}">
+                            <Button x:Name="EditButton" IsVisible="False" StyleClass="Filled" Margin="{x:OnPlatform WinUI='0,0,50,0', MacCatalyst='0,0,50,0'}" TextColor="White" Text="Modify" FontSize="15" Clicked="EditProfile" Grid.Column="1" HorizontalOptions="End" VerticalOptions="Center" />
 
-                        <Button x:Name="EditButton" IsVisible="False" StyleClass="Filled" Margin="0,0,50,0" TextColor="White" Text="Modify" FontSize="15" Clicked="EditProfile" Grid.Column="1" HorizontalOptions="End" VerticalOptions="Center" />
-
-                        <StackLayout Grid.Column="1" HorizontalOptions="End" x:Name="StateButtons" IsVisible="False" Spacing="15" Orientation="Horizontal">
-                            <Button StyleClass="Filled" Text="Cancel" TextColor="White" Clicked="CancelEditProfile">
-                                <Button.ImageSource>
-                                    <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Edit_off}" />
-                                </Button.ImageSource>
-                            </Button>
-                            <Button Text="Save" class="Filled" TextColor="White" Clicked="SaveChanges">
-                                <Button.ImageSource>
-                                    <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Save}" />
-                                </Button.ImageSource>
-                            </Button>
+                            <StackLayout Grid.Column="1" HorizontalOptions="End" x:Name="StateButtons" IsVisible="False" Spacing="15" Orientation="Horizontal">
+                                <Button StyleClass="Filled" Text="Cancel" TextColor="White" Clicked="CancelEditProfile">
+                                    <Button.ImageSource>
+                                        <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Edit_off}" />
+                                    </Button.ImageSource>
+                                </Button>
+                                <Button Text="Save" class="Filled" TextColor="White" Clicked="SaveChanges">
+                                    <Button.ImageSource>
+                                        <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Save}" />
+                                    </Button.ImageSource>
+                                </Button>
+                            </StackLayout>
                         </StackLayout>
+                        
                     </Grid>
+                  
+                        
                     <StackLayout x:Name="PersonalDetails" IsVisible="False">
 						<toolkit:UniformItemsLayout  MaxRows="2" MaxColumns="2">
 							<material:TextField x:Name="fName" BorderColor="Bisque" TextColor="Azure" TitleColor="LightGreen"  Title="First Name"  Text="{Binding StudentProfile.FirstName, Mode=TwoWay}" Margin="5,20,5,10" IsReadOnly="True"/>
@@ -140,8 +148,8 @@
 						</toolkit:UniformItemsLayout>
 					</StackLayout>
                     <!-- Edit Button -->
-                   
-                    
+
+
                 </input:FormView>
 			</Frame>
 		
