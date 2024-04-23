@@ -93,34 +93,55 @@ namespace eduChain.Views.ContentPages.ProfileViews{
             if(_viewModel.imageBytes == null)
             {
                 await DisplayAlert("Error", "No changes made", "OK");
+                CancelProfileChange(sender, e);
                 return;
             }
             await _viewModel.UpdateProfilePicture();
             CancelProfileChange(sender, e);
 
         }
-        private void ShowPersonal(object sender, EventArgs e)
+        private async void ShowPersonal(object sender, EventArgs e)
         {
-            PersonalDetails.IsVisible = true;
+            
+            ShowButton1.Opacity = 1;
             ShowButton1.IsVisible = false;
+            await ShowButton1.FadeTo(0, 400);
+
+            HideButton1.Opacity = 0;
             HideButton1.IsVisible = true;
+            await HideButton1.FadeTo(1, 400);
+
+
+            EditButton.Opacity = 0;
             EditButton.IsVisible = true;
+            await EditButton.FadeTo(1, 400);
+
+            PersonalDetails.Opacity = 0;
+            PersonalDetails.IsVisible = true;
+            await PersonalDetails.FadeTo(1, 1000);
+
             EditButton.Focus();
         }
 
-        private void HidePersonal(object sender, EventArgs e)
+        private async void  HidePersonal(object sender, EventArgs e)
         {
+            EditButton.IsEnabled = false;
+            HideButton1.IsEnabled = false;
+            await PersonalDetails.FadeTo(0, 700);
             PersonalDetails.IsVisible = false;
+            await EditButton.FadeTo(0, 400);
             EditButton.IsVisible = false;
-            ShowButton1.IsVisible = true;
+            await HideButton1.FadeTo(0, 400);
             HideButton1.IsVisible = false;
+            await ShowButton1.FadeTo(1, 100);
+            ShowButton1.IsVisible = true;
+            HideButton1.IsEnabled = true;
+            EditButton.IsEnabled = true;
             EditButton.Focus(); 
         }   
         public void CancelEditProfile(object sender, EventArgs e)
         {
             EditButton.IsVisible = true;
-            ProfileImageBlurred.IsVisible = false;
-            ProfileImage.IsVisible = true;
             HideButton1.IsEnabled = true;
 
             StateButtons.IsVisible = false;
@@ -142,12 +163,13 @@ namespace eduChain.Views.ContentPages.ProfileViews{
               && _studentProfile.BirthDate == obirthdate && _studentProfile.Gender == ogender)
             {
                 await DisplayAlert("Error", "No changes made", "OK");
+                CancelEditProfile(sender, e);
                 return;
             }
 
             await _viewModel.UpdateProfileAsync();
             CancelEditProfile(sender, e);
-
+            return;
         }
     }
 }

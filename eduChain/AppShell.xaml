@@ -98,7 +98,7 @@
             FlyoutIcon="homelogo.png"
             FlyoutItemIsVisible="True"
             Icon="homelogo.png"
-            Shell.NavBarIsVisible="{x:OnPlatform Android=True, iOS=True, MacCatalyst=True, WinUI=False}"
+            Shell.NavBarIsVisible="{x:OnPlatform Android=True, iOS=True, MacCatalyst=False, WinUI=False}"
 			Shell.TabBarBackgroundColor="#FFFACD"
             Shell.TabBarForegroundColor="DarkSeaGreen"
             Shell.TabBarUnselectedColor="Black"
@@ -182,7 +182,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <!-- Row for Button -->
-                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
                 <!-- Row for existing content -->
             </Grid.RowDefinitions>
 
@@ -191,15 +191,17 @@
     
                 Grid.Row="0"/>
 
-            <!-- Existing content in the second row -->
-        
-                <Button WidthRequest="40" BackgroundColor="FloralWhite" Padding="10,10,10,10" Margin="10"  Grid.Row="1" Clicked="ExitFlyout">
-                    <Button.ImageSource>
-                    <FileImageSource File="collapse.png"/>
+            <!-- Existing content in the second row --> 
+            <ImageButton Source="collapse.png"
+             Clicked="ExitFlyout"
+             Grid.Row="1"
+             HorizontalOptions="Center"
+             VerticalOptions="End"
+             WidthRequest="25"
+             HeightRequest="25"
+             Aspect="AspectFit"          
+             Margin="0,0,0,0" />
 
-                </Button.ImageSource>
-
-                </Button>
             
            
         </Grid>

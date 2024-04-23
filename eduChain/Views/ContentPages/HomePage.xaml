@@ -1,22 +1,39 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
              x:Class="eduChain.Views.ContentPages.HomePage"
              Title=""
             Background="#195a7a"
-            Shell.BackgroundColor="#195a7a" 
+            Shell.BackgroundColor="#195a7a"
+            
+            Shell.NavBarIsVisible="{x:OnPlatform WinUI=false, Android=true, iOS=true, MacCatalyst=false}"
             >
             <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
 
-    <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
-        <Label 
-            Text="Welcome to eduChain" FontSize="Large" HorizontalOptions="Center" TextColor="Gold" FontAttributes="Bold"
-            />
+    <ScrollView>
+        <StackLayout>
+        <VerticalStackLayout>
+            <Button  IsVisible="{OnPlatform Android=true, MacCatalyst=true, WinUI=false, iOS=true}" StyleClass="TextButton" Clicked="Menu" VerticalOptions="Start" WidthRequest="80" HorizontalOptions="Start" Margin="0,0,0,0">
+                    <Button.ImageSource>
+                        <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Arrow_back}" />
+                    
+                    </Button.ImageSource>
+
+                </Button>
+        </VerticalStackLayout>
+        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
             <Label 
-            Text="We are still constructing this Application" HorizontalOptions="Center" MaxLines="1"  FontSize="15"  TextColor="Red" FontAttributes="Bold"
-            />
-        <Image Source="dance.gif" IsAnimationPlaying="True" HeightRequest="200" WidthRequest="200" VerticalOptions="Center" HorizontalOptions="Center"/>   
-          
-    </VerticalStackLayout>
-    
+                Text="Welcome to eduChain" FontSize="Large" HorizontalOptions="Center" TextColor="Gold" FontAttributes="Bold"
+                />
+                <Label 
+                Text="We are still constructing this Application" HorizontalOptions="Center" MaxLines="1"  FontSize="15"  TextColor="Red" FontAttributes="Bold"
+                />
+            <Image Source="dance.gif" IsAnimationPlaying="True" HeightRequest="200" WidthRequest="200" VerticalOptions="Center" HorizontalOptions="Center"/>   
+            
+        </VerticalStackLayout>
+        
+        </StackLayout>
+        
+    </ScrollView>   
 </ContentPage>

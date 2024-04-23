@@ -27,7 +27,9 @@ namespace eduChain.Views.ContentPages{
 				Preferences.Default.Set("isloaded", "true");
 			}
 		}
-    
+		private  void Menu(object sender, EventArgs e){
+			Shell.Current.FlyoutIsPresented = true;
+		}
        
 		private async Task LoadProfile(){
 			try{

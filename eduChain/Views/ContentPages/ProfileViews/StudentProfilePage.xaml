@@ -50,9 +50,7 @@
                         <Grid>
                             <Image x:Name="ProfileImageBlurred" Opacity="0.1" Aspect="AspectFill" Source="{Binding PreviewImage}" IsVisible="False">
 
-                                <Image.Effects>
-                                    <uranium:BlurEffect Mode="Dark" AccentOpacity="0.1" />
-                                </Image.Effects>
+                        
                             </Image>
                             <Image x:Name="ProfileImage" Aspect="AspectFill" Source="{Binding UsersProfile.ProfileImage}" IsVisible="True"/>
                             <ImageButton x:Name="editProfile" IsVisible="False" Command="{Binding EditImageCommand}" WidthRequest="40"
