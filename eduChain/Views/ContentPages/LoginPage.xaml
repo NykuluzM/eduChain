@@ -90,7 +90,7 @@
                         </input:FormView>
                     <Button 
                         Text="☛F​̲o​̲r​̲g​̲o​̲t​̲ ​̲P​̲a​̲s​̲s​̲w​̲o​̲r​̲d​̲?​☚"
-                        FontFamily="DejaVu"
+                        FontFamily="Sans-Serif"
                         FontAttributes="Bold"
                         FontSize="14"  
                         StyleClass="TextButton"
@@ -104,8 +104,8 @@
                         <Button 
                              StyleClass="TextButton" 
                              Text="☛Y​̲o​̲u​̲ ​̲d​̲o​̲n​̲'​̲t​̲ ​̲h​̲a​̲v​̲e​̲ ​̲a​̲n​̲ ​̲a​̲c​̲c​̲o​̲u​̲n​̲t​̲?​̲ ​̲R​̲e​̲g​̲i​̲s​̲t​̲e​̲r​̲ ​̲h​̲e​̲r​̲e​̲!​☚​"
+                                FontFamily="Sans-Serif"
                              FontAttributes="Bold"
-                                FontFamily="DejaVu"
                              FontSize="14"
                              WidthRequest="380" 
                              TextColor="YellowGreen" 

@@ -1,3 +1,4 @@
+using CommunityToolkit.Maui.Behaviors;
 using WalletConnectSharp;
 namespace eduChain.Views.ContentPages;
 public partial class WebConnectPage : ContentPage
@@ -25,4 +26,8 @@ public partial class WebConnectPage : ContentPage
 		base.OnAppearing();
 		LoadWebpage();
 	}
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+    }
 }

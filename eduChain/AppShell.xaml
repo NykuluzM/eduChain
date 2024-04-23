@@ -95,6 +95,7 @@
             Shell.TabBarTitleColor="Green"
             Shell.FlyoutBehavior="Flyout"
             ContentTemplate="{DataTemplate pages:HomePage}"
+            Shell.NavBarHasShadow="false"
             Route="homePage" />
         
             <ShellContent
@@ -113,9 +114,10 @@
     </FlyoutItem>
 
 
-    <FlyoutItem Title="School Website" FlyoutDisplayOptions="AsMultipleItems">
+    <FlyoutItem Title="School Website"  FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent
             Title="Site"
+
             FlyoutIcon="weblogo.png"
             Icon="weblogo.png"
             FlyoutItemIsVisible="True"
@@ -144,6 +146,7 @@
     </FlyoutItem>
 
     <FlyoutItem Title="IPFS" FlyoutDisplayOptions="AsMultipleItems">
+    
         <ShellContent
             Title="IPFS"
             FlyoutIcon="ipfslogo.png"

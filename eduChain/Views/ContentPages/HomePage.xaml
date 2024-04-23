@@ -5,16 +5,19 @@
              Title=""
             Background="#195a7a"
             Shell.BackgroundColor="#195a7a" 
-            Shell.NavBarHasShadow="false"
+        
             >
             <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
 
-    <VerticalStackLayout>
+    <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
         <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-        
+            Text="Welcome to eduChain" FontSize="Large" HorizontalOptions="Center" TextColor="Gold" FontAttributes="Bold"
+            />
+            <Label 
+            Text="We are still constructing this Application" FontSize="Large"  TextColor="Red" FontAttributes="Bold"
+            />
+        <Image Source="dance.gif" IsAnimationPlaying="True" HeightRequest="200" WidthRequest="200" VerticalOptions="Center" HorizontalOptions="Center"/>   
+          
     </VerticalStackLayout>
     
 </ContentPage>

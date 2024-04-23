@@ -17,7 +17,7 @@ namespace eduChain.Views.ContentPages{
 		private async void Load(){
 			await LoadProfile();
 		}
-		protected override void OnAppearing()
+		protected override async void OnAppearing()
 		{
 			base.OnAppearing();
 			if(Preferences.Default.Get("isloaded", String.Empty) == "false")
@@ -26,6 +26,8 @@ namespace eduChain.Views.ContentPages{
 				Preferences.Default.Set("isloaded", "true");
 			}
 		}
+    
+       
 		private async Task LoadProfile(){
 			try{
 				homePageViewModel.IsLoading = true;

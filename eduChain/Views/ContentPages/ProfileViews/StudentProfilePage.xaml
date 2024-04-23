@@ -5,11 +5,14 @@
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
-             x:Class="eduChain.Views.ContentPages.StudentProfilePage"
-             Shell.BackgroundColor="MediumVioletRed"
+             x:Class="eduChain.Views.ContentPages.ProfileViews.StudentProfilePage"
+             Background="#195a7a"
+            Shell.BackgroundColor="#195a7a" 
 			 Shell.TabBarIsVisible="False"
+			 xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
+            
 			 Shell.NavBarIsVisible="False"
-             Background="MediumVioletRed">
+             >
 
 	
 	<ContentPage.Resources>
@@ -72,9 +75,12 @@
                                         VerticalOptions="Center">
 						<Label x:Name="EmailLabel" FontSize="12" MaxLines="1" LineBreakMode="NoWrap" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center"/>
 						<Label Text="{Binding StudentProfile.FirebaseId, StringFormat='Uid: {0}'}" FontSize="12" MaxLines="1" LineBreakMode="NoWrap" TextColor="White"/>
-                        <Label Text="{Binding UsersProfile.CreatedAt, StringFormat='Account Created: {0}'}" HorizontalOptions="Center"  FontSize="11" MaxLines="1" LineBreakMode="NoWrap" TextColor="White"/>
                     </StackLayout>
 				</VerticalStackLayout>
+			</Frame>
+
+			<Frame BorderColor="Black"  WidthRequest="250" Margin="0,30,0,0" BackgroundColor="Black">
+				<Label Text="{Binding UsersProfile.CreatedAt, StringFormat='Account Created: {0}'}" HorizontalOptions="Center"  FontSize="11" MaxLines="1" LineBreakMode="NoWrap" TextColor="White"/>
 			</Frame>
 			<Frame CornerRadius="20" Margin="{OnPlatform Android='15,30,15,0', iOS='20,30,20,0', MacCatalyst='60,30,60,0', WinUI='120,30,120,0'}" BackgroundColor="Black">
                 <input:FormView HorizontalOptions="FillAndExpand" Padding="0,15,0,15">
@@ -84,33 +90,36 @@
                                 <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Person_outline}" Size="20" />
                             </Button.ImageSource>
                         </Button>
-
-                        <Button x:Name="ShowButton1" StyleClass="TextButton" Text="Show" IsVisible="True" FontSize="12" Clicked="ShowPersonal" HorizontalOptions="Center" ContentLayout="Right,5" HeightRequest="40">
-
-                            <Button.ImageSource >
-                                <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Read_more}" Size="20" />
-                            </Button.ImageSource>
-                        </Button>
-                        <Button x:Name="HideButton1" StyleClass="TextButton" Text="Hide" IsVisible="False" FontSize="12" Clicked="HidePersonal" HorizontalOptions="Center" ContentLayout="Right,5" HeightRequest="40">
+						<Frame x:Name="ShowButton1" IsVisible="True" HeightRequest="40" WidthRequest="90"  CornerRadius="20">
+                        <Button  StyleClass="TextButton" Text="Show" FontSize="12" Clicked="ShowPersonal" HorizontalOptions="Center" ContentLayout="Right,10" HeightRequest="40">
 
                             <Button.ImageSource >
-                                <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Email}" Size="20" />
+                                <FontImageSource FontFamily="FARegular" Glyph="{x:Static fa:Regular.Eye}" Size="15" />
                             </Button.ImageSource>
                         </Button>
+						</Frame>
+						<Frame x:Name="HideButton1" IsVisible="False"  HeightRequest="40" WidthRequest="90" CornerRadius="20">
+                        <Button  StyleClass="TextButton" Text="Hide" FontSize="12" Clicked="HidePersonal" HorizontalOptions="Center" ContentLayout="Right,10" HeightRequest="40">
+
+                            <Button.ImageSource >
+                                <FontImageSource FontFamily="FARegular" Glyph="{x:Static fa:Regular.EyeSlash}" Size="15" />
+                            </Button.ImageSource>
+                        </Button>
+						</Frame>
                     </HorizontalStackLayout>
                    
-                       
+                    <StackLayout x:Name="PersonalDetails" IsVisible="False">
+						<toolkit:UniformItemsLayout  MaxRows="2" MaxColumns="2">
+							<material:TextField x:Name="fName" BorderColor="Bisque" TextColor="Azure" TitleColor="LightGreen"  Title="First Name"  Text="{Binding StudentProfile.FirstName, Mode=TwoWay}" Margin="5,20,5,10" IsReadOnly="True"/>
+							<material:TextField x:Name="lName" Title="Last Name"  TextColor="Azure" TitleColor="LightGreen"   Text="{Binding StudentProfile.LastName, Mode=TwoWay}" Margin="5,20,5,10" IsReadOnly="True" />
+						</toolkit:UniformItemsLayout>
+						<toolkit:UniformItemsLayout MaxRows="3" MaxColumns="4">
+							<material:TextField x:Name="gender" Title="Gender"   TextColor="Azure" TitleColor="LightGreen"  Text="{Binding StudentProfile.Gender, Mode=TwoWay}" Margin="5,20,5,10" IsReadOnly="True" />
+							<material:TextField x:Name="age" Title="Age"   TextColor="Azure" TitleColor="LightGreen"  Text="{Binding StudentProfile.Age}"  Margin="5,20,5,10" IsReadOnly="True" />
+						</toolkit:UniformItemsLayout>
+					</StackLayout>
                 
-                    <toolkit:UniformItemsLayout  MaxRows="2" MaxColumns="2">
-						<material:TextField x:Name="fName" BorderColor="Bisque" TextColor="Azure" TitleColor="LightGreen" IsVisible="False" Title="First Name"  Text="{Binding StudentProfile.FirstName, Mode=TwoWay}" Margin="5,20,5,10" IsReadOnly="True"/>
-                        <material:TextField x:Name="lName" Title="Last Name"  TextColor="Azure" TitleColor="LightGreen"  IsVisible="False" Text="{Binding StudentProfile.LastName, Mode=TwoWay}" Margin="5,20,5,10" IsReadOnly="True" />
-					</toolkit:UniformItemsLayout>
-					<toolkit:UniformItemsLayout MaxRows="3" MaxColumns="4">
-                        <material:TextField x:Name="gender" Title="Gender"   TextColor="Azure" TitleColor="LightGreen" IsVisible="False" Text="{Binding StudentProfile.Gender, Mode=TwoWay}" Margin="5,20,5,10" IsReadOnly="True" />
-                        <material:TextField x:Name="age" Title="Age"   TextColor="Azure" TitleColor="LightGreen" IsVisible="False" Text="{Binding StudentProfile.Age}"  Margin="5,20,5,10" IsReadOnly="True" />
-
-                  
-                    </toolkit:UniformItemsLayout>
+                   
                 </input:FormView>
 			</Frame>
 			<Frame Margin="0,20,0,20"  WidthRequest="400" x:Name="saveButton" IsVisible="False">

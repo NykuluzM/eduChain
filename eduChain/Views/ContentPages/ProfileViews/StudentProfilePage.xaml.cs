@@ -9,8 +9,8 @@ using Plugin.Maui.Audio;
 using eduChain.Services;
 using eduChain.Models.MyProfileModels;
 
-namespace eduChain.Views.ContentPages{
-	public partial class StudentProfilePage : ContentPage
+namespace eduChain.Views.ContentPages.ProfileViews{
+	public partial class StudentProfilePage : ContentPage, IProfilePage
 	{
         readonly IFilePickerService picker;
                 private StudentProfileViewModel _viewModel;
@@ -37,9 +37,8 @@ namespace eduChain.Views.ContentPages{
             _viewModel.imageBytes = null;
             //await Shell.Current.Navigation.PopAsync(); // Pop LoadingPage
         }
-      
-
-private void EditProfile(object sender, EventArgs e)
+     
+public void EditProfile(object sender, EventArgs e)
 {
     EditButton.IsVisible = false;
     CancelButton.IsVisible = true;
@@ -53,25 +52,18 @@ private void EditProfile(object sender, EventArgs e)
 }
 private void ShowPersonal(object sender, EventArgs e)
         {
-    fName.IsVisible = true;
-    lName.IsVisible = true;
-    age.IsVisible = true;
-    gender.IsVisible = true;
+    PersonalDetails.IsVisible = true;
     ShowButton1.IsVisible = false;
     HideButton1.IsVisible = true;
-    return;
 }
 
 private void HidePersonal(object sender, EventArgs e)
         {
-            fName.IsVisible = false;
-            lName.IsVisible = false;
-            age.IsVisible = false;
-            gender.IsVisible = false;
+            PersonalDetails.IsVisible = false;
             ShowButton1.IsVisible = true;
             HideButton1.IsVisible = false;
         }
-private void CancelEditProfile(object sender, EventArgs e)
+public void CancelEditProfile(object sender, EventArgs e)
 {
     EditButton.IsVisible = true;
     CancelButton.IsVisible = false;
@@ -86,20 +78,15 @@ private void CancelEditProfile(object sender, EventArgs e)
      return;
 }
 
-private void Back(object sender, EventArgs e)
+public void Back(object sender, EventArgs e)
         {
             Shell.Current.Navigation.PopAsync();
         }
 
-private async void SaveChanges(object sender, EventArgs e)
+public async void SaveChanges(object sender, EventArgs e)
 {
     CancelEditProfile(sender, e);
     await _viewModel.UpdateProfileAsync();
 }
-
-        private void Button_Clicked(object sender, EventArgs e)
-        {
-
-        }
     }
 }

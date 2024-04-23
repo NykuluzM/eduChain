@@ -10,9 +10,10 @@ using Microsoft.Extensions.DependencyInjection;
 using eduChain.Models;
 using Supabase;
 using eduChain.Views.ContentPages;
+using eduChain.Views.ContentPages.ProfileViews;
 using epj.RouteGenerator;
 using Plugin.Maui.Audio;
-using Mopups.Hosting;
+using Mopups.Hosting;	
 using ZXing.Net.Maui.Controls;
 namespace eduChain
 {
@@ -36,6 +37,8 @@ namespace eduChain
 					fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 					fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 					fonts.AddMaterialIconFonts(); // 👈 Add this line
+							fonts.AddFontAwesomeIconFonts(); // 👈 Add this line
+
 				});
 				
 	
