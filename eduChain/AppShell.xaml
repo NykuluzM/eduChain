@@ -30,16 +30,16 @@
               
             </Border.GestureRecognizers>
             
-            <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto,Auto" Height="125"  BackgroundColor="#41406d">
-                <Border Grid.Column="0" HeightRequest="65" WidthRequest="65" Margin="10,5,0,10"
+            <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto,Auto"  BackgroundColor="#41406d">
+                <Border x:Name="collapse1" Grid.Column="0" HeightRequest="65" WidthRequest="65" Margin="10,5,0,10"
                     Stroke="{StaticResource grad}" StrokeThickness="2">
                     <Border.StrokeShape>
                         <Ellipse />
                     </Border.StrokeShape>
                     <Image x:Name="ProfileImage" Source="{Binding UsersProfile.ProfileImage}" Aspect="AspectFill"/>
                 </Border>
-                <Label Grid.Column="1" Grid.Row="0"  TextColor="Black" FontAttributes="Bold" FontSize="13" Text="{Binding UsersProfile.DisplayName}" LineBreakMode="WordWrap" MaxLines="2" x:Name="Name" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="40"/>
-                <Border Grid.Column="1" Grid.Row="0"  Background="Black"  Margin="0,25,0,0" Stroke="{StaticResource grad}" StrokeThickness="2" HeightRequest="20" HorizontalOptions="Center" VerticalOptions="End">
+                <Label  Grid.Column="1" Grid.Row="0"  TextColor="Black" FontAttributes="Bold" FontSize="13" Text="{Binding UsersProfile.DisplayName}" LineBreakMode="WordWrap" MaxLines="2" x:Name="Name" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="40"/>
+                <Border x:Name="RoleVal" Grid.Column="1" Grid.Row="0"  Background="Black"  Margin="0,25,0,0" Stroke="{StaticResource grad}" StrokeThickness="2" HeightRequest="20" HorizontalOptions="Center" VerticalOptions="End">
                 <Label  Grid.Row="1" Text="{Binding UsersProfile.Role}" Padding="20,0,20,0" TextDecorations="Underline" TextColor="Yellow"  x:Name="Role" FontSize="12"  HorizontalOptions="Center" VerticalOptions="End"/>
                 </Border>
 
@@ -53,7 +53,7 @@
     <Shell.ItemTemplate>
         <DataTemplate>
             <StackLayout>
-                <Grid ColumnSpacing="20" RowDefinitions="7,Auto,7,1" ColumnDefinitions="50,*">
+                <Grid ColumnSpacing="10" RowDefinitions="7,Auto,7,1" ColumnDefinitions="50,*">
                     <VisualStateManager.VisualStateGroups>
                         <VisualStateGroupList>
                             <VisualStateGroup x:Name="CommonStates">
@@ -71,7 +71,7 @@
                         </VisualStateGroupList>
 
                     </VisualStateManager.VisualStateGroups>
-                    <Image Grid.Row="1" Grid.Column="0" HorizontalOptions="Center" Margin="40,0,0,0" Source="{Binding FlyoutIcon}" WidthRequest="27" />
+                    <Image  x:Name="logoo" Grid.Row="1" Grid.Column="0" HorizontalOptions="Center" Margin="10,0,0,0" Source="{Binding FlyoutIcon}" WidthRequest="25" />
                     <Label Grid.Row="1" Grid.Column="1" Text="{Binding Title}" FontSize="15" HorizontalOptions="Center"  VerticalOptions="Center" TextColor="Black" Margin="0,0,55,0" FontAttributes="Bold" WidthRequest="{x:OnPlatform WinUI= 350}"/>
                     <BoxView Grid.Row="3" Color="GreenYellow" Grid.Column="0" Grid.ColumnSpan="2"/>
 
@@ -185,6 +185,8 @@
                 <RowDefinition Height="Auto" />
                 <!-- Row for Button -->
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+
                 <!-- Row for existing content -->
             </Grid.RowDefinitions>
 
@@ -197,12 +199,31 @@
                 </Button.ImageSource>
             </Button>
 
-            <Button HorizontalOptions="Start" StyleClass="TextButton" Clicked="LockFlyout" Grid.Row="1" WidthRequest="80" >
+            <Button x:Name="Lock" HorizontalOptions="Center"  StyleClass="TextButton" Clicked="LockFlyout" Grid.Row="3"  WidthRequest="80" >
                 <Button.ImageSource>
                     <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Lock}" Color="Black" />
                 </Button.ImageSource>
             </Button>
-            <Button  IsVisible="{OnPlatform Android=true, MacCatalyst=true, WinUI=false, iOS=true}" Grid.Row="1" StyleClass="TextButton" Clicked="ExitFlyout"  WidthRequest="80" HorizontalOptions="End" Margin="0,0,-15,0">
+
+            <Button x:Name="Collapse" Grid.Column="0" WidthRequest="80" Grid.Row="1" Clicked="Collapse_Clicked" StyleClass="TextButton" HorizontalOptions="End" IsVisible="False">
+                <Button.ImageSource>
+                    <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Adjust}" Color="Black" />
+                </Button.ImageSource>
+            </Button>
+
+
+
+            <Button x:Name="Unlock" Margin="0,15,0,0" Grid.Column="0" WidthRequest="80" Grid.Row="2" Clicked="Unlock_Clicked" HorizontalOptions="Center" StyleClass="TextButton" IsVisible="False">
+                <Button.ImageSource>
+                    <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Lock_open}" Color="Black" />
+                </Button.ImageSource>
+            </Button>
+            <Button x:Name="Expand" Grid.Column="1" WidthRequest="80"   Grid.Row="1" Clicked="Expand_Clicked" StyleClass="TextButton" IsVisible="False">
+                <Button.ImageSource>
+                    <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialTwoTone.Expand}" Color="Black"  />
+                </Button.ImageSource>
+            </Button>
+            <Button x:Name="Minimize"  IsVisible="{OnPlatform Android=true, MacCatalyst=true, WinUI=true, iOS=true}" Grid.Row="1" StyleClass="TextButton" Clicked="ExitFlyout"  WidthRequest="80" HorizontalOptions="End" Margin="0,0,-15,0">
                     <Button.ImageSource>
                         <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Menu_open}" Color="Black" />
                     

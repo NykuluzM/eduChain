@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
-            xmlns:content="clr-namespace:eduChain.Views.ContentViews; assembly=eduChain"
+            xmlns:content="clr-namespace:eduChain.Views.ContentViews;assembly=eduChain"
 
              x:Class="eduChain.Views.ContentPages.HomePage"
              Title=""
@@ -11,10 +11,10 @@
             
             Shell.NavBarIsVisible="{x:OnPlatform WinUI=false, Android=true, iOS=true, MacCatalyst=false}"
             >
-            <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
+
+    <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
 
     <ScrollView>
-        <RefreshView x:Name="contents" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
         <StackLayout>
         <content:HeaderView />
         <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
@@ -30,7 +30,6 @@
         
         </StackLayout>
        
-        </RefreshView>
         
     </ScrollView>   
 </ContentPage>
