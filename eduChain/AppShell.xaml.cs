@@ -182,8 +182,13 @@ public partial class AppShell : Shell
         collapse1.WidthRequest = 35;
         collapse1.HeightRequest = 35;
         Lock.Margin = new Thickness(0, 0, 0, 80);
-        if (Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.WinUI || Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.macOS || Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.MacCatalyst)
+        if (Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.WinUI  )
         {
+            collapse1.WidthRequest = 45;
+            collapse1.HeightRequest = 45;
+            collapse1.Margin = new Thickness(17, 10, 0, 10);
+            Shell.Current.FlyoutWidth = 85;
+        } else if (Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.macOS || Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.MacCatalyst){
             collapse1.WidthRequest = 45;
             collapse1.HeightRequest = 45;
             collapse1.Margin = new Thickness(17, 10, 0, 10);

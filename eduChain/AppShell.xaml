@@ -71,8 +71,8 @@
                         </VisualStateGroupList>
 
                     </VisualStateManager.VisualStateGroups>
-                    <Image  x:Name="logoo" Grid.Row="1" Grid.Column="0" HorizontalOptions="Center" Margin="10,0,0,0" Source="{Binding FlyoutIcon}" WidthRequest="25" />
-                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Title}" FontSize="15" HorizontalOptions="Center"  VerticalOptions="Center" TextColor="Black" Margin="0,0,55,0" FontAttributes="Bold" WidthRequest="{x:OnPlatform WinUI= 350}"/>
+                    <Image  x:Name="logoo" Grid.Row="1" Grid.Column="0" HorizontalOptions="Center" Margin="{x:OnPlatform Default='10,0,0,0', MacCatalyst='30,0,0,0'}" Source="{Binding FlyoutIcon}" WidthRequest="25" />
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Title}" FontSize="15" HorizontalOptions="Center"  VerticalOptions="Center" TextColor="Black" Margin="0,0,55,10" FontAttributes="Bold" WidthRequest="{x:OnPlatform WinUI= 350}"/>
                     <BoxView Grid.Row="3" Color="GreenYellow" Grid.Column="0" Grid.ColumnSpan="2"/>
 
                 </Grid>
