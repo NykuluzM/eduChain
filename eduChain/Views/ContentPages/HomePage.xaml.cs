@@ -3,6 +3,8 @@ using CommunityToolkit.Maui.Views;
 using eduChain.Models;
 using eduChain.Services;
 using eduChain.Views.Popups;
+using Microsoft.Maui.Controls;
+
 using IAudioManager = Plugin.Maui.Audio.IAudioManager;
 namespace eduChain.Views.ContentPages{
 	public partial class HomePage : ContentPage
@@ -14,6 +16,7 @@ namespace eduChain.Views.ContentPages{
 			InitializeComponent();
 			homePageViewModel = new HomePageViewModel();
             BindingContext = homePageViewModel;
+
 		}
 		private async void Load(){
 			await LoadProfile();
@@ -26,10 +29,10 @@ namespace eduChain.Views.ContentPages{
 				Load();
 				Preferences.Default.Set("isloaded", "true");
 			}
+			Title.Focus();
+		
 		}
-		private  void Menu(object sender, EventArgs e){
-			Shell.Current.FlyoutIsPresented = true;
-		}
+	
        
 		private async Task LoadProfile(){
 			try{
@@ -37,10 +40,12 @@ namespace eduChain.Views.ContentPages{
 	
 			    var audioConnection = IPlatformApplication.Current.Services.GetRequiredService<IAudioManager>();
 				loadingPopup = new LoadingPopup(audioConnection);
-				this.ShowPopup(loadingPopup);
-				await Task.Delay(5000);
+
 				await homePageViewModel.LoadUsers(Preferences.Default.Get("firebase_uid", string.Empty));
+				await Task.Delay(2000);
 				//await homePageViewModel.LoadProfileAsync(Preferences.Default.Get("firebase_uid", string.Empty));
+				//await Shell.Current.DisplayAlert("Success", "Profile Loaded", null);
+				//await Shell.Current.Navigation.PopModalAsync();
 			}
 			catch{
 
@@ -48,7 +53,6 @@ namespace eduChain.Views.ContentPages{
 			finally{
 				loadingPopup.ClosePopup();
 				homePageViewModel.IsLoading = false;
-
 			}
 		}
 		

@@ -4,10 +4,10 @@
                x:Class="eduChain.Views.Popups.LoadingPopup"
                CanBeDismissedByTappingOutsideOfPopup="false" Color="Transparent">
     <Frame CornerRadius="15" BackgroundColor="LightGreen" BorderColor="Transparent">
-        <VerticalStackLayout WidthRequest="250" HeightRequest="250" VerticalOptions="Center">
+        <VerticalStackLayout WidthRequest="300" HeightRequest="300" VerticalOptions="Center">
 
-            <Image Source="dancing.gif" IsAnimationPlaying="True"  WidthRequest="150" Margin="0,0,0,10" HorizontalOptions="Center" HeightRequest="200" VerticalOptions="Center"/>
-            <Label Text="Welcome to eduChain" TextColor="Black" HorizontalOptions="Center" VerticalOptions="End"/>
+            <Image Source="dancing.gif" IsAnimationPlaying="True"  WidthRequest="150" Margin="0,0,0,10" HorizontalOptions="Center" HeightRequest="150" VerticalOptions="Center"/>
+            <Label Text="Welcome to eduChain" TextColor="Black" FontFamily="Sans-Serif" HorizontalOptions="Center" FontSize="12" FontAttributes="Bold" Margin="10,0,0,0" IsVisible="True"/>
         </VerticalStackLayout>
 
     </Frame>

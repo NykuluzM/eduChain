@@ -18,26 +18,15 @@
              >
 
 	
-	<ContentPage.Resources>
-		<ResourceDictionary>
-			<LinearGradientBrush x:Key="grad" EndPoint="0,1">
-				<GradientStop Offset="0" Color="#6C06E6" />
-				<GradientStop Offset="1" Color="#FF228B" />
-			</LinearGradientBrush>
-		</ResourceDictionary>
-	</ContentPage.Resources>
+	
     
         <ScrollView>
 		<StackLayout HorizontalOptions="FillAndExpand">
              
             
-            <Frame BackgroundColor="Transparent" BorderColor="Transparent" WidthRequest="400" HeightRequest="500">
-                <content:UserProfileView
-       
-          />
-            </Frame>
+                <content:UserProfileView />
            
-			<Frame CornerRadius="20" Margin="{OnPlatform Android='10,0,10,400', iOS='10,0,10,400', MacCatalyst='60,0,60,0', WinUI='120,0,120,0'}" BackgroundColor="Black">
+			<Frame CornerRadius="20" Margin="{OnPlatform Android='10,0,10,400', iOS='10,0,10,400', MacCatalyst='60,30,60,0', WinUI='120,0,120,0'}" BackgroundColor="Black">
                 <input:FormView HorizontalOptions="FillAndExpand" Padding="0,15,0,15">
                     <Grid>
                         <Grid.ColumnDefinitions>

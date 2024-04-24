@@ -3,10 +3,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
               xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
              x:Class="eduChain.Views.ContentViews.UserProfileView">
-    <StackLayout>
-        <Grid ColumnSpacing="10">
+    <ContentView.Resources>
+		<ResourceDictionary>
+			<LinearGradientBrush x:Key="grad" EndPoint="0,1">
+				<GradientStop Offset="0" Color="#6C06E6" />
+				<GradientStop Offset="1" Color="#FF228B" />
+			</LinearGradientBrush>
+		</ResourceDictionary>
+	</ContentView.Resources>
+    <StackLayout >
+        <Grid ColumnSpacing="10" HorizontalOptions="Start">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
             <!-- Back Button -->
-            <Button Grid.Column="0" Grid.Row="0" IsVisible="{OnPlatform Android=true, MacCatalyst=true, WinUI=false, iOS=true}" StyleClass="TextButton" Clicked="Back" VerticalOptions="Start" WidthRequest="80" HorizontalOptions="Start" Margin="-30,0,0,0">
+            <Button Grid.Column="0"  IsVisible="{OnPlatform Android=true, MacCatalyst=true, WinUI=false, iOS=true}" StyleClass="TextButton" Clicked="Back" VerticalOptions="Start" WidthRequest="80" HorizontalOptions="Start" Margin="-15,0,0,0">
                 <Button.ImageSource>
                     <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Arrow_back}" />
                 </Button.ImageSource>
@@ -14,7 +26,7 @@
 
 
         </Grid>
-        <Frame BorderColor="Black" CornerRadius="20" WidthRequest="280" Margin="0,30,0,0" BackgroundColor="Black">
+        <Frame BorderColor="Black" CornerRadius="20" WidthRequest="280" HorizontalOptions="Center" Margin="0,30,0,0" BackgroundColor="Black">
             <VerticalStackLayout >
                 <Label  Text="{Binding UsersProfile.Role, StringFormat='{0} Profile'}" HorizontalOptions="Center" TextColor="Gold"/>
                 <Border Grid.Column="0" HeightRequest="105" WidthRequest="105" Margin="0,20,0,20"
@@ -53,7 +65,7 @@
             </VerticalStackLayout>
 
         </Frame>
-        <Frame BorderColor="Black"  WidthRequest="250" Margin="0,30,0,0" BackgroundColor="Black">
+        <Frame BorderColor="Black" HorizontalOptions="Center"  WidthRequest="250" Margin="0,30,0,0" BackgroundColor="Black">
             <Label Text="{Binding UsersProfile.CreatedAt, StringFormat='Account Created: {0}'}" HorizontalOptions="Center"  FontSize="11" MaxLines="1" LineBreakMode="NoWrap" TextColor="White"/>
         </Frame>
     </StackLayout>

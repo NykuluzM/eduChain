@@ -77,7 +77,7 @@ namespace eduChain.Views.ContentPages.ProfileViews{
 
             HideButton1.Opacity = 0;
             HideButton1.IsVisible = true;
-            await HideButton1.FadeTo(1, 400);
+            await HideButton1.FadeTo(1, 700);
 
 
             EditButton.Opacity = 0;

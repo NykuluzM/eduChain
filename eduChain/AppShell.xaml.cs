@@ -33,7 +33,7 @@ public partial class AppShell : Shell
             pTap.IsEnabled = false;
         }
        
-        if (!repeat)
+        if (!repeat )
         {
             return;
         }
@@ -63,8 +63,14 @@ public partial class AppShell : Shell
                 }
                 else
                 {
-                    await Shell.Current.Navigation.PushAsync(new StudentProfilePage(), false);
-                    repeat = true;
+					try{
+						await Shell.Current.Navigation.PushAsync(new StudentProfilePage(), false);
+											repeat = true;
+					}
+					catch(Exception ex){
+						await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+					}
+                   
 
                 }
                 break;
@@ -127,7 +133,12 @@ public partial class AppShell : Shell
 	}
 	private void ExitFlyout(object sender, EventArgs e)
 	{
+        _viewModel.FlyoutBehavior = FlyoutBehavior.Flyout;
         Shell.Current.FlyoutIsPresented = false;
+    }
+    private void LockFlyout(object sender, EventArgs e)
+    {
+        _viewModel.FlyoutBehavior = FlyoutBehavior.Locked;    
     }
     protected override void OnNavigating(ShellNavigatingEventArgs args)
     {
