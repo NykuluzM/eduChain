@@ -133,12 +133,12 @@ public partial class AppShell : Shell
 	}
 	private void ExitFlyout(object sender, EventArgs e)
 	{
-        _viewModel.FlyoutBehavior = FlyoutBehavior.Flyout;
+        _viewModel.FlyoutBehaviors = FlyoutBehavior.Flyout;
         Shell.Current.FlyoutIsPresented = false;
     }
     private void LockFlyout(object sender, EventArgs e)
     {
-        _viewModel.FlyoutBehavior = FlyoutBehavior.Locked;    
+        _viewModel.FlyoutBehaviors = FlyoutBehavior.Locked;    
     }
     protected override void OnNavigating(ShellNavigatingEventArgs args)
     {

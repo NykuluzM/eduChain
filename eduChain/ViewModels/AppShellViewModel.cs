@@ -35,7 +35,7 @@ public class AppShellViewModel : ViewModelBase
 	
    
      private FlyoutBehavior _flyoutBehavior = FlyoutBehavior.Flyout;
-    public FlyoutBehavior FlyoutBehavior
+    public FlyoutBehavior FlyoutBehaviors
     {
         get => _flyoutBehavior;
         set
@@ -48,7 +48,7 @@ public class AppShellViewModel : ViewModelBase
             else if(value == FlyoutBehavior.Flyout){
                 IsMenuPresented = true;
             }
-            OnPropertyChanged(nameof(FlyoutBehavior));
+            OnPropertyChanged(nameof(FlyoutBehaviors));
         }
     }
 
