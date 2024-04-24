@@ -5,6 +5,7 @@
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
+             xmlns:content="clr-namespace:eduChain.Views.ContentViews; assembly=eduChain"
              x:Class="eduChain.Views.ContentPages.ProfileViews.StudentProfilePage"
              
              Background="#195a7a"
@@ -29,59 +30,14 @@
         <ScrollView>
 		<StackLayout HorizontalOptions="FillAndExpand">
              
-            <Grid ColumnSpacing="10">
-                <!-- Back Button -->
-                <Button Grid.Column="0" Grid.Row="0" IsVisible="{OnPlatform Android=true, MacCatalyst=true, WinUI=false, iOS=true}" StyleClass="TextButton" Clicked="Back" VerticalOptions="Start" WidthRequest="80" HorizontalOptions="Start" Margin="-10,0,0,0">
-                    <Button.ImageSource>
-                        <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Arrow_back}" />
-                    </Button.ImageSource>
-                </Button>
-
-
-            </Grid>
-            <Frame BorderColor="Black" CornerRadius="20" WidthRequest="280" Margin="0,30,0,0" BackgroundColor="Black">
-                <VerticalStackLayout >
-                    <Label  Text="{Binding UsersProfile.Role, StringFormat='{0} Profile'}" HorizontalOptions="Center" TextColor="Gold"/>
-                    <Border Grid.Column="0" HeightRequest="105" WidthRequest="105" Margin="0,20,0,20"
-                                            Stroke="{StaticResource grad}" StrokeThickness="2">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="40,40,40,40" />
-                        </Border.StrokeShape>
-                        <Grid>
-                            <Image x:Name="ProfileImageBlurred" Opacity="0.1" Aspect="AspectFill" Source="{Binding PreviewImage}" IsVisible="False">
-
-                        
-                            </Image>
-                            <Image x:Name="ProfileImage" Aspect="AspectFill" Source="{Binding UsersProfile.ProfileImage}" IsVisible="True"/>
-                            <ImageButton x:Name="editProfile" IsVisible="False" Command="{Binding EditImageCommand}" WidthRequest="40"
-										Source="editimagebut.png" Background="Transparent" VerticalOptions="Center">
-                            </ImageButton>
-                        </Grid>
-                    </Border>
-                    <StackLayout Grid.Column="2" HorizontalOptions="CenterAndExpand"
-                                        VerticalOptions="Center">
-                        <Label x:Name="EmailLabel" FontSize="12" MaxLines="1" LineBreakMode="NoWrap" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center"/>
-                        <Label Text="{Binding StudentProfile.FirebaseId, StringFormat='Uid: {0}'}" FontSize="12" MaxLines="1" LineBreakMode="NoWrap" TextColor="White"/>
-                      
-                    </StackLayout>
-                    <Button WidthRequest="160" Margin="0,20,0,0" IsVisible="True" x:Name="ProfileChange" Clicked="EditPicture" StyleClass="Filled" BackgroundColor="AntiqueWhite" Opacity="0.8"  Text="Change Profile Picture" FontFamily="Sans-Serif" FontSize="12" >
-
-                    </Button>
-                    <HorizontalStackLayout Margin="0,20,0,0" Spacing="20" HorizontalOptions="Center">
-                        <Button WidthRequest="80" x:Name="CancelProfile" IsVisible="False"  Text="Cancel" Clicked="CancelProfileChange" BackgroundColor="AntiqueWhite" Opacity="0.8" FontFamily="Sans-Serif" FontSize="12">
-                            
-                        </Button>
-                        <Button WidthRequest="80" Text="Save" x:Name="SaveProfile" IsVisible="False" Clicked="SaveProfileChange" BackgroundColor="AntiqueWhite" Opacity="0.8" FontFamily="Sans-Serif" FontSize="12">
-                            
-                        </Button>
-                    </HorizontalStackLayout>
-                </VerticalStackLayout>
-
+            
+            <Frame BackgroundColor="Transparent" BorderColor="Transparent" WidthRequest="400" HeightRequest="500">
+                <content:UserProfileView
+       
+          />
             </Frame>
-            <Frame BorderColor="Black"  WidthRequest="250" Margin="0,30,0,0" BackgroundColor="Black">
-				<Label Text="{Binding UsersProfile.CreatedAt, StringFormat='Account Created: {0}'}" HorizontalOptions="Center"  FontSize="11" MaxLines="1" LineBreakMode="NoWrap" TextColor="White"/>
-			</Frame>
-			<Frame CornerRadius="20" Margin="{OnPlatform Android='10,30,10,400', iOS='10,30,10,400', MacCatalyst='60,30,60,0', WinUI='120,30,120,0'}" BackgroundColor="Black">
+           
+			<Frame CornerRadius="20" Margin="{OnPlatform Android='10,0,10,400', iOS='10,0,10,400', MacCatalyst='60,0,60,0', WinUI='120,0,120,0'}" BackgroundColor="Black">
                 <input:FormView HorizontalOptions="FillAndExpand" Padding="0,15,0,15">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -147,10 +103,10 @@
 					</StackLayout>
                     <!-- Edit Button -->
 
-
+                  
                 </input:FormView>
 			</Frame>
-		
-		</StackLayout>
+          
+        </StackLayout>
 	</ScrollView>
 </ContentPage>

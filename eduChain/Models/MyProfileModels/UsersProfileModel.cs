@@ -7,7 +7,6 @@ public class UsersProfileModel : INotifyPropertyChanged
 {
     private static UsersProfileModel instance;
     private static readonly object lockObject = new object();
-
     public event PropertyChangedEventHandler? PropertyChanged;
 
     public static UsersProfileModel Instance
@@ -21,6 +20,7 @@ public class UsersProfileModel : INotifyPropertyChanged
                     if (instance == null)
                     {
                         instance = new UsersProfileModel();
+                        instance.ProfilePic = null;
                     }
                 }
             }
@@ -31,6 +31,7 @@ public class UsersProfileModel : INotifyPropertyChanged
             instance = value;
         }
     }
+    
     public string FirebaseId { get; set; }
     private string _role;
     private byte[] _profilePic;
@@ -42,6 +43,7 @@ public class UsersProfileModel : INotifyPropertyChanged
             if (_role != value)
             {
                 _role = value;
+
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Role)));
             }
         }
@@ -64,6 +66,13 @@ public class UsersProfileModel : INotifyPropertyChanged
                                 get { return _profilePic; }
                                 set
                                 {
+                                    if(value == null)
+                                    {
+                                        _profilePic = null;
+                                        ProfileImage = ImageSource.FromFile("profiledefault.png");
+                                        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ProfilePic)));
+                                    }
+                                    else
                                     if(_profilePic != value){
                                         _profilePic = value;
                                         LoadProfileImage(); // Call the method to load the profile image when the property is set

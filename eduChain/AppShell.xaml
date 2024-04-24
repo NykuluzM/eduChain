@@ -24,9 +24,10 @@
     </Shell.Resources>
     
     <Shell.FlyoutHeader WidthRequest="40" HeightRequest="40">
-        <Border Stroke="#C49B33" StrokeThickness="4">
+        <Border x:Name="pTap" Stroke="#C49B33" StrokeThickness="4">
             <Border.GestureRecognizers>
                 <TapGestureRecognizer Tapped="ProfileTapped" />
+              
             </Border.GestureRecognizers>
             <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto" BackgroundColor="#41406d">
                 <Border Grid.Column="0" HeightRequest="65" WidthRequest="65" Margin="10,5,0,10"
@@ -92,7 +93,7 @@
         Route="loginPage" />
 
 	
-    <FlyoutItem Title="Home" FlyoutDisplayOptions="AsMultipleItems">
+    <FlyoutItem Title="Home" x:Name="fly1" FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent
             Title="Home"
             FlyoutIcon="homelogo.png"
@@ -125,7 +126,7 @@
     </FlyoutItem>
 
 
-    <FlyoutItem Title="School Website"  FlyoutDisplayOptions="AsMultipleItems">
+    <FlyoutItem Title="School Website" x:Name="fly2"  FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent
             Title="Site"
 
@@ -156,7 +157,7 @@
     />
     </FlyoutItem>
 
-    <FlyoutItem Title="IPFS" FlyoutDisplayOptions="AsMultipleItems">
+    <FlyoutItem Title="IPFS" x:Name="fly3" FlyoutDisplayOptions="AsMultipleItems">
     
         <ShellContent
             Title="IPFS"
@@ -192,7 +193,7 @@
                 Grid.Row="0"/>
 
             <!-- Existing content in the second row --> 
-            <ImageButton Source="collapse.png"
+            <ImageButton IsVisible="{x:OnPlatform WinUI=false, MacCatalyst=true, Android=true, iOS=true}" Source="collapse.png"
              Clicked="ExitFlyout"
              Grid.Row="1"
              HorizontalOptions="Center"

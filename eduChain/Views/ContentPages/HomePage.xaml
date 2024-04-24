@@ -14,7 +14,7 @@
     <ScrollView>
         <StackLayout>
         <VerticalStackLayout>
-            <Button  IsVisible="{OnPlatform Android=true, MacCatalyst=true, WinUI=false, iOS=true}" StyleClass="TextButton" Clicked="Menu" VerticalOptions="Start" WidthRequest="80" HorizontalOptions="Start" Margin="0,0,0,0">
+            <Button  IsVisible="{OnPlatform Android=false, MacCatalyst=true, WinUI=false, iOS=true}" StyleClass="TextButton" Clicked="Menu" VerticalOptions="Start" WidthRequest="80" HorizontalOptions="Start" Margin="0,0,0,0">
                     <Button.ImageSource>
                         <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Arrow_back}" />
                     

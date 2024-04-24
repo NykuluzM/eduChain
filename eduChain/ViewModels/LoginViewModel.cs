@@ -9,6 +9,8 @@ using Firebase.Auth;
 using Org.BouncyCastle.Utilities.Collections;
 using Microsoft.Maui.Storage;
 using eduChain.Views.ContentPages;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Alerts;
 namespace eduChain.ViewModels
 {
     public class LoginViewModel : INotifyPropertyChanged
@@ -101,9 +103,15 @@ namespace eduChain.ViewModels
                         Preferences.Default.Set("email", Email);
                         Preferences.Default.Set("password", Password);
                         Preferences.Default.Set("IsLoggedIn", true);
-                            Application.Current?.MainPage?.DisplayAlert("Error", "saved", "OK");
-                    }                     
-                    Password = string.Empty;
+                        var cancellationTokenSource = new CancellationTokenSource();
+                        var text = "Saved Login";
+                        var duration = ToastDuration.Long;
+                        var fontSize = 14;
+                        var toast = Toast.Make(text, duration, fontSize);
+                        await toast.Show(cancellationTokenSource.Token);
+
+                }
+                Password = string.Empty;
                     Preferences.Default.Set("email", Email);
                     Email = string.Empty;
                     // Navigate to the home page

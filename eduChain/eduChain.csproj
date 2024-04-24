@@ -98,9 +98,6 @@
 		<PackageReference Include="CommunityToolkit.Maui" Version="8.0.1" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Views/ContentViews/" />
-	</ItemGroup>
-	<ItemGroup>
 	  <Compile Update="Views/ContentPages/ForgotPasswordPage.xaml.cs">
 	    <DependentUpon>ForgotPasswordPage.xaml</DependentUpon>
 	  </Compile>
@@ -116,5 +113,10 @@
 	  <Compile Update="Views/ContentPages/WebConnectPage.xaml.cs">
 	    <DependentUpon>WebConnectPage.xaml</DependentUpon>
 	  </Compile>
+	</ItemGroup>
+	<ItemGroup>
+	  <MauiXaml Update="Views\ContentViews\NewContent1.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 </Project>

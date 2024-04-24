@@ -30,7 +30,6 @@ namespace eduChain.Views.ContentPages.ProfileViews{
 			InitializeComponent();
             picker = IPlatformApplication.Current.Services.GetRequiredService<IFilePickerService>();
             _viewModel = new StudentProfileViewModel();
-            EmailLabel.Text = "Email: " + Preferences.Get("email", String.Empty);
             BindingContext = _viewModel;
             _studentProfile = StudentProfileModel.Instance;
             _viewModel.PreviewImage = ImageSource.FromStream(() => new MemoryStream(UsersProfileModel.Instance.ProfilePic));
@@ -48,15 +47,7 @@ namespace eduChain.Views.ContentPages.ProfileViews{
             oprofile = _viewModel.UsersProfile.ProfilePic;
             //await Shell.Current.Navigation.PopAsync(); // Pop LoadingPage
         }
- public void EditPicture(object sender, EventArgs e)
-        {
-            editProfile.IsVisible = true;
-            CancelProfile.IsVisible = true;
-            SaveProfile.IsVisible = true;
-            ProfileChange.IsVisible = false;
-            ProfileImageBlurred.IsVisible = true;
-            ProfileImage.IsVisible = false;
-        }
+ 
         public async void EditProfile(object sender, EventArgs e)
         {
             EditButton.IsVisible = false;
@@ -75,31 +66,8 @@ namespace eduChain.Views.ContentPages.ProfileViews{
             return;
             
         }
-        public void CancelProfileChange(object sender, EventArgs e)
-        {
-            CancelProfile.IsVisible = false;
-            SaveProfile.IsVisible = false;
-            ProfileChange.IsVisible = true;
-            ProfileImageBlurred.IsVisible = false;
-            ProfileImage.IsVisible = true;
-            editProfile.IsVisible = false;
-            _viewModel.imageBytes = null;
-            _viewModel.PreviewImage = ImageSource.FromStream(() => new MemoryStream(_viewModel.UsersProfile.ProfilePic));
-
-            return;
-        }
-        public async void SaveProfileChange(object sender, EventArgs e)
-        {
-            if(_viewModel.imageBytes == null)
-            {
-                await DisplayAlert("Error", "No changes made", "OK");
-                CancelProfileChange(sender, e);
-                return;
-            }
-            await _viewModel.UpdateProfilePicture();
-            CancelProfileChange(sender, e);
-
-        }
+     
+      
         private async void ShowPersonal(object sender, EventArgs e)
         {
             

@@ -11,11 +11,13 @@ public partial class LoadingPopup : Popup
 	{
 		InitializeComponent();
 		this.audioManager = audioManager;
-		player = audioManager.CreatePlayer(FileSystem.OpenAppPackageFileAsync("gikumot.mp3").Result);
+		player = audioManager.CreatePlayer(FileSystem.OpenAppPackageFileAsync("buang.mp3").Result);
 		player.Play();
 	}
-
-	public void ClosePopup(){
+	
+		
+	
+    public void ClosePopup(){
 		player.Stop();
 		player.Dispose();
 		this.Close();
