@@ -25,6 +25,7 @@ public partial class AppShell : Shell
 	}
     public void TriggerLayout(string layout){
         if(layout == "collapsed"){
+           
             Collapse_Clicked(this, new EventArgs());
         }
         else{
@@ -186,6 +187,10 @@ public partial class AppShell : Shell
     private void Collapse_Clicked(object sender, EventArgs e)
     {
         Unlock.IsVisible = false;
+        if (Microsoft.Maui.Devices.DeviceInfo.Platform != DevicePlatform.Android)
+        {
+            Expand.BorderWidth = 0;
+        }
         Expand.RotateTo(90, 500, new Easing(t => t));
         Minimize.IsVisible = false;
         Expand.IsVisible = true;

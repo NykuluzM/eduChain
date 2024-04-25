@@ -12,6 +12,7 @@ using CommunityToolkit.Maui.Alerts;
 
 using Org.BouncyCastle.Utilities;
 using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.PlatformConfiguration.AndroidSpecific;
 
 namespace eduChain.Views.ContentPages.ProfileViews{
 	public partial class StudentProfilePage : ContentPage, IProfilePage
@@ -36,6 +37,7 @@ namespace eduChain.Views.ContentPages.ProfileViews{
         }
         protected override async void OnAppearing()
         {
+           
             base.OnAppearing();
             //var plp = IPlatformApplication.Current.Services.GetRequiredService<IAudioManager>();
             //await Shell.Current.Navigation.PushAsync(new LoadingOnePage(plp)); // Push LoadingPage

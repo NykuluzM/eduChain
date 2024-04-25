@@ -20,7 +20,8 @@ namespace eduChain.Views.ContentPages{
 		}
 		private async void Load(){
 			await LoadProfile();
-		}
+          
+        }
 		protected override async void OnAppearing()
 		{
 			base.OnAppearing();
@@ -31,9 +32,7 @@ namespace eduChain.Views.ContentPages{
 				Preferences.Default.Set("isloaded", "true");
 			}
 			Title.Focus();
-			AppShell appShell = (App.Current as App).MainPage as AppShell;
-
-			appShell.TriggerLayout("collapsed");
+			
 		}
 	
        
@@ -54,7 +53,11 @@ namespace eduChain.Views.ContentPages{
 
 			}
 			finally{
-				loadingPopup.ClosePopup();
+                AppShell appShell = (App.Current as App).MainPage as AppShell;
+                Shell.Current.FlyoutIsPresented = true;
+                appShell.TriggerLayout("collapsed");
+                Shell.Current.FlyoutIsPresented = false;
+                loadingPopup.ClosePopup();
 				homePageViewModel.IsLoading = false;
 			}
 		}

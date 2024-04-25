@@ -53,19 +53,18 @@
    
     <Shell.ItemTemplate>
         <DataTemplate>
-            <StackLayout>
-                <Grid ColumnSpacing="10" RowDefinitions="7,Auto,7,1" ColumnDefinitions="50,*">
+                <Grid ColumnSpacing="10" RowDefinitions="8,Auto,8,1" ColumnDefinitions="50,*">
                     <VisualStateManager.VisualStateGroups>
                         <VisualStateGroupList>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
                                     <VisualState.Setters>
-                                        <Setter Property="BackgroundColor" Value="LightGray"/>
+                                        <Setter Property="BackgroundColor" Value="Orange"/>
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Selected">
                                     <VisualState.Setters>
-                                        <Setter Property="BackgroundColor" Value="LightGreen" />
+                                        <Setter Property="BackgroundColor" Value="Red" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -74,10 +73,8 @@
                     </VisualStateManager.VisualStateGroups>
                     <Image  x:Name="logoo" Grid.Row="1" Grid.Column="0" HorizontalOptions="Center" Margin="{x:OnPlatform Default='10,0,0,0', MacCatalyst='30,0,0,0'}" Source="{Binding FlyoutIcon}" WidthRequest="25" />
                     <Label Grid.Row="1" Grid.Column="1" Text="{Binding Title}" FontSize="15" HorizontalOptions="Center"  VerticalOptions="Center" TextColor="Black" Margin="0,0,55,10" FontAttributes="Bold" WidthRequest="{x:OnPlatform WinUI= 350}"/>
-                    <BoxView Grid.Row="3" Color="GreenYellow" Grid.Column="0" Grid.ColumnSpan="2"/>
 
                 </Grid>
-            </StackLayout>
          
 
         </DataTemplate>
@@ -95,7 +92,7 @@
         Route="loginPage" />
 
 	
-    <FlyoutItem Title="Home" x:Name="fly1" FlyoutDisplayOptions="AsMultipleItems">
+    <FlyoutItem Title="Home"  x:Name="fly1" FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent
             Title="Home"
             FlyoutIcon="homelogo.png"
@@ -200,7 +197,8 @@
                 </Button.ImageSource>
             </Button>
 
-            <Button x:Name="Lock" HorizontalOptions="Center"  StyleClass="TextButton" Clicked="LockFlyout" Grid.Row="3"  WidthRequest="80" >
+
+            <Button x:Name="Lock" HorizontalOptions="Center" Padding="{OnPlatform Default='0,0,0,0', Android='0,10,0,10'}" StyleClass="TextButton" Clicked="LockFlyout" Grid.Row="3"  WidthRequest="80" >
                 <Button.ImageSource>
                     <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Lock}" Color="Black" />
                 </Button.ImageSource>
@@ -214,13 +212,13 @@
 
 
 
-            <Button x:Name="Unlock" Margin="0,0,0,20" Grid.Column="0" WidthRequest="80" Grid.Row="2" Clicked="Unlock_Clicked" HorizontalOptions="Center" StyleClass="TextButton" IsVisible="False">
+            <Button x:Name="Unlock" Margin="0,0,0,20" Grid.Column="0" WidthRequest="80"  Padding="{OnPlatform Default='0,0,0,0', Android='0,10,0,10'}" Grid.Row="2" Clicked="Unlock_Clicked" HorizontalOptions="Center" StyleClass="TextButton" IsVisible="False">
                 <Button.ImageSource>
                     <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Lock_open}" Color="Black" />
                 </Button.ImageSource>
             </Button>
-            <Button x:Name="Expand" Grid.Column="1" WidthRequest="80"   Grid.Row="1" Clicked="Expand_Clicked" StyleClass="TextButton" IsVisible="False">
-                <Button.ImageSource>
+            <Button x:Name="Expand" Grid.Column="1" WidthRequest="{x:OnPlatform Default=40, Android=40}"  Padding="{OnPlatform Default='-40,5,-40,5', Android='-40,10,-40,10'}"   Grid.Row="1" Clicked="Expand_Clicked" StyleClass="TextButton" IsVisible="False">
+                <Button.ImageSource >
                     <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialTwoTone.Expand}" Color="Black"  />
                 </Button.ImageSource>
             </Button>
