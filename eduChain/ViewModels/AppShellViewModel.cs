@@ -48,6 +48,7 @@ public class AppShellViewModel : ViewModelBase
             else if(value == FlyoutBehavior.Flyout){
                 IsMenuPresented = true;
             }
+    
             OnPropertyChanged(nameof(FlyoutBehaviors));
         }
     }
@@ -55,7 +56,7 @@ public class AppShellViewModel : ViewModelBase
     private bool _isMenuPresented = true;
     public bool IsMenuPresented
     {
-        get => _isMenuPresented;
+        get { return _isMenuPresented;}
         set
         {
             _isMenuPresented = value;

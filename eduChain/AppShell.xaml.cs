@@ -135,7 +135,6 @@ public partial class AppShell : Shell
 	private void ExitFlyout(object sender, EventArgs e)
 	{
         _viewModel.FlyoutBehaviors = FlyoutBehavior.Flyout;
-        _viewModel.IsMenuPresented = false;
         Shell.Current.FlyoutIsPresented = false;
     }
     private void LockFlyout(object sender, EventArgs e)
@@ -162,6 +161,10 @@ public partial class AppShell : Shell
     {
         base.OnNavigating(args);
 		NavBarHasShadowProperty.Equals(false);
+        Preferences.Default.Set("layout", "collapsed");
+        if(Preferences.Default.Get("layout", String.Empty) == "collapsed"){
+            Collapse_Clicked(this, EventArgs.Empty);
+        }
     }
 	protected override void OnNavigated(ShellNavigatedEventArgs args)
 	{
@@ -218,13 +221,20 @@ public partial class AppShell : Shell
     {
        Shell.Current.FlyoutWidth = 270;
         Collapse.IsVisible = true;
-        Unlock.IsVisible = true;
+        if(Shell.Current.FlyoutBehavior == FlyoutBehavior.Locked){
+            Unlock.IsVisible = true;
+            Lock.IsVisible = false;
+        } else {
+            Unlock.IsVisible = false;
+            Lock.IsVisible = true;
+        }
+       
+
         Minimize.IsVisible = false;
         Expand.IsVisible = false;
         Logout.IsVisible = true;
         LabelVal.IsVisible = false;
         Lock.Margin = new Thickness(0, 0, 0, 0);
-        Lock.IsVisible = false;
         Name.IsVisible = true;
         RoleVal.IsVisible = true;
         collapse1.WidthRequest = 65;
@@ -242,6 +252,7 @@ public partial class AppShell : Shell
     private void Unlock_Clicked(object sender, EventArgs e)
     {
         _viewModel.FlyoutBehaviors = FlyoutBehavior.Flyout;
+        Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
         Shell.Current.FlyoutIsPresented = false;
 
         if (Collapse.IsVisible)
