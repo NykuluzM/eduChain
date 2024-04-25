@@ -21,8 +21,16 @@ public partial class AppShell : Shell
 		Routing.RegisterRoute("forgotPasswordPage", typeof(ForgotPasswordPage));
 		_viewModel = new AppShellViewModel();
 		this.BindingContext = _viewModel;
-	}
     
+	}
+    public void TriggerLayout(string layout){
+        if(layout == "collapsed"){
+            Collapse_Clicked(this, new EventArgs());
+        }
+        else{
+            Shell.Current.DisplayAlert("Layout", "Expanded", "OK");
+        }
+    }
 	private async void ProfileTapped(object sender, EventArgs e)
 	{
         //fly1.On<WinUI>.SetIsEnabled(false);
@@ -161,12 +169,13 @@ public partial class AppShell : Shell
     {
         base.OnNavigating(args);
 		NavBarHasShadowProperty.Equals(false);
-        Preferences.Default.Set("layout", "collapsed");
-        if(Preferences.Default.Get("layout", String.Empty) == "collapsed"){
-            Collapse_Clicked(this, EventArgs.Empty);
-        }
+        
     }
-	protected override void OnNavigated(ShellNavigatedEventArgs args)
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+    }
+    protected override void OnNavigated(ShellNavigatedEventArgs args)
 	{
         base.OnNavigated(args);
         NavBarHasShadowProperty.Equals(false);

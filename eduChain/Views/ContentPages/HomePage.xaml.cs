@@ -31,7 +31,9 @@ namespace eduChain.Views.ContentPages{
 				Preferences.Default.Set("isloaded", "true");
 			}
 			Title.Focus();
-		
+			AppShell appShell = (App.Current as App).MainPage as AppShell;
+
+			appShell.TriggerLayout("collapsed");
 		}
 	
        
