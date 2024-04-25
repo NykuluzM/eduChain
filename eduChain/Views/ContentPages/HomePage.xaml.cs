@@ -24,6 +24,7 @@ namespace eduChain.Views.ContentPages{
 		protected override async void OnAppearing()
 		{
 			base.OnAppearing();
+			
 			if(Preferences.Default.Get("isloaded", String.Empty) == "false")
 			{
 				Load();

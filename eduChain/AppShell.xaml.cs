@@ -22,6 +22,7 @@ public partial class AppShell : Shell
 		_viewModel = new AppShellViewModel();
 		this.BindingContext = _viewModel;
 	}
+    
 	private async void ProfileTapped(object sender, EventArgs e)
 	{
         //fly1.On<WinUI>.SetIsEnabled(false);
@@ -142,7 +143,7 @@ public partial class AppShell : Shell
         Shell.Current.FlyoutBehavior = FlyoutBehavior.Locked;
         if (Expand.IsVisible)
         {
-            Expand.IsVisible = false;
+            Expand.IsVisible = true;
             Lock.IsVisible = true;
             Unlock.IsVisible = true;
             Collapse.IsVisible = false;
@@ -153,6 +154,7 @@ public partial class AppShell : Shell
             Minimize.IsVisible = false;
             Unlock.IsVisible = true;
             Collapse.IsVisible = true;
+            
         }
     }
     protected override void OnNavigating(ShellNavigatingEventArgs args)
@@ -164,6 +166,7 @@ public partial class AppShell : Shell
 	{
         base.OnNavigated(args);
         NavBarHasShadowProperty.Equals(false);
+
     }
 
    
@@ -171,8 +174,6 @@ public partial class AppShell : Shell
     {
         Unlock.IsVisible = false;
         Expand.RotateTo(90, 500, new Easing(t => t));
-        
-
         Minimize.IsVisible = false;
         Expand.IsVisible = true;
         Collapse.IsVisible = false;
@@ -182,6 +183,8 @@ public partial class AppShell : Shell
         collapse1.WidthRequest = 35;
         collapse1.HeightRequest = 35;
         Lock.Margin = new Thickness(0, 0, 0, 80);
+        Unlock.Margin = new Thickness(0,15,0,0);
+        LabelVal.IsVisible = true;
         if (Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.WinUI  )
         {
             collapse1.WidthRequest = 45;
@@ -210,13 +213,21 @@ public partial class AppShell : Shell
         Minimize.IsVisible = false;
         Expand.IsVisible = false;
         Logout.IsVisible = true;
+        LabelVal.IsVisible = false;
         Lock.Margin = new Thickness(0, 0, 0, 0);
         Lock.IsVisible = false;
         Name.IsVisible = true;
         RoleVal.IsVisible = true;
         collapse1.WidthRequest = 65;
         collapse1.HeightRequest = 65;
+        Unlock.Margin = new Thickness(0, 0, 0, 20);
+
         collapse1.Margin = new Thickness(10,5,0,10);
+        if (Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.MacCatalyst || Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.macOS){
+            Collapse.WidthRequest = 95;
+            Collapse.Margin = new Thickness(-10,5,-10,0);
+        }
+
 
     }
     private void Unlock_Clicked(object sender, EventArgs e)

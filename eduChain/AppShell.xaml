@@ -42,6 +42,7 @@
                 <Border x:Name="RoleVal" Grid.Column="1" Grid.Row="0"  Background="Black"  Margin="0,25,0,0" Stroke="{StaticResource grad}" StrokeThickness="2" HeightRequest="20" HorizontalOptions="Center" VerticalOptions="End">
                 <Label  Grid.Row="1" Text="{Binding UsersProfile.Role}" Padding="20,0,20,0" TextDecorations="Underline" TextColor="Yellow"  x:Name="Role" FontSize="12"  HorizontalOptions="Center" VerticalOptions="End"/>
                 </Border>
+                <Label Grid.Row="1" Text="My Profile" x:Name="LabelVal" Margin="15,0,0,0" HorizontalOptions="Center" FontSize="10" FontFamily="Sans-Serif" IsVisible="False"/>
 
             </Grid>
 
@@ -205,7 +206,7 @@
                 </Button.ImageSource>
             </Button>
 
-            <Button x:Name="Collapse" Grid.Column="0" WidthRequest="80" Grid.Row="1" Clicked="Collapse_Clicked" StyleClass="TextButton" HorizontalOptions="End" IsVisible="False">
+            <Button x:Name="Collapse" Grid.Column="0" Margin="0,0,-15,0"  WidthRequest="85" Grid.Row="1" Clicked="Collapse_Clicked" StyleClass="TextButton" HorizontalOptions="End" IsVisible="False">
                 <Button.ImageSource>
                     <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Adjust}" Color="Black" />
                 </Button.ImageSource>
@@ -213,7 +214,7 @@
 
 
 
-            <Button x:Name="Unlock" Margin="0,15,0,0" Grid.Column="0" WidthRequest="80" Grid.Row="2" Clicked="Unlock_Clicked" HorizontalOptions="Center" StyleClass="TextButton" IsVisible="False">
+            <Button x:Name="Unlock" Margin="0,0,0,20" Grid.Column="0" WidthRequest="80" Grid.Row="2" Clicked="Unlock_Clicked" HorizontalOptions="Center" StyleClass="TextButton" IsVisible="False">
                 <Button.ImageSource>
                     <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Lock_open}" Color="Black" />
                 </Button.ImageSource>
