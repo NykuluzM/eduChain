@@ -135,6 +135,7 @@ public partial class AppShell : Shell
 	private void ExitFlyout(object sender, EventArgs e)
 	{
         _viewModel.FlyoutBehaviors = FlyoutBehavior.Flyout;
+        _viewModel.IsMenuPresented = false;
         Shell.Current.FlyoutIsPresented = false;
     }
     private void LockFlyout(object sender, EventArgs e)
@@ -199,6 +200,14 @@ public partial class AppShell : Shell
         }
         else
         {
+            collapse1.HorizontalOptions = LayoutOptions.Center;
+            collapse1.VerticalOptions = LayoutOptions.Center;
+            collapse1.Margin = new Thickness(10, 0, 0, 0);
+
+            LabelVal.FontSize = 8;
+            LabelVal.HorizontalOptions = LayoutOptions.Center;
+            LabelVal.Margin = new Thickness(10, 0, 0, 0);
+
             Shell.Current.FlyoutWidth = 60;
 
         }

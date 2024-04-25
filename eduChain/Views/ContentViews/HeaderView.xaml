@@ -5,7 +5,7 @@
 
              x:Class="eduChain.Views.ContentViews.HeaderView">
          <VerticalStackLayout VerticalOptions="Start" Margin="-15,0,0,0">
-            <Button x:Name="menuButton" Opacity="{x:OnPlatform WinUI=0, Android=0, MacCatalyst=1}"   StyleClass="TextButton" Clicked="Menu" VerticalOptions="Start" WidthRequest="80" HorizontalOptions="Start" Margin="0,0,0,0">
+            <Button x:Name="menuButton" Opacity="{x:OnPlatform WinUI=0, Android=0, MacCatalyst=1}" IsVisible="{x:OnPlatform MacCatalyst='Binding IsMenuPresented'}"  StyleClass="TextButton" Clicked="Menu" VerticalOptions="Start" WidthRequest="80" HorizontalOptions="Start" Margin="0,0,0,0">
                     <Button.ImageSource>
                         <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Menu}" />
                     
