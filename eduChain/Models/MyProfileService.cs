@@ -11,12 +11,12 @@ namespace eduChain.Services
         private static MyProfileService instance;
 
         private readonly ISupabaseConnection _supabaseConnection;
-      
+
         public MyProfileService(ISupabaseConnection supabaseConnection)
         {
             _supabaseConnection = supabaseConnection;
         }
-          public static MyProfileService Instance
+        public static MyProfileService Instance
         {
             get
             {
@@ -35,50 +35,52 @@ namespace eduChain.Services
             {
                 await DatabaseManager.OpenConnectionAsync();
                 using (var command = DatabaseManager.Connection.CreateCommand())
-                {   
+                {
                     var parameters = command.Parameters;
 
                     if (parameters is NpgsqlParameterCollection pgParameters)
                     {
                         pgParameters.AddWithValue("@firebase_id", uid);
                     }
-                    
-                           string sqlQuery = @"
+
+                    string sqlQuery = @"
                                                 SELECT *
                                                 FROM ""Organizations""
                                                 WHERE ""user_firebase_id"" = @firebase_id";
-                            command.CommandText = sqlQuery;
-                            try{
-                            using (var reader = await command.ExecuteReaderAsync())
+                    command.CommandText = sqlQuery;
+                    try
+                    {
+                        using (var reader = await command.ExecuteReaderAsync())
+                        {
+                            if (await reader.ReadAsync())
                             {
-                                if (await reader.ReadAsync())
-                                {
-                                
-                                    profile.Email = Preferences.Default.Get("email", String.Empty);
-                                    profile.Name = reader["name"] is DBNull ? null : reader["name"].ToString();
-                                    profile.Type = reader["type"] is DBNull ? null : reader["type"].ToString();
-                                    profile.FirebaseId = reader["user_firebase_id"] is DBNull ? null : reader["user_firebase_id"].ToString();
-                                        // Add other properties as needed
-                                    await reader.CloseAsync(); // Close the reader
 
-                                    await DatabaseManager.CloseConnectionAsync(); 
-                                    return profile;
-                                }
-                            }
-                            }  catch (TimeoutException)
-                            {
-                                // Retry after delay
-                                await Task.Delay(TimeSpan.FromSeconds(3)); // Example delay
-                            }
-                            catch (Exception ex)
-                            {
-                                // Handle the exception appropriately
-                                await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+                                profile.Email = Preferences.Default.Get("email", String.Empty);
+                                profile.Name = reader["name"] is DBNull ? null : reader["name"].ToString();
+                                profile.Type = reader["type"] is DBNull ? null : reader["type"].ToString();
+                                profile.FirebaseId = reader["user_firebase_id"] is DBNull ? null : reader["user_firebase_id"].ToString();
+                                // Add other properties as needed
+                                await reader.CloseAsync(); // Close the reader
+
+                                await DatabaseManager.CloseConnectionAsync();
+                                return profile;
                             }
                         }
-                        await Application.Current.MainPage.DisplayAlert("Error", "Failed to retrieve data after multiple retries.", "OK");
                     }
-        
+                    catch (TimeoutException)
+                    {
+                        // Retry after delay
+                        await Task.Delay(TimeSpan.FromSeconds(3)); // Example delay
+                    }
+                    catch (Exception ex)
+                    {
+                        // Handle the exception appropriately
+                        await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+                    }
+                }
+                await Application.Current.MainPage.DisplayAlert("Error", "Failed to retrieve data after multiple retries.", "OK");
+            }
+
             finally
             {
                 await DatabaseManager.CloseConnectionAsync();
@@ -92,54 +94,56 @@ namespace eduChain.Services
             {
                 await DatabaseManager.OpenConnectionAsync();
                 using (var command = DatabaseManager.Connection.CreateCommand())
-                {   
-                   
+                {
+
                     var parameters = command.Parameters;
 
                     if (parameters is NpgsqlParameterCollection pgParameters)
                     {
                         pgParameters.AddWithValue("@firebase_id", uid);
                     }
-                    
-                           string sqlQuery = @"
+
+                    string sqlQuery = @"
                                                 SELECT *
                                                 FROM ""Students""
                                                 WHERE ""user_firebase_id"" = @firebase_id";
-                            command.CommandText = sqlQuery;
-                            try{
-                            using (var reader = await command.ExecuteReaderAsync())
+                    command.CommandText = sqlQuery;
+                    try
+                    {
+                        using (var reader = await command.ExecuteReaderAsync())
+                        {
+                            if (await reader.ReadAsync())
                             {
-                                if (await reader.ReadAsync())
-                                {
-                                
-                                    profile.Email = Preferences.Default.Get("email", String.Empty);
-                                    profile.FirstName = reader["first_name"] is DBNull ? null : reader["first_name"].ToString();
-                                    profile.LastName = reader["last_name"] is DBNull ? null : reader["last_name"].ToString();
-                                    profile.Gender = reader["gender"] is DBNull ? null : reader["gender"].ToString();
-                                    profile.BirthDate = reader["birth_date"] is DBNull ? null : reader["birth_date"].ToString();
-                                    profile.FirebaseId = reader["user_firebase_id"] is DBNull ? null : reader["user_firebase_id"].ToString();
-                                        // Add other properties as needed
-                                    await reader.CloseAsync(); // Close the reader
-                                    
-                                    await DatabaseManager.CloseConnectionAsync();
-                                    StudentProfileModel.Instance = profile;    
-                                    return profile;
-                                }
-                            }
-                            }  catch (TimeoutException)
-                            {
-                                // Retry after delay
-                                await Task.Delay(TimeSpan.FromSeconds(3)); // Example delay
-                            }
-                            catch (Exception ex)
-                            {
-                                // Handle the exception appropriately
-                                await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+
+                                profile.Email = Preferences.Default.Get("email", String.Empty);
+                                profile.FirstName = reader["first_name"] is DBNull ? null : reader["first_name"].ToString();
+                                profile.LastName = reader["last_name"] is DBNull ? null : reader["last_name"].ToString();
+                                profile.Gender = reader["gender"] is DBNull ? null : reader["gender"].ToString();
+                                profile.BirthDate = reader["birth_date"] is DBNull ? null : reader["birth_date"].ToString();
+                                profile.FirebaseId = reader["user_firebase_id"] is DBNull ? null : reader["user_firebase_id"].ToString();
+                                // Add other properties as needed
+                                await reader.CloseAsync(); // Close the reader
+
+                                await DatabaseManager.CloseConnectionAsync();
+                                StudentProfileModel.Instance = profile;
+                                return profile;
                             }
                         }
-                        await Application.Current.MainPage.DisplayAlert("Error", "Failed to retrieve data after multiple retries.", "OK");
                     }
-        
+                    catch (TimeoutException)
+                    {
+                        // Retry after delay
+                        await Task.Delay(TimeSpan.FromSeconds(3)); // Example delay
+                    }
+                    catch (Exception ex)
+                    {
+                        // Handle the exception appropriately
+                        await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+                    }
+                }
+                await Application.Current.MainPage.DisplayAlert("Error", "Failed to retrieve data after multiple retries.", "OK");
+            }
+
             finally
             {
                 await DatabaseManager.CloseConnectionAsync();
@@ -148,7 +152,7 @@ namespace eduChain.Services
             return null;
         }
 
-         public async Task UpdateStudentUserProfileAsync(StudentProfileModel profile)
+        public async Task UpdateStudentUserProfileAsync(StudentProfileModel profile)
         {
             try
             {
@@ -156,7 +160,8 @@ namespace eduChain.Services
                 await DatabaseManager.OpenConnectionAsync();
                 using (var command = DatabaseManager.Connection.CreateCommand())
                 {
-                    switch(role){
+                    switch (role)
+                    {
                         case "Student":
                             command.CommandText = @"
                                             UPDATE ""Students"" 
@@ -168,14 +173,14 @@ namespace eduChain.Services
 
                             await command.ExecuteNonQueryAsync();
                             Shell.Current.DisplayAlert("Success", "Profile updated successfully", "OK");
-                        break;
+                            break;
                         case "Organization":
-                        break;
+                            break;
 
                         case "Guardian":
-                        break;
+                            break;
                     }
-              
+
                 }
             }
             catch (Exception ex)
@@ -191,73 +196,74 @@ namespace eduChain.Services
 
         public async Task<UsersProfileModel> LoadUserAsync(string uid, UsersProfileModel profile)
         {
-        try
-        {
-            await DatabaseManager.OpenConnectionAsync();
-
-            using (var command = DatabaseManager.Connection.CreateCommand())
+            try
             {
-            command.Parameters.AddWithValue("@firebase_id", uid);
-            command.CommandText = "SELECT * FROM \"Users\" WHERE \"firebase_id\" = @firebase_id";
+                await DatabaseManager.OpenConnectionAsync();
 
-            using (var reader = await command.ExecuteReaderAsync())
-            {
-                if (await reader.ReadAsync())
+                using (var command = DatabaseManager.Connection.CreateCommand())
                 {
-                profile.FirebaseId = reader.GetString(reader.GetOrdinal("firebase_id"));
-                int profilePicOrdinal = reader.GetOrdinal("profile_pic");
-                if (!reader.IsDBNull(profilePicOrdinal))
-                {
-                    profile.ProfilePic = reader.GetFieldValue<byte[]>(profilePicOrdinal);
-                } else {
-                    profile.ProfilePic = null;
-                }
-                profile.Role = reader.GetString(reader.GetOrdinal("role"));
-                profile.CreatedAt = reader.GetDateTime(reader.GetOrdinal("created_at"));
-                await reader.CloseAsync();
-                if (profile.Role == "Student")
-                {
-                    // Query additional information for student profile
-                    command.CommandText = "SELECT * FROM \"Students\" WHERE \"user_firebase_id\" = @firebase_id";
-                    using (var secondReader = await command.ExecuteReaderAsync())
+                    command.Parameters.AddWithValue("@firebase_id", uid);
+                    command.CommandText = "SELECT * FROM \"Users\" WHERE \"firebase_id\" = @firebase_id";
+
+                    using (var reader = await command.ExecuteReaderAsync())
                     {
-                        if (await secondReader.ReadAsync())
+                        if (await reader.ReadAsync())
                         {
-                            string firstName = secondReader.GetString(secondReader.GetOrdinal("first_name"));
-                            string lastName = secondReader.GetString(secondReader.GetOrdinal("last_name"));
-                            profile.DisplayName = $"{firstName} {lastName}";
+                            profile.FirebaseId = reader.GetString(reader.GetOrdinal("firebase_id"));
+                            int profilePicOrdinal = reader.GetOrdinal("profile_pic");
+                            if (!reader.IsDBNull(profilePicOrdinal))
+                            {
+                                profile.ProfilePic = reader.GetFieldValue<byte[]>(profilePicOrdinal);
+                            }
+                            else
+                            {
+                                profile.ProfilePic = null;
+                            }
+                            profile.Role = reader.GetString(reader.GetOrdinal("role"));
+                            profile.CreatedAt = reader.GetDateTime(reader.GetOrdinal("created_at"));
+                            profile.DisplayName = reader.GetString(reader.GetOrdinal("display_name"));
+                            await reader.CloseAsync();
+                            if (profile.Role == "Student")
+                            {
+                                // Query additional information for student profile
+                                command.CommandText = "SELECT * FROM \"Students\" WHERE \"user_firebase_id\" = @firebase_id";
+                                using (var secondReader = await command.ExecuteReaderAsync())
+                                {
+                                    if (await secondReader.ReadAsync())
+                                    {
+                                        string firstName = secondReader.GetString(secondReader.GetOrdinal("first_name"));
+                                        string lastName = secondReader.GetString(secondReader.GetOrdinal("last_name"));
+                                    }
+                                    await secondReader.CloseAsync();
+                                }
+                            }
+                            else if (profile.Role == "Organization")
+                            {
+                                // Query additional information for organization profile
+                                command.CommandText = "SELECT * FROM \"Organizations\" WHERE \"user_firebase_id\" = @firebase_id";
+                                using (var secondReader = await command.ExecuteReaderAsync())
+                                {
+                                    if (await secondReader.ReadAsync())
+                                    {
+                                        string orgName = secondReader.GetString(secondReader.GetOrdinal("name"));
+                                        await secondReader.CloseAsync();
+                                    }
+                                }
+                            }
+
                         }
-                        await secondReader.CloseAsync();
                     }
+                    Preferences.Default.Set("Role", profile.Role);
+                    await DatabaseManager.CloseConnectionAsync();
+                    return profile;
                 }
-                else if (profile.Role == "Organization")
-                {
-                    // Query additional information for organization profile
-                    command.CommandText = "SELECT * FROM \"Organizations\" WHERE \"user_firebase_id\" = @firebase_id";
-                    using (var secondReader = await command.ExecuteReaderAsync())
-                    {
-                        if (await secondReader.ReadAsync())
-                        {
-                            string orgName = secondReader.GetString(secondReader.GetOrdinal("name"));
-                            profile.DisplayName = orgName;
-                            await secondReader.CloseAsync();
-                        }
-                    }
-                } 
-               
             }
-        }
-        Preferences.Default.Set("Role", profile.Role);
-        await DatabaseManager.CloseConnectionAsync();
-        return profile;
-        }
-        }
-        catch (Exception ex)
-        {
-            // Handle database errors gracefully (log, display error message)
-            await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
-            return null;
-        }
+            catch (Exception ex)
+            {
+                // Handle database errors gracefully (log, display error message)
+                await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+                return null;
+            }
         }
 
         public async Task<string> GetUserRoleAsync(string uid)

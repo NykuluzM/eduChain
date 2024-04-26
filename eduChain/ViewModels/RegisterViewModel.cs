@@ -7,22 +7,25 @@ using Supabase;
 using eduChain.Models;
 using System.Runtime.Serialization;
 using Firebase.Auth;
+using Firebase.Auth.Providers;
 using Npgsql;
 using NBitcoin.Secp256k1;
+
 using System.Text.RegularExpressions;
+using Firebase.Auth.Providers;
 namespace eduChain.ViewModels
 {
     public class RegisterViewModel : INotifyPropertyChanged
     {
-        private readonly FirebaseAuthClient firebaseAuthClient;
+        private FirebaseAuthClient firebaseAuthClient;
         public event PropertyChangedEventHandler? PropertyChanged;
         private static RegisterViewModel _instance;
 
         private readonly ISupabaseConnection _supabaseConnection;
 
 
-                public ICommand TrialCommand { get; }
-                public ICommand RegisterCommand { get; }  
+        public ICommand TrialCommand { get; }
+        public ICommand RegisterCommand { get; }
 
         public static RegisterViewModel GetInstance()
         {
@@ -47,14 +50,14 @@ namespace eduChain.ViewModels
                         "Female"
                     };
             var firebaseService = FirebaseService.GetInstance();
-			firebaseAuthClient = firebaseService.GetFirebaseAuthClient();
+            firebaseAuthClient = firebaseService.GetFirebaseAuthClient();
             TrialCommand = new Command(async () => await Trial());
             RegisterCommand = new Command(async () => await Register());
         }
 
 
-       
-         public async Task Trial()
+
+        public async Task Trial()
         {
             try
             {
@@ -63,8 +66,8 @@ namespace eduChain.ViewModels
                 // Use the connection for queries, inserts, updates, etc.
                 using (var command = DatabaseManager.Connection.CreateCommand())
                 {
-                        command.CommandText = "SELECT COUNT(*) FROM \"Users\"";
-                                    var result = command.ExecuteScalar(); // ExecuteScalar to get a single value
+                    command.CommandText = "SELECT COUNT(*) FROM \"Users\"";
+                    var result = command.ExecuteScalar(); // ExecuteScalar to get a single value
 
                     await Application.Current.MainPage.DisplayAlert("Users Count", $"There are {result} users", "OK");
                 }
@@ -79,11 +82,20 @@ namespace eduChain.ViewModels
             }
         }
 
-        
-        private string _firstName = string.Empty; 
-        
+        private string _displayName = string.Empty;
+        public string DisplayName
+        {
+            get { return _displayName; }
+            set
+            {
+                _displayName = value;
+                OnPropertyChanged(nameof(DisplayName));
+            }
+        }
+        private string _firstName = string.Empty;
+
         private string _lastName = string.Empty;
-        private string _gender = "Male"; 
+        private string _gender = "Male";
         private DateTime _birthDate = new DateTime(2000, 1, 1);
 
         private string _email = string.Empty;
@@ -92,7 +104,6 @@ namespace eduChain.ViewModels
 
         private string _type = string.Empty;
 
-       
         public string FirstName
         {
             get { return _firstName; }
@@ -134,21 +145,21 @@ namespace eduChain.ViewModels
 
         public string Email
         {
-                get { return _email; }
-                set
-                {
-                    _email = value;
-                    OnPropertyChanged(nameof(Email));
-                }
+            get { return _email; }
+            set
+            {
+                _email = value;
+                OnPropertyChanged(nameof(Email));
+            }
         }
         public string Password
         {
             get { return _password; }
             set
             {
-                if(_password != value)
+                if (_password != value)
                 {
-                     _password = value;
+                    _password = value;
                     OnPropertyChanged(nameof(Password));
                 }
             }
@@ -157,10 +168,10 @@ namespace eduChain.ViewModels
         {
             get { return _orgName; }
             set
-                {
-                    _orgName = value;
-                    OnPropertyChanged(nameof(OrgName));
-                }
+            {
+                _orgName = value;
+                OnPropertyChanged(nameof(OrgName));
+            }
         }
         public string Type
         {
@@ -183,30 +194,34 @@ namespace eduChain.ViewModels
                 throw new NullReferenceException("PropertyChanged event is not subscribed to.");
             }
         }
-      
+
         public async Task Register()
         {
+
             try
             {
                 var error = false;
-                switch(Preferences.Default.Get("Role", "")){
+                switch (Preferences.Default.Get("Role", ""))
+                {
                     case "Student":
-                        if(string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(LastName) || string.IsNullOrEmpty(Gender) || (BirthDate > DateTime.Now.AddYears(-4))){
+                        if (string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(LastName) || string.IsNullOrEmpty(Gender) || (BirthDate > DateTime.Now.AddYears(-4)))
+                        {
                             await Application.Current.MainPage.DisplayAlert("Error", "Please fill in all fields and format correctly", "OK");
                             return;
                         }
                         string fnamePattern1 = @"^(?:[ A-Z\d][a-z\d]*(?:\s*[A-Z\d][a-z\d]*)*|)$";
                         string fnamePattern2 = @"^(?![ ])[A-Za-z ]*$";
-                        string lnamePattern =  @"^(?:[A-Z][a-z]*|)$";
+                        string lnamePattern = @"^(?:[A-Z][a-z]*|)$";
 
                         // Validate FirstName and LastName against the regex pattern
                         if (!Regex.IsMatch(FirstName, fnamePattern1) || (!Regex.IsMatch(FirstName, fnamePattern2)) || !Regex.IsMatch(LastName, lnamePattern))
                         {
                             await Application.Current.MainPage.DisplayAlert("Error", "Please enter a valid first and last name", "OK");
                             error = true;
-                        }       
+                        }
                         string emailPattern = @"^(?:\s*|(?:[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}))$";
-                        if(!Regex.IsMatch(Email, emailPattern)){
+                        if (!Regex.IsMatch(Email, emailPattern))
+                        {
                             await Application.Current.MainPage.DisplayAlert("Error", "Please enter a valid email address", "OK");
                             error = true;
                         }
@@ -216,20 +231,23 @@ namespace eduChain.ViewModels
                             await Application.Current.MainPage.DisplayAlert("Error", "Please enter a valid password (at least 6 characters long) with the specified pattern", "OK");
                             error = true;
                         }
-                        if(error){
+                        if (error)
+                        {
                             return;
                         }
-                       
+
 
                         break;
                     case "Organization":
-                        if(string.IsNullOrEmpty(OrgName) || string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(Type)){
+                        if (string.IsNullOrEmpty(OrgName) || string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(Type))
+                        {
                             await Application.Current.MainPage.DisplayAlert("Error", "Please fill in all fields", "OK");
                             return;
                         }
                         string emailPatternOrg = @"^(?:\s*|(?:[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}))$";
 
-                        if(!Regex.IsMatch(Email, emailPatternOrg)){
+                        if (!Regex.IsMatch(Email, emailPatternOrg))
+                        {
                             await Application.Current.MainPage.DisplayAlert("Error", "Please enter a valid email address", "OK");
                             error = true;
                         }
@@ -239,31 +257,52 @@ namespace eduChain.ViewModels
                             await Application.Current.MainPage.DisplayAlert("Error", "Please enter a valid password (at least 6 characters long) with the specified pattern", "OK");
                             error = true;
                         }
-                        if(error){
+                        if (error)
+                        {
                             return;
                         }
                         break;
                 }
                 // Perform user registration with Firebase and get the auth result
+
+
                 var authResult = await firebaseAuthClient.CreateUserWithEmailAndPasswordAsync(Email, Password);
 
                 // Check if registration was successful
-                if (authResult != null)
+                if (authResult.User != null)
                 {
                     // Extract the user UID from the auth result
                     string uid = authResult.User.Uid;
-
                     // Save user details to the database
-                    await SaveUserDetailsAsync(uid);   
-                    
-                  
-                    await Shell.Current.GoToAsync("//loginPage");                 
+                    var res = await SaveUserDetailsAsync(uid, Email);
+                    if (res == 0)
+                    {
+                        //await firebaseAuthClient.DeleteUserAsync(uid);
+                    }
+
+                    await Shell.Current.GoToAsync("//loginPage");
                 }
             }
             catch (FirebaseAuthException ex)
             {
                 // Handle Firebase authentication exceptions first
-                await Application.Current.MainPage.DisplayAlert("Error", $"Firebase error: {ex.Message}", "OK");
+                if (ex.Reason == AuthErrorReason.EmailExists)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Email already in use", "OK");
+                }
+                else if (ex.Reason == AuthErrorReason.WeakPassword)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Password is too weak", "OK");
+                }
+                else if (ex.Reason == AuthErrorReason.Unknown)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "An unknown error occurred", "OK");
+                }
+                else if (ex.Reason == AuthErrorReason.UserDisabled)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "User is disabled", "OK");
+                }
+
             }
             catch (Exception ex)
             {
@@ -271,81 +310,84 @@ namespace eduChain.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
             }
         }
-public async Task SaveUserDetailsAsync(string uid)
-{
-    try
-    {
-        await DatabaseManager.OpenConnectionAsync();
-        using (var command = DatabaseManager.Connection.CreateCommand())
+        public async Task<int> SaveUserDetailsAsync(string uid, string email)
         {
-            var parameters = command.Parameters;
-            switch(Preferences.Default.Get("Role", ""))
+            try
             {
-                case "Student":
-                    if (parameters is NpgsqlParameterCollection pgParameters)
+                await DatabaseManager.OpenConnectionAsync();
+                using (var command = DatabaseManager.Connection.CreateCommand())
+                {
+                    var parameters = command.Parameters;
+                    switch (Preferences.Default.Get("Role", ""))
                     {
-                        pgParameters.AddWithValue("@firebase_id", uid);
-                        pgParameters.AddWithValue("@first_name", FirstName);
-                        pgParameters.AddWithValue("@last_name", LastName);
-                        pgParameters.AddWithValue("@gender", Gender);
-                        pgParameters.AddWithValue("@birth_date", BirthDate);
-                        pgParameters.AddWithValue("@role", "Student");
+                        case "Student":
+                            if (parameters is NpgsqlParameterCollection pgParameters)
+                            {
+                                pgParameters.AddWithValue("@email", email);
+                                pgParameters.AddWithValue("@display_name", DisplayName);
+                                pgParameters.AddWithValue("@firebase_id", uid);
+                                pgParameters.AddWithValue("@first_name", FirstName);
+                                pgParameters.AddWithValue("@last_name", LastName);
+                                pgParameters.AddWithValue("@gender", Gender);
+                                pgParameters.AddWithValue("@birth_date", BirthDate);
+                                pgParameters.AddWithValue("@role", "Student");
 
-                    }
+                            }
 
-                    command.CommandText = @"
+                            command.CommandText = @"
                             WITH inserted_user AS (
-                                INSERT INTO ""Users"" (""firebase_id"", ""role"") VALUES (@firebase_id, @role) RETURNING ""firebase_id""
+                                INSERT INTO ""Users"" (""firebase_id"", ""display_name"",""email"",""role"") VALUES (@firebase_id,@display_name,@email,@role) RETURNING ""firebase_id""
                             )
                             INSERT INTO ""Students"" (""user_firebase_id"", ""first_name"", ""last_name"", ""gender"", ""birth_date"") 
                             SELECT ""firebase_id"", @first_name, @last_name, @gender, @birth_date FROM inserted_user";
-                
-                    await command.ExecuteNonQueryAsync();
-                    Email = string.Empty;
-                    Password = string.Empty;
-                    FirstName = string.Empty;
-                    LastName = string.Empty;
-                    BirthDate = DateTime.Now.AddYears(-4);
-                    await Application.Current.MainPage.DisplayAlert("Success", "User registered successfully", "OK");
 
-                    break;
-                case "Organization":
-                    if(parameters is NpgsqlParameterCollection pgParametersOrg)
-                    {
-                        pgParametersOrg.AddWithValue("@firebase_id", uid);
-                        pgParametersOrg.AddWithValue("@name", OrgName);
-                        pgParametersOrg.AddWithValue("@type", Type);
-                        pgParametersOrg.AddWithValue("@role", "Organization");
-                    }
-                   
-                    command.CommandText = @"
+                            await command.ExecuteNonQueryAsync();
+                            Email = string.Empty;
+                            Password = string.Empty;
+                            FirstName = string.Empty;
+                            LastName = string.Empty;
+                            BirthDate = DateTime.Now.AddYears(-4);
+                            await Application.Current.MainPage.DisplayAlert("Success", "User registered successfully", "OK");
+
+                            break;
+                        case "Organization":
+                            if (parameters is NpgsqlParameterCollection pgParametersOrg)
+                            {
+                                pgParametersOrg.AddWithValue("@firebase_id", uid);
+                                pgParametersOrg.AddWithValue("@name", OrgName);
+                                pgParametersOrg.AddWithValue("@type", Type);
+                                pgParametersOrg.AddWithValue("@role", "Organization");
+                            }
+
+                            command.CommandText = @"
                             WITH inserted_user AS (
                                 INSERT INTO ""Users"" (""firebase_id"", ""role"") VALUES (@firebase_id, @role) RETURNING ""firebase_id""
                             )
                             INSERT INTO ""Organizations"" (""user_firebase_id"", ""name"", ""type"") 
                             SELECT ""firebase_id"", @name, @type FROM inserted_user";
-                    await command.ExecuteNonQueryAsync();  
-                    await Application.Current.MainPage.DisplayAlert("Success", "User registered successfully", "OK");
- 
-                    break;
-                case "Guardian":
-                    
-                    break;
+                            await command.ExecuteNonQueryAsync();
+                            await Application.Current.MainPage.DisplayAlert("Success", "User registered successfully", "OK");
 
+                            break;
+                        case "Guardian":
+
+                            break;
+
+                    }
+                    // Cast the parameters to NpgsqlParameterCollection to use AddWithValue
+                    return 1;
+                }
             }
-            // Cast the parameters to NpgsqlParameterCollection to use AddWithValue
-          
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+                return 0;
+            }
+            finally
+            {
+                await DatabaseManager.CloseConnectionAsync();
+            }
         }
-    }
-    catch (Exception ex)
-    {
-        await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
-    }
-    finally
-    {
-        await DatabaseManager.CloseConnectionAsync();
-    }
-}
 
     }
 }

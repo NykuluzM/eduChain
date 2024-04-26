@@ -35,35 +35,7 @@ public class AppShellViewModel : ViewModelBase
 	
    
      private FlyoutBehavior _flyoutBehavior = FlyoutBehavior.Flyout;
-    public FlyoutBehavior FlyoutBehaviors
-    {
-        get => _flyoutBehavior;
-        set
-        {
-            _flyoutBehavior = value;
-            if(value == FlyoutBehavior.Locked)
-            {
-                IsMenuPresented = false;
-            }
-            else if(value == FlyoutBehavior.Flyout){
-                IsMenuPresented = true;
-            }
-    
-            OnPropertyChanged(nameof(FlyoutBehaviors));
-        }
-    }
-
-    private bool _isMenuPresented = true;
-    public bool IsMenuPresented
-    {
-        get { return _isMenuPresented;}
-        set
-        {
-            _isMenuPresented = value;
-            OnPropertyChanged(nameof(IsMenuPresented));
-        }
-    }
-
+   
     public AppShellViewModel()
     {
         Instance = this;

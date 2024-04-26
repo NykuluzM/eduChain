@@ -14,6 +14,7 @@
 			 xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
              Shell.FlyoutBehavior="Disabled"
 			 Shell.NavBarIsVisible="False"
+          
              >
 
 	

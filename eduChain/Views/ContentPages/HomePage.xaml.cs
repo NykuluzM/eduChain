@@ -32,7 +32,7 @@ namespace eduChain.Views.ContentPages{
 				Preferences.Default.Set("isloaded", "true");
 			}
 			Title.Focus();
-			
+			Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;			
 		}
 	
        
@@ -42,9 +42,9 @@ namespace eduChain.Views.ContentPages{
 	
 			    var audioConnection = IPlatformApplication.Current.Services.GetRequiredService<IAudioManager>();
 				loadingPopup = new LoadingPopup(audioConnection);
-
+				this.ShowPopup(loadingPopup);
 				await homePageViewModel.LoadUsers(Preferences.Default.Get("firebase_uid", string.Empty));
-				await Task.Delay(2000);
+				await Task.Delay(1000);
 				//await homePageViewModel.LoadProfileAsync(Preferences.Default.Get("firebase_uid", string.Empty));
 				//await Shell.Current.DisplayAlert("Success", "Profile Loaded", null);
 				//await Shell.Current.Navigation.PopModalAsync();
@@ -56,7 +56,7 @@ namespace eduChain.Views.ContentPages{
                 AppShell appShell = (App.Current as App).MainPage as AppShell;
                 Shell.Current.FlyoutIsPresented = true;
                 appShell.TriggerLayout("collapsed");
-                Shell.Current.FlyoutIsPresented = false;
+				await Task.Delay(50);
                 loadingPopup.ClosePopup();
 				homePageViewModel.IsLoading = false;
 			}

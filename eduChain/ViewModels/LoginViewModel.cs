@@ -15,15 +15,15 @@ namespace eduChain.ViewModels
 {
     public class LoginViewModel : INotifyPropertyChanged
     {
-        
+
         private readonly FirebaseAuthClient _firebaseAuthClient;
 
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
-        {   
+        {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        
+
         public LoginModel LoginModel { get; set; }
         public ICommand LoginCommand { get; }
 
@@ -44,7 +44,7 @@ namespace eduChain.ViewModels
             get { return _password; }
             set
             {
-                if(_password != value)
+                if (_password != value)
                 {
                     _password = value;
                     OnPropertyChanged(nameof(Password));
@@ -52,8 +52,7 @@ namespace eduChain.ViewModels
             }
         }
 
-        private bool hasNavigated = false;
-      
+
         public LoginViewModel(FirebaseAuthClient firebaseAuthClient)
         {
             _firebaseAuthClient = firebaseAuthClient;
@@ -66,66 +65,66 @@ namespace eduChain.ViewModels
         public bool KeepLoggedIn { get; set; } // Property to store checkbox state
 
 
-            public async void Login()
+        public async void Login()
+        {
+            NetworkAccess networkAccess = Connectivity.NetworkAccess;
+            if (networkAccess == NetworkAccess.None)
             {
-                NetworkAccess networkAccess = Connectivity.NetworkAccess;
-                if(networkAccess == NetworkAccess.None)
-                {
-                    Application.Current?.MainPage?.DisplayAlert("No Connection", "Lost Internet Connection", "OK");
-                    return;
-                }
-                if (string.IsNullOrWhiteSpace(Email) && string.IsNullOrWhiteSpace(Password))
-                {
-                    ShowInvalidCredentialsAlert("inputnothing");
-                    return;
-                }
+                Application.Current?.MainPage?.DisplayAlert("No Connection", "Lost Internet Connection", "OK");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(Email) && string.IsNullOrWhiteSpace(Password))
+            {
+                ShowInvalidCredentialsAlert("inputnothing");
+                return;
+            }
 
-                if (string.IsNullOrWhiteSpace(Email))
-                {
-                    ShowInvalidCredentialsAlert("inputnousername");
-                    return;
-                }
-                if (string.IsNullOrEmpty(Password))
-                {
-                    ShowInvalidCredentialsAlert("inputnopassword");
-                    return;
-                }
-                bool isValid = await IsValidUser(Email, Password);
+            if (string.IsNullOrWhiteSpace(Email))
+            {
+                ShowInvalidCredentialsAlert("inputnousername");
+                return;
+            }
+            if (string.IsNullOrEmpty(Password))
+            {
+                ShowInvalidCredentialsAlert("inputnopassword");
+                return;
+            }
+            bool isValid = await IsValidUser(Email, Password);
 
 
-                // Check username and password authenticity
-             
-                
-                if (isValid)
+            // Check username and password authenticity
+
+
+            if (isValid)
+            {
+                if (KeepLoggedIn)
                 {
-                    if(KeepLoggedIn)
-                    {
-                        Preferences.Default.Set("email", Email);
-                        Preferences.Default.Set("password", Password);
-                        Preferences.Default.Set("IsLoggedIn", true);
-                        var cancellationTokenSource = new CancellationTokenSource();
-                        var text = "Saved Login";
-                        var duration = ToastDuration.Long;
-                        var fontSize = 14;
-                        var toast = Toast.Make(text, duration, fontSize);
-                        await toast.Show(cancellationTokenSource.Token);
+                    Preferences.Default.Set("email", Email);
+                    Preferences.Default.Set("password", Password);
+                    Preferences.Default.Set("IsLoggedIn", true);
+                    var cancellationTokenSource = new CancellationTokenSource();
+                    var text = "Saved Login";
+                    var duration = ToastDuration.Long;
+                    var fontSize = 14;
+                    var toast = Toast.Make(text, duration, fontSize);
+                    await toast.Show(cancellationTokenSource.Token);
 
                 }
                 Password = string.Empty;
-                    Preferences.Default.Set("email", Email);
-                    Email = string.Empty;
-                    // Navigate to the home page
-                    //var homePage = new HomePage();
-                        Preferences.Default.Set("isloaded", "false");
-                          await Shell.Current.GoToAsync($"//homePage?forceNewInstance=true");
+                Preferences.Default.Set("email", Email);
+                Email = string.Empty;
+                // Navigate to the home page
+                //var homePage = new HomePage();
+                Preferences.Default.Set("isloaded", "false");
+                await Shell.Current.GoToAsync($"//homePage?forceNewInstance=true");
 
-                }
-                else
-                {
-                    // Show error message or handle invalid login
-                    ShowInvalidCredentialsAlert("inputcomplete");
-                }
             }
+            else
+            {
+                // Show error message or handle invalid login
+                ShowInvalidCredentialsAlert("inputcomplete");
+            }
+        }
 
         private async Task<bool> IsValidUser(string email, string password)
         {
@@ -153,7 +152,7 @@ namespace eduChain.ViewModels
 
         private void ShowInvalidCredentialsAlert(string context)
         {
-            if(context == "inputcomplete")
+            if (context == "inputcomplete")
             {
                 Application.Current?.MainPage?.DisplayAlert("Error", "Invalid username or password", "OK");
             }
@@ -170,7 +169,7 @@ namespace eduChain.ViewModels
                 Application.Current?.MainPage?.DisplayAlert("Error", "Please provide a username and password", "OK");
             }
         }
-        
-        
+
+
     }
 }

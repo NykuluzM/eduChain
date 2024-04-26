@@ -11,29 +11,44 @@ using Nethereum.Model;
 public partial class AppShell : Shell
 {
     bool repeat = true;
-	AppShellViewModel _viewModel;
+    bool navPressed = false;
+    bool norepeat = true;
+    AppShellViewModel _viewModel;
 
-	public AppShell()
-	{
-		InitializeComponent();
-		Routing.RegisterRoute(Routes.RegisterPage, typeof(RegisterPage));
+    public AppShell()
+    {
+        InitializeComponent();
+        Routing.RegisterRoute(Routes.RegisterPage, typeof(RegisterPage));
 
-		Routing.RegisterRoute("forgotPasswordPage", typeof(ForgotPasswordPage));
-		_viewModel = new AppShellViewModel();
-		this.BindingContext = _viewModel;
-    
-	}
-    public void TriggerLayout(string layout){
-        if(layout == "collapsed"){
-           
+        Routing.RegisterRoute("forgotPasswordPage", typeof(ForgotPasswordPage));
+        _viewModel = new AppShellViewModel();
+        this.BindingContext = _viewModel;
+       
+    }
+    public void TriggerLayout(string layout)
+    {
+        Shell.Current.FlyoutBehavior = _viewModel.FlyoutBehaviors;
+
+        if (layout == "collapsed")
+        {
+            LockFlyout(this, new EventArgs());
+
             Collapse_Clicked(this, new EventArgs());
+
+
         }
-        else{
+        else if (layout == "collapsed_locked")
+        {
+            
+        }
+        else
+        {
             Shell.Current.DisplayAlert("Layout", "Expanded", "OK");
         }
     }
-	private async void ProfileTapped(object sender, EventArgs e)
-	{
+    private async void ProfileTapped(object sender, EventArgs e)
+    {
+        navPressed = true;
         //fly1.On<WinUI>.SetIsEnabled(false);
         if (Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.Android || Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.iOS)
         {
@@ -42,12 +57,12 @@ public partial class AppShell : Shell
             fly3.IsEnabled = false;
             pTap.IsEnabled = false;
         }
-       
-        if (!repeat )
+
+        if (!repeat)
         {
             return;
         }
-        switch(Preferences.Default.Get("Role", String.Empty))
+        switch (Preferences.Default.Get("Role", String.Empty))
         {
             case "Student":
                 repeat = false;
@@ -73,181 +88,204 @@ public partial class AppShell : Shell
                 }
                 else
                 {
-					try{
-						await Shell.Current.Navigation.PushAsync(new StudentProfilePage(), false);
-											repeat = true;
-					}
-					catch(Exception ex){
-						await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
-					}
-                   
+                    try
+                    {
+                        await Shell.Current.Navigation.PushAsync(new StudentProfilePage(), false);
+                        repeat = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+                    }
+
 
                 }
                 break;
-                case "Organization":
-                    repeat = false;
-                    if (Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.Android || Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.iOS)
+            case "Organization":
+                repeat = false;
+                if (Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.Android || Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.iOS)
                 {
-                        await Shell.Current.Navigation.PushModalAsync(new OrganizationProfilePage(), false)
-                          .ContinueWith(async task =>
+                    await Shell.Current.Navigation.PushModalAsync(new OrganizationProfilePage(), false)
+                      .ContinueWith(async task =>
+                      {
+                          // Ensure navigation succeeded (Handle errors if needed) 
+                          if (task.IsCompletedSuccessfully)
                           {
-                              // Ensure navigation succeeded (Handle errors if needed) 
-                              if (task.IsCompletedSuccessfully)
-                              {
-                                  await Task.Delay(500); // Delay of 500 milliseconds (adjust as needed)
-                                  pTap.IsEnabled = true;
-                                  fly1.IsEnabled = true;
-                                  fly2.IsEnabled = true;
-                                  fly3.IsEnabled = true;
+                              await Task.Delay(500); // Delay of 500 milliseconds (adjust as needed)
+                              pTap.IsEnabled = true;
+                              fly1.IsEnabled = true;
+                              fly2.IsEnabled = true;
+                              fly3.IsEnabled = true;
 
-                              }
-                              repeat = true;
-                          });
-                    }
-                    else
-                    {
-                        await Shell.Current.Navigation.PushAsync(new OrganizationProfilePage(), false);
-                        repeat = true;
-
-                    }
-                    break;
-                case "Guardian":
-                    repeat = false;
-                    if (Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.Android || Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.iOS)
+                          }
+                          repeat = true;
+                      });
+                }
+                else
                 {
-                        await Shell.Current.Navigation.PushModalAsync(new GuardianProfilePage(), false)
-                          .ContinueWith(async task =>
+                    await Shell.Current.Navigation.PushAsync(new OrganizationProfilePage(), false);
+                    repeat = true;
+
+                }
+                break;
+            case "Guardian":
+                repeat = false;
+                if (Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.Android || Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.iOS)
+                {
+                    await Shell.Current.Navigation.PushModalAsync(new GuardianProfilePage(), false)
+                      .ContinueWith(async task =>
+                      {
+                          // Ensure navigation succeeded (Handle errors if needed) 
+                          if (task.IsCompletedSuccessfully)
                           {
-                              // Ensure navigation succeeded (Handle errors if needed) 
-                              if (task.IsCompletedSuccessfully)
-                              {
-                                  await Task.Delay(500); // Delay of 500 milliseconds (adjust as needed)
-                                  pTap.IsEnabled = true;
-                                  fly1.IsEnabled = true;
-                                  fly2.IsEnabled = true;
-                                  fly3.IsEnabled = true;
+                              await Task.Delay(500); // Delay of 500 milliseconds (adjust as needed)
+                              pTap.IsEnabled = true;
+                              fly1.IsEnabled = true;
+                              fly2.IsEnabled = true;
+                              fly3.IsEnabled = true;
 
-                              }
-                              repeat = true;
-                          });
-                    }
-                    else
+                          }
+                          repeat = true;
+                      });
+                }
+                else
                 {
-                        await Shell.Current.Navigation.PushAsync(new GuardianProfilePage(), false);
-                        repeat = true;
+                    await Shell.Current.Navigation.PushAsync(new GuardianProfilePage(), false);
+                    repeat = true;
 
-                    }
-                    break;  
+                }
+                break;
         }
-		
-	}
-	private void ExitFlyout(object sender, EventArgs e)
-	{
+
+    }
+    private void ExitFlyout(object sender, EventArgs e)
+    {
         _viewModel.FlyoutBehaviors = FlyoutBehavior.Flyout;
-        Shell.Current.FlyoutIsPresented = false;
+      
+
     }
     private void LockFlyout(object sender, EventArgs e)
     {
         _viewModel.FlyoutBehaviors = FlyoutBehavior.Locked;
-        Shell.Current.FlyoutBehavior = FlyoutBehavior.Locked;
-        if (Expand.IsVisible)
-        {
-            Expand.IsVisible = true;
-            Lock.IsVisible = true;
-            Unlock.IsVisible = true;
-            Collapse.IsVisible = false;
-        }
-        else
-        {
-            Lock.IsVisible = false;
-            Minimize.IsVisible = false;
-            Unlock.IsVisible = true;
-            Collapse.IsVisible = true;
-            
-        }
+        Lock.IsVisible = false;
+       
+        Unlock.IsVisible = true;
+        Collapse.IsVisible = true;
     }
     protected override void OnNavigating(ShellNavigatingEventArgs args)
     {
         base.OnNavigating(args);
-		NavBarHasShadowProperty.Equals(false);
-        
+        NavBarHasShadowProperty.Equals(false);
+
     }
     protected override void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
     }
     protected override void OnNavigated(ShellNavigatedEventArgs args)
-	{
+    {
         base.OnNavigated(args);
         NavBarHasShadowProperty.Equals(false);
 
     }
 
-   
+
     private void Collapse_Clicked(object sender, EventArgs e)
     {
-        Unlock.IsVisible = false;
-        if (Microsoft.Maui.Devices.DeviceInfo.Platform != DevicePlatform.Android)
+        var size1 = 270;
+        var size2 = 80;
+        if(DeviceInfo.Platform == DevicePlatform.Android || DeviceInfo.Platform == DevicePlatform.iOS)
         {
-            Expand.BorderWidth = 0;
+            size1 = 270;
+            size2 = 50;
+            pTap.Padding = new Thickness(0, -15, 0, 0);
         }
+        var animation = new Animation((current) => {
+            FlyoutWidth = current;
+        },size1,size2, null);
+        animation.Commit(this, "Collapse", finished: (value, cancelled) =>
+        {
+            Expand.IsVisible = true;
+            Collapse.IsVisible = false;
+        });
+        
+       
+            Unlock.IsVisible = false;
+            Lock.IsVisible = false;
+       
         Expand.RotateTo(90, 500, new Easing(t => t));
-        Minimize.IsVisible = false;
         Expand.IsVisible = true;
-        Collapse.IsVisible = false;
         Logout.IsVisible = false;
         Name.IsVisible = false;
         RoleVal.IsVisible = false;
         collapse1.WidthRequest = 35;
         collapse1.HeightRequest = 35;
-        Lock.Margin = new Thickness(0, 0, 0, 80);
-        Unlock.Margin = new Thickness(0,15,0,0);
+        Expand.Margin = new Thickness(0, 50, 0, 25);
         LabelVal.IsVisible = true;
-        if (Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.WinUI  )
+        LabelLog.IsVisible = true;
+        if (DeviceInfo.Platform == DevicePlatform.WinUI || DeviceInfo.Platform == DevicePlatform.macOS || DeviceInfo.Platform == DevicePlatform.MacCatalyst)
         {
             collapse1.WidthRequest = 45;
             collapse1.HeightRequest = 45;
-            collapse1.Margin = new Thickness(17, 10, 0, 10);
-            Shell.Current.FlyoutWidth = 85;
-        } else if (Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.macOS || Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.MacCatalyst){
-            collapse1.WidthRequest = 45;
-            collapse1.HeightRequest = 45;
-            collapse1.Margin = new Thickness(17, 10, 0, 10);
-            Shell.Current.FlyoutWidth = 85;
+            collapse1.Margin = new Thickness(15, 10, 10, 15);
+           
         }
         else
         {
             collapse1.HorizontalOptions = LayoutOptions.Center;
             collapse1.VerticalOptions = LayoutOptions.Center;
-            collapse1.Margin = new Thickness(10, 0, 0, 0);
+            collapse1.Margin = new Thickness(7, 0, 0, 0);
 
             LabelVal.FontSize = 8;
             LabelVal.HorizontalOptions = LayoutOptions.Center;
-            LabelVal.Margin = new Thickness(10, 0, 0, 0);
-
-            Shell.Current.FlyoutWidth = 60;
+           
 
         }
-        Unlock.IsVisible = true;
-        Lock.IsVisible = true;
-    }  
-    private void Expand_Clicked(object sender, EventArgs e)
+
+
+    }
+   
+   
+    private async void Expand_Clicked(object seder, EventArgs e)
     {
-       Shell.Current.FlyoutWidth = 270;
-        Collapse.IsVisible = true;
-        if(Shell.Current.FlyoutBehavior == FlyoutBehavior.Locked){
-            Unlock.IsVisible = true;
-            Lock.IsVisible = false;
-        } else {
-            Unlock.IsVisible = false;
-            Lock.IsVisible = true;
+        if(!norepeat)
+        {
+            return;
         }
+        var size1 = 270;
+        var size2 = 50;
+        if (DeviceInfo.Platform == DevicePlatform.Android || DeviceInfo.Platform == DevicePlatform.iOS)
+        {
+            size1 = 270;
+            size2 = 60;
+            pTap.Padding = new Thickness(0, 0, 0, 0);
+        }
+        var animation = new Animation((current) => {
+            FlyoutWidth = current;
+        }, size2, size1, null);
+        animation.Commit(this, "Expand", finished: async (value, cancelled) =>
+        {
+            Expand.IsVisible = false;
+            Collapse.IsVisible = true;
+
+            await Task.Delay(100);
+            if (navPressed && norepeat)
+            {
+                norepeat = false;
+                await UpdateGrid();
+                norepeat = true;
+            }
+        });
+        Collapse.IsVisible = true;
+      
+        Unlock.IsVisible = true;
+        Lock.IsVisible = false;
        
 
-        Minimize.IsVisible = false;
-        Expand.IsVisible = false;
+
         Logout.IsVisible = true;
         LabelVal.IsVisible = false;
+        LabelLog.IsVisible = false;
         Lock.Margin = new Thickness(0, 0, 0, 0);
         Name.IsVisible = true;
         RoleVal.IsVisible = true;
@@ -255,34 +293,40 @@ public partial class AppShell : Shell
         collapse1.HeightRequest = 65;
         Unlock.Margin = new Thickness(0, 0, 0, 20);
 
-        collapse1.Margin = new Thickness(10,5,0,10);
-        if (Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.MacCatalyst || Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.macOS){
-            Collapse.WidthRequest = 95;
-            Collapse.Margin = new Thickness(-10,5,-10,0);
-        }
-
-
-    }
-    private void Unlock_Clicked(object sender, EventArgs e)
-    {
-        _viewModel.FlyoutBehaviors = FlyoutBehavior.Flyout;
-        Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
-        Shell.Current.FlyoutIsPresented = false;
-
-        if (Collapse.IsVisible)
+        collapse1.Margin = new Thickness(20, 5, 0, 10);
+        if (Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.MacCatalyst || Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.macOS)
         {
-
-            Lock.IsVisible = true;
-            Minimize.IsVisible = true;
-            Collapse.IsVisible = false;
-            Unlock.IsVisible = false;
-        } 
-        
+            Collapse.WidthRequest = 95;
+            Collapse.Margin = new Thickness(-10, 5, -10, 0);
+        }
+       
       
     }
-
-    private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    private async Task UpdateGrid()
     {
+        navPressed = false;
+        //Assumes already that flyout is locked and collapsed to reproduce the layout issues
+        await UpdateVal();
+        await Task.Delay(50);
+        Unlock_Clicked(this, new EventArgs());
+        await Task.Delay(50);
+
+        LockFlyout(this, new EventArgs());
+    }
+    private async Task UpdateVal()
+    {
+        Expand_Clicked(this, new EventArgs());
 
     }
+   
+    private  void Unlock_Clicked(object sender, EventArgs e)
+    {
+
+        Collapse.IsVisible = false;
+        Lock.IsVisible = true;
+        Unlock.IsVisible = false;
+       
+        _viewModel.FlyoutBehaviors = FlyoutBehavior.Flyout; 
+    }
+  
 }

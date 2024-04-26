@@ -10,7 +10,7 @@
     xmlns:models="clr-namespace:eduChain.Models"
     xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
 
-    FlyoutBackgroundColor="Bisque"  FlyoutWidth="270" FlyoutBackdrop="#66FFFFFF"
+    FlyoutBackgroundColor="Bisque"  FlyoutBehavior="{Binding FlyoutBehaviors, Mode=OneWay}" FlyoutWidth="270" FlyoutBackdrop="#66FFFFFF"
     Title="eduChain" >
    
     <Shell.Resources>
@@ -23,27 +23,41 @@
         </ResourceDictionary>
     </Shell.Resources>
     
-    <Shell.FlyoutHeader >
-        <Border x:Name="pTap"  Stroke="#C49B33" StrokeThickness="4">
+    <Shell.FlyoutHeader>
+        <Border x:Name="pTap" Margin="0,0,0,30">
             <Border.GestureRecognizers>
                 <TapGestureRecognizer Tapped="ProfileTapped" />
-              
             </Border.GestureRecognizers>
             
-            <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto,Auto"  BackgroundColor="#41406d">
-                <Border x:Name="collapse1" Grid.Column="0" HeightRequest="65" WidthRequest="65" Margin="10,5,0,10"
+            <Grid ColumnDefinitions="Auto, *" RowDefinitions="40,40" >
+                <BoxView Grid.Row="0" Grid.Column="1" BackgroundColor="PaleVioletRed"/>
+                <BoxView Grid.Row="0" Grid.Column="0" BackgroundColor="PaleVioletRed" />
+                <BoxView Grid.Row="1" Grid.Column="0" BackgroundColor="Bisque"/>
+
+                <BoxView Grid.Row="1" Grid.Column="1" BackgroundColor="Bisque"/>
+
+                <Border x:Name="collapse1" Grid.Column="0" Grid.RowSpan="2" HeightRequest="65" WidthRequest="65" Margin="{x:OnPlatform Default='15,5,0,10', Android='5,0,0,0'}"
                     Stroke="{StaticResource grad}" StrokeThickness="2">
                     <Border.StrokeShape>
                         <Ellipse />
                     </Border.StrokeShape>
                     <Image x:Name="ProfileImage" Source="{Binding UsersProfile.ProfileImage}" Aspect="AspectFill"/>
                 </Border>
-                <Label  Grid.Column="1" Grid.Row="0"  TextColor="Black" FontAttributes="Bold" FontSize="13" Text="{Binding UsersProfile.DisplayName}" LineBreakMode="WordWrap" MaxLines="2" x:Name="Name" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="40"/>
-                <Border x:Name="RoleVal" Grid.Column="1" Grid.Row="0"  Background="Black"  Margin="0,25,0,0" Stroke="{StaticResource grad}" StrokeThickness="2" HeightRequest="20" HorizontalOptions="Center" VerticalOptions="End">
-                <Label  Grid.Row="1" Text="{Binding UsersProfile.Role}" Padding="20,0,20,0" TextDecorations="Underline" TextColor="Yellow"  x:Name="Role" FontSize="12"  HorizontalOptions="Center" VerticalOptions="End"/>
-                </Border>
-                <Label Grid.Row="1" Text="My Profile" x:Name="LabelVal" Margin="15,0,0,0" HorizontalOptions="Center" FontSize="10" FontFamily="Sans-Serif" IsVisible="False"/>
+                
+                <Label  Grid.Column="1" Grid.Row="0"  TextColor="Black" FontAttributes="Bold" FontSize="13" Text="{Binding UsersProfile.DisplayName}" LineBreakMode="WordWrap" MaxLines="2" x:Name="Name" Padding="0,20,0,0" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="40"/>
 
+               
+                <Border  x:Name="RoleVal" Grid.Column="1" Grid.Row="1"  Background="Black"  Margin="0,0,0,0" Stroke="{StaticResource grad}" StrokeThickness="2" HeightRequest="20" HorizontalOptions="Center" VerticalOptions="End">
+                    <Label  Grid.Row="1" Text="{Binding UsersProfile.Role}" Padding="20,0,20,0" TextDecorations="Underline" TextColor="Yellow"  x:Name="Role" FontSize="12"  HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+                <Grid Grid.Row="1" Grid.Column="0">
+                    <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="{x:OnPlatform Android=End}" Margin="{x:OnPlatform Android='0,0,0,8'}">
+                        <Image  HeightRequest="15" WidthRequest="15" x:Name="LabelLog" Source="prof.png" IsVisible="False"  VerticalOptions="End"  HorizontalOptions="Center"/>
+                        <Label Text="Profile" x:Name="LabelVal" Margin="0,0,0,0" HorizontalOptions="Center" VerticalOptions="End" FontSize="10" FontFamily="Sans-Serif" IsVisible="False"/>
+
+                    </HorizontalStackLayout>
+                    
+                </Grid>
             </Grid>
 
 
@@ -53,7 +67,7 @@
    
     <Shell.ItemTemplate>
         <DataTemplate>
-                <Grid ColumnSpacing="10" RowDefinitions="8,Auto,8,1" ColumnDefinitions="50,*">
+                <Grid ColumnSpacing="10"  RowDefinitions="8,Auto,8,6"  ColumnDefinitions="50,200">
                     <VisualStateManager.VisualStateGroups>
                         <VisualStateGroupList>
                             <VisualStateGroup x:Name="CommonStates">
@@ -71,8 +85,8 @@
                         </VisualStateGroupList>
 
                     </VisualStateManager.VisualStateGroups>
-                    <Image  x:Name="logoo" Grid.Row="1" Grid.Column="0" HorizontalOptions="Center" Margin="{x:OnPlatform Default='10,0,0,0', MacCatalyst='30,0,0,0'}" Source="{Binding FlyoutIcon}" WidthRequest="25" />
-                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Title}" FontSize="15" HorizontalOptions="Center"  VerticalOptions="Center" TextColor="Black" Margin="0,0,55,10" FontAttributes="Bold" WidthRequest="{x:OnPlatform WinUI= 350}"/>
+                    <Image  x:Name="logoo" Grid.Row="1" Grid.Column="0" HorizontalOptions="Center" Margin="{x:OnPlatform Default='0,0,0,0', MacCatalyst='30,0,0,0'}" Source="{Binding FlyoutIcon}" WidthRequest="25" />
+                    <Label Grid.Row="1"  Grid.Column="1" Text="{Binding Title}" FontSize="15"   VerticalOptions="Center" TextColor="Black" FontAttributes="Bold" />
 
                 </Grid>
          
@@ -92,8 +106,10 @@
         Route="loginPage" />
 
 	
-    <FlyoutItem Title="Home"  x:Name="fly1" FlyoutDisplayOptions="AsMultipleItems">
+    <FlyoutItem   FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent
+             x:Name="fly1"
+            
             Title="Home"
             FlyoutIcon="homelogo.png"
             FlyoutItemIsVisible="True"
@@ -103,7 +119,7 @@
             Shell.TabBarForegroundColor="DarkSeaGreen"
             Shell.TabBarUnselectedColor="Black"
             Shell.TabBarTitleColor="Green"
-            Shell.FlyoutBehavior="{Binding FlyoutBehaviors}"
+            Shell.FlyoutBehavior="{Binding FlyoutBehaviors, Mode=TwoWay}"
             ContentTemplate="{DataTemplate pages:HomePage}"
             Shell.NavBarHasShadow="false"
        
@@ -118,7 +134,8 @@
                 Shell.TabBarForegroundColor="DarkSeaGreen"
                 Shell.TabBarUnselectedColor="Black"
                 Shell.TabBarTitleColor="Green"
-                Shell.FlyoutBehavior="Flyout"
+                    Shell.FlyoutBehavior="{Binding FlyoutBehaviors}"
+
                 ContentTemplate="{DataTemplate pages:SettingsPage}"
                 Route="settingsPage"
                 />
@@ -133,7 +150,8 @@
             Icon="weblogo.png"
             FlyoutItemIsVisible="True"
             Shell.NavBarIsVisible="{x:OnPlatform Android=True, iOS=True, MacCatalyst=True, WinUI=False}"
-            Shell.FlyoutBehavior="Flyout"
+                       Shell.FlyoutBehavior="{Binding FlyoutBehaviors}"
+
             Shell.TabBarBackgroundColor="#FFFACD"
             Shell.TabBarForegroundColor="DarkSeaGreen"
             Shell.TabBarUnselectedColor="Black"
@@ -164,7 +182,8 @@
             Icon="ipfslogo.png"
             FlyoutItemIsVisible="True"
             Shell.NavBarIsVisible="{x:OnPlatform Android=True, iOS=True, MacCatalyst=True, WinUI=False}"
-            Shell.FlyoutBehavior="Flyout"
+                        Shell.FlyoutBehavior="{Binding FlyoutBehaviors}"
+
             ContentTemplate="{DataTemplate pages:IpfsConnectPage}"
             Route="ipfsConnectPage"
             />
@@ -206,7 +225,7 @@
 
             <Button x:Name="Collapse" Grid.Column="0" Margin="0,0,-15,0"  WidthRequest="85" Grid.Row="1" Clicked="Collapse_Clicked" StyleClass="TextButton" HorizontalOptions="End" IsVisible="False">
                 <Button.ImageSource>
-                    <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Adjust}" Color="Black" />
+                    <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Menu_open}" Color="Black" />
                 </Button.ImageSource>
             </Button>
 
@@ -222,15 +241,7 @@
                     <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialTwoTone.Expand}" Color="Black"  />
                 </Button.ImageSource>
             </Button>
-            <Button x:Name="Minimize"  IsVisible="{OnPlatform Android=true, MacCatalyst=true, WinUI=true, iOS=true}" Grid.Row="1" StyleClass="TextButton" Clicked="ExitFlyout"  WidthRequest="80" HorizontalOptions="End" Margin="0,0,-15,0">
-                    <Button.ImageSource>
-                        <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Menu_open}" Color="Black" />
-                    
-                    </Button.ImageSource>
-
-                </Button>
-            
-           
+          
         </Grid>
     </Shell.FlyoutFooter>
    

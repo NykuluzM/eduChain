@@ -4,6 +4,8 @@ using System.Runtime.CompilerServices;
     using eduChain.Services;
     using eduChain.Models;
     using eduChain.Models.MyProfileModels;
+    using Microsoft.Maui;
+   
 
     public class ViewModelBase : INotifyPropertyChanged
 {
@@ -22,9 +24,40 @@ using System.Runtime.CompilerServices;
             SetProperty(ref _usersProfile, value);
         }
     }
- 
+        public bool hasNavigated { get; set; }
 
-  private OrganizationProfileModel _organizationProfile;
+        private FlyoutBehavior _flyoutBehavior = FlyoutBehavior.Flyout;
+        public FlyoutBehavior FlyoutBehaviors
+        {
+            get { return _flyoutBehavior;}
+            set
+            {
+                _flyoutBehavior = value;
+                if (value == FlyoutBehavior.Locked)
+                {
+                    IsMenuPresented = false;
+                }
+                else if (value == FlyoutBehavior.Flyout)
+                {
+                    IsMenuPresented = true;
+                }
+                _flyoutBehavior = value;
+                OnPropertyChanged(nameof(FlyoutBehaviors));
+            }
+        }
+
+        private bool _isMenuPresented = true;
+        public bool IsMenuPresented
+        {
+            get { return _isMenuPresented; }
+            set
+            {
+                _isMenuPresented = value;
+                OnPropertyChanged(nameof(IsMenuPresented));
+            }
+        }
+
+        private OrganizationProfileModel _organizationProfile;
   public OrganizationProfileModel OrganizationProfile
   {
     get { return _organizationProfile; }
