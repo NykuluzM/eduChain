@@ -27,6 +27,16 @@
                     <Image Source="chibi.png" WidthRequest="150" HeightRequest="150"/>
                     <Label Text="Help us out identify you" HorizontalOptions="Center" VerticalOptions="Center"/>
                 <input:FormView Spacing="20" MaximumWidthRequest="750" HorizontalOptions="Center">
+                    <input:FormView MaximumWidthRequest="800" Margin="15,15,15,0" MinimumWidthRequest="250">
+                        <ur:TextField Title="Display Name" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding DisplayName}" MinimumWidthRequest="250" 
+                                Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Person}}">
+                            <validation:RequiredValidation />
+                            <validation:MinLengthValidation MinLength="6" Message="Minimum length is 6"/>
+                            <validation:MaxLengthValidation MaxLength="20" Message="Maximum length is 20"/>
+                            <validation:RegexValidation Pattern="^(?:[A-Za-z][A-Za-z0-9]*|)$" Message="Display Name must start with a letter and only have letters and numbers."/>
+                        </ur:TextField>
+                    </input:FormView>   
+
                     <toolkit:UniformItemsLayout MaxColumns="2" Padding="5" MaximumWidthRequest="1000">
                         <input:FormView Padding="15,15,15,0" MaximumWidthRequest="700" MinimumWidthRequest="250">
                             <ur:TextField Title="First Name" BorderColor="Honeydew" TitleColor="Honeydew" TextColor="Honeydew" Text="{Binding FirstName}" MinimumWidthRequest="250" 

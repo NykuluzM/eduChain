@@ -76,6 +76,7 @@ public class AppShellViewModel : ViewModelBase
         // Handle the logout logic here
        Preferences.Default.Clear();
        MyProfileModel.Instance.ProfileImage = "profiledefault.png";
+       FirebaseAuthService.GetInstance().GetFirebaseAuthClient().SignOut();
        await Shell.Current.GoToAsync("//loginPage");
     }
 }

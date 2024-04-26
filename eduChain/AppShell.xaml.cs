@@ -27,6 +27,10 @@ public partial class AppShell : Shell
         if(layout == "collapsed"){
            
             Collapse_Clicked(this, new EventArgs());
+        } else if(layout == "collapsed_locked"){
+            LockFlyout(this, new EventArgs());
+            Collapse_Clicked(this, new EventArgs());
+            
         }
         else{
             Shell.Current.DisplayAlert("Layout", "Expanded", "OK");
@@ -150,21 +154,8 @@ public partial class AppShell : Shell
     {
         _viewModel.FlyoutBehaviors = FlyoutBehavior.Locked;
         Shell.Current.FlyoutBehavior = FlyoutBehavior.Locked;
-        if (Expand.IsVisible)
-        {
-            Expand.IsVisible = true;
-            Lock.IsVisible = true;
-            Unlock.IsVisible = true;
-            Collapse.IsVisible = false;
-        }
-        else
-        {
-            Lock.IsVisible = false;
-            Minimize.IsVisible = false;
-            Unlock.IsVisible = true;
-            Collapse.IsVisible = true;
-            
-        }
+       Lock.IsVisible = false;
+         Unlock.IsVisible = true;
     }
     protected override void OnNavigating(ShellNavigatingEventArgs args)
     {
@@ -186,35 +177,37 @@ public partial class AppShell : Shell
    
     private void Collapse_Clicked(object sender, EventArgs e)
     {
-        Unlock.IsVisible = false;
-        if (Microsoft.Maui.Devices.DeviceInfo.Platform != DevicePlatform.Android)
-        {
-            Expand.BorderWidth = 0;
+            var animation = new Animation((current) =>{
+                FlyoutWidth = current;
+            }, 270, 80, null);
+            animation.Commit(this, "Collapse", finished: (value, cancelled) =>
+            {
+                Expand.IsVisible = true;
+                Collapse.IsVisible = false;
+            });
+        if(Shell.Current.FlyoutBehavior == FlyoutBehavior.Locked){
+            Unlock.IsVisible = true;
+            Lock.IsVisible = false;
+        } else {
+            Unlock.IsVisible = false;
+            Lock.IsVisible = true;
         }
         Expand.RotateTo(90, 500, new Easing(t => t));
         Minimize.IsVisible = false;
         Expand.IsVisible = true;
-        Collapse.IsVisible = false;
         Logout.IsVisible = false;
         Name.IsVisible = false;
         RoleVal.IsVisible = false;
         collapse1.WidthRequest = 35;
         collapse1.HeightRequest = 35;
-        Lock.Margin = new Thickness(0, 0, 0, 80);
-        Unlock.Margin = new Thickness(0,15,0,0);
+        Expand.Margin =  new Thickness(0, 50, 0, 25);
         LabelVal.IsVisible = true;
-        if (Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.WinUI  )
+        if (Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.WinUI || Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.macOS || Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.MacCatalyst)
         {
             collapse1.WidthRequest = 45;
             collapse1.HeightRequest = 45;
             collapse1.Margin = new Thickness(17, 10, 0, 10);
-            Shell.Current.FlyoutWidth = 85;
-        } else if (Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.macOS || Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.MacCatalyst){
-            collapse1.WidthRequest = 45;
-            collapse1.HeightRequest = 45;
-            collapse1.Margin = new Thickness(17, 10, 0, 10);
-            Shell.Current.FlyoutWidth = 85;
-        }
+        } 
         else
         {
             collapse1.HorizontalOptions = LayoutOptions.Center;
@@ -225,15 +218,19 @@ public partial class AppShell : Shell
             LabelVal.HorizontalOptions = LayoutOptions.Center;
             LabelVal.Margin = new Thickness(10, 0, 0, 0);
 
-            Shell.Current.FlyoutWidth = 60;
 
         }
-        Unlock.IsVisible = true;
-        Lock.IsVisible = true;
     }  
     private void Expand_Clicked(object sender, EventArgs e)
     {
-       Shell.Current.FlyoutWidth = 270;
+         var animation = new Animation((current) =>{
+                FlyoutWidth = current;
+            }, 80, 270, null);
+            animation.Commit(this, "Expand", finished: (value, cancelled) =>
+            {
+                Expand.IsVisible = false;
+                Collapse.IsVisible = true;
+            });
         Collapse.IsVisible = true;
         if(Shell.Current.FlyoutBehavior == FlyoutBehavior.Locked){
             Unlock.IsVisible = true;
@@ -245,7 +242,6 @@ public partial class AppShell : Shell
        
 
         Minimize.IsVisible = false;
-        Expand.IsVisible = false;
         Logout.IsVisible = true;
         LabelVal.IsVisible = false;
         Lock.Margin = new Thickness(0, 0, 0, 0);
@@ -269,20 +265,11 @@ public partial class AppShell : Shell
         Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
         Shell.Current.FlyoutIsPresented = false;
 
-        if (Collapse.IsVisible)
-        {
-
             Lock.IsVisible = true;
-            Minimize.IsVisible = true;
-            Collapse.IsVisible = false;
             Unlock.IsVisible = false;
-        } 
+        
         
       
     }
 
-    private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
-    {
-
-    }
-}
+  }

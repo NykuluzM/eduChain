@@ -7,14 +7,17 @@ using Supabase;
 using eduChain.Models;
 using System.Runtime.Serialization;
 using Firebase.Auth;
+using Firebase.Auth.Providers;
 using Npgsql;
 using NBitcoin.Secp256k1;
+
 using System.Text.RegularExpressions;
+using Firebase.Auth.Providers;
 namespace eduChain.ViewModels
 {
     public class RegisterViewModel : INotifyPropertyChanged
     {
-        private readonly FirebaseAuthClient firebaseAuthClient;
+        private FirebaseAuthClient firebaseAuthClient;
         public event PropertyChangedEventHandler? PropertyChanged;
         private static RegisterViewModel _instance;
 
@@ -79,7 +82,16 @@ namespace eduChain.ViewModels
             }
         }
 
-        
+        private string _displayName = string.Empty;
+        public string DisplayName
+        {
+            get { return _displayName; }
+            set
+            {
+                _displayName = value;
+                OnPropertyChanged(nameof(DisplayName));
+            }
+        }
         private string _firstName = string.Empty; 
         
         private string _lastName = string.Empty;
@@ -92,7 +104,6 @@ namespace eduChain.ViewModels
 
         private string _type = string.Empty;
 
-       
         public string FirstName
         {
             get { return _firstName; }
@@ -186,6 +197,7 @@ namespace eduChain.ViewModels
       
         public async Task Register()
         {
+                           
             try
             {
                 var error = false;
@@ -245,17 +257,20 @@ namespace eduChain.ViewModels
                         break;
                 }
                 // Perform user registration with Firebase and get the auth result
+                
+               
                 var authResult = await firebaseAuthClient.CreateUserWithEmailAndPasswordAsync(Email, Password);
-
+            
                 // Check if registration was successful
-                if (authResult != null)
+                if (authResult.User != null)
                 {
                     // Extract the user UID from the auth result
                     string uid = authResult.User.Uid;
-
                     // Save user details to the database
-                    await SaveUserDetailsAsync(uid);   
-                    
+                    var res = await SaveUserDetailsAsync(uid,Email);   
+                    if(res == 0){
+                        //await firebaseAuthClient.DeleteUserAsync(uid);
+                    }
                   
                     await Shell.Current.GoToAsync("//loginPage");                 
                 }
@@ -263,7 +278,19 @@ namespace eduChain.ViewModels
             catch (FirebaseAuthException ex)
             {
                 // Handle Firebase authentication exceptions first
-                await Application.Current.MainPage.DisplayAlert("Error", $"Firebase error: {ex.Message}", "OK");
+                if(ex.Reason == AuthErrorReason.EmailExists){
+                    await Application.Current.MainPage.DisplayAlert("Error", "Email already in use", "OK");
+                }
+                else if(ex.Reason == AuthErrorReason.WeakPassword){
+                    await Application.Current.MainPage.DisplayAlert("Error", "Password is too weak", "OK");
+                }
+                else if(ex.Reason == AuthErrorReason.Unknown){
+                    await Application.Current.MainPage.DisplayAlert("Error", "An unknown error occurred", "OK");
+                } 
+                else if(ex.Reason == AuthErrorReason.UserDisabled){
+                    await Application.Current.MainPage.DisplayAlert("Error", "User is disabled", "OK");
+                }  
+
             }
             catch (Exception ex)
             {
@@ -271,7 +298,7 @@ namespace eduChain.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
             }
         }
-public async Task SaveUserDetailsAsync(string uid)
+public async Task<int> SaveUserDetailsAsync(string uid, string email)
 {
     try
     {
@@ -284,6 +311,8 @@ public async Task SaveUserDetailsAsync(string uid)
                 case "Student":
                     if (parameters is NpgsqlParameterCollection pgParameters)
                     {
+                        pgParameters.AddWithValue("@email", email);
+                        pgParameters.AddWithValue("@display_name", DisplayName);
                         pgParameters.AddWithValue("@firebase_id", uid);
                         pgParameters.AddWithValue("@first_name", FirstName);
                         pgParameters.AddWithValue("@last_name", LastName);
@@ -295,7 +324,7 @@ public async Task SaveUserDetailsAsync(string uid)
 
                     command.CommandText = @"
                             WITH inserted_user AS (
-                                INSERT INTO ""Users"" (""firebase_id"", ""role"") VALUES (@firebase_id, @role) RETURNING ""firebase_id""
+                                INSERT INTO ""Users"" (""firebase_id"", ""display_name"",""email"",""role"") VALUES (@firebase_id,@display_name,@email,@role) RETURNING ""firebase_id""
                             )
                             INSERT INTO ""Students"" (""user_firebase_id"", ""first_name"", ""last_name"", ""gender"", ""birth_date"") 
                             SELECT ""firebase_id"", @first_name, @last_name, @gender, @birth_date FROM inserted_user";
@@ -307,7 +336,7 @@ public async Task SaveUserDetailsAsync(string uid)
                     LastName = string.Empty;
                     BirthDate = DateTime.Now.AddYears(-4);
                     await Application.Current.MainPage.DisplayAlert("Success", "User registered successfully", "OK");
-
+                    
                     break;
                 case "Organization":
                     if(parameters is NpgsqlParameterCollection pgParametersOrg)
@@ -331,15 +360,16 @@ public async Task SaveUserDetailsAsync(string uid)
                 case "Guardian":
                     
                     break;
-
+                
             }
             // Cast the parameters to NpgsqlParameterCollection to use AddWithValue
-          
+            return 1;
         }
     }
     catch (Exception ex)
     {
         await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+        return 0;
     }
     finally
     {

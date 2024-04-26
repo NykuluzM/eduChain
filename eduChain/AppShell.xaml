@@ -53,18 +53,19 @@
    
     <Shell.ItemTemplate>
         <DataTemplate>
+                
                 <Grid ColumnSpacing="10" RowDefinitions="8,Auto,8,1" ColumnDefinitions="50,*">
                     <VisualStateManager.VisualStateGroups>
                         <VisualStateGroupList>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
                                     <VisualState.Setters>
-                                        <Setter Property="BackgroundColor" Value="Orange"/>
+                                        <Setter Property="BackgroundColor" Value="LightGray"/>
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Selected">
                                     <VisualState.Setters>
-                                        <Setter Property="BackgroundColor" Value="Red" />
+                                        <Setter Property="BackgroundColor" Value="Green" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -133,7 +134,7 @@
             Icon="weblogo.png"
             FlyoutItemIsVisible="True"
             Shell.NavBarIsVisible="{x:OnPlatform Android=True, iOS=True, MacCatalyst=True, WinUI=False}"
-            Shell.FlyoutBehavior="Flyout"
+            Shell.FlyoutBehavior="{Binding FlyoutBehaviors}"
             Shell.TabBarBackgroundColor="#FFFACD"
             Shell.TabBarForegroundColor="DarkSeaGreen"
             Shell.TabBarUnselectedColor="Black"
@@ -146,7 +147,7 @@
             FlyoutItemIsVisible="False"
             Icon="settingslogo.png"
             Shell.NavBarIsVisible="{x:OnPlatform Android=True, iOS=True, MacCatalyst=True, WinUI=False}"
-            Shell.FlyoutBehavior="Flyout"
+            Shell.FlyoutBehavior="{Binding FlyoutBehaviors}"
             Shell.TabBarBackgroundColor="#FFFACD"
             Shell.TabBarForegroundColor="DarkSeaGreen"
             Shell.TabBarUnselectedColor="Black"
@@ -164,7 +165,7 @@
             Icon="ipfslogo.png"
             FlyoutItemIsVisible="True"
             Shell.NavBarIsVisible="{x:OnPlatform Android=True, iOS=True, MacCatalyst=True, WinUI=False}"
-            Shell.FlyoutBehavior="Flyout"
+            Shell.FlyoutBehavior="{Binding FlyoutBehaviors}"
             ContentTemplate="{DataTemplate pages:IpfsConnectPage}"
             Route="ipfsConnectPage"
             />
@@ -189,7 +190,7 @@
             </Grid.RowDefinitions>
 
             <!-- Button in the first row -->
-            <Button x:Name="Logout" MinimumWidthRequest="150" FontSize="15" Text="Logout" Command="{Binding LogoutCommand}" HorizontalOptions="CenterAndExpand" Margin="0,0,0,30" 
+            <Button x:Name="Logout" MinimumWidthRequest="150" FontSize="15" Text="Logout" Command="{Binding LogoutCommand}" HorizontalOptions="CenterAndExpand" Margin="0,0,0,80" 
     
                 Grid.Row="0">
                 <Button.ImageSource>
@@ -198,15 +199,15 @@
             </Button>
 
 
-            <Button x:Name="Lock" HorizontalOptions="Center" Padding="{OnPlatform Default='0,0,0,0', Android='0,10,0,10'}" StyleClass="TextButton" Clicked="LockFlyout" Grid.Row="3"  WidthRequest="80" >
+            <Button x:Name="Lock" HorizontalOptions="Center" Padding="{OnPlatform Default='0,0,0,0', Android='0,10,0,10'}" StyleClass="TextButton" Clicked="LockFlyout" Grid.Row="2"  WidthRequest="80" >
                 <Button.ImageSource>
                     <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Lock}" Color="Black" />
                 </Button.ImageSource>
             </Button>
 
-            <Button x:Name="Collapse" Grid.Column="0" Margin="0,0,-15,0"  WidthRequest="85" Grid.Row="1" Clicked="Collapse_Clicked" StyleClass="TextButton" HorizontalOptions="End" IsVisible="False">
+            <Button x:Name="Collapse" Grid.Column="0" Margin="0,0,-15,0"  WidthRequest="85" Grid.Row="0" Clicked="Collapse_Clicked" StyleClass="TextButton" HorizontalOptions="End" IsVisible="False">
                 <Button.ImageSource>
-                    <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Adjust}" Color="Black" />
+                    <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Menu_open}" Color="Black" />
                 </Button.ImageSource>
             </Button>
 
@@ -222,13 +223,17 @@
                     <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialTwoTone.Expand}" Color="Black"  />
                 </Button.ImageSource>
             </Button>
-            <Button x:Name="Minimize"  IsVisible="{OnPlatform Android=true, MacCatalyst=true, WinUI=true, iOS=true}" Grid.Row="1" StyleClass="TextButton" Clicked="ExitFlyout"  WidthRequest="80" HorizontalOptions="End" Margin="0,0,-15,0">
-                    <Button.ImageSource>
-                        <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Menu_open}" Color="Black" />
-                    
-                    </Button.ImageSource>
-
-                </Button>
+            <Button x:Name="Minimize"
+                IsVisible="{OnPlatform Android=true, MacCatalyst=false, WinUI=true, iOS=true}"
+                StyleClass="TextButton"
+                Clicked="ExitFlyout"
+                WidthRequest="80"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+            <Button.ImageSource>
+                <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Close}" Color="Black" />
+            </Button.ImageSource>
+        </Button>
             
            
         </Grid>

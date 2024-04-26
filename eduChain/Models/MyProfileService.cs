@@ -204,17 +204,18 @@ namespace eduChain.Services
             {
                 if (await reader.ReadAsync())
                 {
-                profile.FirebaseId = reader.GetString(reader.GetOrdinal("firebase_id"));
-                int profilePicOrdinal = reader.GetOrdinal("profile_pic");
-                if (!reader.IsDBNull(profilePicOrdinal))
-                {
-                    profile.ProfilePic = reader.GetFieldValue<byte[]>(profilePicOrdinal);
-                } else {
-                    profile.ProfilePic = null;
-                }
-                profile.Role = reader.GetString(reader.GetOrdinal("role"));
-                profile.CreatedAt = reader.GetDateTime(reader.GetOrdinal("created_at"));
-                await reader.CloseAsync();
+                        profile.FirebaseId = reader.GetString(reader.GetOrdinal("firebase_id"));
+                        int profilePicOrdinal = reader.GetOrdinal("profile_pic");
+                        if (!reader.IsDBNull(profilePicOrdinal))
+                        {
+                            profile.ProfilePic = reader.GetFieldValue<byte[]>(profilePicOrdinal);
+                        } else {
+                            profile.ProfilePic = null;
+                        }
+                        profile.Role = reader.GetString(reader.GetOrdinal("role"));
+                        profile.CreatedAt = reader.GetDateTime(reader.GetOrdinal("created_at"));
+                        profile.DisplayName = reader.GetString(reader.GetOrdinal("display_name"));
+                        await reader.CloseAsync();
                 if (profile.Role == "Student")
                 {
                     // Query additional information for student profile
@@ -225,7 +226,6 @@ namespace eduChain.Services
                         {
                             string firstName = secondReader.GetString(secondReader.GetOrdinal("first_name"));
                             string lastName = secondReader.GetString(secondReader.GetOrdinal("last_name"));
-                            profile.DisplayName = $"{firstName} {lastName}";
                         }
                         await secondReader.CloseAsync();
                     }
@@ -239,7 +239,6 @@ namespace eduChain.Services
                         if (await secondReader.ReadAsync())
                         {
                             string orgName = secondReader.GetString(secondReader.GetOrdinal("name"));
-                            profile.DisplayName = orgName;
                             await secondReader.CloseAsync();
                         }
                     }

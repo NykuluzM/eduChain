@@ -52,7 +52,6 @@ namespace eduChain.ViewModels
             }
         }
 
-        private bool hasNavigated = false;
       
         public LoginViewModel(FirebaseAuthClient firebaseAuthClient)
         {

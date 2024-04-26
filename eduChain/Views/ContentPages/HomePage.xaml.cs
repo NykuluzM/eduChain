@@ -55,7 +55,7 @@ namespace eduChain.Views.ContentPages{
 			finally{
                 AppShell appShell = (App.Current as App).MainPage as AppShell;
                 Shell.Current.FlyoutIsPresented = true;
-                appShell.TriggerLayout("collapsed");
+                appShell.TriggerLayout("collapsed_locked");
                 Shell.Current.FlyoutIsPresented = false;
                 loadingPopup.ClosePopup();
 				homePageViewModel.IsLoading = false;
