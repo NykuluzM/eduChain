@@ -12,7 +12,7 @@
 
     <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
     <Shell.SearchHandler AbsoluteLayout.LayoutBounds="0.5,0,100,25"
-                 AbsoluteLayout.LayoutFlags="PositionProportional">
+                 AbsoluteLayout.LayoutFlags="PositionProportional" >
         <SearchHandler Placeholder="Search"  />
     </Shell.SearchHandler>
     <ScrollView>

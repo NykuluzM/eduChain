@@ -108,7 +108,7 @@ namespace eduChain.ViewModels
                     var fontSize = 14;
                     var toast = Toast.Make(text, duration, fontSize);
                     await toast.Show(cancellationTokenSource.Token);
-
+                    
                 }
                 Password = string.Empty;
                 Preferences.Default.Set("email", Email);
