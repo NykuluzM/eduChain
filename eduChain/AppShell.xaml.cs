@@ -25,7 +25,23 @@ public partial class AppShell : Shell
         Routing.RegisterRoute("forgotPasswordPage", typeof(ForgotPasswordPage));
         _viewModel = new AppShellViewModel();
         this.BindingContext = _viewModel;
-       
+        if(DeviceInfo.Platform == DevicePlatform.Android){
+            var tapGestureRecognizer = new TapGestureRecognizer();
+            pTap.GestureRecognizers.Add(tapGestureRecognizer);
+            tapGestureRecognizer.Tapped += ProfileTapped;
+        } else {
+            PointerGestureRecognizer pointerGestureRecognizer = new PointerGestureRecognizer();
+            pointerGestureRecognizer.PointerEntered += (s, e) =>
+            {
+                HoverEffect(this, e);
+            };
+            pointerGestureRecognizer.PointerExited += (s, e) =>
+            {
+                HoverEffectOut(this, e);
+                // Handle the pointer exited event
+            };
+            pTap.GestureRecognizers.Add(pointerGestureRecognizer);
+        }
     }
     public void TriggerLayout(string layout)
     {
@@ -60,7 +76,7 @@ public partial class AppShell : Shell
             pTap.IsEnabled = false;
         }
 
-        if (!repeat || DeviceInfo.Platform != DevicePlatform.Android)
+        if (!repeat)
         {
             return;
         }
@@ -174,7 +190,6 @@ public partial class AppShell : Shell
         b1.Opacity = 0.25;
         b2.Opacity = 0.25;
         b3.Opacity = 0.25;
-        b4.Opacity = 0.25;
     }
     private void HoverEffectOut(object sender, EventArgs e){
         tapper.IsVisible = false;
@@ -192,8 +207,15 @@ public partial class AppShell : Shell
         b1.Opacity = 1;
         b2.Opacity = 1;
         b3.Opacity = 1;
-        b4.Opacity = 1;
 
+    }
+
+    private void AboutDevTapped(object sender, EventArgs e){
+        //Shell.Current.Navigation.PushAsync(new AboutDevPage());
+    }
+    private void AboutDevHover(object sender, EventArgs e){
+    }
+    private void AboutDevHoverOut(object sender, EventArgs e){
     }
     private void ExitFlyout(object sender, EventArgs e)
     {
@@ -226,7 +248,6 @@ public partial class AppShell : Shell
 
     }
 
-
     private void Collapse_Clicked(object sender, EventArgs e)
     {
         isCollapsed = true;
@@ -238,7 +259,7 @@ public partial class AppShell : Shell
             size2 = 50;
             pTap.Padding = new Thickness(0, -15, 0, 0);
         } else if (DeviceInfo.Platform == DevicePlatform.MacCatalyst){
-            pTap.Padding = new Thickness(0, 30, 0, 0);
+            pTap.Padding = new Thickness(0, 0, 0, 0);
         }
         var animation = new Animation((current) => {
             FlyoutWidth = current;
@@ -273,7 +294,7 @@ public partial class AppShell : Shell
         {
             collapse1.WidthRequest = 45;
             collapse1.HeightRequest = 45;
-            collapse1.Margin = new Thickness(-3, 20, 0, -10);
+            collapse1.Margin = new Thickness(-4.8, 15, 0, 0);
             collapse1.VerticalOptions = LayoutOptions.Start;
             LabelVal.FontSize = 10;
             LabelVal.TextColor = Colors.Black;
