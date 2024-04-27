@@ -16,7 +16,6 @@ namespace eduChain.Views.ContentPages{
 			InitializeComponent();
 			homePageViewModel = new HomePageViewModel();
             BindingContext = homePageViewModel;
-
 		}
 		private async void Load(){
 			await LoadProfile();

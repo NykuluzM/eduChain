@@ -49,7 +49,7 @@
 
 
 
-                    <Button x:Name="tapper" Grid.Row="0" Grid.RowSpan="2" Padding="-40,5,-40,5" Grid.ColumnSpan="2" BackgroundColor="Transparent" Background="#21d9c9" MaximumWidthRequest="180"  Text="Check Profile" Clicked="ProfileTapped" IsEnabled="True" StyleClass="Filled" Opacity="0">
+                <Button x:Name="tapper" Grid.Row="0" Grid.RowSpan="2" Padding="-40,5,-40,5" Grid.ColumnSpan="2" BackgroundColor="Transparent" Background="#21d9c9" MaximumWidthRequest="180"  Text="Check Profile" Clicked="ProfileTapped" IsEnabled="True" StyleClass="Filled" Opacity="{x:OnPlatform Default = 0,MacCatalyst=1}" IsVisible="False">
                     <Button.ImageSource>
                         <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Person}" Color="Black" Size="20"/>
                     </Button.ImageSource>

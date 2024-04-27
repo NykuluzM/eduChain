@@ -186,7 +186,13 @@ public partial class AppShell : Shell
         RoleVal.IsVisible = false;
         Name.IsVisible = false;
         Labels.IsVisible = false;
-        await tapper.FadeTo(1, 700);
+        if(DeviceInfo.Platform == DevicePlatform.MacCatalyst)
+        {
+            tapper.IsVisible = true;
+        } else {
+            await tapper.FadeTo(1, 700);
+
+        }
 
         b1.Opacity = 0.25;
         b2.Opacity = 0.25;
@@ -204,7 +210,12 @@ public partial class AppShell : Shell
             Name.IsVisible = true;
             Labels.IsVisible = false;
         }
-       await tapper.FadeTo(0, 700);
+         if(DeviceInfo.Platform == DevicePlatform.MacCatalyst)
+        {
+            tapper.IsVisible = false;
+        } else {
+            await tapper.FadeTo(0, 700);
+        }
         b1.Opacity = 1;
         b2.Opacity = 1;
         b3.Opacity = 1;
