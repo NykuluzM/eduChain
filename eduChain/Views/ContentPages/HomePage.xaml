@@ -7,8 +7,6 @@
              x:Class="eduChain.Views.ContentPages.HomePage"
              Title=""
             Background="#195a7a"
-            Shell.BackgroundColor="#195a7a"
-            
             Shell.NavBarIsVisible="{x:OnPlatform WinUI=false, Android=true, iOS=true, MacCatalyst=false}"
             >
 

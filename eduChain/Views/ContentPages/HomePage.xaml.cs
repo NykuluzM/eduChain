@@ -31,8 +31,8 @@ namespace eduChain.Views.ContentPages{
 				Load();
 				Preferences.Default.Set("isloaded", "true");
 			}
-			Title.Focus();
-			Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;			
+			Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;		
+		
 		}
 	
        

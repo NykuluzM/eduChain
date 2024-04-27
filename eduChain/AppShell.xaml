@@ -29,7 +29,7 @@
                 <TapGestureRecognizer Tapped="ProfileTapped" />
             </Border.GestureRecognizers>
             
-            <Grid ColumnDefinitions="Auto, *" RowDefinitions="{x:OnPlatform Default = '40,40', MacCatalyst = Auto,Auto}" >
+            <Grid ColumnDefinitions="Auto, *" RowDefinitions="{x:OnPlatform Default = '40,40', MacCatalyst = 'Auto,Auto'}" >
                 <BoxView Grid.Row="0" Grid.Column="1" BackgroundColor="PaleVioletRed"/>
                 <BoxView Grid.Row="0" Grid.Column="0" BackgroundColor="PaleVioletRed" />
                 <BoxView Grid.Row="1" Grid.Column="0" BackgroundColor="Bisque"/>
