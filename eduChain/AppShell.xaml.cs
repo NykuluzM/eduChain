@@ -14,6 +14,7 @@ public partial class AppShell : Shell
     bool repeat = true;
     bool navPressed = false;
     bool norepeat = true;
+    bool isCollapsed;
     AppShellViewModel _viewModel;
 
     public AppShell()
@@ -159,6 +160,41 @@ public partial class AppShell : Shell
         }
 
     }
+    private void HoverEffect(object sender, EventArgs e){
+        if(isCollapsed){
+            tapper.Text = "";
+        } else {
+            tapper.Text = "Check Profile";
+        }
+        collapse1.IsVisible = false;
+        RoleVal.IsVisible = false;
+        Name.IsVisible = false;
+        Labels.IsVisible = false;
+        tapper.IsVisible = true;
+        b1.Opacity = 0.25;
+        b2.Opacity = 0.25;
+        b3.Opacity = 0.25;
+        b4.Opacity = 0.25;
+    }
+    private void HoverEffectOut(object sender, EventArgs e){
+        tapper.IsVisible = false;
+        collapse1.IsVisible = true;
+        if(isCollapsed){
+            RoleVal.IsVisible = false;
+            Name.IsVisible = false;
+            Labels.IsVisible = true;
+        } else {
+            RoleVal.IsVisible = true;
+            Name.IsVisible = true;
+            Labels.IsVisible = false;
+        }
+       
+        b1.Opacity = 1;
+        b2.Opacity = 1;
+        b3.Opacity = 1;
+        b4.Opacity = 1;
+
+    }
     private void ExitFlyout(object sender, EventArgs e)
     {
         _viewModel.FlyoutBehaviors = FlyoutBehavior.Flyout;
@@ -193,6 +229,7 @@ public partial class AppShell : Shell
 
     private void Collapse_Clicked(object sender, EventArgs e)
     {
+        isCollapsed = true;
         var size1 = 270;
         var size2 = 80;
         if(DeviceInfo.Platform == DevicePlatform.Android || DeviceInfo.Platform == DevicePlatform.iOS)
@@ -236,10 +273,10 @@ public partial class AppShell : Shell
         {
             collapse1.WidthRequest = 45;
             collapse1.HeightRequest = 45;
-            collapse1.Margin = new Thickness(-2, 20, 0, -10);
+            collapse1.Margin = new Thickness(-3, 20, 0, -10);
             collapse1.VerticalOptions = LayoutOptions.Start;
             LabelVal.FontSize = 10;
-            LabelVal.TextColor = Microsoft.Maui.Graphics.Color.FromRgb(System.Drawing.Color.Black.R, System.Drawing.Color.Black.G, System.Drawing.Color.Black.B);
+            LabelVal.TextColor = Colors.Black;
             LabelVal.HorizontalOptions = LayoutOptions.Center;
         }
         else
@@ -260,6 +297,7 @@ public partial class AppShell : Shell
    
     private async void Expand_Clicked(object seder, EventArgs e)
     {
+        isCollapsed = false;
         if(!norepeat)
         {
             return;

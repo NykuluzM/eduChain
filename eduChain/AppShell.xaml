@@ -26,16 +26,20 @@
     <Shell.FlyoutHeader>
         <Border x:Name="pTap" Margin="{x:OnPlatform Default='0,0,0,30', MacCatalyst='0,0,0,0'}">
             <Border.GestureRecognizers>
-                <TapGestureRecognizer Tapped="ProfileTapped" />
+                <PointerGestureRecognizer PointerEntered="HoverEffect" />
+                <PointerGestureRecognizer PointerExited="HoverEffectOut" />
             </Border.GestureRecognizers>
-            
-            <Grid ColumnDefinitions="Auto, *" RowDefinitions="{x:OnPlatform Default = '40,40', MacCatalyst = 'Auto,Auto'}" >
-                <BoxView Grid.Row="0" Grid.Column="1" BackgroundColor="PaleVioletRed"/>
-                <BoxView Grid.Row="0" Grid.Column="0" BackgroundColor="PaleVioletRed" />
-                <BoxView Grid.Row="1" Grid.Column="0" BackgroundColor="Bisque"/>
-
-                <BoxView Grid.Row="1" Grid.Column="1" BackgroundColor="Bisque"/>
-
+            <Grid x:Name="inner" ColumnDefinitions="Auto, *" RowDefinitions="{x:OnPlatform Default = '40,40', MacCatalyst = '40,40'}" >
+                <BoxView x:Name="b1" Grid.Row="0" Grid.Column="1" BackgroundColor="PaleVioletRed"/>
+                <BoxView x:Name="b2" Grid.Row="0" Grid.Column="0" BackgroundColor="PaleVioletRed" />
+                <BoxView x:Name="b3" Grid.Row="1" Grid.Column="0" BackgroundColor="Bisque"/>
+                <BoxView x:Name="b4" Grid.Row="1" Grid.Column="1" BackgroundColor="Bisque"/>
+                <Button x:Name="tapper" Grid.RowSpan="2" Grid.ColumnSpan="2" BackgroundColor="Transparent" Background="#21d9c9" Margin="10,0,10,0"  Text="Check Profile" Clicked="ProfileTapped" IsEnabled="True" StyleClass="Filled" IsVisible="False">
+                    <Button.ImageSource>
+                        <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Person}" Color="Black" Size="20"/>
+                    </Button.ImageSource>
+                </Button>
+                
                 <Border x:Name="collapse1" Grid.Column="0" Grid.RowSpan="2" HeightRequest="65" WidthRequest="65" Margin="{x:OnPlatform Default='15,5,0,10', Android='5,0,0,0'}"
                     Stroke="{StaticResource grad}" StrokeThickness="2">
                     <Border.StrokeShape>
@@ -44,14 +48,14 @@
                     <Image x:Name="ProfileImage" Source="{Binding UsersProfile.ProfileImage}" Aspect="AspectFill"/>
                 </Border>
                 
-                <Label  Grid.Column="1" Grid.Row="0"  TextColor="Black" FontAttributes="Bold" FontSize="13" Text="{Binding UsersProfile.DisplayName}" LineBreakMode="WordWrap" MaxLines="2" x:Name="Name" Padding="0,20,0,0" HorizontalOptions="Center" VerticalOptions="{x:OnPlatform Default = Center, MacCatalyst = Start}" HeightRequest="{x:OnPlatform Default='40' , MacCatalyst='70'}"/>
+                <Label  Grid.Column="1" Grid.Row="0"  TextColor="Black" FontAttributes="Bold" FontSize="13" Text="{Binding UsersProfile.DisplayName}" LineBreakMode="WordWrap" MaxLines="2" x:Name="Name" Padding="{x:OnPlatform Default='0,20,0,0', MacCatalyst='0,5,0,0'}" HorizontalOptions="Center" VerticalOptions="{x:OnPlatform Default = Center, MacCatalyst = Center}" HeightRequest="{x:OnPlatform Default='40' , MacCatalyst='40'}"/>
 
                
-                <Border  x:Name="RoleVal" Grid.Column="1" Grid.Row="1"  Background="Black"  Margin="0,0,0,0" Stroke="{StaticResource grad}" StrokeThickness="2" HeightRequest="20" HorizontalOptions="Center" VerticalOptions="{x:OnPlatform Default = End, MacCatalyst = Start}">
+                <Border  x:Name="RoleVal" Grid.Column="1" Grid.Row="1"  Background="Black"  Margin="0,0,0,0" Stroke="{StaticResource grad}" StrokeThickness="2" HeightRequest="20" HorizontalOptions="Center" VerticalOptions="{x:OnPlatform Default = End}">
                     <Label  Grid.Row="1" Text="{Binding UsersProfile.Role}" Padding="20,0,20,0" TextDecorations="Underline" TextColor="Yellow"  x:Name="Role" FontSize="12"  HorizontalOptions="Center" VerticalOptions="Center"/>
                 </Border>
-                <Grid Grid.Row="1" Grid.Column="0">
-                    <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="{x:OnPlatform Android=End, MacCatalyst=Start}" Margin="{x:OnPlatform Android='0,0,0,8', MacCatalyst='-2,0,0,0'}">
+                <Grid x:Name="Labels" Grid.Row="{x:OnPlatform Default='1', MacCatalyst='0'}" Grid.Column="0">
+                    <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="{x:OnPlatform Android=End, MacCatalyst=Start}" Margin="{x:OnPlatform Android='0,0,0,8', MacCatalyst='-4,0,0,0'}">
                         <Image  HeightRequest="15" WidthRequest="15" x:Name="LabelLog" Source="prof.png" IsVisible="False"  VerticalOptions="End"  HorizontalOptions="Center"/>
                         <Label Text="Profile" x:Name="LabelVal" Margin="0,0,0,0" HorizontalOptions="Center" VerticalOptions="End" FontSize="10" FontFamily="Sans-Serif" IsVisible="False"/>
 
