@@ -26,7 +26,7 @@
     <Shell.FlyoutHeader>
         <VerticalStackLayout BackgroundColor="Transparent">
             <Border BackgroundColor="#195a7a">
-                    <Button StyleClass="Filled"  Text="eduChain"  FontSize="10" FontAttributes="Bold" TextColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+                    <Button StyleClass="Filled"  Text="eduChain"  FontSize="10" FontAttributes="Bold" TextColor="Black" HeightRequest="{x:OnPlatform Android=55}" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
                         <Button.GestureRecognizers>
                             <TapGestureRecognizer Tapped="AboutDevTapped"/>
                             <PointerGestureRecognizer PointerEntered="AboutDevHover" /> 
@@ -48,15 +48,15 @@
                 <BoxView x:Name="b3" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,1,0,0" BackgroundColor="PaleVioletRed"/>
 
 
-                
-                <Button x:Name="tapper" Grid.Row="0" Grid.RowSpan="2"  Grid.ColumnSpan="2" BackgroundColor="Transparent" Background="#21d9c9" MaximumWidthRequest="180"  Text="Check Profile" Clicked="ProfileTapped" IsEnabled="True" StyleClass="Filled" IsVisible="False">
+
+                    <Button x:Name="tapper" Grid.Row="0" Grid.RowSpan="2" Padding="-40,5,-40,5" Grid.ColumnSpan="2" BackgroundColor="Transparent" Background="#21d9c9" MaximumWidthRequest="180"  Text="Check Profile" Clicked="ProfileTapped" IsEnabled="True" StyleClass="Filled" Opacity="0">
                     <Button.ImageSource>
                         <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Person}" Color="Black" Size="20"/>
                     </Button.ImageSource>
                 </Button>
                
 
-                <Border x:Name="collapse1" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" HeightRequest="65" WidthRequest="65" Margin="{x:OnPlatform Default='18,0,0,10', Android='5,0,0,0'}"
+                <Border x:Name="collapse1" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" HeightRequest="65" WidthRequest="65" Margin="{x:OnPlatform Default='18,0,0,10', Android='20,0,0,0'}"
                     Stroke="{StaticResource grad}" StrokeThickness="2">
                     <Border.StrokeShape>
                         <Ellipse />
@@ -70,10 +70,10 @@
                 <Border  x:Name="RoleVal" Grid.Column="1" Grid.Row="1"  Background="Black"  Margin="0,0,0,0" Stroke="{StaticResource grad}" StrokeThickness="2" HeightRequest="20" HorizontalOptions="Center" VerticalOptions="{x:OnPlatform Default = End}">
                     <Label  Grid.Row="1" Text="{Binding UsersProfile.Role}" Padding="20,0,20,0" TextDecorations="Underline" TextColor="Yellow"  x:Name="Role" FontSize="12"  HorizontalOptions="Center" VerticalOptions="Center"/>
                 </Border>
-                <Grid x:Name="Labels" Margin="0,20,0,0" Grid.Row="{x:OnPlatform Default='1', MacCatalyst='1'}" Grid.Column="0">
+                <Grid x:Name="Labels" Margin="0,20,0,0" Padding="{x:OnPlatform WinUI='0,0,0,10', Android='2,20,0,0'}" Grid.Row="{x:OnPlatform Default='1', MacCatalyst='1'}" Grid.Column="0">
                     <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="{x:OnPlatform Android=End, MacCatalyst=Start}" Margin="{x:OnPlatform Android='0,0,0,8', MacCatalyst='-4,0,0,0'}">
                         <Image  HeightRequest="15" WidthRequest="15" x:Name="LabelLog" Source="prof.png" IsVisible="False"  VerticalOptions="End"  HorizontalOptions="Center"/>
-                        <Label Text="Profile" x:Name="LabelVal" Margin="-2,0,0,0" HorizontalOptions="Center" VerticalOptions="End" FontSize="10" FontFamily="Sans-Serif" IsVisible="False"/>
+                        <Label Text="Profile" x:Name="LabelVal" Margin="{x:OnPlatform Default='-2,0,0,0', WinUI='-2,-2,0,0',Android='-2,0,0,2'}" HorizontalOptions="Center" VerticalOptions="{x:OnPlatform Default=End,WinUI=Center}" FontSize="10" FontFamily="Sans-Serif" IsVisible="False"/>
 
                     </HorizontalStackLayout>
                     

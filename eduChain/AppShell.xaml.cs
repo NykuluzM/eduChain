@@ -176,7 +176,7 @@ public partial class AppShell : Shell
         }
 
     }
-    private void HoverEffect(object sender, EventArgs e){
+    private async void HoverEffect(object sender, EventArgs e){
         if(isCollapsed){
             tapper.Text = "";
         } else {
@@ -186,13 +186,14 @@ public partial class AppShell : Shell
         RoleVal.IsVisible = false;
         Name.IsVisible = false;
         Labels.IsVisible = false;
-        tapper.IsVisible = true;
+        await tapper.FadeTo(1, 700);
+
         b1.Opacity = 0.25;
         b2.Opacity = 0.25;
         b3.Opacity = 0.25;
+
     }
-    private void HoverEffectOut(object sender, EventArgs e){
-        tapper.IsVisible = false;
+    private async void HoverEffectOut(object sender, EventArgs e){
         collapse1.IsVisible = true;
         if(isCollapsed){
             RoleVal.IsVisible = false;
@@ -203,11 +204,11 @@ public partial class AppShell : Shell
             Name.IsVisible = true;
             Labels.IsVisible = false;
         }
-       
+       await tapper.FadeTo(0, 700);
         b1.Opacity = 1;
         b2.Opacity = 1;
         b3.Opacity = 1;
-
+       
     }
 
     private void AboutDevTapped(object sender, EventArgs e){
@@ -257,7 +258,6 @@ public partial class AppShell : Shell
         {
             size1 = 270;
             size2 = 50;
-            pTap.Padding = new Thickness(0, -15, 0, 0);
         } else if (DeviceInfo.Platform == DevicePlatform.MacCatalyst){
             pTap.Padding = new Thickness(0, 0, 0, 0);
         }
@@ -288,7 +288,7 @@ public partial class AppShell : Shell
         {
             collapse1.WidthRequest = 45;
             collapse1.HeightRequest = 45;
-            collapse1.Margin = new Thickness(15, 10, 10, 15);
+            collapse1.Margin = new Thickness(15, 5, 10, 15);
            
         } else if (DeviceInfo.Platform == DevicePlatform.MacCatalyst)
         {
@@ -304,11 +304,12 @@ public partial class AppShell : Shell
         {
             collapse1.HorizontalOptions = LayoutOptions.Center;
             collapse1.VerticalOptions = LayoutOptions.Center;
-            collapse1.Margin = new Thickness(7, 0, 0, 0);
+            collapse1.Margin = new Thickness(5.5, 0, 0, 0);
 
             LabelVal.FontSize = 8;
             LabelVal.HorizontalOptions = LayoutOptions.Center;
-           
+            LabelVal.TextColor = Colors.Black;
+
 
         }
 
