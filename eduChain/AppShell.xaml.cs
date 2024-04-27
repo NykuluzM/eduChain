@@ -60,7 +60,7 @@ public partial class AppShell : Shell
             pTap.IsEnabled = false;
         }
 
-        if (!repeat)
+        if (!repeat || DeviceInfo.Platform != DevicePlatform.Android)
         {
             return;
         }

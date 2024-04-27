@@ -26,6 +26,10 @@
     <Shell.FlyoutHeader>
         <Border x:Name="pTap" Margin="{x:OnPlatform Default='0,0,0,30', MacCatalyst='0,0,0,0'}">
             <Border.GestureRecognizers>
+                
+                <TapGestureRecognizer Tapped="ProfileTapped"/> 
+
+
                 <PointerGestureRecognizer PointerEntered="HoverEffect" />
                 <PointerGestureRecognizer PointerExited="HoverEffectOut" />
             </Border.GestureRecognizers>
@@ -34,7 +38,7 @@
                 <BoxView x:Name="b2" Grid.Row="0" Grid.Column="0" BackgroundColor="PaleVioletRed" />
                 <BoxView x:Name="b3" Grid.Row="1" Grid.Column="0" BackgroundColor="Bisque"/>
                 <BoxView x:Name="b4" Grid.Row="1" Grid.Column="1" BackgroundColor="Bisque"/>
-                <Button x:Name="tapper" Grid.RowSpan="2" Grid.ColumnSpan="2" BackgroundColor="Transparent" Background="#21d9c9" Margin="10,0,10,0"  Text="Check Profile" Clicked="ProfileTapped" IsEnabled="True" StyleClass="Filled" IsVisible="False">
+                <Button x:Name="tapper" Grid.RowSpan="2" Grid.ColumnSpan="2" BackgroundColor="Transparent" Background="#21d9c9" Margin="10,0,10,0" MaximumWidthRequest="180"  Text="Check Profile" Clicked="ProfileTapped" IsEnabled="True" StyleClass="Filled" IsVisible="False">
                     <Button.ImageSource>
                         <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Person}" Color="Black" Size="20"/>
                     </Button.ImageSource>

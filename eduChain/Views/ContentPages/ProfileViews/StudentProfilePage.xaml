@@ -21,10 +21,10 @@
 	
     
         <ScrollView>
-		<StackLayout HorizontalOptions="FillAndExpand">
+		<StackLayout HorizontalOptions="FillAndExpand" Spacing="20">
              
             
-                <content:UserProfileView />
+                <content:UserProfileView/>
            
 			<Frame CornerRadius="20" Margin="{OnPlatform Android='10,0,10,400', iOS='10,0,10,400', MacCatalyst='60,30,60,0', WinUI='120,0,120,0'}" BackgroundColor="Black">
                 <input:FormView HorizontalOptions="FillAndExpand" Padding="0,15,0,15">
