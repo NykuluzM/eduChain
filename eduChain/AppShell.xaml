@@ -24,12 +24,12 @@
     </Shell.Resources>
     
     <Shell.FlyoutHeader>
-        <Border x:Name="pTap" Margin="0,0,0,30">
+        <Border x:Name="pTap" Margin="{x:OnPlatform Default='0,0,0,30', MacCatalyst='0,0,0,0'}">
             <Border.GestureRecognizers>
                 <TapGestureRecognizer Tapped="ProfileTapped" />
             </Border.GestureRecognizers>
             
-            <Grid ColumnDefinitions="Auto, *" RowDefinitions="40,40" >
+            <Grid ColumnDefinitions="Auto, *" RowDefinitions="{x:OnPlatform Default = '40,40', MacCatalyst = Auto,Auto}" >
                 <BoxView Grid.Row="0" Grid.Column="1" BackgroundColor="PaleVioletRed"/>
                 <BoxView Grid.Row="0" Grid.Column="0" BackgroundColor="PaleVioletRed" />
                 <BoxView Grid.Row="1" Grid.Column="0" BackgroundColor="Bisque"/>
@@ -44,14 +44,14 @@
                     <Image x:Name="ProfileImage" Source="{Binding UsersProfile.ProfileImage}" Aspect="AspectFill"/>
                 </Border>
                 
-                <Label  Grid.Column="1" Grid.Row="0"  TextColor="Black" FontAttributes="Bold" FontSize="13" Text="{Binding UsersProfile.DisplayName}" LineBreakMode="WordWrap" MaxLines="2" x:Name="Name" Padding="0,20,0,0" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="40"/>
+                <Label  Grid.Column="1" Grid.Row="0"  TextColor="Black" FontAttributes="Bold" FontSize="13" Text="{Binding UsersProfile.DisplayName}" LineBreakMode="WordWrap" MaxLines="2" x:Name="Name" Padding="0,20,0,0" HorizontalOptions="Center" VerticalOptions="{x:OnPlatform Default = Center, MacCatalyst = Start}" HeightRequest="{x:OnPlatform Default='40' , MacCatalyst='70'}"/>
 
                
-                <Border  x:Name="RoleVal" Grid.Column="1" Grid.Row="1"  Background="Black"  Margin="0,0,0,0" Stroke="{StaticResource grad}" StrokeThickness="2" HeightRequest="20" HorizontalOptions="Center" VerticalOptions="End">
+                <Border  x:Name="RoleVal" Grid.Column="1" Grid.Row="1"  Background="Black"  Margin="0,0,0,0" Stroke="{StaticResource grad}" StrokeThickness="2" HeightRequest="20" HorizontalOptions="Center" VerticalOptions="{x:OnPlatform Default = End, MacCatalyst = Start}">
                     <Label  Grid.Row="1" Text="{Binding UsersProfile.Role}" Padding="20,0,20,0" TextDecorations="Underline" TextColor="Yellow"  x:Name="Role" FontSize="12"  HorizontalOptions="Center" VerticalOptions="Center"/>
                 </Border>
                 <Grid Grid.Row="1" Grid.Column="0">
-                    <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="{x:OnPlatform Android=End}" Margin="{x:OnPlatform Android='0,0,0,8'}">
+                    <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="{x:OnPlatform Android=End, MacCatalyst=Start}" Margin="{x:OnPlatform Android='0,0,0,8', MacCatalyst='-2,0,0,0'}">
                         <Image  HeightRequest="15" WidthRequest="15" x:Name="LabelLog" Source="prof.png" IsVisible="False"  VerticalOptions="End"  HorizontalOptions="Center"/>
                         <Label Text="Profile" x:Name="LabelVal" Margin="0,0,0,0" HorizontalOptions="Center" VerticalOptions="End" FontSize="10" FontFamily="Sans-Serif" IsVisible="False"/>
 
@@ -85,8 +85,8 @@
                         </VisualStateGroupList>
 
                     </VisualStateManager.VisualStateGroups>
-                    <Image  x:Name="logoo" Grid.Row="1" Grid.Column="0" HorizontalOptions="Center" Margin="{x:OnPlatform Default='0,0,0,0', MacCatalyst='30,0,0,0'}" Source="{Binding FlyoutIcon}" WidthRequest="25" />
-                    <Label Grid.Row="1"  Grid.Column="1" Text="{Binding Title}" FontSize="15"   VerticalOptions="Center" TextColor="Black" FontAttributes="Bold" />
+                    <Image  x:Name="logoo" Grid.Row="1" Grid.Column="0" HorizontalOptions="Center" Margin="{x:OnPlatform Default='0,0,0,0', MacCatalyst='30 ,0,0,0'}" Source="{Binding FlyoutIcon}" WidthRequest="25" />
+                    <Label Grid.Row="1"  Grid.Column="1" Text="{Binding Title}" FontSize="15" Margin="{x:OnPlatform MacCatalyst='50,0,0,0'}"   VerticalOptions="Center" TextColor="Black" FontAttributes="Bold" />
 
                 </Grid>
          
@@ -199,10 +199,10 @@
     <Shell.FlyoutFooter>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="{x:OnPlatform Default = 'Auto', MacCatalyst = '70'}" />
                 <!-- Row for Button -->
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                 <RowDefinition Height="{x:OnPlatform Default = 'Auto', MacCatalyst = '70'}" />
+                 <RowDefinition Height="{x:OnPlatform Default = 'Auto', MacCatalyst = '70'}" />
 
                 <!-- Row for existing content -->
             </Grid.RowDefinitions>
@@ -217,7 +217,7 @@
             </Button>
 
 
-            <Button x:Name="Lock" HorizontalOptions="Center" Padding="{OnPlatform Default='0,0,0,0', Android='0,10,0,10'}" StyleClass="TextButton" Clicked="LockFlyout" Grid.Row="3"  WidthRequest="80" >
+            <Button x:Name="Lock" HorizontalOptions="Center" Padding="{OnPlatform Default='0,0,0,0', Android='0,10,0,10'}" StyleClass="TextButton" Clicked="LockFlyout" Grid.Row="2"  WidthRequest="80" >
                 <Button.ImageSource>
                     <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Lock}" Color="Black" />
                 </Button.ImageSource>
@@ -231,7 +231,7 @@
 
 
 
-            <Button x:Name="Unlock" Margin="0,0,0,20" Grid.Column="0" WidthRequest="80"  Padding="{OnPlatform Default='0,0,0,0', Android='0,10,0,10'}" Grid.Row="2" Clicked="Unlock_Clicked" HorizontalOptions="Center" StyleClass="TextButton" IsVisible="False">
+            <Button x:Name="Unlock" Margin="0,0,0,20" Grid.Column="0" WidthRequest="{x:OnPlatform Default=80,MacCatalyst=40}"  Padding="{OnPlatform Default='0,0,0,0', Android='0,10,0,10'}" Grid.Row="2" Clicked="Unlock_Clicked" HorizontalOptions="Center" StyleClass="TextButton" IsVisible="False">
                 <Button.ImageSource>
                     <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Lock_open}" Color="Black" />
                 </Button.ImageSource>

@@ -2,14 +2,10 @@
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                x:Class="eduChain.Views.Popups.LoadingPopup"
-               CanBeDismissedByTappingOutsideOfPopup="false" Color="Transparent">
-    <Frame CornerRadius="15" BackgroundColor="LightGreen" BorderColor="Transparent">
-        <VerticalStackLayout WidthRequest="300" HeightRequest="300" VerticalOptions="Center">
+               CanBeDismissedByTappingOutsideOfPopup="false" >
+        <VerticalStackLayout WidthRequest="250" HeightRequest="250" BackgroundColor="LightGreen">
 
-            <Image Source="dancing.gif" IsAnimationPlaying="True"  WidthRequest="150" Margin="0,0,0,10" HorizontalOptions="Center" HeightRequest="150" VerticalOptions="Center"/>
-            <Label Text="Welcome to eduChain" TextColor="Black" FontFamily="Sans-Serif" HorizontalOptions="Center" FontSize="12" FontAttributes="Bold" Margin="10,0,0,0" IsVisible="True"/>
-        </VerticalStackLayout>
-
-    </Frame>
- 
+            <Image Source="dancing.gif" IsAnimationPlaying="True"  WidthRequest="90" HeightRequest="90" VerticalOptions="Center" Margin="0,50,0,0"/>
+            <Label Text="Welcome to eduChain" Width="10" Height="10" TextColor="Black"  HorizontalOptions="Center" VerticalOptions="End" FontSize="12" FontAttributes="Bold" Margin="0,0,0,0" IsVisible="True"/>
+        </VerticalStackLayout> 
 </toolkit:Popup>

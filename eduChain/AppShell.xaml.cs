@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific;
 using eduChain.Models;
 using Nethereum.Model;
+using System.Drawing;
 
 public partial class AppShell : Shell
 {
@@ -199,6 +200,8 @@ public partial class AppShell : Shell
             size1 = 270;
             size2 = 50;
             pTap.Padding = new Thickness(0, -15, 0, 0);
+        } else if (DeviceInfo.Platform == DevicePlatform.MacCatalyst){
+            pTap.Padding = new Thickness(0, 30, 0, 0);
         }
         var animation = new Animation((current) => {
             FlyoutWidth = current;
@@ -223,12 +226,21 @@ public partial class AppShell : Shell
         Expand.Margin = new Thickness(0, 50, 0, 25);
         LabelVal.IsVisible = true;
         LabelLog.IsVisible = true;
-        if (DeviceInfo.Platform == DevicePlatform.WinUI || DeviceInfo.Platform == DevicePlatform.macOS || DeviceInfo.Platform == DevicePlatform.MacCatalyst)
+        if (DeviceInfo.Platform == DevicePlatform.WinUI)
         {
             collapse1.WidthRequest = 45;
             collapse1.HeightRequest = 45;
             collapse1.Margin = new Thickness(15, 10, 10, 15);
            
+        } else if (DeviceInfo.Platform == DevicePlatform.MacCatalyst)
+        {
+            collapse1.WidthRequest = 45;
+            collapse1.HeightRequest = 45;
+            collapse1.Margin = new Thickness(-2, 20, 0, -10);
+            collapse1.VerticalOptions = LayoutOptions.Start;
+            LabelVal.FontSize = 10;
+            LabelVal.TextColor = Microsoft.Maui.Graphics.Color.FromRgb(System.Drawing.Color.Black.R, System.Drawing.Color.Black.G, System.Drawing.Color.Black.B);
+            LabelVal.HorizontalOptions = LayoutOptions.Center;
         }
         else
         {
