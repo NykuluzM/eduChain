@@ -13,7 +13,7 @@ namespace eduChain;
 
 public class IpfsViewModel : ViewModelBase
 {
-    private string hash = "QmcVLCMg5q9p7MmUE7nuiVFwmiDNMXJrhheBy7dHZUnKDg";
+    private string hash = "QmZj7Nsg6VdAgQYnm4iAhCsdrYidtyDBaQpjhqnyJ9cuBs";
     public ICommand UploadCommand { get; }
     public ICommand DownloadCommand { get; }
     public ICommand VerifyCommand { get; } 
@@ -24,7 +24,7 @@ public class IpfsViewModel : ViewModelBase
                     { DevicePlatform.Android, new[] { "*/*" } },
                     { DevicePlatform.iOS, new[] { "public.*" } },
                     { DevicePlatform.MacCatalyst, new[] { "public.*" } },
-                    { DevicePlatform.WinUI, new[] { "*" } }
+                    { DevicePlatform.WinUI, new[] { "*",".jpg",".png",".docx",".pdf" } }
                 };
     public IpfsViewModel()
     {
