@@ -351,12 +351,13 @@ public partial class AppShell : Shell
             Expand.IsVisible = false;
             Collapse.IsVisible = true;
 
-            await Task.Delay(100);
+            await Task.Delay(200);
             if (navPressed && norepeat)
             {
                 norepeat = false;
                 await UpdateGrid();
                 norepeat = true;
+                navPressed = false;
             }
         });
         Collapse.IsVisible = true;

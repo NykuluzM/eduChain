@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 
 namespace eduChain.Models
 {
@@ -27,8 +29,8 @@ namespace eduChain.Models
                 }
             });
         }
-
-         public static FirebaseAuthService GetInstance()
+     
+        public static FirebaseAuthService GetInstance()
         {
             if (_instance == null)
             {

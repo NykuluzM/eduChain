@@ -32,16 +32,28 @@ public class BaseProfileViewModel : ViewModelBase
         public Command EditImageCommand { get; private set; }
 
 
-     private async void ReadFirebaseAdminSdk(){
-            var stream = await FileSystem.OpenAppPackageFileAsync("admin_sdk.json");
-            var reader = new StreamReader(stream);
-            var json = await reader.ReadToEndAsync();
+    private async void ReadFirebaseAdminSdk()
+    {
+        var stream = await FileSystem.OpenAppPackageFileAsync("admin_sdk.json");
+        var reader = new StreamReader(stream);
+        var json = await reader.ReadToEndAsync();
 
+        // Check if FirebaseApp has already been created
+        FirebaseApp existingApp = FirebaseApp.DefaultInstance;
+        if (existingApp != null)
+        {
+            // Update the credential of the existing FirebaseApp
+            existingApp.Options.Credential = GoogleCredential.FromJson(json);
+        }
+        else
+        {
+            // Create FirebaseApp with the provided options
             FirebaseApp.Create(new AppOptions
             {
                 Credential = GoogleCredential.FromJson(json)
             });
-     }
+        }
+    }
     public BaseProfileViewModel()
     {
         picker = IPlatformApplication.Current.Services.GetRequiredService<IFilePickerService>();

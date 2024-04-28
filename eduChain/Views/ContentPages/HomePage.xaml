@@ -7,7 +7,7 @@
              x:Class="eduChain.Views.ContentPages.HomePage"
              Title=""
             Background="#195a7a"
-            Shell.NavBarIsVisible="True"
+            Shell.NavBarIsVisible="{x:OnPlatform MacCatalyst=True, WinUI=False}"
             >
 
     <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
