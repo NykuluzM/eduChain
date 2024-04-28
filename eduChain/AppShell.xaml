@@ -35,7 +35,7 @@
                     </Button>
             </Border>
             
-            <Border x:Name="pTap" Margin="{x:OnPlatform Default='0,0,0,30', MacCatalyst='0,0,0,0'}">
+            <Border x:Name="pTap" Margin="{x:OnPlatform Default='0,0,0,5', MacCatalyst='0,0,0,5'}">
                 
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="40,40,40,40"/>
