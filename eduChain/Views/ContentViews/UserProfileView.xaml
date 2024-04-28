@@ -68,5 +68,6 @@
         <Frame BorderColor="Black" HorizontalOptions="Center"  WidthRequest="250" Margin="0,30,0,0" BackgroundColor="Black">
             <Label Text="{Binding UsersProfile.CreatedAt, StringFormat='Account Created: {0}'}" HorizontalOptions="Center"  FontSize="11" MaxLines="1" LineBreakMode="NoWrap" TextColor="White"/>
         </Frame>
+     
     </StackLayout>
 </ContentView>

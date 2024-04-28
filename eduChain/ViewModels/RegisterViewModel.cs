@@ -13,6 +13,8 @@ using NBitcoin.Secp256k1;
 
 using System.Text.RegularExpressions;
 using Firebase.Auth.Providers;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 namespace eduChain.ViewModels
 {
     public class RegisterViewModel : INotifyPropertyChanged
@@ -26,7 +28,7 @@ namespace eduChain.ViewModels
 
         public ICommand TrialCommand { get; }
         public ICommand RegisterCommand { get; }
-
+    
         public static RegisterViewModel GetInstance()
         {
             if (_instance == null)
@@ -194,7 +196,7 @@ namespace eduChain.ViewModels
                 throw new NullReferenceException("PropertyChanged event is not subscribed to.");
             }
         }
-
+      
         public async Task Register()
         {
 
@@ -264,10 +266,8 @@ namespace eduChain.ViewModels
                         break;
                 }
                 // Perform user registration with Firebase and get the auth result
-
-
                 var authResult = await firebaseAuthClient.CreateUserWithEmailAndPasswordAsync(Email, Password);
-
+                
                 // Check if registration was successful
                 if (authResult.User != null)
                 {

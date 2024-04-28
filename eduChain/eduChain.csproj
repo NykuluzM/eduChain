@@ -65,6 +65,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="epj.RouteGenerator" Version="1.0.1" />
+		<PackageReference Include="FirebaseAdmin" Version="2.4.1" />
 		<PackageReference Include="FirebaseAuthentication.net" Version="4.1.0" />
 		<PackageReference Include="Ipfs.Core" Version="0.55.0" />
 		<PackageReference Include="Ipfs.Engine" Version="0.13.0" />

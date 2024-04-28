@@ -2,6 +2,9 @@
 using eduChain.Models.MyProfileModels;
 using eduChain.Services;
 using eduChain.ViewModels;
+using FirebaseAdmin;
+using FirebaseAdmin.Auth;
+using Google.Apis.Auth.OAuth2;
 using LukeMauiFilePicker;
 using Npgsql;
 using SkiaSharp;
@@ -29,11 +32,21 @@ public class BaseProfileViewModel : ViewModelBase
         public Command EditImageCommand { get; private set; }
 
 
+     private async void ReadFirebaseAdminSdk(){
+            var stream = await FileSystem.OpenAppPackageFileAsync("admin_sdk.json");
+            var reader = new StreamReader(stream);
+            var json = await reader.ReadToEndAsync();
 
+            FirebaseApp.Create(new AppOptions
+            {
+                Credential = GoogleCredential.FromJson(json)
+            });
+     }
     public BaseProfileViewModel()
     {
         picker = IPlatformApplication.Current.Services.GetRequiredService<IFilePickerService>();
         EditImageCommand = new Command(async () => await EditImage());
+        ReadFirebaseAdminSdk();
     }
 
     protected async Task EditImage()
@@ -67,7 +80,6 @@ public class BaseProfileViewModel : ViewModelBase
             // Handle errors
         }
     }
-   
    
     protected async Task<int> UploadImageToSupabase(byte[] imageBytes, string firebase_id){
         if(imageBytes == null){

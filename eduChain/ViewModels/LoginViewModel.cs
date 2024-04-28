@@ -99,6 +99,7 @@ namespace eduChain.ViewModels
             {
                 if (KeepLoggedIn)
                 {
+                    
                     Preferences.Default.Set("email", Email);
                     Preferences.Default.Set("password", Password);
                     Preferences.Default.Set("IsLoggedIn", true);

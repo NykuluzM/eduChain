@@ -26,6 +26,7 @@ public partial class UserProfileView : ContentView
         }
     }
 
+
     public static readonly BindableProperty UserRoleProperty = BindableProperty.Create(
         nameof(UserRole), typeof(string), typeof(UserProfileView), default(string));
 

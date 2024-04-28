@@ -4,6 +4,8 @@ using System.ComponentModel;
 using Firebase.Auth;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
+using Google.Apis.Auth.OAuth2;
+using FirebaseAdmin;
 namespace eduChain.ViewModels{
 
     public class ForgotPasswordViewModel : INotifyPropertyChanged
@@ -32,13 +34,25 @@ namespace eduChain.ViewModels{
                 OnPropertyChanged(nameof(Email));
             }
         }
+            private async void ReadFirebaseAdminSdk(){
+            var stream = await FileSystem.OpenAppPackageFileAsync("admin_sdk.json");
+            var reader = new StreamReader(stream);
+            var json = await reader.ReadToEndAsync();
+
+            FirebaseApp.Create(new AppOptions
+            {
+                Credential = GoogleCredential.FromJson(json)
+            });
+        }
         public ForgotPasswordViewModel(){
             NavigateToLoginCommand = new Command(NavigateToLoginPage);
             SendResetEmailCommand = new Command(SendResetEmail);
+            ReadFirebaseAdminSdk();
         }
         
         public async void SendResetEmail()
         {
+            
             if (!IsValidEmail(Email))
             {
                 if (Application.Current != null && Application.Current.MainPage != null)
@@ -46,6 +60,17 @@ namespace eduChain.ViewModels{
                     await Application.Current.MainPage.DisplayAlert("Invalid Email", "Please enter a valid email address.", "OK");
                 }
                 
+                return;
+            }
+            try{
+                await FirebaseAdmin.Auth.FirebaseAuth.DefaultInstance.GetUserByEmailAsync(Email);
+            } catch (Exception e)
+            {
+                if (Application.Current != null && Application.Current.MainPage != null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", e.Message, "OK");
+                }
+
                 return;
             }
             try{

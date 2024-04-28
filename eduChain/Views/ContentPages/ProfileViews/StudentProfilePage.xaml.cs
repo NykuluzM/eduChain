@@ -13,6 +13,8 @@ using CommunityToolkit.Maui.Alerts;
 using Org.BouncyCastle.Utilities;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.PlatformConfiguration.AndroidSpecific;
+using CommunityToolkit.Maui.Views;
+using eduChain.Views.Popups;
 
 namespace eduChain.Views.ContentPages.ProfileViews
 {
@@ -50,7 +52,10 @@ namespace eduChain.Views.ContentPages.ProfileViews
             oprofile = _viewModel.UsersProfile.ProfilePic;
             //await Shell.Current.Navigation.PopAsync(); // Pop LoadingPage
         }
-
+        private async void ShowForm(object sender, EventArgs e)
+        {
+            this.ShowPopup(new ChangePasswordPopup());
+        }
         public async void EditProfile(object sender, EventArgs e)
         {
             EditButton.IsVisible = false;

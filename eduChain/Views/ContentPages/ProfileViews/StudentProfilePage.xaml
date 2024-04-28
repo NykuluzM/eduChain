@@ -25,7 +25,13 @@
              
             
                 <content:UserProfileView/>
-           
+            <StackLayout Margin="0,0,70,0">
+                        <Button Text="Change Password" HorizontalOptions="End" Clicked="ShowForm">
+                            <Button.ImageSource>
+                                <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Lock}" Size="20" />
+                            </Button.ImageSource>
+                        </Button> 
+            </StackLayout>
 			<Frame CornerRadius="20" Margin="{OnPlatform Android='10,0,10,400', iOS='10,0,10,400', MacCatalyst='60,30,60,0', WinUI='120,0,120,0'}" BackgroundColor="Black">
                 <input:FormView HorizontalOptions="FillAndExpand" Padding="0,15,0,15">
                     <Grid>
@@ -78,8 +84,7 @@
                         </StackLayout>
                         
                     </Grid>
-                  
-                        
+                
                     <StackLayout x:Name="PersonalDetails" IsVisible="False">
 						<toolkit:UniformItemsLayout  MaxRows="2" MaxColumns="2">
 							<material:TextField x:Name="fName" BorderColor="Bisque" TextColor="Azure" TitleColor="LightGreen"  Title="First Name"  Text="{Binding StudentProfile.FirstName, Mode=TwoWay}" Margin="5,20,5,10" IsReadOnly="True"/>
