@@ -8,8 +8,7 @@
             Text="Welcome to .NET MAUI!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
-        <Button
-            Text="Check IPFS Connection"
-            />
+       <Button Text="Download" Command="{Binding DownloadCommand}"/>
+       <Button Text="Verify" Command="{Binding VerifyCommand}"/>
     </VerticalStackLayout>
 </ContentPage>

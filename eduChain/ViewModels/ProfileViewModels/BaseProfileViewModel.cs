@@ -12,7 +12,6 @@ namespace eduChain.ViewModels.ProfileViewModels;
 
 public class BaseProfileViewModel : ViewModelBase
 {
-      protected readonly IFilePickerService picker;
        protected MyProfileService _myProfileService = MyProfileService.Instance;
         public byte[] imageBytes { get; set;}
         private ImageSource _previewImage;
@@ -56,7 +55,6 @@ public class BaseProfileViewModel : ViewModelBase
     }
     public BaseProfileViewModel()
     {
-        picker = IPlatformApplication.Current.Services.GetRequiredService<IFilePickerService>();
         EditImageCommand = new Command(async () => await EditImage());
         ReadFirebaseAdminSdk();
     }

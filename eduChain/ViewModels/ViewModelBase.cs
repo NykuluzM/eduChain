@@ -5,13 +5,16 @@ using System.Runtime.CompilerServices;
     using eduChain.Models;
     using eduChain.Models.MyProfileModels;
     using Microsoft.Maui;
-   
+    using LukeMauiFilePicker;
 
     public class ViewModelBase : INotifyPropertyChanged
 {
+          protected readonly IFilePickerService picker;
+
     public event PropertyChangedEventHandler PropertyChanged;
     MyProfileService _myProfileService;
     public ViewModelBase(){
+         picker = IPlatformApplication.Current.Services.GetRequiredService<IFilePickerService>();
         _myProfileService = MyProfileService.Instance;
         _usersProfile = UsersProfileModel.Instance;
     }
