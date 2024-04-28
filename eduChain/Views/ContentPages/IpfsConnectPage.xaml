@@ -8,7 +8,9 @@
             Text="Welcome to .NET MAUI!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+        <Button Text="Upload" Command="{Binding UploadCommand}"/>
        <Button Text="Download" Command="{Binding DownloadCommand}"/>
        <Button Text="Verify" Command="{Binding VerifyCommand}"/>
+       <Button Text="List" Command="{Binding CheckCommand}"/>
     </VerticalStackLayout>
 </ContentPage>
