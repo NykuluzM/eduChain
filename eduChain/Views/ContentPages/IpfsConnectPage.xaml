@@ -18,39 +18,112 @@
                 <RoundRectangle CornerRadius="40,40,40,40" />
             </Border.StrokeShape>
                 <StackLayout>
-                    
+                    <Label Text="IPFS CRUD"  HorizontalOptions="Center" FontSize="20" FontAttributes="Bold" Margin="0,10,0,10"/>
+
                     <toolkit:UniformItemsLayout MaxRows="4" MaxColumns="4" Margin="20,20,20,10" >
-                        <ur:CheckBox x:Name="VerifyToggleButton" TextFontSize="12" CheckChanged="VerifyToggle" Margin="5,10,5,10" Text="Verify File" />
-                        <ur:CheckBox Text="Upload File" Margin="5,10,5,10"  TextFontSize="12"/>
-                        <ur:CheckBox Text="Download File" Margin="5,10,5,10" TextFontSize="12" />
+                        <ur:CheckBox x:Name="VerifyToggleButton" TextFontSize="12" CheckChanged="Toggle" Margin="5,10,5,10" Text="Verify File" ClassId="Verify" />
+                        <ur:CheckBox Text="Upload File" Margin="5,10,5,10"  TextFontSize="12" CheckChanged="Toggle" ClassId="Upload"/>
+                        <ur:CheckBox Text="Download File" Margin="5,10,5,10" TextFontSize="12" CheckChanged="Toggle" ClassId="Download" />
                         <ur:CheckBox Text="Delete File" Margin="5,10,5,10" TextFontSize="12" />
                     </toolkit:UniformItemsLayout >
-                   
-                    <toolkit:UniformItemsLayout MaxRows="4" MaxColumns="2" Margin="{x:OnPlatform Default=30, WinUI='300,0,300,30'}" x:Name="VerifyLayout" IsVisible="False">
 
-                        <ur:TextField Margin="5,10,5,10"  AccentColor="Navy"  BorderColor="Navy" TextColor="Navy"  Title="Enter Target Cid"  Text="{Binding Cid}"/>
-                        <ur:TextField Margin="5,10,5,10" Text="{Binding VerifyFileInfo.FileName}" IsReadOnly="True"  Title="File To Compare">
+                    <StackLayout x:Name="VerifyLayout" Background="Wheat" IsVisible="False">
+                        <Button Text="Verify Your Files" IsEnabled="False" TextColor="Black"  Margin="{x:OnPlatform Android='-14,0,-14,0',WinUI='-5,0,-5,0'}" BackgroundColor="PaleVioletRed">
+                            <Button.ImageSource>
+                                <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Verified}" Size="20" Color="Black" />
+                            </Button.ImageSource>
+                        </Button>
+
+                        <Button Text="Instructions" TextColor="Black" HorizontalOptions="End" BackgroundColor="Transparent">
+                            <Button.ImageSource>
+                                <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Help}" Size="20" Color="Black" />
+                            </Button.ImageSource>
+                        </Button>
+                        <Button Text="In Order For Us To Process Your Files, Input Needed Values Below." TextColor="Black" HorizontalOptions="Center" BackgroundColor="Transparent">
+                            <Button.ImageSource>
+                                <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Compare}" Size="20" Color="Black" />
+                            </Button.ImageSource>
+                        </Button>
+                        <toolkit:UniformItemsLayout MaxRows="4" MaxColumns="2" Margin="{x:OnPlatform Default=30, WinUI='300,0,300,30'}">
+                            
+                            <ur:TextField x:Name="verifyCid"  Margin="5,10,5,10"  AccentColor="Navy"  BorderColor="Navy" TextColor="Navy"  Title="Supposed Cid"  />
+                            <ur:TextField Margin="5,10,5,10"  AccentColor="Navy"  BorderColor="Navy" TextColor="Navy" Text="{Binding VerifyFileInfo.FileName}" IsReadOnly="True" Title="File/s">
+                                <ur:TextField.Attachments>
+                                    <Button StyleClass="TextButton" Padding="14,14,14,14" Margin="{x:OnPlatform Android='-14', Default='0'}"  Command="{Binding ClearCommand}" CommandParameter="fileClear">
+                                        <Button.ImageSource>
+                                            <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Clear}" Size="20" Color="Black" />
+
+                                        </Button.ImageSource>
+                                    </Button>
+
+                                    <Button Text="Add" Margin="{x:OnPlatform Android='5', WinUI='0,0,2,0'}" Command="{Binding FileForVerifyCommand}"/>
+                                </ur:TextField.Attachments>
+
+                            </ur:TextField>
+
+                        </toolkit:UniformItemsLayout>
+                        <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,0,250,30'}" MaximumWidthRequest="800"   Text="Verify" Clicked="Submit" ClassId="verifyClick" />
+
+
+                    </StackLayout>
+                    <StackLayout x:Name="DownloadLayout" Background="Wheat" IsVisible="False">
+                        <Button Text="Download IPFS Files" IsEnabled="False" TextColor="Black" Margin="{x:OnPlatform Android='-14,0,-14,0',WinUI='-5,0,-5,0'}" BackgroundColor="PaleVioletRed">
+                            <Button.ImageSource>
+                                <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Download}" Size="20" Color="Black" />
+                            </Button.ImageSource>
+                        </Button>
+                        <Button Text="Instructions" TextColor="Black" HorizontalOptions="End" BackgroundColor="Transparent">
+                            <Button.ImageSource>
+                                <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Help}" Size="20" Color="Black" />
+                            </Button.ImageSource>
+                        </Button>
+                        <Button Text="In Order For Us To Process Your Files, Input Needed Values Below." TextColor="Black" HorizontalOptions="Center" BackgroundColor="Transparent">
+                            <Button.ImageSource>
+                                <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Compare}" Size="20" Color="Black" />
+                            </Button.ImageSource>
+                        </Button>
+                        <ur:TextField x:Name="downloadCid" Title="Cid Address / IPFS Hash"  Margin="100,0,100,40"/>
+                        <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,0,250,30'}" MaximumWidthRequest="800"   Text="Download" Clicked="Submit" ClassId="downloadClick"/>
+                    </StackLayout>
+
+                    <StackLayout x:Name="UploadLayout" Background="Wheat" IsVisible="False">
+                        <Button Text="Upload Files to IPFS" IsEnabled="False" TextColor="Black" Margin="{x:OnPlatform Android='-14,0,-14,0', WinUI='-5,0,-5,0'}" BackgroundColor="PaleVioletRed">
+                            <Button.ImageSource>
+                                <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Download}" Size="20" Color="Black" />
+                            </Button.ImageSource>
+                        </Button>
+                        <Button Text="Instructions" TextColor="Black" HorizontalOptions="End" BackgroundColor="Transparent">
+                            <Button.ImageSource>
+                                <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Help}" Size="20" Color="Black" />
+                            </Button.ImageSource>
+                        </Button>
+                        <Button Text="In Order For Us To Process Your Files, Input Needed Values Below." TextColor="Black" HorizontalOptions="Center" BackgroundColor="Transparent">
+                            <Button.ImageSource>
+                                <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Compare}" Size="20" Color="Black" />
+                            </Button.ImageSource>
+                        </Button>
+                        <ur:TextField WidthRequest="300"  AccentColor="Navy" Margin="10,10,10,10" BorderColor="Navy" TextColor="Navy" Text="{Binding VerifyFileInfo.FileName}" IsReadOnly="True" Title="File/s">
                             <ur:TextField.Attachments>
-                                <Button StyleClass="TextButton" Padding="14,14,14,14"  Command="{Binding ClearCommand}" CommandParameter="fileClear">
+                                <Button StyleClass="TextButton" Padding="14,14,14,14" Margin="{x:OnPlatform Android='-14', Default='0'}"  Command="{Binding ClearCommand}" CommandParameter="fileClear">
                                     <Button.ImageSource>
                                         <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Clear}" Size="20" Color="Black" />
 
                                     </Button.ImageSource>
                                 </Button>
 
-                                <Button Text="Add File" Margin="{x:OnPlatform Android='5', WinUI='0,0,2,0'}" Command="{Binding FileForVerifyCommand}"/>
+                                <Button Text="Add" Margin="{x:OnPlatform Android='5', WinUI='0,0,2,0'}" Command="{Binding FileForVerifyCommand}"/>
                             </ur:TextField.Attachments>
 
                         </ur:TextField>
+                        <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,0,250,30'}" MaximumWidthRequest="800"   Text="Upload" Clicked="Submit" ClassId="uploadClick"/>
 
-                    </toolkit:UniformItemsLayout>
-                    <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,0,250,30'}" MaximumWidthRequest="800"   Text="Verify" Command="{Binding VerifyCommand}"/>
 
+                    </StackLayout>
                 </StackLayout>
+
+               
            
         </Border>
-
-            <Button Text="Download" Command="{Binding DownloadCommand}"/>
 
             <Button Text="Upload" Command="{Binding UploadCommand}"/>
        

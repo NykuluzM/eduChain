@@ -14,6 +14,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using eduChain.Models;
 using Npgsql;
+using UraniumUI.Material.Controls;
+using System.Collections.ObjectModel;
 namespace eduChain;
 
 public class IpfsViewModel : ViewModelBase
@@ -47,17 +49,18 @@ public class IpfsViewModel : ViewModelBase
 
         string cid = "QmdmfZzdzk7endNWKtgAkn5zF1wnNxVTkU99Z9eNY6761S"; // Replace with your actual CID
         string gatewayUrl = $"https://gateway.pinata.cloud/ipfs/{cid}";
-        DownloadCommand = new Command(async () => await DownloadFileByCid(cid));
-        VerifyCommand = new Command(async () => await VerifyFile());
+        DownloadCommand = new Command(async () => await DownloadFileByCid());
+        VerifyCommand = new Command(async ()=> await VerifyFile());
         UploadCommand = new Command(async () => await UploadFileToIpfs());
         FileForVerifyCommand = new Command(async () => await PickVerifyFile());
         ClearCommand = new Command<string>(async (callerId) => await Clear(callerId));
-        }
+
+    }
 
 
-public async Task PickVerifyFile()
+    public async Task PickVerifyFile()
     {
-        
+
         var fileInfo = await picker.PickFileAsync("Select a file", FileType);
         if (fileInfo == null)
         {
@@ -83,6 +86,7 @@ public async Task PickVerifyFile()
     }
     public async Task VerifyFile(){
 
+       
         if(Cid == null || Cid == "")
         {
             await Shell.Current.DisplayAlert("Verify", "Please enter a CID", "OK");
@@ -135,6 +139,10 @@ public async Task PickVerifyFile()
             OnPropertyChanged(nameof(Cid));
         }
     }
+    private ObservableCollection<KeyValuePair<string, string>> _cidStore =
+    new ObservableCollection<KeyValuePair<string, string>>();
+
+   
     private IPickFile _verifyFileInfo;
 
     public IPickFile VerifyFileInfo
@@ -235,10 +243,10 @@ public async Task PickVerifyFile()
             }
         }
 
-   private async Task DownloadFileByCid(string cid)
+   public async Task DownloadFileByCid()
     {
     using var httpClient = new HttpClient();
-    string gatewayUrl = $"https://gateway.pinata.cloud/ipfs/{cid}";
+    string gatewayUrl = $"https://gateway.pinata.cloud/ipfs/{this.Cid}";
     try
     {
         var response = await pinataClient.HttpClient.GetAsync(gatewayUrl, HttpCompletionOption.ResponseHeadersRead);
@@ -265,6 +273,11 @@ public async Task PickVerifyFile()
         Console.WriteLine($"Error downloading file: {ex.Message}");
         throw; // Or re-throw for further handling
     }
+        finally
+        {
+            this.Cid = "";
+            // Clean up resources, if necessary
+        }
     }
     private string GetFileExtensionFromContentType(string contentType)
     {
