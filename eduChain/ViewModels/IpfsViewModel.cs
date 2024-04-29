@@ -9,11 +9,15 @@ using MimeMapping;
 using Pinata.Client;
 using Ipfs.Engine;
 using Flurl.Http;
+using CommunityToolkit.Maui.Storage;
+using System.Text;
+using System.Text.RegularExpressions;
 namespace eduChain;
 
 public class IpfsViewModel : ViewModelBase
 {
-    private string hash = "QmZj7Nsg6VdAgQYnm4iAhCsdrYidtyDBaQpjhqnyJ9cuBs";
+    IFileSaver fileSaver ;
+    private string hash = "QmdmfZzdzk7endNWKtgAkn5zF1wnNxVTkU99Z9eNY6761S";
     public ICommand UploadCommand { get; }
     public ICommand DownloadCommand { get; }
     public ICommand VerifyCommand { get; } 
@@ -26,8 +30,10 @@ public class IpfsViewModel : ViewModelBase
                     { DevicePlatform.MacCatalyst, new[] { "public.*" } },
                     { DevicePlatform.WinUI, new[] { "*",".jpg",".png",".docx",".pdf" } }
                 };
-    public IpfsViewModel()
+    public IpfsViewModel(IFileSaver fileSaver)
     {
+        this.fileSaver = fileSaver;
+        fileSaver = DependencyService.Get<IFileSaver>();
          var config = new Config
         {    
             ApiKey = "b7aaa5289c05382e0563",
@@ -35,7 +41,7 @@ public class IpfsViewModel : ViewModelBase
         };
         pinataClient = new PinataClient(config);
 
-        string cid = "QmVnNCU2vTSeEPK3XqHvekawGohfSjqAcKUHEJfgpr8JEg"; // Replace with your actual CID
+        string cid = "QmdmfZzdzk7endNWKtgAkn5zF1wnNxVTkU99Z9eNY6761S"; // Replace with your actual CID
         string gatewayUrl = $"https://gateway.pinata.cloud/ipfs/{cid}";
         DownloadCommand = new Command(async () => await DownloadFileByCid(cid));
         VerifyCommand = new Command(async () => await VerifyFile());
@@ -87,9 +93,10 @@ public class IpfsViewModel : ViewModelBase
                     if(existFlag){
                         existFlag = false;
                         return false;
+                    } else {
+                        await pinataClient.Pinning.UnpinAsync(response.IpfsHash);
+                        return false;
                     }
-                    await pinataClient.Pinning.UnpinAsync(response.IpfsHash);
-                    return false;
                 }
             }
             else{
@@ -135,25 +142,29 @@ public class IpfsViewModel : ViewModelBase
             await Shell.Current.DisplayAlert("Upload", e.Message, "OK");
         }
    }
-   private async Task<string> DownloadFileByCid(string cid)
+   private async Task DownloadFileByCid(string cid)
     {
     using var httpClient = new HttpClient();
     string gatewayUrl = $"https://gateway.pinata.cloud/ipfs/{cid}";
     try
     {
-        var response = await httpClient.GetAsync(gatewayUrl, HttpCompletionOption.ResponseHeadersRead);
+        var response = await pinataClient.HttpClient.GetAsync(gatewayUrl, HttpCompletionOption.ResponseHeadersRead);
         if (response.IsSuccessStatusCode)
         {
-            string fileName = Path.GetFileName(gatewayUrl); // Extract filename from URL
-            string downloadPath = Path.Combine(Path.GetTempPath(), fileName); // Use temporary path
+            string fileName = Path.GetFileName(gatewayUrl); // URI as file name
 
-            using (var fileStream = File.Create(downloadPath))
-            {
-                await response.Content.CopyToAsync(fileStream);
-                await Shell.Current.DisplayAlert("Download", "File downloaded successfully", "OK");
+            string contentType = response.Content.Headers.ContentType.MediaType;
+            string fileExtension = GetFileExtensionFromContentType(contentType); // You'll need a helper function
 
-                return downloadPath; // Return the downloaded file path
+            var tempFile = await response.Content.ReadAsStreamAsync(); 
+            using var reader = new BinaryReader(tempFile);
+            using var stream = new MemoryStream(reader.ReadBytes((int)tempFile.Length));
+            try{
+            var path = await fileSaver.SaveAsync(fileName + fileExtension,stream);
+            }catch(Exception e){
+                await Shell.Current.DisplayAlert("Download", e.Message, "OK");
             }
+            await Shell.Current.DisplayAlert("Download", "File downloaded successfully", "OK");  
         }
         else
         {
@@ -166,5 +177,24 @@ public class IpfsViewModel : ViewModelBase
         Console.WriteLine($"Error downloading file: {ex.Message}");
         throw; // Or re-throw for further handling
     }
+    }
+    private string GetFileExtensionFromContentType(string contentType)
+    {
+        // You could consider a library like MimeTypes: https://github.com/samuelneff/MimeTypeMap
+        var mappings = new Dictionary<string, string> {
+            {"image/jpeg", ".jpg"},
+            {"image/png", ".png"},
+            {"text/plain", ".txt"},
+            {"application/pdf", ".pdf"},
+            {"application/msword", ".doc"},
+            {"application/vnd.openxmlformats-officedocument.wordprocessingml.document", ".docx"},
+            {"application/vnd.ms-excel", ".xls"},
+            {"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", ".xlsx"},
+            {"application/vnd.ms-powerpoint", ".ppt"},
+            {"application/vnd.openxmlformats-officedocument.presentationml.presentation", ".pptx"}
+            // ... add more mappings
+        };
+
+        return mappings.TryGetValue(contentType, out var extension) ? extension : ".bin"; // Default to ".bin" if not found
     }
 }

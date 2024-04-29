@@ -16,6 +16,7 @@ using Plugin.Maui.Audio;
 using Mopups.Hosting;
 using eduChain.Models;
 using ZXing.Net.Maui.Controls;
+using CommunityToolkit.Maui.Storage;
 namespace eduChain
 {
 	[AutoRoutes("Page")]
@@ -47,6 +48,7 @@ namespace eduChain
 			builder.Logging.AddDebug();
 #endif
             builder.Services.AddSingleton<ISupabaseClientFactory, SupabaseClientFactory>();
+			builder.Services.AddSingleton<IFileSaver>(FileSaver.Default);
         	builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("Supabase"));
 			builder.Services.AddSingleton<ISupabaseConnection>(new DatabaseConnection("User Id=postgres.wcbvpqecetfhnfphtmae;Password=notthatexcellent3224;Server=aws-0-ap-southeast-1.pooler.supabase.com;Port=5432;Database=postgres;"));
 			builder.Services.AddSingleton(AudioManager.Current);
