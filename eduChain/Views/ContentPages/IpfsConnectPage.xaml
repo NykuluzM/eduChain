@@ -28,7 +28,7 @@
                     </toolkit:UniformItemsLayout >
 
                     <StackLayout x:Name="VerifyLayout" Background="Wheat" IsVisible="False">
-                        <Button Text="Verify Your Files" IsEnabled="False" TextColor="Black"  Margin="{x:OnPlatform Android='-14,0,-14,0',WinUI='-5,0,-5,0'}" BackgroundColor="PaleVioletRed">
+                        <Button Text="Verify Your Files" IsEnabled="False" TextColor="Black"  Margin="{x:OnPlatform Android='-14,0,-14,0',WinUI='-5,0,-5,0', MacCatalyst='-5,0,-5,0'}" BackgroundColor="PaleVioletRed">
                             <Button.ImageSource>
                                 <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Verified}" Size="20" Color="Black" />
                             </Button.ImageSource>
@@ -67,7 +67,7 @@
 
                     </StackLayout>
                     <StackLayout x:Name="DownloadLayout" Background="Wheat" IsVisible="False">
-                        <Button Text="Download IPFS Files" IsEnabled="False" TextColor="Black" Margin="{x:OnPlatform Android='-14,0,-14,0',WinUI='-5,0,-5,0'}" BackgroundColor="PaleVioletRed">
+                        <Button Text="Download IPFS Files" IsEnabled="False" TextColor="Black" Margin="{x:OnPlatform Android='-14,0,-14,0',WinUI='-5,0,-5,0', MacCatalyst='-5,0,-5,0'}" BackgroundColor="PaleVioletRed">
                             <Button.ImageSource>
                                 <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Download}" Size="20" Color="Black" />
                             </Button.ImageSource>
@@ -87,7 +87,7 @@
                     </StackLayout>
 
                     <StackLayout x:Name="UploadLayout" Background="Wheat" IsVisible="False">
-                        <Button Text="Upload Files to IPFS" IsEnabled="False" TextColor="Black" Margin="{x:OnPlatform Android='-14,0,-14,0', WinUI='-5,0,-5,0'}" BackgroundColor="PaleVioletRed">
+                        <Button Text="Upload Files to IPFS" IsEnabled="False" TextColor="Black" Margin="{x:OnPlatform Android='-14,0,-14,0', WinUI='-5,0,-5,0', MacCatalyst='-5,0,-5,0'}" BackgroundColor="PaleVioletRed">
                             <Button.ImageSource>
                                 <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Download}" Size="20" Color="Black" />
                             </Button.ImageSource>
