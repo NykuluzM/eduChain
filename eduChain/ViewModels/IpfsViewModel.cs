@@ -12,6 +12,8 @@ using Flurl.Http;
 using CommunityToolkit.Maui.Storage;
 using System.Text;
 using System.Text.RegularExpressions;
+using eduChain.Models;
+using Npgsql;
 namespace eduChain;
 
 public class IpfsViewModel : ViewModelBase
@@ -53,6 +55,7 @@ public class IpfsViewModel : ViewModelBase
   
     public async Task PickVerifyFile()
     {
+        
         var fileInfo = await picker.PickFileAsync("Select a file", FileType);
         if (fileInfo == null)
         {
@@ -65,13 +68,27 @@ public class IpfsViewModel : ViewModelBase
       
     }
     public async Task VerifyFile(){
-    
+
         if(Cid == null || Cid == "")
         {
             await Shell.Current.DisplayAlert("Verify", "Please enter a CID", "OK");
             return;
-        }   
+        } 
+
+        var result = await IpfsDatabaseService.Instance.isPinned(Cid);
+        if(result == false){
+            await Shell.Current.DisplayAlert("Verify", "Your targeted CID does not exist in the node", "OK");
+            return;
+        } 
+        if(VerifyFileInfo == null)
+        {
+            await Shell.Current.DisplayAlert("Verify", "Please select a file to verify", "OK");
+            return;
+        }
+        
+       
         var isSame = await VerifyFileIntegrity(VerifyFileInfo, Cid);
+
         if(isSame == 1){
             await Shell.Current.DisplayAlert("Verify", "File is same", "OK");
         }else if(isSame == 0){
@@ -80,10 +97,13 @@ public class IpfsViewModel : ViewModelBase
         else if(isSame == -1){
             await Shell.Current.DisplayAlert("Verify", "Your targeted CID does not exist in the node", "OK");
         } 
-        else if(isSame == -2)
-        {
-            await Shell.Current.DisplayAlert("Verify", "Please select a file to verify", "OK");
+        else if(isSame == -2){
+            await Shell.Current.DisplayAlert("Verify", "File upload unsuccessful", "OK");
+        } 
+        else{
+            await Shell.Current.DisplayAlert("Verify", "Unknown error", "OK");
         }
+       
         Cid = "";
         VerifyFileInfo = null;
         return;
@@ -130,31 +150,12 @@ public class IpfsViewModel : ViewModelBase
     }
     public async Task<int> VerifyFileIntegrity(IPickFile file, string originalCid)
     {
-        string filegatewayUrl = $"https://gateway.pinata.cloud/ipfs/{file.FileName}";
-        string originalgatewayUrl = $"https://gateway.pinata.cloud/ipfs/{originalCid}";
-        if(VerifyFileInfo == null)
-        {
-            return -2;
-        }
+     
         using (var fileStream = File.OpenRead(VerifyFileInfo.FileResult.FullPath))
         {
             var existFileFlag = false;
             var existOrigFlag = false;
-            var fileContent = new StreamContent(fileStream);
-            
-            //gamag filter
-            var filters = new Dictionary<string, object> 
-            {
-                {"hashContains", originalCid }
-            };
-            //Checks if the original file exists in the node
-            var responseHttp = await pinataClient.HttpClient.GetAsync(originalgatewayUrl, HttpCompletionOption.ResponseHeadersRead);
-            if(responseHttp.IsSuccessStatusCode){
-                existOrigFlag = true;
-            } else {
-                return -1;
-            }         
-          
+            var fileContent = new StreamContent(fileStream);       
             var response = await this.pinataClient.Pinning.PinFileToIpfsAsync(content =>
             {
                 content.AddPinataFile(fileContent, VerifyFileInfo.FileName);
@@ -162,23 +163,32 @@ public class IpfsViewModel : ViewModelBase
             if (response.IsSuccess)
             {
                 string newCid = response.IpfsHash;
-               
-                if(originalCid == newCid){
-                    return 1;
+                try{
+                var result = await IpfsDatabaseService.Instance.isPinned(newCid);
+                //if the newly created cid is already in database
+                if(result){
+                    //if the generated cid is the same as the original cid
+                    if(newCid == originalCid){
+                        return 1;
+                    }
+                    //if the generated cid is not the same as the original cid
+                    else{
+                        return 0;
+                    }
+                } 
+                //if the generated cid is not in database
+                else
+                {
+                    await this.pinataClient.Pinning.UnpinAsync(newCid);
+                    return 0;
                 }
-                else{
-                    if(existOrigFlag){
-                        existOrigFlag = false;
-                        return 0;
-                    }
-                    else {
-                        await pinataClient.Pinning.UnpinAsync(response.IpfsHash);
-                        return 0;
-                    }
+                }
+                catch(PostgresException e){
+                    return -3;
                 }
             }
             else{
-                return 0;
+                return -2;
             }
         }
     }
@@ -191,8 +201,7 @@ public class IpfsViewModel : ViewModelBase
         }
         string filePath = fileres.FileResult.FullPath;
         string fileExtension = Path.GetExtension(filePath);
-       try
-        {
+       
             using (var fileStream = File.OpenRead(filePath))
             {
                 var fileContent = new StreamContent(fileStream);
@@ -209,17 +218,23 @@ public class IpfsViewModel : ViewModelBase
                 //"F8FD40F55D00F38D4BAC2FA62E0552993DE6CC442699178CF6CF466C77D5655C"
                 if (response.IsSuccess)
                 {
+                    try{
+                               var fileName = Path.GetFileNameWithoutExtension(filePath);
+ 
+                    await IpfsDatabaseService.Instance.InsertPinnedFile(UsersProfile.FirebaseId,response.IpfsHash,fileExtension,fileName);
+                    }
+                    catch(PostgresException e){
+                        await this.pinataClient.Pinning.UnpinAsync(response.IpfsHash);
+                        await Shell.Current.DisplayAlert("Upload", "File upload unsuccessful", "OK");
+                        return;
+                    }
                     await Shell.Current.DisplayAlert("Upload", "File uploaded successfully", "OK");
                     return;
                 }
                 await Shell.Current.DisplayAlert("Upload", "File upload failed", "OK");
             }
         }
-        catch (Exception e)
-        {
-            await Shell.Current.DisplayAlert("Upload", e.Message, "OK");
-        }
-   }
+
    private async Task DownloadFileByCid(string cid)
     {
     using var httpClient = new HttpClient();
