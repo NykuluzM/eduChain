@@ -56,29 +56,38 @@ public class IpfsViewModel : ViewModelBase
         }
         string path = file.FileResult.FullPath;
         var isSame = await VerifyFileIntegrity(file, hash);
-        if(isSame){
+        if(isSame == 1){
             await Shell.Current.DisplayAlert("Verify", "File is same", "OK");
-        }else{
+        }else if(isSame == 0){
             await Shell.Current.DisplayAlert("Verify", "File is not same", "OK");
+        }
+        else if(isSame == -1){
+            await Shell.Current.DisplayAlert("Verify", "Your targeted CID does not exist in the node", "OK");
         }
     }
     public async Task CheckList(){
             
     }
-    public async Task<bool> VerifyFileIntegrity(IPickFile file, string originalCid)
+    public async Task<int> VerifyFileIntegrity(IPickFile file, string originalCid)
     {
+        string gatewayUrl = $"https://gateway.pinata.cloud/ipfs/{originalCid}";
 
         using (var fileStream = File.OpenRead(file.FileResult.FullPath))
         {
             var existFlag = false;
             var fileContent = new StreamContent(fileStream);
-
-            var List = await pinataClient.Data.PinList();
-            if (List.Rows.Any(item => item.IpfsPinHash == originalCid))
+            
+            //gamag filter
+            var filters = new Dictionary<string, object> 
             {
+                {"hashContains", originalCid }
+            };
+            var responseHttp = await pinataClient.HttpClient.GetAsync(gatewayUrl, HttpCompletionOption.ResponseHeadersRead);
+            if(responseHttp.IsSuccessStatusCode){
                 existFlag = true;
-                // Targeted CID exists - no need to pin and verify
-            }
+            } else {
+                return -1;
+            }         
             var response = await this.pinataClient.Pinning.PinFileToIpfsAsync(content =>
             {
                 content.AddPinataFile(fileContent, file.FileName);
@@ -87,20 +96,20 @@ public class IpfsViewModel : ViewModelBase
             {
                 string newCid = response.IpfsHash;
                 if(originalCid == newCid){
-                    return true;
+                    return 1;
                 }
                 else{
                     if(existFlag){
                         existFlag = false;
-                        return false;
+                        return 0;
                     } else {
                         await pinataClient.Pinning.UnpinAsync(response.IpfsHash);
-                        return false;
+                        return 0;
                     }
                 }
             }
             else{
-                return false;
+                return 0;
             }
         }
     }
