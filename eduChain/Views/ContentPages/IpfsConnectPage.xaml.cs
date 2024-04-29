@@ -3,6 +3,7 @@ using System.Reflection;
 using Ipfs;
 using Ipfs.Engine;
 using Pinata.Client;
+using LukeMauiFilePicker;
 using CommunityToolkit.Maui.Storage;
 
 namespace eduChain.Views.ContentPages;

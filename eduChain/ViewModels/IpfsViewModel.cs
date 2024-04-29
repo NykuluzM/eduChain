@@ -200,7 +200,11 @@ public class IpfsViewModel : ViewModelBase
             }
         }
     }
-
+    public async Task<LukeMauiFilePicker.IPickFile> SelectFile()
+    {
+        var fileres = await picker.PickFileAsync("Select a file", FileType);
+        return fileres;
+    }
    private async Task UploadFileToIpfs(){
         var fileres = await picker.PickFileAsync("Select a file", FileType);
         if (fileres == null)
