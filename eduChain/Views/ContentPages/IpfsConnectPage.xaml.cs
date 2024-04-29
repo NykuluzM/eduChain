@@ -22,6 +22,19 @@ public partial class IpfsConnectPage : ContentPage
     }
     
 
+    private void VerifyToggle(object sender, EventArgs e)
+    {
+        if(VerifyToggleButton.IsChecked)
+        {
+            VerifyLayout.IsVisible = true;
+        }
+        else
+        {
+            VerifyLayout.IsVisible = false;
+        }   
+
+    }
+
  
 
 

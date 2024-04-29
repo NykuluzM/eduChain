@@ -20,6 +20,7 @@ public class IpfsViewModel : ViewModelBase
 {
     IFileSaver fileSaver ;
     private string hash = "QmdmfZzdzk7endNWKtgAkn5zF1wnNxVTkU99Z9eNY6761S";
+    public ICommand ClearCommand { get; }
     public ICommand UploadCommand { get; }
     public ICommand DownloadCommand { get; }
     public ICommand FileForVerifyCommand { get; }
@@ -50,10 +51,11 @@ public class IpfsViewModel : ViewModelBase
         VerifyCommand = new Command(async () => await VerifyFile());
         UploadCommand = new Command(async () => await UploadFileToIpfs());
         FileForVerifyCommand = new Command(async () => await PickVerifyFile());
-    }
+        ClearCommand = new Command<string>(async (callerId) => await Clear(callerId));
+        }
 
-  
-    public async Task PickVerifyFile()
+
+public async Task PickVerifyFile()
     {
         
         var fileInfo = await picker.PickFileAsync("Select a file", FileType);
@@ -67,6 +69,18 @@ public class IpfsViewModel : ViewModelBase
         }
       
     }
+    public async Task Clear(string callerId)
+    {
+        switch (callerId)
+        {
+            case "fileClear":
+                VerifyFileInfo = null;
+                break;
+            default:
+                break;
+        }
+        return;
+    }
     public async Task VerifyFile(){
 
         if(Cid == null || Cid == "")
@@ -75,18 +89,20 @@ public class IpfsViewModel : ViewModelBase
             return;
         } 
 
-        var result = await IpfsDatabaseService.Instance.isPinned(Cid);
-        if(result == false){
-            await Shell.Current.DisplayAlert("Verify", "Your targeted CID does not exist in the node", "OK");
-            return;
-        } 
+       
         if(VerifyFileInfo == null)
         {
             await Shell.Current.DisplayAlert("Verify", "Please select a file to verify", "OK");
             return;
         }
-        
-       
+        var result = await IpfsDatabaseService.Instance.isPinned(Cid);
+        if (result == false)
+        {
+            await Shell.Current.DisplayAlert("Verify", "Your targeted CID does not exist in the node", "OK");
+            return;
+        }
+
+
         var isSame = await VerifyFileIntegrity(VerifyFileInfo, Cid);
 
         if(isSame == 1){
@@ -108,6 +124,7 @@ public class IpfsViewModel : ViewModelBase
         VerifyFileInfo = null;
         return;
     }
+
     private string _cid;
     public string Cid
     {
@@ -126,28 +143,11 @@ public class IpfsViewModel : ViewModelBase
         set
         {
             _verifyFileInfo = value;
-            if(value == null)
-            {
-                VerifyFileInfoName = "";
-                return;
-            }
-            else
-            {
-                VerifyFileInfoName = value.FileName;
-            }
-            OnPropertyChanged(nameof(VerifyFile));
+            OnPropertyChanged(nameof(VerifyFileInfo));
         }
     }
 
-    private string _verifyFileInfoName;
-    public string VerifyFileInfoName { 
-        get { return _verifyFileInfoName; }
-        set
-        {
-            _verifyFileInfoName = value;
-            OnPropertyChanged(nameof(VerifyFileInfoName));
-        }
-    }
+   
     public async Task<int> VerifyFileIntegrity(IPickFile file, string originalCid)
     {
      
