@@ -20,6 +20,7 @@ public class IpfsViewModel : ViewModelBase
     private string hash = "QmdmfZzdzk7endNWKtgAkn5zF1wnNxVTkU99Z9eNY6761S";
     public ICommand UploadCommand { get; }
     public ICommand DownloadCommand { get; }
+    public ICommand FileForVerifyCommand { get; }
     public ICommand VerifyCommand { get; } 
     public ICommand CheckCommand { get; }
     PinataClient pinataClient;
@@ -46,16 +47,31 @@ public class IpfsViewModel : ViewModelBase
         DownloadCommand = new Command(async () => await DownloadFileByCid(cid));
         VerifyCommand = new Command(async () => await VerifyFile());
         UploadCommand = new Command(async () => await UploadFileToIpfs());
-        CheckCommand = new Command(async () => await CheckList());
+        FileForVerifyCommand = new Command(async () => await PickVerifyFile());
     }
-    public async Task VerifyFile(){
-        var file = await picker.PickFileAsync("Select a file", FileType);
-        if (file == null)
+
+  
+    public async Task PickVerifyFile()
+    {
+        var fileInfo = await picker.PickFileAsync("Select a file", FileType);
+        if (fileInfo == null)
         {
             return;
         }
-        string path = file.FileResult.FullPath;
-        var isSame = await VerifyFileIntegrity(file, hash);
+        else
+        {
+            VerifyFileInfo = fileInfo;
+        }
+      
+    }
+    public async Task VerifyFile(){
+    
+        if(Cid == null || Cid == "")
+        {
+            await Shell.Current.DisplayAlert("Verify", "Please enter a CID", "OK");
+            return;
+        }   
+        var isSame = await VerifyFileIntegrity(VerifyFileInfo, Cid);
         if(isSame == 1){
             await Shell.Current.DisplayAlert("Verify", "File is same", "OK");
         }else if(isSame == 0){
@@ -63,18 +79,67 @@ public class IpfsViewModel : ViewModelBase
         }
         else if(isSame == -1){
             await Shell.Current.DisplayAlert("Verify", "Your targeted CID does not exist in the node", "OK");
+        } 
+        else if(isSame == -2)
+        {
+            await Shell.Current.DisplayAlert("Verify", "Please select a file to verify", "OK");
+        }
+        Cid = "";
+        VerifyFileInfo = null;
+        return;
+    }
+    private string _cid;
+    public string Cid
+    {
+        get { return _cid; }
+        set
+        {
+            _cid = value;
+            OnPropertyChanged(nameof(Cid));
         }
     }
-    public async Task CheckList(){
-            
+    private IPickFile _verifyFileInfo;
+
+    public IPickFile VerifyFileInfo
+    {
+        get { return _verifyFileInfo; }
+        set
+        {
+            _verifyFileInfo = value;
+            if(value == null)
+            {
+                VerifyFileInfoName = "";
+                return;
+            }
+            else
+            {
+                VerifyFileInfoName = value.FileName;
+            }
+            OnPropertyChanged(nameof(VerifyFile));
+        }
+    }
+
+    private string _verifyFileInfoName;
+    public string VerifyFileInfoName { 
+        get { return _verifyFileInfoName; }
+        set
+        {
+            _verifyFileInfoName = value;
+            OnPropertyChanged(nameof(VerifyFileInfoName));
+        }
     }
     public async Task<int> VerifyFileIntegrity(IPickFile file, string originalCid)
     {
-        string gatewayUrl = $"https://gateway.pinata.cloud/ipfs/{originalCid}";
-
-        using (var fileStream = File.OpenRead(file.FileResult.FullPath))
+        string filegatewayUrl = $"https://gateway.pinata.cloud/ipfs/{file.FileName}";
+        string originalgatewayUrl = $"https://gateway.pinata.cloud/ipfs/{originalCid}";
+        if(VerifyFileInfo == null)
         {
-            var existFlag = false;
+            return -2;
+        }
+        using (var fileStream = File.OpenRead(VerifyFileInfo.FileResult.FullPath))
+        {
+            var existFileFlag = false;
+            var existOrigFlag = false;
             var fileContent = new StreamContent(fileStream);
             
             //gamag filter
@@ -82,27 +147,31 @@ public class IpfsViewModel : ViewModelBase
             {
                 {"hashContains", originalCid }
             };
-            var responseHttp = await pinataClient.HttpClient.GetAsync(gatewayUrl, HttpCompletionOption.ResponseHeadersRead);
+            //Checks if the original file exists in the node
+            var responseHttp = await pinataClient.HttpClient.GetAsync(originalgatewayUrl, HttpCompletionOption.ResponseHeadersRead);
             if(responseHttp.IsSuccessStatusCode){
-                existFlag = true;
+                existOrigFlag = true;
             } else {
                 return -1;
             }         
+          
             var response = await this.pinataClient.Pinning.PinFileToIpfsAsync(content =>
             {
-                content.AddPinataFile(fileContent, file.FileName);
+                content.AddPinataFile(fileContent, VerifyFileInfo.FileName);
             });
             if (response.IsSuccess)
             {
                 string newCid = response.IpfsHash;
+               
                 if(originalCid == newCid){
                     return 1;
                 }
                 else{
-                    if(existFlag){
-                        existFlag = false;
+                    if(existOrigFlag){
+                        existOrigFlag = false;
                         return 0;
-                    } else {
+                    }
+                    else {
                         await pinataClient.Pinning.UnpinAsync(response.IpfsHash);
                         return 0;
                     }
@@ -158,27 +227,22 @@ public class IpfsViewModel : ViewModelBase
     try
     {
         var response = await pinataClient.HttpClient.GetAsync(gatewayUrl, HttpCompletionOption.ResponseHeadersRead);
-        if (response.IsSuccessStatusCode)
-        {
-            string fileName = Path.GetFileName(gatewayUrl); // URI as file name
+            if (response.IsSuccessStatusCode)
+            {
+                string fileName = Path.GetFileName(gatewayUrl); // URI as file name
 
-            string contentType = response.Content.Headers.ContentType.MediaType;
-            string fileExtension = GetFileExtensionFromContentType(contentType); // You'll need a helper function
+                string contentType = response.Content.Headers.ContentType.MediaType;
+                string fileExtension = GetFileExtensionFromContentType(contentType); // You'll need a helper function
 
-            var tempFile = await response.Content.ReadAsStreamAsync(); 
-            using var reader = new BinaryReader(tempFile);
-            using var stream = new MemoryStream(reader.ReadBytes((int)tempFile.Length));
-            try{
-            var path = await fileSaver.SaveAsync(fileName + fileExtension,stream);
-            }catch(Exception e){
-                await Shell.Current.DisplayAlert("Download", e.Message, "OK");
+                var tempFile = await response.Content.ReadAsStreamAsync();
+                var path = await fileSaver.SaveAsync(fileName + fileExtension, tempFile);
+
+                await Shell.Current.DisplayAlert("Download", "File downloaded successfully", "OK");
             }
-            await Shell.Current.DisplayAlert("Download", "File downloaded successfully", "OK");  
-        }
-        else
-        {
-            throw new Exception($"Error downloading file: {response.StatusCode}");
-        }
+            else
+            {
+                await Shell.Current.DisplayAlert("Download", "File download failed", "OK");
+            }
     }
     catch (Exception ex)
     {
