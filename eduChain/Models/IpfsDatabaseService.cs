@@ -76,6 +76,75 @@ public class IpfsDatabaseService
                 await DatabaseManager.CloseConnectionAsync();
             }
         }
+     /*   public async Task Task<List<Pin>> GetPinnedFiles()
+                   {
+            try
+        {
+                await DatabaseManager.OpenConnectionAsync();
+                using (var cmd = DatabaseManager.Connection.CreateCommand())
+            {
+                    cmd.CommandText = @"SELECT * FROM ""Files""";
+                    var reader = await cmd.ExecuteReaderAsync();
+                    var pinnedFiles = new List<Pin>();
+                    while (await reader.ReadAsync())
+                {
+                        pinnedFiles.Add(new Pin
+                        {
+                            Owner = reader.GetString(0),
+                            Cid = reader.GetString(1),
+                            FileType = reader.GetString(2),
+                            FileName = reader.GetString(3)
+                        });
+                    }
+                    return pinnedFiles;
+                }
+            }
+            catch (Exception ex)
+        {
+                await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+                return new List<Pin>();
+            }
+            finally
+        {
+                await DatabaseManager.CloseConnectionAsync();
+            }
+        }*/
+        public async Task<List<FileModel>> GetByFileType(string type, string firebase_id)
+        {
+            var fileList = new List<FileModel>();
+
+            try
+            {
+                await DatabaseManager.OpenConnectionAsync();
+                using (var cmd = DatabaseManager.Connection.CreateCommand())
+                {
+                        cmd.CommandText = @"SELECT * FROM ""Files"" WHERE filetype = @type && owner = @firebase_id";
+                        cmd.Parameters.AddWithValue("@type", type);
+                        cmd.Parameters.AddWithValue("@firebase_id", firebase_id);
+                        var reader = await cmd.ExecuteReaderAsync();
+                        while (await reader.ReadAsync())
+                        {
+                            fileList.Add(new FileModel
+                            {
+                                Owner = reader.GetString(0),
+                                CID = reader.GetString(1),
+                                FileType = reader.GetString(2),
+                                FileName = reader.GetString(3),
+                            });
+                        }
+                        return fileList;
+                    }   
+                }
+            catch
+            {
+                await Shell.Current.DisplayAlert("Error", "An error occurred while fetching the files", "OK");
+                return null;
+            }
+            finally
+            {
+                await DatabaseManager.CloseConnectionAsync();
+            }
+        }
         public async Task InsertPinnedFile(string uid,string cid, string fileType, string fileName)
         {
             try

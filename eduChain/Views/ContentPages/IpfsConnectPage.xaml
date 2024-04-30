@@ -5,8 +5,8 @@
              xmlns:ur="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
+             xmlns:windows="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific;assembly=Microsoft.Maui.Controls"
              xmlns:tabView="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
-
              Title=""
              Shell.BackgroundColor="PapayaWhip"
                 Shell.ForegroundColor="Black"
@@ -175,26 +175,36 @@
                         <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,30,250,30'}" MaximumWidthRequest="800" Command="{Binding UnpinCommand}"   Text="Unpin"/>
 
                     </StackLayout>
-                    <StackLayout Background="Black">
-                                <Label Text="Files"  HorizontalOptions="Center" FontSize="20" FontAttributes="Bold" Margin="0,10,0,10"/>
-                                <tabView:SfTabView x:Name="tabView" TabBarBackground="LightBlue" > 
+                    <StackLayout>
+                        <Button Text="File Manager"  IsVisible="True" Clicked="Toggle" ClassId="ShowAll"  Margin="-10,0,-10,0">
+                            <Button.ImageSource>
+                                <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Folder}" Size="20"  />
+                            </Button.ImageSource>
+                        </Button>
+                        <tabView:SfTabView x:Name="tabView" IndicatorBackground="LightGreen" IndicatorPlacement="Fill" TabBarBackground="LightBlue" > 
                                     
 
                                     <tabView:SfTabItem  Header="Photos" 
                                                         ImageSource="phototab.png" 
                                                         ImageTextSpacing="4">
-                                        <tabView:SfTabItem.Content>
-                                            <Grid BackgroundColor="Red" />
-                                        </tabView:SfTabItem.Content>
+                                    <tabView:SfTabItem.Content ItemSource="">
+                                        <RefreshView windows:RefreshView.RefreshPullDirection="TopToBottom">
+                                            
+                                        </RefreshView>
+                                           
+                                    </tabView:SfTabItem.Content>
                                     </tabView:SfTabItem>
 
                                     <tabView:SfTabItem 
                                                         Header="Audio"
                                                         ImageSource="audiotab.png"
                                                         ImageTextSpacing="4">
-                                        <tabView:SfTabItem.Content>
-                                            <Grid BackgroundColor="Green"/>
-                                        </tabView:SfTabItem.Content>
+                                    <tabView:SfTabItem.Content>
+                                        <RefreshView windows:RefreshView.RefreshPullDirection="TopToBottom">
+
+                                        </RefreshView>
+
+                                    </tabView:SfTabItem.Content>
                                     </tabView:SfTabItem>
 
                                      <tabView:SfTabItem 
@@ -202,13 +212,18 @@
                                                         ImageSource="videotab.png"
                                                         ImageTextSpacing="4">
                                         <tabView:SfTabItem.Content>
-                                            <Grid BackgroundColor="Green"/>
+                                            <RefreshView windows:RefreshView.RefreshPullDirection="TopToBottom">
+
+                                            </RefreshView>
+
                                         </tabView:SfTabItem.Content>
                                     </tabView:SfTabItem>
 
                                     <tabView:SfTabItem Header="Documents" ImageSource="documenttab.png" ImageTextSpacing="4">
                                         <tabView:SfTabItem.Content>
-                                            <Grid BackgroundColor="Blue"/>
+                                            <RefreshView windows:RefreshView.RefreshPullDirection="TopToBottom">
+
+                                            </RefreshView>
                                         </tabView:SfTabItem.Content>
                                     </tabView:SfTabItem>
 
@@ -217,7 +232,9 @@
                                                         ImageSource="othertab.png"
                                                         ImageTextSpacing="4">
                                         <tabView:SfTabItem.Content>
-                                            <Grid BackgroundColor="Green"/>
+                                            <RefreshView windows:RefreshView.RefreshPullDirection="TopToBottom">
+
+                                            </RefreshView>  
                                         </tabView:SfTabItem.Content>
                                     </tabView:SfTabItem>
     
@@ -226,7 +243,10 @@
                                                         ImageSource="alltab.png"
                                                         ImageTextSpacing="4">
                                         <tabView:SfTabItem.Content>
-                                            <Grid BackgroundColor="Green"/>
+                                            <RefreshView windows:RefreshView.RefreshPullDirection="TopToBottom">
+
+                                            </RefreshView>
+
                                         </tabView:SfTabItem.Content>
                                     </tabView:SfTabItem>
     

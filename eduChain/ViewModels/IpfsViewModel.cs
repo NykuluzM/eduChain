@@ -29,6 +29,8 @@ public class IpfsViewModel : ViewModelBase
     public ICommand VerifyCommand { get; } 
     public ICommand CheckCommand { get; }
     public ICommand UnpinCommand { get; }
+    public ObservableCollection<FileModel> Files { get; set; } = new ObservableCollection<FileModel>();
+
     PinataClient pinataClient;
       Dictionary<DevicePlatform, IEnumerable<string>> FileType = new()
                 {
@@ -108,6 +110,15 @@ public class IpfsViewModel : ViewModelBase
                 break;
         }
         return;
+    }
+    public async Task LoadFiles(string type, string firebase_id)
+    {
+        Files.Clear(); // Clear existing data (optional)
+        var fileList = await IpfsDatabaseService.Instance.GetByFileType(type, firebase_id);
+        foreach (var file in fileList)
+        {
+            Files.Add(file);
+        }
     }
     public async Task VerifyFile(){
 
