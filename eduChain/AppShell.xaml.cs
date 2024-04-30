@@ -47,6 +47,7 @@ public partial class AppShell : Shell
     {
         Shell.Current.FlyoutBehavior = _viewModel.FlyoutBehaviors;
 
+
         if (layout == "collapsed")
         {
             LockFlyout(this, new EventArgs());
@@ -58,6 +59,11 @@ public partial class AppShell : Shell
         else if (layout == "collapsed_locked")
         {
             
+        } 
+        else if(layout == "expanded")
+        {
+            ExitFlyout(this, new EventArgs());
+           
         }
         else
         {

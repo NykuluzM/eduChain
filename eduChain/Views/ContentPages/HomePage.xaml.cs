@@ -54,8 +54,16 @@ namespace eduChain.Views.ContentPages{
 			finally{
                 AppShell appShell = (App.Current as App).MainPage as AppShell;
                 Shell.Current.FlyoutIsPresented = true;
-                appShell.TriggerLayout("collapsed");
-				await Task.Delay(50);
+				if(DeviceInfo.Platform == DevicePlatform.iOS || DeviceInfo.Platform == DevicePlatform.Android)
+				{
+					appShell.TriggerLayout("expanded");
+					Shell.Current.FlyoutIsPresented = false;
+				} else
+				{
+                    appShell.TriggerLayout("collapsed");
+
+                }
+                await Task.Delay(50);
                 loadingPopup.ClosePopup();
 				homePageViewModel.IsLoading = false;
 			}

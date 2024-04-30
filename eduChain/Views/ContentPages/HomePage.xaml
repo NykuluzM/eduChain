@@ -7,31 +7,28 @@
              x:Class="eduChain.Views.ContentPages.HomePage"
              Title=""
             Background="#195a7a"
+            Shell.BackgroundColor="#195a7a"
             Shell.NavBarIsVisible="{x:OnPlatform MacCatalyst=True, WinUI=False}"
             >
 
     <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
-    <Shell.SearchHandler AbsoluteLayout.LayoutBounds="0.5,0,100,25"
-                 AbsoluteLayout.LayoutFlags="PositionProportional" >
-        <SearchHandler Placeholder="Search"  />
+    <Shell.SearchHandler >
+        <SearchHandler BackgroundColor="Wheat" Placeholder="Search"  />
     </Shell.SearchHandler>
-    <ScrollView>
+    <ScrollView HorizontalOptions="Center">
 
-        <StackLayout>
-            <ScrollView>
-                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
-                    <Label 
+        <StackLayout HorizontalOptions="Center">
+            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                <Label 
                         Text="Welcome to eduChain" x:Name="Title" FontSize="Large" HorizontalOptions="Center" TextColor="Gold" FontAttributes="Bold"
                         />
-                    <Label 
+                <Label 
                         Text="We are still constructing this Application" HorizontalOptions="Center" MaxLines="1"  FontSize="15"  TextColor="Red" FontAttributes="Bold"
                         />
-                    <Image Source="dance.gif" IsAnimationPlaying="True" HeightRequest="200" WidthRequest="200" VerticalOptions="Center" HorizontalOptions="Center"/>
+                <Image Source="dance.gif" IsAnimationPlaying="True" HeightRequest="200" WidthRequest="200" VerticalOptions="Center" HorizontalOptions="Center"/>
 
-                </VerticalStackLayout>
-            </ScrollView>
+            </VerticalStackLayout>
         </StackLayout>
-
 
     </ScrollView>
 </ContentPage>

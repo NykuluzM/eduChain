@@ -203,6 +203,7 @@
             FlyoutIcon="ipfslogo.png"
             Icon="ipfslogo.png"
             FlyoutItemIsVisible="True"
+            
             Shell.NavBarIsVisible="{x:OnPlatform Android=True, iOS=True, MacCatalyst=True, WinUI=False}"
                         Shell.FlyoutBehavior="{Binding FlyoutBehaviors}"
 
@@ -239,13 +240,13 @@
             </Button>
 
 
-            <Button x:Name="Lock" HorizontalOptions="Center" Padding="{OnPlatform Default='0,0,0,0', Android='0,10,0,10'}" StyleClass="TextButton" Clicked="LockFlyout" Grid.Row="2"  WidthRequest="80" >
+            <Button x:Name="Lock" HorizontalOptions="Center" Padding="{OnPlatform Default='0,0,0,0', Android='0,10,0,10'}" StyleClass="TextButton" Clicked="LockFlyout" Grid.Row="2"  WidthRequest="80" IsVisible="{x:OnPlatform Android=False}" >
                 <Button.ImageSource>
                     <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Lock}" Color="Black" />
                 </Button.ImageSource>
             </Button>
 
-            <Button x:Name="Collapse" Grid.Column="0" Margin="0,0,-15,0"  WidthRequest="85" Grid.Row="1" Clicked="Collapse_Clicked" StyleClass="TextButton" HorizontalOptions="End" IsVisible="False">
+            <Button x:Name="Collapse" Grid.Column="0" Margin="0,0,-15,0"  WidthRequest="85" Grid.Row="1" Clicked="Collapse_Clicked" StyleClass="TextButton" HorizontalOptions="End" IsVisible="False" >
                 <Button.ImageSource>
                     <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Menu_open}" Color="Black" />
                 </Button.ImageSource>
