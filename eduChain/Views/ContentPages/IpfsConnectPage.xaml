@@ -45,24 +45,34 @@
                             </Button.ImageSource>
                         </Button>
                         <toolkit:UniformItemsLayout MaxRows="4" MaxColumns="2" Margin="{x:OnPlatform Default=30, WinUI='300,0,300,30'}">
-                            
-                            <ur:TextField x:Name="verifyCid"  Margin="5,10,5,10"  AccentColor="Navy"  BorderColor="Navy" TextColor="Navy"  Title="Supposed Cid"  />
-                            <ur:TextField Margin="5,10,5,10"  AccentColor="Navy"  BorderColor="Navy" TextColor="Navy" Text="{Binding VerifyFileInfo.FileName}" IsReadOnly="True" Title="File/s">
+
+                            <ur:TextField Text="{Binding Cid[0]}"  Margin="5,10,5,10"  AccentColor="Navy"  BorderColor="Navy" TextColor="Navy"  Title="Supposed Cid">
                                 <ur:TextField.Attachments>
-                                    <Button StyleClass="TextButton" Padding="14,14,14,14" Margin="{x:OnPlatform Android='-14', Default='0'}"  Command="{Binding ClearCommand}" CommandParameter="fileClear">
+                                    <Button StyleClass="TextButton" Padding="14,14,14,14" Margin="{x:OnPlatform Android='-14', Default='0'}"  Command="{Binding ClearCommand}" CommandParameter="cidforverifyclear">
+                                        <Button.ImageSource>
+                                            <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Clear}" Size="20" Color="Black" />
+
+                                        </Button.ImageSource>
+                                    </Button>
+                                </ur:TextField.Attachments>
+
+                            </ur:TextField>
+                            <ur:TextField Margin="5,10,5,10"  AccentColor="Navy"  BorderColor="Navy" TextColor="Navy" Text="{Binding FileInfo[0].FileName}" IsReadOnly="True" Title="File/s">
+                                <ur:TextField.Attachments>
+                                    <Button StyleClass="TextButton" Padding="14,14,14,14" Margin="{x:OnPlatform Android='-14', Default='0'}"  Command="{Binding ClearCommand}" CommandParameter="fileforverifyclear">
                                         <Button.ImageSource>
                                             <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Clear}" Size="20" Color="Black" />
 
                                         </Button.ImageSource>
                                     </Button>
 
-                                    <Button Text="Add" Margin="{x:OnPlatform Android='5', WinUI='0,0,2,0'}" Command="{Binding FileForVerifyCommand}"/>
+                                    <Button Text="Add" Margin="{x:OnPlatform Android='5', WinUI='0,0,2,0'}" Command="{Binding FileCommand}" CommandParameter="fileforverify"/>
                                 </ur:TextField.Attachments>
 
                             </ur:TextField>
 
                         </toolkit:UniformItemsLayout>
-                        <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,0,250,30'}" MaximumWidthRequest="800"   Text="Verify" Clicked="Submit" ClassId="verifyClick" />
+                        <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,0,250,30'}" MaximumWidthRequest="800"   Text="Verify" Command="{Binding VerifyCommand}"/>
 
 
                     </StackLayout>
@@ -82,8 +92,17 @@
                                 <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Compare}" Size="20" Color="Black" />
                             </Button.ImageSource>
                         </Button>
-                        <ur:TextField x:Name="downloadCid" Title="Cid Address / IPFS Hash"  Margin="100,0,100,40"/>
-                        <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,0,250,30'}" MaximumWidthRequest="800"   Text="Download" Clicked="Submit" ClassId="downloadClick"/>
+                        <ur:TextField Text="{Binding Cid[1]}" Title="Cid Address / IPFS Hash"  Margin="100,0,100,40">
+                            <ur:TextField.Attachments>
+                                <Button StyleClass="TextButton" Padding="14,14,14,14" Margin="{x:OnPlatform Android='-14', Default='0'}"  Command="{Binding ClearCommand}" CommandParameter="cidfordownloadclear">
+                                    <Button.ImageSource>
+                                        <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Clear}" Size="20" Color="Black" />
+
+                                    </Button.ImageSource>
+                                </Button>
+                            </ur:TextField.Attachments>
+                        </ur:TextField>
+                        <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,0,250,30'}" MaximumWidthRequest="800"   Text="Download" Command="{Binding DownloadCommand}" ClassId="downloadClick"/>
                     </StackLayout>
 
                     <StackLayout x:Name="UploadLayout" Background="Wheat" IsVisible="False">
@@ -102,20 +121,20 @@
                                 <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Compare}" Size="20" Color="Black" />
                             </Button.ImageSource>
                         </Button>
-                        <ur:TextField WidthRequest="300"  AccentColor="Navy" Margin="10,10,10,10" BorderColor="Navy" TextColor="Navy" Text="{Binding VerifyFileInfo.FileName}" IsReadOnly="True" Title="File/s">
+                        <ur:TextField WidthRequest="300" Text="{Binding FileInfo[1].FileName}" AccentColor="Navy" Margin="10,10,10,10" BorderColor="Navy" TextColor="Navy"  IsReadOnly="True" Title="File/s">
                             <ur:TextField.Attachments>
-                                <Button StyleClass="TextButton" Padding="14,14,14,14" Margin="{x:OnPlatform Android='-14', Default='0'}"  Command="{Binding ClearCommand}" CommandParameter="fileClear">
+                                <Button StyleClass="TextButton" Padding="14,14,14,14" Margin="{x:OnPlatform Android='-14', Default='0'}"  Command="{Binding ClearCommand}" CommandParameter="fileforuploadclear">
                                     <Button.ImageSource>
                                         <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Clear}" Size="20" Color="Black" />
 
                                     </Button.ImageSource>
                                 </Button>
 
-                                <Button Text="Add" Margin="{x:OnPlatform Android='5', WinUI='0,0,2,0'}" Command="{Binding FileForVerifyCommand}"/>
+                                <Button Text="Add" Margin="{x:OnPlatform Android='5', WinUI='0,0,2,0'}"  Command="{Binding FileCommand}" CommandParameter="fileforupload"/>
                             </ur:TextField.Attachments>
 
                         </ur:TextField>
-                        <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,0,250,30'}" MaximumWidthRequest="800"   Text="Upload" Clicked="Submit" ClassId="uploadClick"/>
+                        <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,0,250,30'}" MaximumWidthRequest="800" Command="{Binding UploadCommand}"   Text="Upload"/>
 
 
                     </StackLayout>
@@ -125,10 +144,6 @@
            
         </Border>
 
-            <Button Text="Upload" Command="{Binding UploadCommand}"/>
-       
-        
-       <Button Text="List" Command="{Binding CheckCommand}"/>
     </StackLayout>
     </ScrollView>
 

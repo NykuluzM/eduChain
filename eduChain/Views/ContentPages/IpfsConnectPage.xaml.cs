@@ -10,6 +10,7 @@ namespace eduChain.Views.ContentPages;
 public partial class IpfsConnectPage : ContentPage 
 {
     IpfsViewModel ipfsViewModel;
+    IPickFile pickedfile;
     PinataClient pinataClient = new PinataClient();
 	public IpfsConnectPage()
 	{
@@ -64,22 +65,8 @@ public partial class IpfsConnectPage : ContentPage
 
     }
 
-    private async void Submit(object sender, EventArgs e)
-    {
-        var s = (Button)sender;
-        if(s.ClassId == "verifyClick")
-        {
-            ipfsViewModel.Cid = verifyCid.Text;
-            await ipfsViewModel.VerifyFile();
-            verifyCid.Text = "";
-        }
-        else if(s.ClassId == "downloadClick")
-        {
-            ipfsViewModel.Cid = downloadCid.Text;
-            await ipfsViewModel.DownloadFileByCid();
-            downloadCid.Text = "";
-        }
-    }
+  
+    
 
     private void Button_Clicked(object sender, EventArgs e)
     {

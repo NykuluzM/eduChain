@@ -25,7 +25,7 @@ public class IpfsViewModel : ViewModelBase
     public ICommand ClearCommand { get; }
     public ICommand UploadCommand { get; }
     public ICommand DownloadCommand { get; }
-    public ICommand FileForVerifyCommand { get; }
+    public ICommand FileCommand { get; }
     public ICommand VerifyCommand { get; } 
     public ICommand CheckCommand { get; }
     PinataClient pinataClient;
@@ -52,13 +52,14 @@ public class IpfsViewModel : ViewModelBase
         DownloadCommand = new Command(async () => await DownloadFileByCid());
         VerifyCommand = new Command(async ()=> await VerifyFile());
         UploadCommand = new Command(async () => await UploadFileToIpfs());
-        FileForVerifyCommand = new Command(async () => await PickVerifyFile());
+        FileCommand = new Command<string>(async (fileId) => await PickFile(fileId));
         ClearCommand = new Command<string>(async (callerId) => await Clear(callerId));
 
     }
 
 
-    public async Task PickVerifyFile()
+
+    public async Task PickFile(string fileId)
     {
 
         var fileInfo = await picker.PickFileAsync("Select a file", FileType);
@@ -66,18 +67,38 @@ public class IpfsViewModel : ViewModelBase
         {
             return;
         }
-        else
-        {
-            VerifyFileInfo = fileInfo;
+        if(fileId == "fileforverify") { 
+            FileInfo[0] = fileInfo;
+            // Manually raise the event as Array is a reference type
+            OnPropertyChanged(nameof(FileInfo)); 
         }
-      
+        else if(fileId == "fileforupload")
+        {
+            FileInfo[1] = fileInfo;
+            // Manually raise the event as Array is a reference type
+            OnPropertyChanged(nameof(FileInfo));
+        }
+
     }
     public async Task Clear(string callerId)
     {
         switch (callerId)
         {
-            case "fileClear":
-                VerifyFileInfo = null;
+            case "fileforverifyclear":
+                FileInfo[0] = null;
+                OnPropertyChanged(nameof(FileInfo));
+                break;
+            case "cidforverifyclear":
+                Cid[0] = "";
+                OnPropertyChanged(nameof(Cid));
+                break;
+            case "fileforuploadclear":
+                FileInfo[1] = null;
+                OnPropertyChanged(nameof(FileInfo));
+                break;
+            case "cidfordownloadclear":
+                Cid[1] = "";
+                OnPropertyChanged(nameof(Cid));
                 break;
             default:
                 break;
@@ -86,20 +107,20 @@ public class IpfsViewModel : ViewModelBase
     }
     public async Task VerifyFile(){
 
-       
-        if(Cid == null || Cid == "")
+
+        if (Cid[0] == null || Cid[0] == "")
         {
             await Shell.Current.DisplayAlert("Verify", "Please enter a CID", "OK");
             return;
-        } 
+        }
 
-       
-        if(VerifyFileInfo == null)
+
+        if (FileInfo[0] == null)
         {
             await Shell.Current.DisplayAlert("Verify", "Please select a file to verify", "OK");
             return;
         }
-        var result = await IpfsDatabaseService.Instance.isPinned(Cid);
+        var result = await IpfsDatabaseService.Instance.isPinned(Cid[0]);
         if (result == false)
         {
             await Shell.Current.DisplayAlert("Verify", "Your targeted CID does not exist in the node", "OK");
@@ -107,7 +128,7 @@ public class IpfsViewModel : ViewModelBase
         }
 
 
-        var isSame = await VerifyFileIntegrity(VerifyFileInfo, Cid);
+        var isSame = await VerifyFileIntegrity(FileInfo[0], Cid[0]);
 
         if(isSame == 1){
             await Shell.Current.DisplayAlert("Verify", "File is same", "OK");
@@ -123,14 +144,17 @@ public class IpfsViewModel : ViewModelBase
         else{
             await Shell.Current.DisplayAlert("Verify", "Unknown error", "OK");
         }
-       
-        Cid = "";
-        VerifyFileInfo = null;
+
+        Cid[0] = "";
+        OnPropertyChanged(nameof(Cid));
+        FileInfo[0] = null;
+        OnPropertyChanged(nameof(FileInfo));
+
         return;
     }
 
-    private string _cid;
-    public string Cid
+    private string[] _cid = new String[2];
+    public string[] Cid
     {
         get { return _cid; }
         set
@@ -139,34 +163,34 @@ public class IpfsViewModel : ViewModelBase
             OnPropertyChanged(nameof(Cid));
         }
     }
-    private ObservableCollection<KeyValuePair<string, string>> _cidStore =
-    new ObservableCollection<KeyValuePair<string, string>>();
+    
 
    
-    private IPickFile _verifyFileInfo;
+  
 
-    public IPickFile VerifyFileInfo
+
+    private IPickFile[] _fileInfo = new IPickFile[2];
+    public IPickFile[] FileInfo
     {
-        get { return _verifyFileInfo; }
+        get { return _fileInfo; }
         set
         {
-            _verifyFileInfo = value;
-            OnPropertyChanged(nameof(VerifyFileInfo));
+            _fileInfo = value;
+            OnPropertyChanged(nameof(FileInfo));
         }
     }
 
-   
     public async Task<int> VerifyFileIntegrity(IPickFile file, string originalCid)
     {
      
-        using (var fileStream = File.OpenRead(VerifyFileInfo.FileResult.FullPath))
+        using (var fileStream = File.OpenRead(FileInfo[0].FileResult.FullPath))
         {
             var existFileFlag = false;
             var existOrigFlag = false;
             var fileContent = new StreamContent(fileStream);       
             var response = await this.pinataClient.Pinning.PinFileToIpfsAsync(content =>
             {
-                content.AddPinataFile(fileContent, VerifyFileInfo.FileName);
+                content.AddPinataFile(fileContent, FileInfo[0].FileName);
             });
             if (response.IsSuccess)
             {
@@ -200,17 +224,13 @@ public class IpfsViewModel : ViewModelBase
             }
         }
     }
-    public async Task<LukeMauiFilePicker.IPickFile> SelectFile()
+    public async Task<IPickFile> SelectFile()
     {
         var fileres = await picker.PickFileAsync("Select a file", FileType);
         return fileres;
     }
    private async Task UploadFileToIpfs(){
-        var fileres = await picker.PickFileAsync("Select a file", FileType);
-        if (fileres == null)
-        {
-            return; // Handle canceled selection
-        }
+        var fileres = FileInfo[1];
         string filePath = fileres.FileResult.FullPath;
         string fileExtension = Path.GetExtension(filePath);
        
@@ -231,26 +251,45 @@ public class IpfsViewModel : ViewModelBase
                 if (response.IsSuccess)
                 {
                     try{
-                               var fileName = Path.GetFileNameWithoutExtension(filePath);
- 
-                    await IpfsDatabaseService.Instance.InsertPinnedFile(UsersProfile.FirebaseId,response.IpfsHash,fileExtension,fileName);
-                    }
+                            var fileName = Path.GetFileNameWithoutExtension(filePath);
+                            var exist = await IpfsDatabaseService.Instance.isPinned(response.IpfsHash);
+                            if (exist)
+                            {
+                                await Shell.Current.DisplayAlert("Upload", "File already exists in the IPFS node", "OK");
+                                return;
+                            } else
+                            {
+                                await IpfsDatabaseService.Instance.InsertPinnedFile(UsersProfile.FirebaseId, response.IpfsHash, fileExtension, fileName);
+                                await Shell.Current.DisplayAlert("Upload", "File uploaded successfully", "OK");
+                                return;
+
+                            }
+                        }
                     catch(PostgresException e){
                         await this.pinataClient.Pinning.UnpinAsync(response.IpfsHash);
                         await Shell.Current.DisplayAlert("Upload", "File upload unsuccessful", "OK");
                         return;
                     }
-                    await Shell.Current.DisplayAlert("Upload", "File uploaded successfully", "OK");
-                    return;
-                }
-                await Shell.Current.DisplayAlert("Upload", "File upload failed", "OK");
+                
+                    finally
+                    {
+                        FileInfo[1] = null;
+                        OnPropertyChanged(nameof(FileInfo));
+                    }
+            }
             }
         }
 
    public async Task DownloadFileByCid()
     {
+        if (string.IsNullOrEmpty(this.Cid[1]))
+        {
+            await Shell.Current.DisplayAlert("Download", "Please enter a CID", "OK");
+            return;
+        }
+
     using var httpClient = new HttpClient();
-    string gatewayUrl = $"https://gateway.pinata.cloud/ipfs/{this.Cid}";
+    string gatewayUrl = $"https://gateway.pinata.cloud/ipfs/{this.Cid[1]}";
     try
     {
         var response = await pinataClient.HttpClient.GetAsync(gatewayUrl, HttpCompletionOption.ResponseHeadersRead);
@@ -268,7 +307,7 @@ public class IpfsViewModel : ViewModelBase
             }
             else
             {
-                await Shell.Current.DisplayAlert("Download", "File download failed", "OK");
+                await Shell.Current.DisplayAlert("Download", "File download failed, The File does not exist or its unavailable", "OK");
             }
     }
     catch (Exception ex)
@@ -279,7 +318,8 @@ public class IpfsViewModel : ViewModelBase
     }
         finally
         {
-            this.Cid = "";
+            this.Cid[1] = "";
+            OnPropertyChanged(nameof(Cid));
             // Clean up resources, if necessary
         }
     }
