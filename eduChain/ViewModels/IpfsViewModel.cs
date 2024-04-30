@@ -28,6 +28,7 @@ public class IpfsViewModel : ViewModelBase
     public ICommand FileCommand { get; }
     public ICommand VerifyCommand { get; } 
     public ICommand CheckCommand { get; }
+    public ICommand UnpinCommand { get; }
     PinataClient pinataClient;
       Dictionary<DevicePlatform, IEnumerable<string>> FileType = new()
                 {
@@ -47,14 +48,13 @@ public class IpfsViewModel : ViewModelBase
         };
         pinataClient = new PinataClient(config);
 
-        string cid = "QmdmfZzdzk7endNWKtgAkn5zF1wnNxVTkU99Z9eNY6761S"; // Replace with your actual CID
-        string gatewayUrl = $"https://gateway.pinata.cloud/ipfs/{cid}";
+    
         DownloadCommand = new Command(async () => await DownloadFileByCid());
         VerifyCommand = new Command(async ()=> await VerifyFile());
         UploadCommand = new Command(async () => await UploadFileToIpfs());
         FileCommand = new Command<string>(async (fileId) => await PickFile(fileId));
         ClearCommand = new Command<string>(async (callerId) => await Clear(callerId));
-
+        UnpinCommand = new Command<string>(async (cid) => await UnpinFile());
     }
 
 
@@ -98,6 +98,10 @@ public class IpfsViewModel : ViewModelBase
                 break;
             case "cidfordownloadclear":
                 Cid[1] = "";
+                OnPropertyChanged(nameof(Cid));
+                break;
+            case "cidforunpinclear":
+                Cid[2] = "";
                 OnPropertyChanged(nameof(Cid));
                 break;
             default:
@@ -153,7 +157,7 @@ public class IpfsViewModel : ViewModelBase
         return;
     }
 
-    private string[] _cid = new String[2];
+    private string[] _cid = new String[3];
     public string[] Cid
     {
         get { return _cid; }
@@ -342,4 +346,44 @@ public class IpfsViewModel : ViewModelBase
 
         return mappings.TryGetValue(contentType, out var extension) ? extension : ".bin"; // Default to ".bin" if not found
     }
+    private async Task UnpinFile()
+    {
+        if (string.IsNullOrEmpty(this.Cid[2]))
+        {
+            await Shell.Current.DisplayAlert("Unpin","Please enter a CID","Yes");
+        }
+        try
+        {
+            string gatewayUrl = $"https://gateway.pinata.cloud/ipfs/{this.Cid[2]}";
+            var response = await pinataClient.HttpClient.GetAsync(gatewayUrl, HttpCompletionOption.ResponseHeadersRead);
+            if (!response.IsSuccessStatusCode)
+            {
+                return;
+            }
+            var result = await IpfsDatabaseService.Instance.isPinned(this.Cid[2]);
+
+            if (result)
+            {
+                await IpfsDatabaseService.Instance.UnpinFile(this.Cid[2]);
+                await this.pinataClient.Pinning.UnpinAsync(this.Cid[2]);
+                await Shell.Current.DisplayAlert("Unpin", "File unpinned successfully", "OK");
+                return;
+            }
+            else
+            {
+                await Shell.Current.DisplayAlert("Unpin", "File does not exist in the IPFS node", "OK");
+                return;
+            }
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Unpin", ex.ToString(), "OK");
+            throw;
+        }
+        finally
+        {
+            this.Cid[2] = "";
+            OnPropertyChanged(nameof(Cid));
+        }
+    }   
 }

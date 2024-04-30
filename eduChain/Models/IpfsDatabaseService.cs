@@ -71,6 +71,10 @@ public class IpfsDatabaseService
                 await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
                 return false;
             }
+            finally
+            {
+                await DatabaseManager.CloseConnectionAsync();
+            }
         }
         public async Task InsertPinnedFile(string uid,string cid, string fileType, string fileName)
         {
@@ -101,5 +105,27 @@ public class IpfsDatabaseService
                 await DatabaseManager.CloseConnectionAsync();
             }
         }
+        public async Task UnpinFile(string cid)
+    {
+            try
+        {
+                await DatabaseManager.OpenConnectionAsync();
 
+                using (var cmd = DatabaseManager.Connection.CreateCommand())
+            {
+                    cmd.CommandText = @"DELETE FROM ""Files"" WHERE cid = @cid";
+                    cmd.Parameters.AddWithValue("@cid", cid);
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+            catch (Exception ex)
+        {
+                await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+                // Consider logging the exception for better debugging
+            }
+            finally
+        {
+                await DatabaseManager.CloseConnectionAsync();
+            }
+        }
 }

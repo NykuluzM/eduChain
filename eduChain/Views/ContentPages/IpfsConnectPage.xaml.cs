@@ -61,6 +61,16 @@ public partial class IpfsConnectPage : ContentPage
                     UploadLayout.IsVisible = false;
                 }
                 break;  
+            case "Unpin":
+                if(s.IsChecked)
+                {
+                    UnpinLayout.IsVisible = true;
+                }
+                else
+                {
+                    UnpinLayout.IsVisible = false;
+                }
+                break;
         }
 
     }
