@@ -12,6 +12,8 @@ using Supabase;
 using eduChain.Views.ContentPages;
 using eduChain.Views.ContentPages.ProfileViews;
 using epj.RouteGenerator;
+using Syncfusion.Maui.Core.Hosting;
+
 using Plugin.Maui.Audio;
 using Mopups.Hosting;
 using eduChain.Models;
@@ -28,6 +30,8 @@ namespace eduChain
 			var builder = MauiApp.CreateBuilder();
 			builder
 				.UseMauiCommunityToolkit()
+				.ConfigureSyncfusionCore()
+
 				.UseMauiApp<App>()
 				.ConfigureMopups()
 				.UseUraniumUI()
@@ -60,6 +64,8 @@ namespace eduChain
 			builder.Services.AddMopupsDialogs();
 			builder.Services.AddFilePicker();
 			builder.ConfigureFilePicker(100);
+			builder.ConfigureSyncfusionCore();
+
 			var app = builder.Build();
 			return app;
 		}

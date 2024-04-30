@@ -5,6 +5,8 @@
              xmlns:ur="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
+             xmlns:tabView="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
+
              Title=""
              Shell.BackgroundColor="PapayaWhip"
                 Shell.ForegroundColor="Black"
@@ -173,182 +175,63 @@
                         <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,30,250,30'}" MaximumWidthRequest="800" Command="{Binding UnpinCommand}"   Text="Unpin"/>
 
                     </StackLayout>
-                    <StackLayout Background="Wheat" >
-                        
-                        <ur:TabView Margin="20">
-                           
-                            <ur:TabItem Title="Images">
-                                <ur:TabItem.HeaderTemplate>
-                                    <DataTemplate>
-                                        <StackLayout>
-                                            <Button 
-                                                Text="{Binding Title}"
-                                                Command="{Binding Command}">        
-                                                <Button.Triggers>
-                                                    <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="True">
-                                                        <Setter Property="BackgroundColor" Value="{StaticResource SurfaceTint1}" />
-                                                        <Setter Property="TextColor" Value="{StaticResource SurfaceTint3}" />
-                                                        <Setter Property="ImageSource" Value="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Image}, Color=LightGreen}" />
-                                                    </DataTrigger>
-                                                    <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="False">
-                                                        <Setter Property="BackgroundColor" Value="Transparent" />
-                                                        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource OnSurface}, Dark={StaticResource OnSurfaceDark}}" />
-                                                        <Setter Property="ImageSource" Value="{FontImageSource FontFamily=MaterialOutlined, Glyph={x:Static m:MaterialOutlined.Image}, Color={StaticResource SurfaceTint3}}" />
-                                                    </DataTrigger>
-                                                </Button.Triggers>
-                                            </Button>
-                                        </StackLayout>
-                                    </DataTemplate>
-                                </ur:TabItem.HeaderTemplate>
-                                <ur:TabItem.Content>
-                                    <StackLayout>
-                                        <Label Text="Tab Content 1" Margin="60" />
-                                        <Button Text="Click Me" Command="{Binding ClickMeCommand}" >
-                                            <Button.ImageSource>
-                                                <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Key}" Size="20" Color="Black" />
-                                            </Button.ImageSource>
-                                        </Button>
-                                    </StackLayout>
-                                </ur:TabItem.Content>
-                            </ur:TabItem>
+                    <StackLayout Background="Black">
+                                <Label Text="Files"  HorizontalOptions="Center" FontSize="20" FontAttributes="Bold" Margin="0,10,0,10"/>
+                                <tabView:SfTabView x:Name="tabView" TabBarBackground="LightBlue" > 
+                                    
 
-                            <ur:TabItem Title="Music">
-                                <ur:TabItem.HeaderTemplate>
-                                    <DataTemplate>
-                                        <StackLayout>
-                                            <Button 
-                                               Text="{Binding Title}"
-                                               Command="{Binding Command}">     
-                                                <Button.Triggers>
-                                                    <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="True">
-                                                        <Setter Property="BackgroundColor" Value="{StaticResource SurfaceTint1}" />
-                                                        <Setter Property="TextColor" Value="{StaticResource SurfaceTint3}" />
-                                                        <Setter Property="ImageSource" Value="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.My_library_music}, Color=LightGreen}" />
-                                                    </DataTrigger>
-                                                    <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="False">
-                                                        <Setter Property="BackgroundColor" Value="Transparent" />
-                                                        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource OnSurface}, Dark={StaticResource OnSurfaceDark}}" />
-                                                        <Setter Property="ImageSource" Value="{FontImageSource FontFamily=MaterialOutlined, Glyph={x:Static m:MaterialOutlined.Library_music}, Color={StaticResource SurfaceTint3}}" />
-                                                    </DataTrigger>
-                                                </Button.Triggers>
-                                            </Button>
-                                        </StackLayout>
-                                    </DataTemplate>
-                                </ur:TabItem.HeaderTemplate>
-                                <ur:TabItem.Content>
-                                    <Label Text="Tab Content 2" Margin="60" />
-                                </ur:TabItem.Content>
-                            </ur:TabItem>
+                                    <tabView:SfTabItem  Header="Photos" 
+                                                        ImageSource="phototab.png" 
+                                                        ImageTextSpacing="4">
+                                        <tabView:SfTabItem.Content>
+                                            <Grid BackgroundColor="Red" />
+                                        </tabView:SfTabItem.Content>
+                                    </tabView:SfTabItem>
 
-                            <ur:TabItem Title="Videos">
-                                <ur:TabItem.HeaderTemplate>
-                                    <DataTemplate>
-                                        <StackLayout>
-                                            <Button 
-                                                 Text="{Binding Title}"
-                                                 Command="{Binding Command}">   
-                                                <Button.Triggers>
-                                                    <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="True">
-                                                        <Setter Property="BackgroundColor" Value="{StaticResource SurfaceTint1}" />
-                                                        <Setter Property="TextColor" Value="{StaticResource SurfaceTint3}" />
-                                                        <Setter Property="ImageSource" Value="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Video_file}, Color=LightGreen}" />
-                                                    </DataTrigger>
-                                                    <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="False">
-                                                        <Setter Property="BackgroundColor" Value="Transparent" />
-                                                        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource OnSurface}, Dark={StaticResource OnSurfaceDark}}" />
-                                                        <Setter Property="ImageSource" Value="{FontImageSource FontFamily=MaterialOutlined, Glyph={x:Static m:MaterialOutlined.Video_file}, Color={StaticResource SurfaceTint3}}" />
-                                                    </DataTrigger>
-                                                </Button.Triggers>
-                                            </Button>
-                                        </StackLayout>
-                                    </DataTemplate>
-                                </ur:TabItem.HeaderTemplate>
-                                <ur:TabItem.Content>
-                                    <Label Text="Tab Content 3" Margin="60" />
-                                </ur:TabItem.Content>
-                            </ur:TabItem>
-                            <ur:TabItem Title="Documents">
-                                <ur:TabItem.HeaderTemplate>
-                                    <DataTemplate>
-                                        <StackLayout>
-                                            <Button 
-                                                Text="{Binding Title}"
-                                                Command="{Binding Command}">    
-                                                <Button.Triggers>
-                                                    <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="True">
-                                                        <Setter Property="BackgroundColor" Value="{StaticResource SurfaceTint1}" />
-                                                        <Setter Property="TextColor" Value="{StaticResource SurfaceTint3}" />
-                                                        <Setter Property="ImageSource" Value="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Document_scanner}, Color=LightGreen}" />
-                                                    </DataTrigger>
-                                                    <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="False">
-                                                        <Setter Property="BackgroundColor" Value="Transparent" />
-                                                        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource OnSurface}, Dark={StaticResource OnSurfaceDark}}" />
-                                                        <Setter Property="ImageSource" Value="{FontImageSource FontFamily=MaterialOutlined, Glyph={x:Static m:MaterialOutlined.Document_scanner}, Color={StaticResource SurfaceTint3}}" />
-                                                    </DataTrigger>
-                                                </Button.Triggers>
-                                            </Button>
-                                        </StackLayout>
-                                    </DataTemplate>
-                                </ur:TabItem.HeaderTemplate>
-                                <ur:TabItem.Content>
-                                    <Label Text="Tab Content 3" Margin="60" />
-                                </ur:TabItem.Content>
-                            </ur:TabItem>
-                            <ur:TabItem Title="Others">
-                                <ur:TabItem.HeaderTemplate>
-                                    <DataTemplate>
-                                        <StackLayout>
-                                            <Button 
-                                                  Text="{Binding Title}"
-                                                  Command="{Binding Command}">  
-                                                <Button.Triggers>
-                                                    <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="True">
-                                                        <Setter Property="BackgroundColor" Value="{StaticResource SurfaceTint1}" />
-                                                        <Setter Property="TextColor" Value="{StaticResource SurfaceTint3}" />
-                                                        <Setter Property="ImageSource" Value="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Device_unknown}, Color=LightGreen}" />
-                                                    </DataTrigger>
-                                                    <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="False">
-                                                        <Setter Property="BackgroundColor" Value="Transparent" />
-                                                        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource OnSurface}, Dark={StaticResource OnSurfaceDark}}" />
-                                                        <Setter Property="ImageSource" Value="{FontImageSource FontFamily=MaterialOutlined, Glyph={x:Static m:MaterialOutlined.Device_unknown}, Color={StaticResource SurfaceTint3}}" />
-                                                    </DataTrigger>
-                                                </Button.Triggers>
-                                            </Button>
-                                        </StackLayout>
-                                    </DataTemplate>
-                                </ur:TabItem.HeaderTemplate>
-                                <ur:TabItem.Content>
-                                    <Label Text="Tab Content 3" Margin="60" />
-                                </ur:TabItem.Content>
-                            </ur:TabItem>
-                            <ur:TabItem Title="All">
-                                <ur:TabItem.HeaderTemplate>
-                                    <DataTemplate>
-                                        <StackLayout>
-                                            <Button 
-                                                   Text="{Binding Title}"
-                                                   Command="{Binding Command}">
-                                                <Button.Triggers>
-                                                    <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="True">
-                                                        <Setter Property="BackgroundColor" Value="{StaticResource SurfaceTint1}" />
-                                                        <Setter Property="TextColor" Value="{StaticResource SurfaceTint3}" />
-                                                        <Setter Property="ImageSource" Value="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Folder_shared}, Color=LightGreen}" />
-                                                    </DataTrigger>
-                                                    <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="False">
-                                                        <Setter Property="BackgroundColor" Value="Transparent" />
-                                                        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource OnSurface}, Dark={StaticResource OnSurfaceDark}}" />
-                                                        <Setter Property="ImageSource" Value="{FontImageSource FontFamily=MaterialOutlined, Glyph={x:Static m:MaterialOutlined.Folder_shared}, Color={StaticResource SurfaceTint3}}" />
-                                                    </DataTrigger>
-                                                </Button.Triggers>
-                                            </Button>
-                                        </StackLayout>
-                                    </DataTemplate>
-                                </ur:TabItem.HeaderTemplate>
-                                <ur:TabItem.Content>
-                                    <Label Text="Tab Content 3" Margin="60" />
-                                </ur:TabItem.Content>
-                            </ur:TabItem>
-                        </ur:TabView>
+                                    <tabView:SfTabItem 
+                                                        Header="Audio"
+                                                        ImageSource="audiotab.png"
+                                                        ImageTextSpacing="4">
+                                        <tabView:SfTabItem.Content>
+                                            <Grid BackgroundColor="Green"/>
+                                        </tabView:SfTabItem.Content>
+                                    </tabView:SfTabItem>
+
+                                     <tabView:SfTabItem 
+                                                        Header="Videos"
+                                                        ImageSource="videotab.png"
+                                                        ImageTextSpacing="4">
+                                        <tabView:SfTabItem.Content>
+                                            <Grid BackgroundColor="Green"/>
+                                        </tabView:SfTabItem.Content>
+                                    </tabView:SfTabItem>
+
+                                    <tabView:SfTabItem Header="Documents" ImageSource="documenttab.png" ImageTextSpacing="4">
+                                        <tabView:SfTabItem.Content>
+                                            <Grid BackgroundColor="Blue"/>
+                                        </tabView:SfTabItem.Content>
+                                    </tabView:SfTabItem>
+
+                                    <tabView:SfTabItem 
+                                                        Header="Others"
+                                                        ImageSource="othertab.png"
+                                                        ImageTextSpacing="4">
+                                        <tabView:SfTabItem.Content>
+                                            <Grid BackgroundColor="Green"/>
+                                        </tabView:SfTabItem.Content>
+                                    </tabView:SfTabItem>
+    
+                                    <tabView:SfTabItem 
+                                                        Header="All"
+                                                        ImageSource="alltab.png"
+                                                        ImageTextSpacing="4">
+                                        <tabView:SfTabItem.Content>
+                                            <Grid BackgroundColor="Green"/>
+                                        </tabView:SfTabItem.Content>
+                                    </tabView:SfTabItem>
+    
+                                    
+                                </tabView:SfTabView>
                     </StackLayout>
                 </StackLayout>
 
