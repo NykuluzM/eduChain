@@ -41,7 +41,7 @@ public class IpfsViewModel : ViewModelBase
                     { DevicePlatform.Android, new[] { "*/*" } },
                     { DevicePlatform.iOS, new[] { "public.*" } },
                     { DevicePlatform.MacCatalyst, new[] { "public.*" } },
-                    { DevicePlatform.WinUI, new[] { "*",".jpg",".png",".docx",".pdf" } }
+                    { DevicePlatform.WinUI, new[] { "*",".jpg",".png",".docx",".pdf",".xlsx",".xls" } }
                 };
     public IpfsViewModel(IFileSaver fileSaver)
     {
@@ -63,35 +63,43 @@ public class IpfsViewModel : ViewModelBase
         UnpinCommand = new Command<string>(async (cid) => await UnpinFile());
 
     }
-    public async Task ChangeCategory(string category)
+    public async Task<bool> ChangeCategory(string category)
     {
-        if(category == "firstload"){
-            Files = new ObservableCollection<FileModel>(await IpfsDatabaseService.Instance.GetAllFilesAsync(UsersProfile.FirebaseId));
-            CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".jpg"));
+
+        DisplayedFile = null;
+
+        switch (category)
+        {
+            case "firstload":
+                Files = new ObservableCollection<FileModel>(await IpfsDatabaseService.Instance.GetAllFilesAsync(UsersProfile.FirebaseId));
+                CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".jpg"));
+                DisplayedFile = new ObservableCollection<FileModel>(CategorizedFile.Take(5));
+                break;
+            case ".jpg":
+                CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".jpg"));
+                DisplayedFile = new ObservableCollection<FileModel>(CategorizedFile.Take(5)); 
+                break;
+            case ".mp3":
+                CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".mp3"));
+                break;
+            case ".mp4":
+                CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".mp4"));
+                break;
+            case "Documents":
+                CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".pdf" || f.FileType == ".docx" || f.FileType == ".xlsx" || f.FileType == ".xls"));
+                LoadMoreCommand.Execute(null);
+                break;
         }
-        else if(category == ".jpg"){
-            CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".jpg"));
+        if (CategorizedFile.Count == 0)
+        {
+            return false;
         }
-        else if(category == ".mp3"){
-            CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".mp3"));
-        }
-        else if(category == ".mp4"){
-            CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".mp4"));
-        }
-        else if(category == ".png"){
-            CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".png"));
-        }
-        else if(category == ".pdf"){
-            CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".pdf"));
-        }
-        else if(category == ".docx"){
-            CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".docx"));
-        }
-        else{
-            CategorizedFile = new ObservableCollection<FileModel>(Files);
+        else
+        {
+            return true;
         }
     }
-    public string SelectedCategory { get; set; }
+
 
     private ObservableCollection<FileModel> _files = new ObservableCollection<FileModel>();
 
@@ -110,7 +118,64 @@ public class IpfsViewModel : ViewModelBase
                                     OnPropertyChanged(nameof(CategorizedFile));
                                 } 
     }
-    
+    ObservableCollection<FileModel> _displayFile = new ObservableCollection<FileModel>();
+
+    public ObservableCollection<FileModel> DisplayedFile
+    {
+        get
+        {
+            return _displayFile;
+        }
+        set
+        {
+            _categorizedFile = value;
+            OnPropertyChanged(nameof(DisplayedFile));
+        }
+    }
+
+    public ICommand LoadMoreCommand => new Command(() => {
+        var currentCount = DisplayedFile.Count;
+        int toTake = 0;
+        if (Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.Android || Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.iOS)
+        {
+            toTake = 2;
+        } else
+        {
+            toTake = 5;
+        }
+        var itemsToLoad = CategorizedFile.Skip(currentCount).Take(toTake);
+        if(itemsToLoad == null || itemsToLoad.Count() == 0)
+        {
+            return;
+        }
+        foreach (var item in itemsToLoad)
+        {
+            DisplayedFile.Add(item);
+        }
+
+    });
+    public ICommand ShowLessCommand => new Command(() => {
+        var currentCount = DisplayedFile.Count;
+        int toTake = 0;
+        if (Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.Android || Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.iOS)
+        {
+            toTake = 2;
+        }
+        else
+        {
+            toTake = 5;
+        }
+        var itemsToDeLoad = CategorizedFile.Skip(currentCount - toTake).Take(toTake);
+        if (itemsToDeLoad == null || itemsToDeLoad.Count() == 0)
+        {
+            return;
+        }
+        foreach (var item in itemsToDeLoad)
+        {
+            DisplayedFile.Remove(item);
+        }
+    });
+
     private async Task LoadFilesByCategoryAsync(string category)
     {
         List<FileModel> files = await IpfsDatabaseService.Instance.GetByFileType(category, UsersProfile.FirebaseId);

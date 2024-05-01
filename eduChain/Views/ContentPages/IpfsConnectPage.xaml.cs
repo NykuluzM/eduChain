@@ -25,19 +25,34 @@ public partial class IpfsConnectPage : ContentPage
         await ipfsViewModel.ChangeCategory("firstload");
     }
     private async void TabChange(object sender, TabSelectionChangedEventArgs e){
+        ShowLessFiles.IsVisible = false;
+        ShowMoreFiles.IsVisible = true;
         var selectedItem = e.NewIndex;
-        if(selectedItem == 0){
-            await ipfsViewModel.ChangeCategory(".jpg");
+        var hasValues = false;
+        switch (selectedItem)
+        {
+            case 0:
+                hasValues = await ipfsViewModel.ChangeCategory(".jpg");
+                break;
+            case 1:
+                hasValues = await ipfsViewModel.ChangeCategory(".mp3");
+                break;
+            case 2:
+                hasValues = await ipfsViewModel.ChangeCategory(".mp4");
+                break;
+            case 3:
+                hasValues = await ipfsViewModel.ChangeCategory("Documents");
+                
+                break;
         }
-        else if(selectedItem == 1){
-            await ipfsViewModel.ChangeCategory(".mp3");
+        if (!hasValues)
+        {
+            ShowMoreFiles.IsVisible = false;
+        } else
+        {
+            ShowMoreFiles.IsVisible = true;
         }
-        else if(selectedItem == 2){
-            await ipfsViewModel.ChangeCategory(".mp4");
-        }
-        else if(selectedItem == 3){
-            await ipfsViewModel.ChangeCategory(".pdf");
-        }
+
     }
 
 
@@ -140,5 +155,28 @@ public partial class IpfsConnectPage : ContentPage
         }
 
     }
+    private void ShowMore(object sender, EventArgs e)
+    {
+        ShowLessFiles.IsVisible = true;
+        if(ipfsViewModel.DisplayedFile.Count == ipfsViewModel.CategorizedFile.Count)
+        {
+            ShowMoreFiles.IsVisible = false;
+        } else
+        {
+            ShowMoreFiles.IsVisible = true;
+        }
+    }
 
+    private void ShowLess(object sender, EventArgs e)
+    {
+        if(ipfsViewModel.DisplayedFile.Count == 0)
+        {
+            ShowLessFiles.IsVisible = false;
+            ShowMoreFiles.IsVisible = true;
+        } else
+        {
+            ShowLessFiles.IsVisible = true;
+            ShowMoreFiles.IsVisible = true;
+        }
+    } 
 }

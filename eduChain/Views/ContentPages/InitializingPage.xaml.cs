@@ -52,6 +52,12 @@ public partial class InitializingPage : ContentPage
 			{		
 				try{
 				var userCredential = await firebaseAuthClient.SignInWithEmailAndPasswordAsync(Preferences.Default.Get("email", ""), Preferences.Default.Get("password", ""));
+				if(userCredential == null)
+				{
+					await Shell.Current.DisplayAlert("Login Failed", "Your Credentials are now Invalid", "OK");
+					Preferences.Default.Clear();
+					await Shell.Current.GoToAsync("//loginPage");
+				}
 				Preferences.Default.Set("firebase_uid", userCredential.User.Uid);
 				await Shell.Current.GoToAsync("//homePage");
 				}

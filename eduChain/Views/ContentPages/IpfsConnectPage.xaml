@@ -11,6 +11,24 @@
              Shell.BackgroundColor="PapayaWhip"
                 Shell.ForegroundColor="Black"
              >
+
+    <ContentPage.Resources>
+        <Style TargetType="Frame">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor"
+                                        Value="LightSkyBlue" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
     <ScrollView>
 
         <StackLayout Spacing="20" Background="PapayaWhip">
@@ -175,14 +193,15 @@
                         <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,30,250,30'}" MaximumWidthRequest="800" Command="{Binding UnpinCommand}"   Text="Unpin"/>
 
                     </StackLayout>
-                    
+                    <StackLayout>
+                        
                         <Button Text="File Manager"  IsVisible="True" Clicked="Toggle" ClassId="ShowAll"  Margin="-10,0,-10,0">
                             <Button.ImageSource>
                                 <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Folder}" Size="20"  />
                             </Button.ImageSource>
                         </Button>
-                    <StackLayout>
-                        <tabView:SfTabView x:Name="tabView" Loaded="InitializeTabs" IndicatorBackground="LightGreen" SelectionChanged="TabChange" IndicatorPlacement="Fill" TabBarBackground="LightBlue" > 
+                    <StackLayout Margin="0,0,0,0" >
+                        <tabView:SfTabView x:Name="tabView" Loaded="InitializeTabs" Margin="0,0,0,-50" IndicatorBackground="LightGreen" SelectionChanged="TabChange" IndicatorPlacement="Fill" TabBarBackground="LightBlue" > 
 
                                     <tabView:SfTabItem  Header="Photos" 
                                                         ImageSource="phototab.png" 
@@ -192,7 +211,7 @@
                                                 <CollectionView.ItemTemplate>
                                                     <DataTemplate>
                                                         <StackLayout>
-                                                            <Image Source="{Binding CID}" HeightRequest="100" WidthRequest="100" />
+                                                            <Image Source="{Binding CID}" />
                                                             <Label Text="{Binding FileName}" />
                                                         </StackLayout>
                                                     </DataTemplate>
@@ -224,13 +243,14 @@
                                                         ImageSource="videotab.png"
                                                         ImageTextSpacing="4">
                                         <tabView:SfTabItem.Content>
-                                            <CollectionView x:Name="MyVideosList"  ItemsSource="{Binding CategorizedFile}">
+                                            <CollectionView x:Name="MyVideosList"  ItemsSource="{Binding DisplayedFile}">
                                                 <CollectionView.ItemTemplate>
                                                     <DataTemplate>
                                                         <StackLayout>
                                                             <Image Source="{Binding CID}" HeightRequest="100" WidthRequest="100" />
                                                             <Label Text="{Binding FileName}" />
-                                                        </StackLayout>
+                                                       
+                                                </StackLayout>
                                                     </DataTemplate>
                                                 </CollectionView.ItemTemplate> 
                                             </CollectionView>  
@@ -238,23 +258,36 @@
                                         </tabView:SfTabItem.Content>
                                     </tabView:SfTabItem>
 
-                                    <tabView:SfTabItem Header="Documents" ImageSource="documenttab.png" ImageTextSpacing="4">
+                                    <tabView:SfTabItem Header="Documents" ImageSource="documenttab.png"  ImageTextSpacing="4">
                                         <tabView:SfTabItem.Content>
-                                            <CollectionView x:Name="MyDocumentsList"  Margin="20,0,20,0"  ItemsSource="{Binding CategorizedFile}">
+                                     
+                                        <CollectionView x:Name="MyDocumentsList" SelectionMode="Single"  Margin="{x:OnPlatform Default='50,50,50,180', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
+                                        <CollectionView.ItemsLayout>
+                                            <GridItemsLayout Orientation="Vertical" Span="{x:OnPlatform Default=3, Android=1}" HorizontalItemSpacing="10" VerticalItemSpacing="10"  />
+                                        </CollectionView.ItemsLayout>
+                                            
                                                 <CollectionView.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Grid>
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition Height="Auto"/>
-                                                                <RowDefinition Height="Auto"/>
-                                                            </Grid.RowDefinitions>
-                                                            <Label Text="{Binding CID}" Grid.Row="0" />
-                                                            <Label Text="{Binding FileName}" Grid.Row="1" />
-                                                        </Grid>
+                                                    <Frame   >
+                                                        <StackLayout>
+                                                           
+                                                            <Image Source="{Binding DisplayImage}" HeightRequest="{x:OnPlatform Android=80, Default=60}" WidthRequest="{x:OnPlatform Android=30, Default=80}" Grid.Row="0"/>
+                                                                
+                                                                    <Label Text="{Binding FileName}"  HorizontalOptions="Center" />
+                                                                    <Label Text="{Binding CID, StringFormat='CID: {0}'}" HorizontalOptions="Center" Grid.Row="1" />
+                                                                
+                                                        </StackLayout>
+                                                    </Frame>
+                                                   
+                                                               
+
+
                                                     </DataTemplate>
-                                                </CollectionView.ItemTemplate> 
-                                            </CollectionView>  
-                                        </tabView:SfTabItem.Content>
+                                                </CollectionView.ItemTemplate>
+                                            </CollectionView>
+                                        
+
+                                </tabView:SfTabItem.Content>
                                     </tabView:SfTabItem>
 
                                     <tabView:SfTabItem 
@@ -296,12 +329,19 @@
     
                                     
                                 </tabView:SfTabView>
-                        </StackLayout>
+                        <HorizontalStackLayout HorizontalOptions="Center">
+                            <Button x:Name="ShowLessFiles" Text="Show Less Files" Clicked="ShowLess" Command="{Binding ShowLessCommand}" IsVisible="False"  WidthRequest="{x:OnPlatform Default= 180, Android=120}" Margin="20"/>
+
+                            <Button x:Name="ShowMoreFiles" Text="Show More" Clicked="ShowMore" Command="{Binding LoadMoreCommand}"  WidthRequest="{x:OnPlatform Default=180, Android=120}" Margin="20"/>
+                        </HorizontalStackLayout>
+                        
+                    </StackLayout>
                     </StackLayout>
 
-               
-           
-        </Border>
+                </StackLayout>
+
+
+            </Border>
 
     </StackLayout>
     </ScrollView>
