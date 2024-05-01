@@ -1,4 +1,7 @@
 ﻿
+using System.Data;
+using Npgsql;
+
 namespace eduChain.Models;
 public class IpfsDatabaseService
 {
@@ -76,39 +79,39 @@ public class IpfsDatabaseService
                 await DatabaseManager.CloseConnectionAsync();
             }
         }
-     /*   public async Task Task<List<Pin>> GetPinnedFiles()
-                   {
+        public async Task<List<FileModel>> GetAllFilesAsync(string firebase_id){
+            var fileList = new List<FileModel>();
             try
-        {
+            {
                 await DatabaseManager.OpenConnectionAsync();
                 using (var cmd = DatabaseManager.Connection.CreateCommand())
-            {
-                    cmd.CommandText = @"SELECT * FROM ""Files""";
-                    var reader = await cmd.ExecuteReaderAsync();
-                    var pinnedFiles = new List<Pin>();
-                    while (await reader.ReadAsync())
                 {
-                        pinnedFiles.Add(new Pin
+                    cmd.CommandText = @"SELECT owner,cid,filetype,filename FROM ""Files"" WHERE owner = @firebase_id";
+                    cmd.Parameters.AddWithValue("@firebase_id", firebase_id);
+                    var reader = await cmd.ExecuteReaderAsync();
+                    while (await reader.ReadAsync())
+                    {
+                        fileList.Add(new FileModel
                         {
                             Owner = reader.GetString(0),
-                            Cid = reader.GetString(1),
+                            CID = reader.GetString(1),
                             FileType = reader.GetString(2),
-                            FileName = reader.GetString(3)
+                            FileName = reader.GetString(3),
                         });
                     }
-                    return pinnedFiles;
+                    return fileList;
                 }
             }
-            catch (Exception ex)
-        {
-                await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
-                return new List<Pin>();
+            catch(Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", ex.ToString(), "OK");
+                return null;
             }
             finally
-        {
+            {
                 await DatabaseManager.CloseConnectionAsync();
             }
-        }*/
+        }
         public async Task<List<FileModel>> GetByFileType(string type, string firebase_id)
         {
             var fileList = new List<FileModel>();

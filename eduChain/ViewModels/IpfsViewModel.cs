@@ -20,6 +20,7 @@ namespace eduChain;
 
 public class IpfsViewModel : ViewModelBase
 {
+    bool firstLoad = true;
     IFileSaver fileSaver ;
     private string hash = "QmdmfZzdzk7endNWKtgAkn5zF1wnNxVTkU99Z9eNY6761S";
     public ICommand ClearCommand { get; }
@@ -29,7 +30,10 @@ public class IpfsViewModel : ViewModelBase
     public ICommand VerifyCommand { get; } 
     public ICommand CheckCommand { get; }
     public ICommand UnpinCommand { get; }
-    public ObservableCollection<FileModel> Files { get; set; } = new ObservableCollection<FileModel>();
+    public ICommand LoadCommand { get; }
+
+    public event EventHandler InitializationCompleted;
+
 
     PinataClient pinataClient;
       Dictionary<DevicePlatform, IEnumerable<string>> FileType = new()
@@ -57,10 +61,61 @@ public class IpfsViewModel : ViewModelBase
         FileCommand = new Command<string>(async (fileId) => await PickFile(fileId));
         ClearCommand = new Command<string>(async (callerId) => await Clear(callerId));
         UnpinCommand = new Command<string>(async (cid) => await UnpinFile());
+
     }
+    public async Task ChangeCategory(string category)
+    {
+        if(category == "firstload"){
+            Files = new ObservableCollection<FileModel>(await IpfsDatabaseService.Instance.GetAllFilesAsync(UsersProfile.FirebaseId));
+            CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".jpg"));
+        }
+        else if(category == ".jpg"){
+            CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".jpg"));
+        }
+        else if(category == ".mp3"){
+            CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".mp3"));
+        }
+        else if(category == ".mp4"){
+            CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".mp4"));
+        }
+        else if(category == ".png"){
+            CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".png"));
+        }
+        else if(category == ".pdf"){
+            CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".pdf"));
+        }
+        else if(category == ".docx"){
+            CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".docx"));
+        }
+        else{
+            CategorizedFile = new ObservableCollection<FileModel>(Files);
+        }
+    }
+    public string SelectedCategory { get; set; }
 
+    private ObservableCollection<FileModel> _files = new ObservableCollection<FileModel>();
 
-
+    public ObservableCollection<FileModel> Files
+    {
+        get { return _files; }
+        private set { _files = value; OnPropertyChanged(nameof(Files)); }
+    }
+    ObservableCollection<FileModel> _categorizedFile = new ObservableCollection<FileModel>();
+    public ObservableCollection<FileModel> CategorizedFile {
+                                get {
+                                        return _categorizedFile; 
+                                } 
+                                set { 
+                                    _categorizedFile = value;
+                                    OnPropertyChanged(nameof(CategorizedFile));
+                                } 
+    }
+    
+    private async Task LoadFilesByCategoryAsync(string category)
+    {
+        List<FileModel> files = await IpfsDatabaseService.Instance.GetByFileType(category, UsersProfile.FirebaseId);
+        Files = new ObservableCollection<FileModel>(files); // Update collection and notify UI
+    }
     public async Task PickFile(string fileId)
     {
 
@@ -111,15 +166,7 @@ public class IpfsViewModel : ViewModelBase
         }
         return;
     }
-    public async Task LoadFiles(string type, string firebase_id)
-    {
-        Files.Clear(); // Clear existing data (optional)
-        var fileList = await IpfsDatabaseService.Instance.GetByFileType(type, firebase_id);
-        foreach (var file in fileList)
-        {
-            Files.Add(file);
-        }
-    }
+   
     public async Task VerifyFile(){
 
 

@@ -5,6 +5,7 @@ using Ipfs.Engine;
 using Pinata.Client;
 using LukeMauiFilePicker;
 using CommunityToolkit.Maui.Storage;
+using Syncfusion.Maui.TabView;
 
 namespace eduChain.Views.ContentPages;
 public partial class IpfsConnectPage : ContentPage
@@ -18,10 +19,25 @@ public partial class IpfsConnectPage : ContentPage
         ipfsViewModel = new IpfsViewModel(IPlatformApplication.Current.Services.GetRequiredService<IFileSaver>());
         BindingContext = ipfsViewModel;
     }
-    protected override async void OnAppearing()
-    {
-        base.OnAppearing();
-        // Start the IPFS client
+   
+    
+    private async void InitializeTabs(object sender, EventArgs e){
+        await ipfsViewModel.ChangeCategory("firstload");
+    }
+    private async void TabChange(object sender, TabSelectionChangedEventArgs e){
+        var selectedItem = e.NewIndex;
+        if(selectedItem == 0){
+            await ipfsViewModel.ChangeCategory(".jpg");
+        }
+        else if(selectedItem == 1){
+            await ipfsViewModel.ChangeCategory(".mp3");
+        }
+        else if(selectedItem == 2){
+            await ipfsViewModel.ChangeCategory(".mp4");
+        }
+        else if(selectedItem == 3){
+            await ipfsViewModel.ChangeCategory(".pdf");
+        }
     }
 
 

@@ -175,23 +175,29 @@
                         <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,30,250,30'}" MaximumWidthRequest="800" Command="{Binding UnpinCommand}"   Text="Unpin"/>
 
                     </StackLayout>
-                    <StackLayout>
+                    
                         <Button Text="File Manager"  IsVisible="True" Clicked="Toggle" ClassId="ShowAll"  Margin="-10,0,-10,0">
                             <Button.ImageSource>
                                 <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Folder}" Size="20"  />
                             </Button.ImageSource>
                         </Button>
-                        <tabView:SfTabView x:Name="tabView" IndicatorBackground="LightGreen" IndicatorPlacement="Fill" TabBarBackground="LightBlue" > 
-                                    
+                    <StackLayout>
+                        <tabView:SfTabView x:Name="tabView" Loaded="InitializeTabs" IndicatorBackground="LightGreen" SelectionChanged="TabChange" IndicatorPlacement="Fill" TabBarBackground="LightBlue" > 
 
                                     <tabView:SfTabItem  Header="Photos" 
                                                         ImageSource="phototab.png" 
                                                         ImageTextSpacing="4">
-                                    <tabView:SfTabItem.Content ItemSource="">
-                                        <RefreshView windows:RefreshView.RefreshPullDirection="TopToBottom">
-                                            
-                                        </RefreshView>
-                                           
+                                    <tabView:SfTabItem.Content>
+                                            <CollectionView x:Name="MyPhotosList"  ItemsSource="{Binding CategorizedFile}">
+                                                <CollectionView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackLayout>
+                                                            <Image Source="{Binding CID}" HeightRequest="100" WidthRequest="100" />
+                                                            <Label Text="{Binding FileName}" />
+                                                        </StackLayout>
+                                                    </DataTemplate>
+                                                </CollectionView.ItemTemplate> 
+                                            </CollectionView>  
                                     </tabView:SfTabItem.Content>
                                     </tabView:SfTabItem>
 
@@ -200,10 +206,16 @@
                                                         ImageSource="audiotab.png"
                                                         ImageTextSpacing="4">
                                     <tabView:SfTabItem.Content>
-                                        <RefreshView windows:RefreshView.RefreshPullDirection="TopToBottom">
-
-                                        </RefreshView>
-
+                                            <CollectionView x:Name="MyAudiosList"  ItemsSource="{Binding CategorizedFile}">
+                                                <CollectionView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackLayout>
+                                                            <Image Source="{Binding CID}" HeightRequest="100" WidthRequest="100" />
+                                                            <Label Text="{Binding FileName}" />
+                                                        </StackLayout>
+                                                    </DataTemplate>
+                                                </CollectionView.ItemTemplate> 
+                                            </CollectionView>   
                                     </tabView:SfTabItem.Content>
                                     </tabView:SfTabItem>
 
@@ -212,18 +224,36 @@
                                                         ImageSource="videotab.png"
                                                         ImageTextSpacing="4">
                                         <tabView:SfTabItem.Content>
-                                            <RefreshView windows:RefreshView.RefreshPullDirection="TopToBottom">
-
-                                            </RefreshView>
+                                            <CollectionView x:Name="MyVideosList"  ItemsSource="{Binding CategorizedFile}">
+                                                <CollectionView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackLayout>
+                                                            <Image Source="{Binding CID}" HeightRequest="100" WidthRequest="100" />
+                                                            <Label Text="{Binding FileName}" />
+                                                        </StackLayout>
+                                                    </DataTemplate>
+                                                </CollectionView.ItemTemplate> 
+                                            </CollectionView>  
 
                                         </tabView:SfTabItem.Content>
                                     </tabView:SfTabItem>
 
                                     <tabView:SfTabItem Header="Documents" ImageSource="documenttab.png" ImageTextSpacing="4">
                                         <tabView:SfTabItem.Content>
-                                            <RefreshView windows:RefreshView.RefreshPullDirection="TopToBottom">
-
-                                            </RefreshView>
+                                            <CollectionView x:Name="MyDocumentsList"  Margin="20,0,20,0"  ItemsSource="{Binding CategorizedFile}">
+                                                <CollectionView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition Height="Auto"/>
+                                                            </Grid.RowDefinitions>
+                                                            <Label Text="{Binding CID}" Grid.Row="0" />
+                                                            <Label Text="{Binding FileName}" Grid.Row="1" />
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </CollectionView.ItemTemplate> 
+                                            </CollectionView>  
                                         </tabView:SfTabItem.Content>
                                     </tabView:SfTabItem>
 
@@ -232,9 +262,16 @@
                                                         ImageSource="othertab.png"
                                                         ImageTextSpacing="4">
                                         <tabView:SfTabItem.Content>
-                                            <RefreshView windows:RefreshView.RefreshPullDirection="TopToBottom">
-
-                                            </RefreshView>  
+                                            <CollectionView x:Name="MyOthersList"  ItemsSource="{Binding CategorizedFile}">
+                                                <CollectionView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackLayout>
+                                                            <Image Source="{Binding CID}" HeightRequest="100" WidthRequest="100" />
+                                                            <Label Text="{Binding FileName}" />
+                                                        </StackLayout>
+                                                    </DataTemplate>
+                                                </CollectionView.ItemTemplate> 
+                                            </CollectionView>  
                                         </tabView:SfTabItem.Content>
                                     </tabView:SfTabItem>
     
@@ -243,17 +280,24 @@
                                                         ImageSource="alltab.png"
                                                         ImageTextSpacing="4">
                                         <tabView:SfTabItem.Content>
-                                            <RefreshView windows:RefreshView.RefreshPullDirection="TopToBottom">
-
-                                            </RefreshView>
+                                            <CollectionView x:Name="MyAllsList"  ItemsSource="{Binding CategorizedFile}">
+                                                <CollectionView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackLayout>
+                                                            <Image Source="{Binding CID}" HeightRequest="100" WidthRequest="100" />
+                                                            <Label Text="{Binding FileName}" />
+                                                        </StackLayout>
+                                                    </DataTemplate>
+                                                </CollectionView.ItemTemplate> 
+                                            </CollectionView>  
 
                                         </tabView:SfTabItem.Content>
                                     </tabView:SfTabItem>
     
                                     
                                 </tabView:SfTabView>
+                        </StackLayout>
                     </StackLayout>
-                </StackLayout>
 
                
            
