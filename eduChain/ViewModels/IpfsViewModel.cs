@@ -358,7 +358,14 @@ public class IpfsViewModel : ViewModelBase
     }
    private async Task UploadFileToIpfs(){
         var fileres = FileInfo[1];
+        if(fileres == null)
+        {
+            await Shell.Current.DisplayAlert("Upload", "Please select a file to upload", "OK");
+            return;
+        }
         string filePath = fileres.FileResult.FullPath;
+        
+
         string fileExtension = Path.GetExtension(filePath);
        
             using (var fileStream = File.OpenRead(filePath))

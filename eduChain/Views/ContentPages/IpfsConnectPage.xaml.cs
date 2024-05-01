@@ -157,6 +157,8 @@ public partial class IpfsConnectPage : ContentPage
     }
     private void ShowMore(object sender, EventArgs e)
     {
+        NoFiles.IsVisible = false;
+
         ShowLessFiles.IsVisible = true;
         if(ipfsViewModel.DisplayedFile.Count == ipfsViewModel.CategorizedFile.Count)
         {
@@ -173,10 +175,12 @@ public partial class IpfsConnectPage : ContentPage
         {
             ShowLessFiles.IsVisible = false;
             ShowMoreFiles.IsVisible = true;
+            NoFiles.IsVisible = true;   
         } else
         {
             ShowLessFiles.IsVisible = true;
             ShowMoreFiles.IsVisible = true;
         }
+       
     } 
 }
