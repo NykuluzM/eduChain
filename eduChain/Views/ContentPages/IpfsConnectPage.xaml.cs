@@ -6,6 +6,8 @@ using Pinata.Client;
 using LukeMauiFilePicker;
 using CommunityToolkit.Maui.Storage;
 using Syncfusion.Maui.TabView;
+using Syncfusion.Maui.DataSource.Extensions;
+using Syncfusion.Maui.ListView;
 
 namespace eduChain.Views.ContentPages;
 public partial class IpfsConnectPage : ContentPage
@@ -13,16 +15,51 @@ public partial class IpfsConnectPage : ContentPage
     IpfsViewModel ipfsViewModel;
     IPickFile pickedfile;
     PinataClient pinataClient = new PinataClient();
+    SearchBar searchBar;
     public IpfsConnectPage()
     {
         InitializeComponent();
         ipfsViewModel = new IpfsViewModel(IPlatformApplication.Current.Services.GetRequiredService<IFileSaver>());
         BindingContext = ipfsViewModel;
+        MyDocumentsList.SelectionBackground = Colors.Khaki;
+
     }
    
     
     private async void InitializeTabs(object sender, EventArgs e){
         await ipfsViewModel.ChangeCategory("firstload");
+    }
+    private void Filter(object sender, EventArgs e){
+    
+        searchBar = (SearchBar)sender;
+        SfListView parent = null;
+        switch(searchBar.ClassId){
+            case "DocumentsSearch":
+                parent = MyDocumentsList;
+                break;
+            case "SearchBar2":
+                
+                break;
+        }
+        if(parent.DataSource != null){
+            parent.DataSource.Filter = SearchByName;
+            parent.DataSource.RefreshFilter();
+        }
+    }
+    private bool SearchByName(object obj){
+        if(searchBar.Text == null || searchBar == null)
+        {
+            return true;
+        }
+        var fileInfo = obj as FileInfo;
+        if (fileInfo.Name.ToLower().Contains(searchBar.Text.ToLower()))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     private async void TabChange(object sender, TabSelectionChangedEventArgs e){
         ShowLessFiles.IsVisible = false;

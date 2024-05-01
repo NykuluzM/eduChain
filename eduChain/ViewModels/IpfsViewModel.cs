@@ -128,7 +128,7 @@ public class IpfsViewModel : ViewModelBase
         }
         set
         {
-            _categorizedFile = value;
+
             OnPropertyChanged(nameof(DisplayedFile));
         }
     }
@@ -136,6 +136,7 @@ public class IpfsViewModel : ViewModelBase
     public ICommand LoadMoreCommand => new Command(() => {
         var currentCount = DisplayedFile.Count;
         int toTake = 0;
+
         if (Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.Android || Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.iOS)
         {
             toTake = 2;
