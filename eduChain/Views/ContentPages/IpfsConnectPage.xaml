@@ -7,9 +7,10 @@
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
              xmlns:windows="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific;assembly=Microsoft.Maui.Controls"
              xmlns:tabView="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
-             Title=""
-             Shell.BackgroundColor="PapayaWhip"
-                Shell.ForegroundColor="Black"
+             Title="{x:OnPlatform MacCatalyst='IPFS Center'}"
+             Shell.BackgroundColor="{x:OnPlatform Default='PapayaWhip'}"
+                Shell.ForegroundColor="Purple"
+                Shell.NavBarHasShadow="False"
              >
 
     <ContentPage.Resources>
@@ -278,8 +279,8 @@
 
                                                         <Image Source="{Binding DisplayImage}" HeightRequest="{x:OnPlatform Android=80, Default=60}" WidthRequest="{x:OnPlatform Android=30, Default=80}" Grid.Row="0"/>
 
-                                                        <Label Text="{Binding FileName}"  HorizontalOptions="Center" />
-                                                        <Label Text="{Binding CID, StringFormat='CID: {0}'}" FontSize="{x:OnPlatform Android=9}"  Margin="{x:OnPlatform Android=10}" FontAttributes="{x:OnPlatform Android=Bold}" HorizontalOptions="Center" Grid.Row="1" />
+                                                        <Label Text="{Binding FileName}"  HorizontalOptions="Center" MaxLines="1" LineBreakMode="TailTruncation" />
+                                                        <Label Text="{Binding CID, StringFormat='CID: {0}'}" FontSize="{x:OnPlatform Android=9, Default=12}"  Margin="{x:OnPlatform Android=10}" FontAttributes="{x:OnPlatform Android=Bold}" HorizontalOptions="Center" Grid.Row="1" />
 
                                                     </StackLayout>
                                                 </Frame>
