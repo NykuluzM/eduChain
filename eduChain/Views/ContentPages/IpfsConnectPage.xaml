@@ -9,6 +9,8 @@
              xmlns:tabView="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
              xmlns:listView="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
              xmlns:data="clr-namespace:Syncfusion.Maui.DataSource;assembly=Syncfusion.Maui.DataSource"
+             xmlns:pulltoRefresh="clr-namespace:Syncfusion.Maui.PullToRefresh;assembly=Syncfusion.Maui.PullToRefresh"
+
              Title="{x:OnPlatform MacCatalyst='IPFS Center'}"
              Shell.BackgroundColor="{x:OnPlatform Default='PapayaWhip'}"
                 Shell.ForegroundColor="Purple"
@@ -32,6 +34,7 @@
             </Setter>
         </Style>
     </ContentPage.Resources>
+    
     <ScrollView>
 
         <StackLayout Spacing="20" Background="PapayaWhip">
@@ -267,18 +270,26 @@
                             </tabView:SfTabItem>
 
                             <tabView:SfTabItem Header="Documents" ImageSource="documenttab.png"  ImageTextSpacing="4">
+                                
                                 <tabView:SfTabItem.Content>
-
-                                    <listView:SfListView  x:Name="MyDocumentsList" ItemSpacing="5,5,5,5" ItemSize="150" SelectionMode="Multiple"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
+                                    <pulltoRefresh:SfPullToRefresh x:Name="pullToRefresh"
+                                            RefreshViewHeight="50"
+                                            RefreshViewThreshold="30"
+                                            PullingThreshold="150"
+                                            RefreshViewWidth="50"
+                                            TransitionMode="SlideOnTop"
+                                            IsRefreshing="False">
+                                        <pulltoRefresh:SfPullToRefresh.PullableContent>
+                                            <listView:SfListView   x:Name="MyDocumentsList" ItemSpacing="5,5,5,5" ItemSize="150" SelectionMode="Multiple"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
                                         <listView:SfListView.ItemsLayout>
                                             <listView:GridLayout x:Name="GItems" SpanCount="{x:OnPlatform Default=3, Android=1}"   />
                                         </listView:SfListView.ItemsLayout>
                                         <listView:SfListView.HeaderTemplate>
                                             <DataTemplate>
-                                                <SearchBar x:Name="SearchBar" Placeholder="Search here to filter" TextChanged="Filter" ClassId="DocumentsSearch" />
+                                                <SearchBar x:Name="SearchBar" Placeholder="Search here to filter" BackgroundColor="Wheat" CancelButtonColor="Red" TextColor="Black" PlaceholderColor="Black" TextChanged="Filter" ClassId="DocumentsSearch" />
                                             </DataTemplate>
                                         </listView:SfListView.HeaderTemplate>
-                                       
+
                                         <listView:SfListView.DataSource>
                                             <data:DataSource>
                                                 <data:DataSource.GroupDescriptors>
@@ -309,7 +320,7 @@
                                         </listView:SfListView.ItemTemplate>
                                         <listView:SfListView.SelectedItemTemplate>
                                             <DataTemplate>
-                                                    <Frame CornerRadius="10" BackgroundColor="Khaki">
+                                                <Frame CornerRadius="10" BackgroundColor="Khaki">
 
                                                     <StackLayout>
 
@@ -326,7 +337,8 @@
                                             </DataTemplate>
                                         </listView:SfListView.SelectedItemTemplate>
                                     </listView:SfListView>
-
+                                        </pulltoRefresh:SfPullToRefresh.PullableContent>
+                                    </pulltoRefresh:SfPullToRefresh>
                                 </tabView:SfTabItem.Content>
                             </tabView:SfTabItem>
 
