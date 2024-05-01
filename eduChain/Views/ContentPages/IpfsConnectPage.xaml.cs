@@ -51,15 +51,15 @@ public partial class IpfsConnectPage : ContentPage
         {
             return true;
         }
-        var fileInfo = obj as FileInfo;
-        if (fileInfo.Name.ToLower().Contains(searchBar.Text.ToLower()))
+        var fileInfo = obj as FileModel;
+        if (fileInfo == null)
         {
-            return true;
+            return false; // Not a FileInfo object, don't display
         }
-        else
-        {
-            return false;
-        }
+
+        // Check directly against the FileInfo object
+        return fileInfo.FileName.ToLower().Contains(searchBar.Text.ToLower()) ||
+           fileInfo.CID.ToLower().Contains(searchBar.Text.ToLower());
     }
     private async void TabChange(object sender, TabSelectionChangedEventArgs e){
         ShowLessFiles.IsVisible = false;
