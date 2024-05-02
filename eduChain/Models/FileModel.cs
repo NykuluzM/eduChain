@@ -14,21 +14,52 @@ namespace eduChain.Models
         {
             { ".pdf", "pdf_icon.png" },
             { ".docx", "word_icon.png" },
-            { ".jpg", "image_icon.png" },
-            { ".png", "image_icon.png" },
+            
             { ".xlsx", "excel_icon.png" },
             { ".xls", "excel_icon.png" }
         };
+        //Gamit tag hashset as dili need key value pair as reference rani para sa ImageGatewayUrl
+        private HashSet<string> imageTypes = new HashSet<string>() { ".jpg", ".png", ".gif" };
+        public string ImageGatewayUrl
+        {
+            get => $"https://gateway.pinata.cloud/ipfs/{this.CID}";
+        }
+
         [AllowNull]
         public ImageSource DisplayImage// Note the updated type
         {
             get
             {
-                string imageResourceName = fileTypeImageMap.ContainsKey(FileType)
+                if (imageTypes.Contains(FileType))
+                {
+                    // Use the ImageGatewayUrl for JPG and PNG
+                    return ImageSource.FromUri(new Uri(ImageGatewayUrl));
+                } else
+                {
+                    string imageResourceName = fileTypeImageMap.ContainsKey(FileType)
                                            ? fileTypeImageMap[FileType]
                                            : "dotnet_bot.png"; // Default image if not found
-                return ImageSource.FromFile(imageResourceName);
+                    return ImageSource.FromFile(imageResourceName);
+                }
             }
+        }
+        [AllowNull]
+        public bool IsPlayable
+        {
+            get
+            {
+
+                if (FileType == ".mp3" || FileType == ".wav" || FileType == ".ogg" || FileType == ".mp4" || FileType == ".mov")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+           
+           
         }
         public string Owner { get; set; }
         public string CID { get; set; }

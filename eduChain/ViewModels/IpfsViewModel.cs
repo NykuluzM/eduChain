@@ -21,8 +21,12 @@ namespace eduChain;
 public class IpfsViewModel : ViewModelBase
 {
     bool firstLoad = true;
+    private bool isRefreshing = false;
+   
     IFileSaver fileSaver ;
     private string hash = "QmdmfZzdzk7endNWKtgAkn5zF1wnNxVTkU99Z9eNY6761S";
+    public DateTime LastRefreshed { get; set; } = DateTime.Now;
+    public string CurrentCategory { get; set; } = "firstload";
     public ICommand ClearCommand { get; }
     public ICommand UploadCommand { get; }
     public ICommand DownloadCommand { get; }
@@ -31,9 +35,18 @@ public class IpfsViewModel : ViewModelBase
     public ICommand CheckCommand { get; }
     public ICommand UnpinCommand { get; }
     public ICommand LoadCommand { get; }
-
+    public ICommand RefreshCommand { get; }
     public event EventHandler InitializationCompleted;
 
+    public bool IsRefreshing
+    {
+        get => isRefreshing;
+        set
+        {
+            isRefreshing = value;
+            OnPropertyChanged(nameof(IsRefreshing));
+        }
+    }   
 
     PinataClient pinataClient;
       Dictionary<DevicePlatform, IEnumerable<string>> FileType = new()
@@ -41,7 +54,7 @@ public class IpfsViewModel : ViewModelBase
                     { DevicePlatform.Android, new[] { "*/*" } },
                     { DevicePlatform.iOS, new[] { "public.*" } },
                     { DevicePlatform.MacCatalyst, new[] { "public.*" } },
-                    { DevicePlatform.WinUI, new[] { "*",".jpg",".png",".docx",".pdf",".xlsx",".xls" } }
+                    { DevicePlatform.WinUI, new[] { "*",".jpg",".png",".docx",".pdf",".xlsx",".xls",".mp3",".mp4",".wav" } }
                 };
     public IpfsViewModel(IFileSaver fileSaver)
     {
@@ -55,41 +68,46 @@ public class IpfsViewModel : ViewModelBase
         pinataClient = new PinataClient(config);
 
     
-        DownloadCommand = new Command(async () => await DownloadFileByCid());
+        DownloadCommand = new Command(async () => await DownloadFileByCid(this.Cid[1]));
         VerifyCommand = new Command(async ()=> await VerifyFile());
         UploadCommand = new Command(async () => await UploadFileToIpfs());
         FileCommand = new Command<string>(async (fileId) => await PickFile(fileId));
         ClearCommand = new Command<string>(async (callerId) => await Clear(callerId));
         UnpinCommand = new Command<string>(async (cid) => await UnpinFile());
-
+        RefreshCommand = new Command(async () => await RefreshFiles());   
     }
     public async Task<bool> ChangeCategory(string category)
     {
-
-        DisplayedFile = null;
+        CategorizedFile.Clear();
+        DisplayedFile.Clear();
 
         switch (category)
         {
             case "firstload":
                 Files = new ObservableCollection<FileModel>(await IpfsDatabaseService.Instance.GetAllFilesAsync(UsersProfile.FirebaseId));
-                CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".jpg"));
-                DisplayedFile = new ObservableCollection<FileModel>(CategorizedFile.Take(5));
+                LastRefreshed = DateTime.Now;
+                CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".jpg" || f.FileType == ".png" || f.FileType == ".svg" || f.FileType == ".png" || f.FileType == ".gif"));
+                CurrentCategory = "Photos";
                 break;
-            case ".jpg":
-                CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".jpg"));
-                DisplayedFile = new ObservableCollection<FileModel>(CategorizedFile.Take(5)); 
+            case "Photos":
+                CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".jpg" || f.FileType == ".png" || f.FileType == ".svg" || f.FileType == ".png" || f.FileType == ".gif"));
+                CurrentCategory = "Photos";
                 break;
-            case ".mp3":
-                CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".mp3"));
+            case "Audio":
+                CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".mp3" || f.FileType == ".wav" || f.FileType == ".m4a"));
+                CurrentCategory = "Audio";  
                 break;
-            case ".mp4":
+            case "Videos":
                 CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".mp4"));
+                CurrentCategory = "Videos";
                 break;
             case "Documents":
                 CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".pdf" || f.FileType == ".docx" || f.FileType == ".xlsx" || f.FileType == ".xls"));
-                LoadMoreCommand.Execute(null);
+                CurrentCategory = "Documents";
                 break;
         }
+        LoadMoreCommand.Execute(null);
+
         if (CategorizedFile.Count == 0)
         {
             return false;
@@ -99,8 +117,46 @@ public class IpfsViewModel : ViewModelBase
             return true;
         }
     }
+    private Dictionary<string, string[]> categoryFileTypes = new Dictionary<string, string[]>
+{
+    {"Photos", new string[] { ".jpg", ".png", ".svg" }},
+    {"Audio", new string[] { ".mp3", ".wav", ".m4a" }},
+    {"Videos", new string[] { ".mp4" }},
+    {"Documents", new string[] { ".pdf", ".docx", ".xlsx", ".xls" }}
+};
+    private bool FileBelongsToCategory(FileModel file, string category)
+    {
+        if (categoryFileTypes.ContainsKey(category))
+        {
+            return categoryFileTypes[category].Contains(file.FileType);
+        }
+        else
+        {
+            return false; // Or handle an 'Others' category
+        }
+    }
+    public async Task RefreshFiles()
+    {
+        IsRefreshing = true;
+        var updatedFileList = await IpfsDatabaseService.Instance.RefreshFilesAsync(UsersProfile.FirebaseId, LastRefreshed);
 
+        // Filter for new files (assuming CID is your unique identifier)
+        var newFiles = updatedFileList.Where(newFile => !Files.Any(existingFile => existingFile.CID == newFile.CID));
 
+        // Add new files to both collections
+        foreach (var file in newFiles)
+        {
+            if (FileBelongsToCategory(file, CurrentCategory))
+            {
+                CategorizedFile.Add(file);
+                DisplayedFile.Add(file);
+            }
+            Files.Add(file);
+        }
+        LastRefreshed = DateTime.Now;
+        IsRefreshing = false;
+        OnPropertyChanged(nameof(IsRefreshing));
+    }
     private ObservableCollection<FileModel> _files = new ObservableCollection<FileModel>();
 
     public ObservableCollection<FileModel> Files
@@ -313,8 +369,6 @@ public class IpfsViewModel : ViewModelBase
      
         using (var fileStream = File.OpenRead(FileInfo[0].FileResult.FullPath))
         {
-            var existFileFlag = false;
-            var existOrigFlag = false;
             var fileContent = new StreamContent(fileStream);       
             var response = await this.pinataClient.Pinning.PinFileToIpfsAsync(content =>
             {
@@ -352,11 +406,7 @@ public class IpfsViewModel : ViewModelBase
             }
         }
     }
-    public async Task<IPickFile> SelectFile()
-    {
-        var fileres = await picker.PickFileAsync("Select a file", FileType);
-        return fileres;
-    }
+   
    private async Task UploadFileToIpfs(){
         var fileres = FileInfo[1];
         if(fileres == null)
@@ -415,34 +465,48 @@ public class IpfsViewModel : ViewModelBase
             }
         }
 
-   public async Task DownloadFileByCid()
+   public async Task DownloadFileByCid(string cid)
     {
-        if (string.IsNullOrEmpty(this.Cid[1]))
+        if (string.IsNullOrEmpty(cid))
         {
             await Shell.Current.DisplayAlert("Download", "Please enter a CID", "OK");
             return;
         }
 
     using var httpClient = new HttpClient();
-    string gatewayUrl = $"https://gateway.pinata.cloud/ipfs/{this.Cid[1]}";
+    string gatewayUrl = $"https://gateway.pinata.cloud/ipfs/{cid}";
     try
     {
-        var response = await pinataClient.HttpClient.GetAsync(gatewayUrl, HttpCompletionOption.ResponseHeadersRead);
-            if (response.IsSuccessStatusCode)
+            var maxRepeat = 5;
+            while (maxRepeat > 0)
             {
-                string fileName = Path.GetFileName(gatewayUrl); // URI as file name
 
-                string contentType = response.Content.Headers.ContentType.MediaType;
-                string fileExtension = GetFileExtensionFromContentType(contentType); // You'll need a helper function
 
-                var tempFile = await response.Content.ReadAsStreamAsync();
-                var path = await fileSaver.SaveAsync(fileName + fileExtension, tempFile);
+                var response = await pinataClient.HttpClient.GetAsync(gatewayUrl, HttpCompletionOption.ResponseHeadersRead);
+                if (response.IsSuccessStatusCode)
+                {
+                    string fileName = Path.GetFileName(gatewayUrl); // URI as file name
 
-                await Shell.Current.DisplayAlert("Download", "File downloaded successfully", "OK");
-            }
-            else
-            {
-                await Shell.Current.DisplayAlert("Download", "File download failed, The File does not exist or its unavailable", "OK");
+                    string contentType = response.Content.Headers.ContentType.MediaType;
+                    string fileExtension = GetFileExtensionFromContentType(contentType); // You'll need a helper function
+
+                    var tempFile = await response.Content.ReadAsStreamAsync();
+                    var path = await fileSaver.SaveAsync(fileName + fileExtension, tempFile);
+                    if (path.IsSuccessful)
+                    {
+                        await Shell.Current.DisplayAlert("Download", "File downloaded successfully", "OK");
+                    }
+                    return;
+
+                }
+                else
+                {
+                    maxRepeat--;
+                    if(maxRepeat == 0)
+                    {
+                        await Shell.Current.DisplayAlert("Download", "File download failed, The File does not exist or its unavailable", "OK");
+                    }
+                }
             }
     }
     catch (Exception ex)
@@ -465,6 +529,12 @@ public class IpfsViewModel : ViewModelBase
             {"image/jpeg", ".jpg"},
             {"image/png", ".png"},
             {"text/plain", ".txt"},
+            {"application/json", ".json" },
+            {"application/xml", ".xml" },
+            {"application/zip", ".zip" },
+            {"application/mp3", ".mp3" },
+            {"application/mp4", ".mp4" },
+     
             {"application/pdf", ".pdf"},
             {"application/msword", ".doc"},
             {"application/vnd.openxmlformats-officedocument.wordprocessingml.document", ".docx"},

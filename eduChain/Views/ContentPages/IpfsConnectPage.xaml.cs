@@ -8,7 +8,8 @@ using CommunityToolkit.Maui.Storage;
 using Syncfusion.Maui.TabView;
 using Syncfusion.Maui.DataSource.Extensions;
 using Syncfusion.Maui.ListView;
-
+using eduChain.Views.Popups;
+using CommunityToolkit.Maui.Views;
 namespace eduChain.Views.ContentPages;
 public partial class IpfsConnectPage : ContentPage
 {
@@ -16,6 +17,8 @@ public partial class IpfsConnectPage : ContentPage
     IPickFile pickedfile;
     PinataClient pinataClient = new PinataClient();
     SearchBar searchBar;
+    private MPPopup mediaPopup;
+
     public IpfsConnectPage()
     {
         InitializeComponent();
@@ -37,8 +40,14 @@ public partial class IpfsConnectPage : ContentPage
             case "DocumentsSearch":
                 parent = MyDocumentsList;
                 break;
-            case "SearchBar2":
-                
+            case "PhotosSearch":
+                parent = MyPhotosList;
+                break;
+            case "AudioSearch":
+                parent = MyAudioList;
+                break;
+            case "AllSearch":
+                parent = MyAllList;
                 break;
         }
         if(parent.DataSource != null){
@@ -59,7 +68,7 @@ public partial class IpfsConnectPage : ContentPage
 
         // Check directly against the FileInfo object
         return fileInfo.FileName.ToLower().Contains(searchBar.Text.ToLower()) ||
-           fileInfo.CID.ToLower().Contains(searchBar.Text.ToLower());
+           fileInfo.CID.ToLower().Contains(searchBar.Text.ToLower()) || fileInfo.FileType.ToLower().Equals(searchBar.Text.ToLower());
     }
     private async void TabChange(object sender, TabSelectionChangedEventArgs e){
         ShowLessFiles.IsVisible = false;
@@ -69,10 +78,10 @@ public partial class IpfsConnectPage : ContentPage
         switch (selectedItem)
         {
             case 0:
-                hasValues = await ipfsViewModel.ChangeCategory(".jpg");
+                hasValues = await ipfsViewModel.ChangeCategory("Photos");
                 break;
             case 1:
-                hasValues = await ipfsViewModel.ChangeCategory(".mp3");
+                hasValues = await ipfsViewModel.ChangeCategory("Audio");
                 break;
             case 2:
                 hasValues = await ipfsViewModel.ChangeCategory(".mp4");
@@ -220,4 +229,19 @@ public partial class IpfsConnectPage : ContentPage
         }
        
     } 
+
+    private void Play_Audio(object sender, EventArgs e)
+    {
+        var s = (Button)sender;
+        string rawCid = s.ClassId;
+        mediaPopup = new MPPopup(rawCid);
+        this.ShowPopup(mediaPopup);
+
+    }
+    private void Push_Download(object sender, EventArgs e)
+    {
+        var s = (Button)sender;
+        string rawCid = s.ClassId;
+        ipfsViewModel.DownloadFileByCid(rawCid);
+    }
 }

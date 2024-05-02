@@ -3,9 +3,9 @@
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                x:Class="eduChain.Views.Popups.LoadingPopup"
                CanBeDismissedByTappingOutsideOfPopup="false" Color="{x:OnPlatform WinUI='LightGreen', Android='LightGreen'}" >
-        <VerticalStackLayout WidthRequest="250" HeightRequest="250" BackgroundColor="LightGreen">
+    <VerticalStackLayout WidthRequest="250" HeightRequest="250" BackgroundColor="LightGreen">
 
-            <Image Source="dancing.gif" IsAnimationPlaying="True"  WidthRequest="90" HeightRequest="90" VerticalOptions="Center" Margin="0,50,0,0"/>
-            <Label Text="Welcome to eduChain" Width="10" Height="10" TextColor="Black"  HorizontalOptions="Center" VerticalOptions="End" FontSize="12" FontAttributes="Bold" Margin="0,0,0,0" IsVisible="True"/>
-        </VerticalStackLayout> 
+        <Image Source="dancing.gif" IsAnimationPlaying="True"  WidthRequest="90" HeightRequest="90" VerticalOptions="Center" Margin="0,50,0,0"/>
+        <Label Text="Welcome to eduChain" Width="10" Height="10" TextColor="Black"  HorizontalOptions="Center" VerticalOptions="End" FontSize="12" FontAttributes="Bold" Margin="0,0,0,0" IsVisible="True"/>
+    </VerticalStackLayout>
 </toolkit:Popup>

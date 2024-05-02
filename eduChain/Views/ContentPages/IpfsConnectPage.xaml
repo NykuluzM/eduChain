@@ -218,16 +218,70 @@
                                                         ImageSource="phototab.png" 
                                                         ImageTextSpacing="4">
                                 <tabView:SfTabItem.Content>
-                                    <CollectionView x:Name="MyPhotosList"  ItemsSource="{Binding CategorizedFile}">
-                                        <CollectionView.ItemTemplate>
-                                            <DataTemplate>
-                                                <StackLayout>
-                                                    <Image Source="{Binding CID}" />
-                                                    <Label Text="{Binding FileName}" />
-                                                </StackLayout>
-                                            </DataTemplate>
-                                        </CollectionView.ItemTemplate>
-                                    </CollectionView>
+                                    <pulltoRefresh:SfPullToRefresh x:Name="pullToRefreshImage"
+                                                                      RefreshViewHeight="50"
+                                                                      RefreshViewThreshold="30"
+                                                                      PullingThreshold="150"
+                                                                      RefreshViewWidth="50"
+                                                                      TransitionMode="SlideOnTop"
+                                                                      IsRefreshing="{Binding IsRefreshing}"
+                                                                      RefreshCommand="{Binding RefreshCommand}"> 
+                                        <pulltoRefresh:SfPullToRefresh.PullableContent>
+                                            <listView:SfListView   x:Name="MyPhotosList" ItemSpacing="5,5,5,5" ItemSize="200" SelectionMode="Multiple" SelectionGesture="DoubleTap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
+                                                <listView:SfListView.ItemsLayout>
+                                                    <listView:GridLayout x:Name="GPhotoItems" SpanCount="{x:OnPlatform Default=3, Android=1}"   />
+                                                </listView:SfListView.ItemsLayout>
+                                                <listView:SfListView.HeaderTemplate>
+                                                    <DataTemplate>
+                                                        <SearchBar x:Name="SearchBar" Placeholder="Search here to filter" BackgroundColor="Wheat" CancelButtonColor="Red" TextColor="Black" PlaceholderColor="Black" TextChanged="Filter" ClassId="PhotosSearch" />
+                                                    </DataTemplate>
+                                                </listView:SfListView.HeaderTemplate>
+
+                                                <listView:SfListView.DataSource>
+                                                    <data:DataSource>
+                                                        <data:DataSource.GroupDescriptors>
+                                                            <data:GroupDescriptor PropertyName="FileType"/>
+                                                        </data:DataSource.GroupDescriptors>
+                                                        <data:DataSource.SortDescriptors>
+                                                            <data:SortDescriptor PropertyName="FileName" Direction="Ascending"/>
+                                                        </data:DataSource.SortDescriptors>
+                                                    </data:DataSource>
+                                                </listView:SfListView.DataSource>
+                                                <listView:SfListView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Frame CornerRadius="10" BackgroundColor="Grey">
+                                                            <StackLayout>
+
+                                                                <Image Source="{Binding DisplayImage}" HeightRequest="{x:OnPlatform Android=80, Default=60}" WidthRequest="{x:OnPlatform Android=30, Default=80}" Grid.Row="0"/>
+
+                                                                <Label Text="{Binding FileName}"  HorizontalOptions="Center" MaxLines="1" LineBreakMode="TailTruncation" />
+                                                                <Label Text="{Binding CID, StringFormat='CID: {0}'}" FontSize="{x:OnPlatform Android=9, Default=12}"  Margin="{x:OnPlatform Android=10}" FontAttributes="{x:OnPlatform Android=Bold}" HorizontalOptions="Center" Grid.Row="1" />
+                                                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Margin="10" Spacing="10">
+                                                                    <Button Text="Play" WidthRequest="60" Clicked="Play_Audio" ClassId="{Binding CID}" IsVisible="{Binding IsPlayable}"/>
+                                                                    <Button Text="Download" WidthRequest="150"  HorizontalOptions="Center" Clicked="Push_Download" ClassId="{Binding CID}"/>
+                                                                </HorizontalStackLayout>
+                                                            </StackLayout>
+                                                        </Frame>
+                                                    </DataTemplate>
+                                                </listView:SfListView.ItemTemplate>
+                                                <listView:SfListView.SelectedItemTemplate>
+                                                    <DataTemplate>
+                                                        <Frame CornerRadius="10" BackgroundColor="Khaki">
+
+                                                            <StackLayout>
+
+                                                                <Image Source="{Binding DisplayImage}" HeightRequest="{x:OnPlatform Android=80, Default=60}" WidthRequest="{x:OnPlatform Android=30, Default=80}" Grid.Row="0"/>
+
+                                                                <Label Text="{Binding FileName}"  HorizontalOptions="Center" MaxLines="1" LineBreakMode="TailTruncation" />
+                                                                <Label Text="{Binding CID, StringFormat='CID: {0}'}" FontSize="{x:OnPlatform Android=9, Default=12}"  Margin="{x:OnPlatform Android=10}" FontAttributes="{x:OnPlatform Android=Bold}" HorizontalOptions="Center" Grid.Row="1" />
+
+                                                            </StackLayout>
+                                                        </Frame>
+                                                    </DataTemplate>
+                                                </listView:SfListView.SelectedItemTemplate>
+                                            </listView:SfListView>
+                                        </pulltoRefresh:SfPullToRefresh.PullableContent>
+                                    </pulltoRefresh:SfPullToRefresh>
                                 </tabView:SfTabItem.Content>
                             </tabView:SfTabItem>
 
@@ -236,16 +290,69 @@
                                                         ImageSource="audiotab.png"
                                                         ImageTextSpacing="4">
                                 <tabView:SfTabItem.Content>
-                                    <CollectionView x:Name="MyAudiosList"  ItemsSource="{Binding CategorizedFile}">
-                                        <CollectionView.ItemTemplate>
-                                            <DataTemplate>
-                                                <StackLayout>
-                                                    <Image Source="{Binding CID}" HeightRequest="100" WidthRequest="100" />
-                                                    <Label Text="{Binding FileName}" />
-                                                </StackLayout>
-                                            </DataTemplate>
-                                        </CollectionView.ItemTemplate>
-                                    </CollectionView>
+                                    <pulltoRefresh:SfPullToRefresh x:Name="pullToRefreshAudio"
+                                   RefreshViewHeight="50"
+                                   RefreshViewThreshold="30"
+                                   PullingThreshold="150"
+                                   RefreshViewWidth="50"
+                                   TransitionMode="SlideOnTop"
+                                   IsRefreshing="False">
+                                        <pulltoRefresh:SfPullToRefresh.PullableContent>
+                                            <listView:SfListView   x:Name="MyAudioList" ItemSpacing="5,5,5,5" ItemSize="200" SelectionMode="Multiple" SelectionGesture="DoubleTap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
+                                                <listView:SfListView.ItemsLayout>
+                                                    <listView:GridLayout x:Name="GAudioItems" SpanCount="{x:OnPlatform Default=3, Android=1}"   />
+                                                </listView:SfListView.ItemsLayout>
+                                                <listView:SfListView.HeaderTemplate>
+                                                    <DataTemplate>
+                                                        <SearchBar x:Name="SearchBar" Placeholder="Search here to filter" BackgroundColor="Wheat" CancelButtonColor="Red" TextColor="Black" PlaceholderColor="Black" TextChanged="Filter" ClassId="AudioSearch" />
+                                                    </DataTemplate>
+                                                </listView:SfListView.HeaderTemplate>
+
+                                                <listView:SfListView.DataSource>
+                                                    <data:DataSource>
+                                                        <data:DataSource.GroupDescriptors>
+                                                            <data:GroupDescriptor PropertyName="FileType"/>
+                                                        </data:DataSource.GroupDescriptors>
+                                                        <data:DataSource.SortDescriptors>
+                                                            <data:SortDescriptor PropertyName="FileName" Direction="Ascending"/>
+                                                        </data:DataSource.SortDescriptors>
+                                                    </data:DataSource>
+                                                </listView:SfListView.DataSource>
+                                                <listView:SfListView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Frame CornerRadius="10" BackgroundColor="Grey">
+                                                            <StackLayout>
+                                                              
+                                                                <Image Source="{Binding DisplayImage}" HeightRequest="{x:OnPlatform Android=80, Default=60}" WidthRequest="{x:OnPlatform Android=30, Default=80}" Grid.Row="0"/>
+
+                                                                <Label Text="{Binding FileName}"  HorizontalOptions="Center" MaxLines="1" LineBreakMode="TailTruncation" />
+                                                                <Label Text="{Binding CID, StringFormat='CID: {0}'}"  FontSize="{x:OnPlatform Android=9, Default=12}"  Margin="{x:OnPlatform Android=10}" FontAttributes="{x:OnPlatform Android=Bold}" HorizontalOptions="Center" Grid.Row="1" />
+                                                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Margin="10" Spacing="10">
+                                                                    <Button Text="Play" WidthRequest="60" Clicked="Play_Audio" ClassId="{Binding CID}" IsVisible="{Binding IsPlayable}"/>
+                                                                    <Button Text="Download" WidthRequest="150"  HorizontalOptions="Center" Clicked="Push_Download" ClassId="{Binding CID}"/>
+                                                                </HorizontalStackLayout>
+                                                            </StackLayout>
+                                                        </Frame>
+                                                    </DataTemplate>
+                                                </listView:SfListView.ItemTemplate>
+                                                <listView:SfListView.SelectedItemTemplate>
+                                                    <DataTemplate>
+                                                        <Frame CornerRadius="10" BackgroundColor="Khaki">
+
+                                                            <StackLayout>
+
+                                                                <Image Source="{Binding DisplayImage}" HeightRequest="{x:OnPlatform Android=80, Default=60}" WidthRequest="{x:OnPlatform Android=30, Default=80}" Grid.Row="0"/>
+
+                                                                <Label Text="{Binding FileName}"  HorizontalOptions="Center" MaxLines="1" LineBreakMode="TailTruncation" />
+                                                                <Label Text="{Binding CID, StringFormat='CID: {0}'}" FontSize="{x:OnPlatform Android=9, Default=12}"  Margin="{x:OnPlatform Android=10}" FontAttributes="{x:OnPlatform Android=Bold}" HorizontalOptions="Center" Grid.Row="1" />
+
+                                                            </StackLayout>
+                                                        </Frame>
+                                                    </DataTemplate>
+                                                </listView:SfListView.SelectedItemTemplate>
+                                            </listView:SfListView>
+                                        </pulltoRefresh:SfPullToRefresh.PullableContent>
+                                    </pulltoRefresh:SfPullToRefresh>
                                 </tabView:SfTabItem.Content>
                             </tabView:SfTabItem>
 
@@ -280,7 +387,7 @@
                                             TransitionMode="SlideOnTop"
                                             IsRefreshing="False">
                                         <pulltoRefresh:SfPullToRefresh.PullableContent>
-                                            <listView:SfListView   x:Name="MyDocumentsList" ItemSpacing="5,5,5,5" ItemSize="150" SelectionMode="Multiple"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
+                                            <listView:SfListView   x:Name="MyDocumentsList" ItemSpacing="5,5,5,5" ItemSize="200" SelectionMode="Multiple" SelectionGesture="DoubleTap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
                                         <listView:SfListView.ItemsLayout>
                                             <listView:GridLayout x:Name="GItems" SpanCount="{x:OnPlatform Default=3, Android=1}"   />
                                         </listView:SfListView.ItemsLayout>
@@ -302,39 +409,35 @@
                                         </listView:SfListView.DataSource>
                                         <listView:SfListView.ItemTemplate>
                                             <DataTemplate>
-                                                <Frame CornerRadius="10" BackgroundColor="Grey">
-                                                    <StackLayout>
+                                                        <Frame CornerRadius="10" BackgroundColor="Grey">
+                                                            <StackLayout>
+                                                            
+                                                                <Image Source="{Binding DisplayImage}" HeightRequest="{x:OnPlatform Android=80, Default=60}" WidthRequest="{x:OnPlatform Android=30, Default=80}" Grid.Row="0"/>
 
-                                                        <Image Source="{Binding DisplayImage}" HeightRequest="{x:OnPlatform Android=80, Default=60}" WidthRequest="{x:OnPlatform Android=30, Default=80}" Grid.Row="0"/>
-
-                                                        <Label Text="{Binding FileName}"  HorizontalOptions="Center" MaxLines="1" LineBreakMode="TailTruncation" />
-                                                        <Label Text="{Binding CID, StringFormat='CID: {0}'}" FontSize="{x:OnPlatform Android=9, Default=12}"  Margin="{x:OnPlatform Android=10}" FontAttributes="{x:OnPlatform Android=Bold}" HorizontalOptions="Center" Grid.Row="1" />
-
-                                                    </StackLayout>
-                                                </Frame>
-
-
-
-
-                                            </DataTemplate>
+                                                                <Label Text="{Binding FileName}"  HorizontalOptions="Center" MaxLines="1" LineBreakMode="TailTruncation" />
+                                                                <Label Text="{Binding CID, StringFormat='CID: {0}'}" FontSize="{x:OnPlatform Android=9, Default=12}"  Margin="{x:OnPlatform Android=10}" FontAttributes="{x:OnPlatform Android=Bold}" HorizontalOptions="Center" Grid.Row="1" />
+                                                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Margin="10" Spacing="10">
+                                                                    <Button Text="Play" WidthRequest="60" Clicked="Play_Audio" ClassId="{Binding CID}" IsVisible="{Binding IsPlayable}"/>
+                                                                    <Button Text="Download" WidthRequest="150"  HorizontalOptions="Center" Clicked="Push_Download" ClassId="{Binding CID}"/>
+                                                                </HorizontalStackLayout>
+                                                            </StackLayout>
+                                                        </Frame>
+                                                    </DataTemplate>
                                         </listView:SfListView.ItemTemplate>
                                         <listView:SfListView.SelectedItemTemplate>
                                             <DataTemplate>
-                                                <Frame CornerRadius="10" BackgroundColor="Khaki">
+                                                        <Frame CornerRadius="10" BackgroundColor="Khaki">
 
-                                                    <StackLayout>
+                                                            <StackLayout>
 
-                                                        <Image Source="{Binding DisplayImage}" HeightRequest="{x:OnPlatform Android=80, Default=60}" WidthRequest="{x:OnPlatform Android=30, Default=80}" Grid.Row="0"/>
+                                                                <Image Source="{Binding DisplayImage}" HeightRequest="{x:OnPlatform Android=80, Default=60}" WidthRequest="{x:OnPlatform Android=30, Default=80}" Grid.Row="0"/>
 
-                                                        <Label Text="{Binding FileName}"  HorizontalOptions="Center" MaxLines="1" LineBreakMode="TailTruncation" />
-                                                        <Label Text="{Binding CID, StringFormat='CID: {0}'}" FontSize="{x:OnPlatform Android=9, Default=12}"  Margin="{x:OnPlatform Android=10}" FontAttributes="{x:OnPlatform Android=Bold}" HorizontalOptions="Center" Grid.Row="1" />
+                                                                <Label Text="{Binding FileName}"  HorizontalOptions="Center" MaxLines="1" LineBreakMode="TailTruncation" />
+                                                                <Label Text="{Binding CID, StringFormat='CID: {0}'}" FontSize="{x:OnPlatform Android=9, Default=12}"  Margin="{x:OnPlatform Android=10}" FontAttributes="{x:OnPlatform Android=Bold}" HorizontalOptions="Center" Grid.Row="1" />
 
-                                                    </StackLayout>
-                                                </Frame>
-
-
-
-                                            </DataTemplate>
+                                                            </StackLayout>
+                                                        </Frame>
+                                                    </DataTemplate>
                                         </listView:SfListView.SelectedItemTemplate>
                                     </listView:SfListView>
                                         </pulltoRefresh:SfPullToRefresh.PullableContent>
@@ -365,17 +468,71 @@
                                                         ImageSource="alltab.png"
                                                         ImageTextSpacing="4">
                                 <tabView:SfTabItem.Content>
-                                    <CollectionView x:Name="MyAllsList"  ItemsSource="{Binding CategorizedFile}">
-                                        <CollectionView.ItemTemplate>
-                                            <DataTemplate>
-                                                <StackLayout>
-                                                    <Image Source="{Binding CID}" HeightRequest="100" WidthRequest="100" />
-                                                    <Label Text="{Binding FileName}" />
-                                                </StackLayout>
-                                            </DataTemplate>
-                                        </CollectionView.ItemTemplate>
-                                    </CollectionView>
+                                    <pulltoRefresh:SfPullToRefresh x:Name="pullToRefreshAll"
+                                    RefreshViewHeight="50"
+                                    RefreshViewThreshold="30"
+                                    PullingThreshold="150"
+                                    RefreshViewWidth="50"
+                                    TransitionMode="SlideOnTop"
+                                    IsRefreshing="{Binding IsRefreshing}"
+                                    RefreshCommand="{Binding RefreshCommand}">
+                                        <pulltoRefresh:SfPullToRefresh.PullableContent>
+                                            <listView:SfListView   x:Name="MyAllList" ItemSpacing="5,5,5,5" ItemSize="200" SelectionMode="Multiple" SelectionGesture="DoubleTap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding Files}">
+                                                <listView:SfListView.ItemsLayout>
+                                                    <listView:GridLayout x:Name="GAllItems" SpanCount="{x:OnPlatform Default=3, Android=1}"   />
+                                                </listView:SfListView.ItemsLayout>
+                                                <listView:SfListView.HeaderTemplate>
+                                                    <DataTemplate>
+                                                        <SearchBar x:Name="SearchBar" Placeholder="Search here to filter" BackgroundColor="Wheat" CancelButtonColor="Red" TextColor="Black" PlaceholderColor="Black" TextChanged="Filter" ClassId="AllSearch" />
+                                                    </DataTemplate>
+                                                </listView:SfListView.HeaderTemplate>
 
+                                                <listView:SfListView.DataSource>
+                                                    <data:DataSource>
+                                                        <data:DataSource.GroupDescriptors>
+                                                            <data:GroupDescriptor PropertyName="FileType"/>
+                                                        </data:DataSource.GroupDescriptors>
+                                                        <data:DataSource.SortDescriptors>
+                                                            <data:SortDescriptor PropertyName="FileName" Direction="Ascending"/>
+                                                        </data:DataSource.SortDescriptors>
+                                                    </data:DataSource>
+                                                </listView:SfListView.DataSource>
+                                                <listView:SfListView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Frame CornerRadius="10" BackgroundColor="Grey">
+                                                            <StackLayout>
+                                                                
+                                                                <Image Source="{Binding DisplayImage}" HeightRequest="{x:OnPlatform Android=80, Default=60}" WidthRequest="{x:OnPlatform Android=30, Default=80}" Grid.Row="0"/>
+
+                                                                <Label Text="{Binding FileName}"  HorizontalOptions="Center" MaxLines="1" LineBreakMode="TailTruncation" />
+                                                                <Label Text="{Binding CID, StringFormat='CID: {0}'}" FontSize="{x:OnPlatform Android=9, Default=12}"  Margin="{x:OnPlatform Android=10}" FontAttributes="{x:OnPlatform Android=Bold}" HorizontalOptions="Center" Grid.Row="1" />
+                                                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Margin="10" Spacing="10">
+                                                                    <Button Text="Play" WidthRequest="60" Clicked="Play_Audio" ClassId="{Binding CID}" IsVisible="{Binding IsPlayable}"/>
+                                                                    <Button Text="Download" WidthRequest="150"  HorizontalOptions="Center" Clicked="Push_Download" ClassId="{Binding CID}"/>
+                                                                </HorizontalStackLayout>
+
+                                                            </StackLayout>
+                                                        </Frame>
+                                                    </DataTemplate>
+                                                </listView:SfListView.ItemTemplate>
+                                                <listView:SfListView.SelectedItemTemplate>
+                                                    <DataTemplate>
+                                                        <Frame CornerRadius="10" BackgroundColor="Khaki">
+
+                                                            <StackLayout>
+
+                                                                <Image Source="{Binding DisplayImage}" HeightRequest="{x:OnPlatform Android=80, Default=60}" WidthRequest="{x:OnPlatform Android=30, Default=80}" Grid.Row="0"/>
+
+                                                                <Label Text="{Binding FileName}"  HorizontalOptions="Center" MaxLines="1" LineBreakMode="TailTruncation" />
+                                                                <Label Text="{Binding CID, StringFormat='CID: {0}'}" FontSize="{x:OnPlatform Android=9, Default=12}"  Margin="{x:OnPlatform Android=10}" FontAttributes="{x:OnPlatform Android=Bold}" HorizontalOptions="Center" Grid.Row="1" />
+
+                                                            </StackLayout>
+                                                        </Frame>
+                                                    </DataTemplate>
+                                                </listView:SfListView.SelectedItemTemplate>
+                                            </listView:SfListView>
+                                        </pulltoRefresh:SfPullToRefresh.PullableContent>
+                                    </pulltoRefresh:SfPullToRefresh>
                                 </tabView:SfTabItem.Content>
                             </tabView:SfTabItem>
 

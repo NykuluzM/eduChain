@@ -35,6 +35,7 @@ namespace eduChain
 				.UseMauiApp<App>()
 				.ConfigureMopups()
 				.UseUraniumUI()
+				.UseMauiCommunityToolkitMediaElement()
 				.UseUraniumUIMaterial()
 				.UseUraniumUIBlurs()
 				.UseBarcodeReader()

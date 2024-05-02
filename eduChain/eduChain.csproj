@@ -64,6 +64,7 @@
 
 
 	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="3.0.1" />
 		<PackageReference Include="epj.RouteGenerator" Version="1.0.1" />
 		<PackageReference Include="FirebaseAdmin" Version="2.4.1" />
 		<PackageReference Include="FirebaseAuthentication.net" Version="4.1.0" />
@@ -117,9 +118,15 @@
 	  <Compile Update="Views/ContentPages/WebConnectPage.xaml.cs">
 	    <DependentUpon>WebConnectPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\Popups\MPPopup.xaml.cs">
+	    <DependentUpon>MPPopup.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiXaml Update="Views\ContentViews\NewContent1.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Popups\MPPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
