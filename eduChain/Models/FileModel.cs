@@ -14,7 +14,10 @@ namespace eduChain.Models
         {
             { ".pdf", "pdf_icon.png" },
             { ".docx", "word_icon.png" },
-            
+            { ".mp3", "mp3_icon.png" },
+            { ".mp4", "mp4_icon.png" },
+            { ".mov", "mov_icon.png" },
+            { ".wav", "wav_icon.png" },
             { ".xlsx", "excel_icon.png" },
             { ".xls", "excel_icon.png" }
         };

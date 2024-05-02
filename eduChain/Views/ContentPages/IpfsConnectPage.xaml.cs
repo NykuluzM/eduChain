@@ -46,6 +46,9 @@ public partial class IpfsConnectPage : ContentPage
             case "AudioSearch":
                 parent = MyAudioList;
                 break;
+            case "VideosSearch":
+                parent = MyVideosList;
+                break;
             case "AllSearch":
                 parent = MyAllList;
                 break;
@@ -84,7 +87,7 @@ public partial class IpfsConnectPage : ContentPage
                 hasValues = await ipfsViewModel.ChangeCategory("Audio");
                 break;
             case 2:
-                hasValues = await ipfsViewModel.ChangeCategory(".mp4");
+                hasValues = await ipfsViewModel.ChangeCategory("Videos");
                 break;
             case 3:
                 hasValues = await ipfsViewModel.ChangeCategory("Documents");
@@ -240,6 +243,14 @@ public partial class IpfsConnectPage : ContentPage
         
         this.ShowPopup(mediaPopup);
 
+    }
+    private void Play_Video(object sender, EventArgs e)
+    {
+        var s = (Button)sender;
+        string rawCid = s.ClassId;
+        string filename = s.CommandParameter.ToString();
+        mediaPopup = new MPPopup(filename, rawCid);
+        this.ShowPopup(mediaPopup);
     }
     private async void Push_Download(object sender, EventArgs e)
     {

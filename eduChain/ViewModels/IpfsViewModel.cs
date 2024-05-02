@@ -54,7 +54,7 @@ public class IpfsViewModel : ViewModelBase
                     { DevicePlatform.Android, new[] { "*/*" } },
                     { DevicePlatform.iOS, new[] { "public.*" } },
                     { DevicePlatform.MacCatalyst, new[] { "public.*" } },
-                    { DevicePlatform.WinUI, new[] { "*",".jpg",".png",".docx",".pdf",".xlsx",".xls",".mp3",".mp4",".wav" } }
+                    { DevicePlatform.WinUI, new[] { "*",".jpg",".png",".gif",".docx",".pdf",".xlsx",".xls",".mp3",".mp4",".wav",".mov" } }
                 };
     public IpfsViewModel(IFileSaver fileSaver)
     {
@@ -98,7 +98,7 @@ public class IpfsViewModel : ViewModelBase
                 CurrentCategory = "Audio";  
                 break;
             case "Videos":
-                CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".mp4"));
+                CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".mp4" || f.FileType == ".mov"));
                 CurrentCategory = "Videos";
                 break;
             case "Documents":
@@ -119,9 +119,9 @@ public class IpfsViewModel : ViewModelBase
     }
     private Dictionary<string, string[]> categoryFileTypes = new Dictionary<string, string[]>
 {
-    {"Photos", new string[] { ".jpg", ".png", ".svg" }},
-    {"Audio", new string[] { ".mp3", ".wav", ".m4a" }},
-    {"Videos", new string[] { ".mp4" }},
+    {"Photos", new string[] { ".jpg", ".png", ".svg",".gif" }},
+    {"Audio", new string[] { ".mp3", ".wav"}},
+    {"Videos", new string[] { ".mp4" ,".mov"}},
     {"Documents", new string[] { ".pdf", ".docx", ".xlsx", ".xls" }}
 };
     private bool FileBelongsToCategory(FileModel file, string category)
@@ -144,6 +144,12 @@ public class IpfsViewModel : ViewModelBase
         var newFiles = updatedFileList.Where(newFile => !Files.Any(existingFile => existingFile.CID == newFile.CID));
 
         // Add new files to both collections
+        if(newFiles.Count() == 0)
+        {
+            IsRefreshing = false;
+            OnPropertyChanged(nameof(IsRefreshing));
+            return;
+        }
         foreach (var file in newFiles)
         {
             if (FileBelongsToCategory(file, CurrentCategory))
@@ -190,48 +196,82 @@ public class IpfsViewModel : ViewModelBase
     }
 
     public ICommand LoadMoreCommand => new Command(() => {
-        var currentCount = DisplayedFile.Count;
-        int toTake = 0;
+        int toTakePerGroup = Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.Android ||
+                             Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.iOS ? 2 : 5;
 
-        if (Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.Android || Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.iOS)
-        {
-            toTake = 2;
-        } else
-        {
-            toTake = 5;
-        }
-        var itemsToLoad = CategorizedFile.Skip(currentCount).Take(toTake);
-        if(itemsToLoad == null || itemsToLoad.Count() == 0)
-        {
-            return;
-        }
-        foreach (var item in itemsToLoad)
-        {
-            DisplayedFile.Add(item);
-        }
+        int totalFilesAdded = 0; // Track the total number of files added in this run
 
+        // Get all groups from CategorizedFile
+        var groups = CategorizedFile
+            .GroupBy(cf => cf.FileType);
+
+        foreach (var group in groups)
+        {
+            int filesAdded = 0; // Track the number of files added for this group
+
+            // Add items to DisplayedFile, ensuring not to exceed 5 files per group in this run
+            var itemsToAdd = group.Where(item => !DisplayedFile.Contains(item));
+            foreach (var item in itemsToAdd)
+            {
+                if (filesAdded < toTakePerGroup)
+                {
+                    DisplayedFile.Add(item);
+                    filesAdded++;
+                    totalFilesAdded++;
+                }
+                else
+                {
+                    break; // Stop adding if reached the maximum limit for this group
+                }
+            }
+
+            if (totalFilesAdded >= toTakePerGroup * groups.Count())
+            {
+                break; // No need to continue if we've reached the maximum limit for all groups
+            }
+        }
     });
+
     public ICommand ShowLessCommand => new Command(() => {
-        var currentCount = DisplayedFile.Count;
-        int toTake = 0;
-        if (Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.Android || Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.iOS)
+        int toTakePerGroup = Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.Android ||
+                             Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.iOS ? 2 : 5;
+
+        // Get all groups from CategorizedFile
+        var groups = CategorizedFile
+            .GroupBy(cf => cf.FileType);
+
+        int totalFilesRemoved = 0; // Track the total number of files removed
+
+        foreach (var group in groups)
         {
-            toTake = 2;
-        }
-        else
-        {
-            toTake = 5;
-        }
-        var itemsToDeLoad = CategorizedFile.Skip(currentCount - toTake).Take(toTake);
-        if (itemsToDeLoad == null || itemsToDeLoad.Count() == 0)
-        {
-            return;
-        }
-        foreach (var item in itemsToDeLoad)
-        {
-            DisplayedFile.Remove(item);
+            int filesRemoved = 0; // Track the number of files removed for this group
+
+            // Remove items from DisplayedFile, ensuring not to exceed 5 files removed per group
+            foreach (var item in group)
+            {
+                if (filesRemoved < toTakePerGroup && totalFilesRemoved < toTakePerGroup * groups.Count())
+                {
+                    if (DisplayedFile.Contains(item))
+                    {
+                        DisplayedFile.Remove(item);
+                        filesRemoved++;
+                        totalFilesRemoved++;
+                    }
+                }
+                else
+                {
+                    break; // Stop removing if reached the maximum limit for this group or all groups
+                }
+            }
+
+            if (totalFilesRemoved >= toTakePerGroup * groups.Count())
+            {
+                break; // No need to continue if we've reached the maximum limit for all groups
+            }
         }
     });
+
+
 
     private async Task LoadFilesByCategoryAsync(string category)
     {

@@ -10,7 +10,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
     <Label x:Name="labelHolder" Text="eduChain" Width="20" Height="20"  TextColor="Purple" HorizontalOptions="Center" Grid.Row="0" VerticalOptions="End" FontSize="15" FontAttributes="Bold"/>
-        <toolkit:MediaElement x:Name="playerHolder" Source="https://www.youtube.com/watch?v=3nQNiWdeH2Q" Grid.Row="1" ShouldAutoPlay="True"  HeightRequest="300" WidthRequest="300" />
+        <toolkit:MediaElement x:Name="playerHolder" Source="https://www.youtube.com/watch?v=3nQNiWdeH2Q" Grid.Row="1" ShouldAutoPlay="True"  HeightRequest="500" WidthRequest="500" />
         <Button Text="Close" Grid.Row="2" Clicked="ClosePopup" />
     </Grid>
        
