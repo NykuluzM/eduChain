@@ -25,7 +25,7 @@ public partial class IpfsConnectPage : ContentPage
         ipfsViewModel = new IpfsViewModel(IPlatformApplication.Current.Services.GetRequiredService<IFileSaver>());
         BindingContext = ipfsViewModel;
         MyDocumentsList.SelectionBackground = Colors.Khaki;
-
+        ShowMore(this, null);
     }
    
     
@@ -82,16 +82,28 @@ public partial class IpfsConnectPage : ContentPage
         {
             case 0:
                 hasValues = await ipfsViewModel.ChangeCategory("Photos");
+                totalfilecount.IsVisible = false;
+                categoryfilecount.IsVisible = true;
                 break;
             case 1:
                 hasValues = await ipfsViewModel.ChangeCategory("Audio");
+                totalfilecount.IsVisible = false;
+                categoryfilecount.IsVisible = true;
                 break;
             case 2:
                 hasValues = await ipfsViewModel.ChangeCategory("Videos");
+                totalfilecount.IsVisible = false;
+                categoryfilecount.IsVisible = true;
                 break;
             case 3:
                 hasValues = await ipfsViewModel.ChangeCategory("Documents");
-                
+                totalfilecount.IsVisible = false;
+                categoryfilecount.IsVisible = true;
+
+                break;
+            case 5:
+                totalfilecount.IsVisible = true;
+                categoryfilecount.IsVisible = false;
                 break;
         }
         if (!hasValues)
@@ -101,7 +113,7 @@ public partial class IpfsConnectPage : ContentPage
         {
             ShowMoreFiles.IsVisible = true;
         }
-
+        ShowMore(this, null);
     }
 
 

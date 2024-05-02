@@ -599,7 +599,8 @@
                             <Button x:Name="ShowMoreFiles" Text="Show More" Clicked="ShowMore" Command="{Binding LoadMoreCommand}"  WidthRequest="{x:OnPlatform Default=180, Android=120}" Margin="20"/>
                         </HorizontalStackLayout>
                         <HorizontalStackLayout VerticalOptions="End" HorizontalOptions="Center" Grid.Row="1">
-                            <Label Text="{Binding CategorizedFile.Count , StringFormat='Total Files: {0}'}" FontAttributes="Bold" FontSize="14" TextColor="Black"/>
+                            <Label x:Name="categoryfilecount" IsVisible="True" Text="{Binding CategorizedFile.Count , StringFormat='Total Category Files: {0}'}" FontAttributes="Bold" FontSize="14" TextColor="Black"/>
+                            <Label x:Name="totalfilecount" IsVisible="False" Text="{Binding Files.Count , StringFormat='Total Files: {0}'}" FontAttributes="Bold" FontSize="14" TextColor="Black"/>
                         </HorizontalStackLayout>
                         <VerticalStackLayout x:Name="NoFiles" Grid.Row="0" VerticalOptions="Center" IsVisible="False">
                             <Image Source="empty_files.png" HorizontalOptions="Center" Margin="0,50,0,0" VerticalOptions="Center" HeightRequest="100" WidthRequest="100"/>
