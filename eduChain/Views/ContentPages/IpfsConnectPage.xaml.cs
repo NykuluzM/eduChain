@@ -234,14 +234,17 @@ public partial class IpfsConnectPage : ContentPage
     {
         var s = (Button)sender;
         string rawCid = s.ClassId;
-        mediaPopup = new MPPopup(rawCid);
+        string filename = s.CommandParameter.ToString();
+    
+        mediaPopup = new MPPopup(filename,rawCid);
+        
         this.ShowPopup(mediaPopup);
 
     }
-    private void Push_Download(object sender, EventArgs e)
+    private async void Push_Download(object sender, EventArgs e)
     {
         var s = (Button)sender;
         string rawCid = s.ClassId;
-        ipfsViewModel.DownloadFileByCid(rawCid);
+        await ipfsViewModel.DownloadFileByCid(rawCid);
     }
 }

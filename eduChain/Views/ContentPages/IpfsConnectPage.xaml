@@ -328,7 +328,7 @@
                                                                 <Label Text="{Binding FileName}"  HorizontalOptions="Center" MaxLines="1" LineBreakMode="TailTruncation" />
                                                                 <Label Text="{Binding CID, StringFormat='CID: {0}'}"  FontSize="{x:OnPlatform Android=9, Default=12}"  Margin="{x:OnPlatform Android=10}" FontAttributes="{x:OnPlatform Android=Bold}" HorizontalOptions="Center" Grid.Row="1" />
                                                                 <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Margin="10" Spacing="10">
-                                                                    <Button Text="Play" WidthRequest="60" Clicked="Play_Audio" ClassId="{Binding CID}" IsVisible="{Binding IsPlayable}"/>
+                                                                    <Button Text="Play" WidthRequest="60" Clicked="Play_Audio" ClassId="{Binding CID}" CommandParameter="{Binding FileName}" IsVisible="{Binding IsPlayable}"/>
                                                                     <Button Text="Download" WidthRequest="150"  HorizontalOptions="Center" Clicked="Push_Download" ClassId="{Binding CID}"/>
                                                                 </HorizontalStackLayout>
                                                             </StackLayout>

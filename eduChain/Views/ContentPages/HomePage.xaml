@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
             xmlns:content="clr-namespace:eduChain.Views.ContentViews;assembly=eduChain"
-
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="eduChain.Views.ContentPages.HomePage"
              Title=""
             Background="#195a7a"
@@ -19,6 +19,7 @@
 
         <StackLayout HorizontalOptions="Center">
             <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
+
                 <Label 
                         Text="Welcome to eduChain" x:Name="Title" FontSize="Large" HorizontalOptions="Center" TextColor="Gold" FontAttributes="Bold"
                         />

@@ -5,26 +5,14 @@ namespace eduChain.Views.Popups;
 
 public partial class MPPopup : Popup
 {
-    private readonly IAudioManager audioManager;
-    IAudioPlayer player;
-    public MPPopup(string cid)
+    public MPPopup(string filename,string cid)
     {
         InitializeComponent();
 
         string gatewayUrl = $"https://gateway.pinata.cloud/ipfs/{cid}";
 
         playerHolder.Source = gatewayUrl;
-    }
-
-    private string _media;
-    public string Media
-    {
-        get => _media;
-        set
-        {
-            _media = value;
-            OnPropertyChanged();
-        }
+        labelHolder.Text = filename;
     }
 
 
