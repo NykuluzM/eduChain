@@ -116,7 +116,7 @@ public partial class IpfsConnectPage : ContentPage
         ShowMore(this, null);
     }
 
-
+   
     private void Toggle(object sender, EventArgs e)
     {
         if (sender is Button)
@@ -270,4 +270,25 @@ public partial class IpfsConnectPage : ContentPage
         string rawCid = s.ClassId;
         await ipfsViewModel.DownloadFileByCid(rawCid);
     }
+    private async void Preview_Doc(object sender, EventArgs e)
+    {
+        var s = (Button)sender;
+        string rawCid = s.ClassId;
+        string filename = s.CommandParameter.ToString();
+        var mediaPopup = new DOCPopup(filename, rawCid);
+        this.ShowPopup(mediaPopup);
+    }
+    private async void OnCopyButtonClicked(object sender, EventArgs e)
+    {
+        var s = (Button)sender;
+        string textToCopy =  s.ClassId; // Get the text you want to copy (filename or downloaded content)
+        await CopyTextToClipboard(textToCopy);
+    }
+    public async Task CopyTextToClipboard(string text)
+{
+  if (!string.IsNullOrEmpty(text))
+  {
+    await Clipboard.Default.SetTextAsync(text);
+  }
+}
 }
