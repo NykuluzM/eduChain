@@ -248,46 +248,43 @@ public partial class IpfsConnectPage : ContentPage
        
     } 
 
-    private void Play_Audio(object sender, EventArgs e)
+    private void Preview(object sender, EventArgs e)
     {
         var s = (Button)sender;
+
         string rawCid = s.ClassId;
         string filename = s.CommandParameter.ToString();
-    
-        mediaPopup = new MPPopup(filename,rawCid);
-        
-        this.ShowPopup(mediaPopup);
+        string filetype = s.ImageSource.ToString();
+        if(filetype == "File: .mp3" || filetype == "File: .wav")
+        {
+            mediaPopup = new MPPopup(filename, rawCid);
+            this.ShowPopup(mediaPopup);
+
+        } else if(filetype == "File: .pdf")
+        {
+            var mediaPopup = new DOCPopup(filename, rawCid);
+            this.ShowPopup(mediaPopup);
+        } else if(filetype == "File: .mp4" || filetype == "File: .mov")
+        {
+            var mediaPopup = new MPPopup(filename, rawCid);
+            this.ShowPopup(mediaPopup);
+        } else if(filetype == "File: .jpg" || filetype == "File: .png" || filetype == "File: .gif")
+        {
+            var imagePopup = new IMAGEPopup(filename, rawCid);
+            this.ShowPopup(imagePopup);
+        }
+
+
 
     }
-    private void Play_Video(object sender, EventArgs e)
-    {
-        var s = (Button)sender;
-        string rawCid = s.ClassId;
-        string filename = s.CommandParameter.ToString();
-        mediaPopup = new MPPopup(filename, rawCid);
-        this.ShowPopup(mediaPopup);
-    }
-    private void Play_Photos(object sender, EventArgs e){
-        var s = (Button)sender;
-        string rawCid = s.ClassId;
-        string filename = s.CommandParameter.ToString();
-        var imagePopup = new IMAGEPopup(filename, rawCid);
-        this.ShowPopup(imagePopup);
-    }
+    
     private async void Push_Download(object sender, EventArgs e)
     {
         var s = (Button)sender;
         string rawCid = s.ClassId;
         await ipfsViewModel.DownloadFileByCid(rawCid);
     }
-    private async void Preview_Doc(object sender, EventArgs e)
-    {
-        var s = (Button)sender;
-        string rawCid = s.ClassId;
-        string filename = s.CommandParameter.ToString();
-        var mediaPopup = new DOCPopup(filename, rawCid);
-        this.ShowPopup(mediaPopup);
-    }
+    
     private async void OnCopyButtonClicked(object sender, EventArgs e)
     {
         var s = (Button)sender;

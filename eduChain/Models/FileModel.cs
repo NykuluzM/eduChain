@@ -47,12 +47,13 @@ namespace eduChain.Models
             }
         }
         [AllowNull]
-        public bool IsPlayable
+        public bool IsPreviewable
         {
             get
             {
 
-                if (FileType == ".mp3" || FileType == ".wav" || FileType == ".ogg" || FileType == ".mp4" || FileType == ".mov")
+                if (FileType == ".mp3" || FileType ==".jpg" || FileType ==".png" || FileType == ".gif" || FileType == ".svg" ||  FileType == ".wav" || FileType == ".ogg" || FileType == ".mp4" || FileType == ".mov" || FileType == ".pdf")
+
                 {
                     return true;
                 }
