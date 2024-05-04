@@ -10,7 +10,7 @@
              xmlns:listView="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
              xmlns:data="clr-namespace:Syncfusion.Maui.DataSource;assembly=Syncfusion.Maui.DataSource"
              xmlns:pulltoRefresh="clr-namespace:Syncfusion.Maui.PullToRefresh;assembly=Syncfusion.Maui.PullToRefresh"
-
+             xmlns:zxing="clr-namespace:Zxing.Net.Maui.Controls;assembly=Zxing.Net.Maui.Controls"
              Title="{x:OnPlatform MacCatalyst='IPFS Center'}"
              Shell.BackgroundColor="{x:OnPlatform Default='PapayaWhip'}"
                 Shell.ForegroundColor="Purple"
@@ -129,9 +129,9 @@
                                 <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Compare}" Size="20" Color="Black" />
                             </Button.ImageSource>
                         </Button>
-                        <ur:TextField Text="{Binding Cid[1]}" Title="Cid Address / IPFS Hash"   Margin="{x:OnPlatform Android='20,0,20,20', Default='100,0,100,0'}">
+                        <ur:TextField Text="{Binding Cid[1]}" Title="Cid Address / IPFS Hash" AccentColor="LightGreen"  TitleColor="LightGreen" TextColor="Black" BorderColor="LightGreen" Margin="{x:OnPlatform Android='20,0,20,20', Default='100,0,100,0'}">
                             <ur:TextField.Attachments>
-                                <Button StyleClass="TextButton" Padding="14,14,14,14" Margin="0"  Command="{Binding ClearCommand}" CommandParameter="cidfordownloadclear">
+                                <Button StyleClass="TextButton" Padding="14,14,14,14" Margin="0" Command="{Binding ClearCommand}" CommandParameter="cidfordownloadclear">
                                     <Button.ImageSource>
                                         <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Clear}" Size="20" Color="Black" />
 
@@ -236,7 +236,13 @@
                                                         <SearchBar x:Name="SearchBar" Placeholder="Search here to filter" BackgroundColor="Wheat" CancelButtonColor="Red" TextColor="Black" PlaceholderColor="Black" TextChanged="Filter" ClassId="PhotosSearch" />
                                                     </DataTemplate>
                                                 </listView:SfListView.HeaderTemplate>
-
+                                                <listView:SfListView.FooterTemplate>
+                                                    <DataTemplate>
+                                                        <HorizontalStackLayout>
+                                                            <Button Text="Generate QR Code" Clicked="QR_clicked"  />
+                                                        </HorizontalStackLayout>
+                                                    </DataTemplate>
+                                                </listView:SfListView.FooterTemplate>
                                                 <listView:SfListView.DataSource>
                                                     <data:DataSource>
                                                         <data:DataSource.GroupDescriptors>
@@ -268,7 +274,7 @@
                                                                         </Button> 
                                                                 </HorizontalStackLayout>
                                                                 <HorizontalStackLayout Margin="6,15,6,15" HorizontalOptions="CenterAndExpand" Spacing="10">
-                                                                    <Button  ImageSource="{Binding FileType}" Text="Preview" WidthRequest="80" Padding="{x:OnPlatform Default='-10,0,0,0', Android='0,0,0,0'}" Clicked="Preview"  ClassId="{Binding CID}" CommandParameter="{Binding FileName}" />
+                                                                    <Button  ImageSource="{Binding FileType}" Text="Preview" WidthRequest="85" Padding="{x:OnPlatform WinUI='-10,0,0,0'}" Clicked="Preview"  ClassId="{Binding CID}" CommandParameter="{Binding FileName}" />
                                                                     <Button Text="Download" WidthRequest="100"  HorizontalOptions="Center" Clicked="Push_Download" ClassId="{Binding CID}"/>
                                                                 </HorizontalStackLayout>
                                                             </StackLayout>
@@ -348,7 +354,7 @@
                                                                 </HorizontalStackLayout>
 
                                                                 <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Margin="8,15,8,15" Spacing="10">
-                                                                    <Button  ImageSource="{Binding FileType}"  Text="Preview"  Padding="{x:OnPlatform Default='-10,0,0,0', Android='0,0,0,0'}"  WidthRequest="80" Clicked="Preview" ClassId="{Binding CID}"  CommandParameter="{Binding FileName}"/>
+                                                                    <Button  ImageSource="{Binding FileType}"  Text="Preview"  Padding="{x:OnPlatform WinUI='-10,0,0,0'}"  WidthRequest="85" Clicked="Preview" ClassId="{Binding CID}"  CommandParameter="{Binding FileName}"/>
                                                                     <Button Text="Download"   HorizontalOptions="Center" Clicked="Push_Download" ClassId="{Binding CID}"/>
                                                                 </HorizontalStackLayout>
                                                             </StackLayout>
@@ -428,7 +434,7 @@
                                                                     </Button>
                                                                 </HorizontalStackLayout>
                                                                 <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Margin="8,15,8,15" Spacing="10">
-                                                                    <Button  ImageSource="{Binding FileType}"  Text="Preview"  Padding="{x:OnPlatform Default='-10,0,0,0', Android='0,0,0,0'}"  WidthRequest="80" Clicked="Preview" ClassId="{Binding CID}" CommandParameter="{Binding FileName}"/>
+                                                                    <Button  ImageSource="{Binding FileType}"  Text="Preview"  Padding="{x:OnPlatform WinUI='-10,0,0,0'}"  WidthRequest="85" Clicked="Preview" ClassId="{Binding CID}" CommandParameter="{Binding FileName}"/>
                                                                     <Button Text="Download"   HorizontalOptions="Center" Clicked="Push_Download" ClassId="{Binding CID}"/>
                                                                 </HorizontalStackLayout>
                                                             </StackLayout>
@@ -505,7 +511,7 @@
                                                                     </Button>
                                                                 </HorizontalStackLayout>
                                                                 <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Margin="7,12,7,12" Spacing="10">
-                                                                    <Button  ImageSource="{Binding FileType}"  Text="Preview"  Padding="{x:OnPlatform Default='-10,0,0,0', Android='0,0,0,0'}"   WidthRequest="80" Clicked="Preview" ClassId="{Binding CID}" CommandParameter="{Binding FileName}" IsVisible="{Binding IsPreviewable}"/>                                                                    
+                                                                    <Button  ImageSource="{Binding FileType}"  Text="Preview"  Padding="{x:OnPlatform WinUI='-10,0,0,0'}"   WidthRequest="85" Clicked="Preview" ClassId="{Binding CID}" CommandParameter="{Binding FileName}" IsVisible="{Binding IsPreviewable}"/>                                                                    
                                                                     <Button Text="Download" WidthRequest="100"  HorizontalOptions="Center" Clicked="Push_Download" ClassId="{Binding CID}"/>
                                                                 </HorizontalStackLayout>
                                                             </StackLayout>
@@ -586,7 +592,7 @@
                                                                     </Button>
                                                                 </HorizontalStackLayout>
                                                                 <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Margin="8,15,8,15" Spacing="10">
-                                                                    <Button  ImageSource="{Binding FileType}"  Text="Preview"  Padding="{x:OnPlatform Default='-10,0,0,0', Android='0,0,0,0'}"  WidthRequest="80" Clicked="Preview" ClassId="{Binding CID}" CommandParameter="{Binding FileName}" IsVisible="{Binding IsPreviewable}"/>
+                                                                    <Button  ImageSource="{Binding FileType}"  Text="Preview"  Padding="{x:OnPlatform Default='-10,0,0,0', Android='0,0,0,0'}"  WidthRequest="85" Clicked="Preview" ClassId="{Binding CID}" CommandParameter="{Binding FileName}" IsVisible="{Binding IsPreviewable}"/>
                                                                     <Button Text="Download"   HorizontalOptions="Center" Clicked="Push_Download" ClassId="{Binding CID}"/>
                                                                 </HorizontalStackLayout>
 

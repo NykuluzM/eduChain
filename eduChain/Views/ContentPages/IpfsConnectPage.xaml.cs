@@ -10,6 +10,8 @@ using Syncfusion.Maui.DataSource.Extensions;
 using Syncfusion.Maui.ListView;
 using eduChain.Views.Popups;
 using CommunityToolkit.Maui.Views;
+using System.IO.Compression;
+using eduChain.ViewModels;  
 namespace eduChain.Views.ContentPages;
 public partial class IpfsConnectPage : ContentPage
 {
@@ -75,6 +77,30 @@ public partial class IpfsConnectPage : ContentPage
         // Check directly against the FileInfo object
         return fileInfo.FileName.ToLower().Contains(searchBar.Text.ToLower()) ||
            fileInfo.CID.ToLower().Contains(searchBar.Text.ToLower()) || fileInfo.FileType.ToLower().Equals(searchBar.Text.ToLower());
+    }
+    private async void QR_clicked(Object sender,EventArgs e){
+        var selectedItems = MyPhotosList.SelectedItems;
+        var CIDList = new List<string>();
+        foreach(var item in selectedItems){
+            var file = item as FileModel;
+            CIDList.Add(file.CID);
+        }
+         // Compression using GZipStream
+        using (var memoryStream = new MemoryStream()) 
+        {
+            using (var gzipStream = new GZipStream(memoryStream, CompressionMode.Compress))
+            using (var streamWriter = new StreamWriter(gzipStream)) 
+            {
+                // For plain text CIDs separated by newlines
+                var cidString = string.Join("\n", CIDList); 
+                streamWriter.Write(cidString); 
+            }
+
+            var compressedData = memoryStream.ToArray(); // Get the compressed data as a byte array
+            // Do something with the compressedData (e.g., store it, encode in QR code)
+            var qrPopup = new QRMakerPopup(compressedData);
+            this.ShowPopup(qrPopup);
+        }
     }
     private async void TabChange(object sender, TabSelectionChangedEventArgs e){
         ShowLessFiles.IsVisible = false;

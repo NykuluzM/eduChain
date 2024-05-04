@@ -16,7 +16,15 @@ using eduChain.Models;
 using Npgsql;
 using UraniumUI.Material.Controls;
 using System.Collections.ObjectModel;
-namespace eduChain;
+using System.IO;
+using System.IO.Compression;
+using Syncfusion.Maui.Barcode;
+using ZXing.Net.Maui;
+using ZXing;
+using ZXing.Common;
+using SkiaSharp;
+
+namespace eduChain.ViewModels;
 
 public class IpfsViewModel : ViewModelBase
 {
@@ -273,12 +281,7 @@ public class IpfsViewModel : ViewModelBase
 
 
 
-    private async Task LoadFilesByCategoryAsync(string category)
-    {
-        List<FileModel> files = await IpfsDatabaseService.Instance.GetByFileType(category, UsersProfile.FirebaseId);
-        Files = new ObservableCollection<FileModel>(files); // Update collection and notify UI
-    }
-    public async Task PickFile(string fileId)
+       public async Task PickFile(string fileId)
     {
 
         var fileInfo = await picker.PickFileAsync("Select a file", FileType);
@@ -484,7 +487,7 @@ public class IpfsViewModel : ViewModelBase
                                 return;
                             } else
                             {
-                                await IpfsDatabaseService.Instance.InsertPinnedFile(UsersProfile.FirebaseId, response.IpfsHash, fileExtension, fileName);
+                                await IpfsDatabaseService.Instance.InsertPinnedFile(UsersProfile.FirebaseId,UsersProfile.FirebaseId, response.IpfsHash, fileExtension, fileName);
                                 await Shell.Current.DisplayAlert("Upload", "File uploaded successfully", "OK");
                                 return;
 
@@ -504,6 +507,31 @@ public class IpfsViewModel : ViewModelBase
             }
             }
         }
+  private async void DecodeImageButton_Clicked(object sender, EventArgs e)
+    {
+        var pickerResult = await FilePicker.PickAsync();
+         using (var image = SKImage.FromEncodedData(File.ReadAllBytes(pickerResult.FullPath)))
+            
+            // ...
+
+            using (var bitmap = SKBitmap.FromImage(image))
+            {
+                // Decode the QR code (the rest is the same)
+                var decoder = new MultiFormatReader();
+                // Declare the 'options' variable before using it
+                var options = new Dictionary<DecodeHintType, object>
+                {
+                    { DecodeHintType.TRY_HARDER, true }
+                };
+                var hints = options != null ? new DecodingHints(options) : null;
+
+                var result = decoder.decode(new BitmapLuminanceSource(bitmap), hints);
+
+
+            }
+
+    }
+
 
    public async Task DownloadFileByCid(string cid)
     {

@@ -185,7 +185,7 @@ public class IpfsDatabaseService
                 await DatabaseManager.CloseConnectionAsync();
             }
         }
-        public async Task InsertPinnedFile(string uid,string cid, string fileType, string fileName)
+        public async Task InsertPinnedFile(string uid,string created_by,string cid, string fileType, string fileName)
         {
             try
             {
@@ -193,14 +193,14 @@ public class IpfsDatabaseService
 
                 using (var cmd = DatabaseManager.Connection.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO ""Files""(owner,cid, filetype, filename) 
-                                        VALUES (@uid,@cid, @fileType, @fileName)";
+                    cmd.CommandText = @"INSERT INTO ""Files""(owner,created_by,cid, filetype, filename) 
+                                        VALUES (@uid,@created_by,@cid, @fileType, @fileName)";
 
                     cmd.Parameters.AddWithValue("@uid", uid);
                     cmd.Parameters.AddWithValue("@cid", cid);
                     cmd.Parameters.AddWithValue("@fileType", fileType);
                     cmd.Parameters.AddWithValue("@fileName", fileName);
-
+                    cmd.Parameters.AddWithValue("@created_by", uid);
                     await cmd.ExecuteNonQueryAsync(); 
                 }
             }
@@ -215,26 +215,26 @@ public class IpfsDatabaseService
             }
         }
         public async Task UnpinFile(string cid)
-    {
+        {
             try
-        {
-                await DatabaseManager.OpenConnectionAsync();
-
-                using (var cmd = DatabaseManager.Connection.CreateCommand())
             {
-                    cmd.CommandText = @"DELETE FROM ""Files"" WHERE cid = @cid";
-                    cmd.Parameters.AddWithValue("@cid", cid);
-                    await cmd.ExecuteNonQueryAsync();
+                    await DatabaseManager.OpenConnectionAsync();
+
+                    using (var cmd = DatabaseManager.Connection.CreateCommand())
+                {
+                        cmd.CommandText = @"DELETE FROM ""Files"" WHERE cid = @cid";
+                        cmd.Parameters.AddWithValue("@cid", cid);
+                        await cmd.ExecuteNonQueryAsync();
+                    }
                 }
-            }
-            catch (Exception ex)
-        {
-                await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
-                // Consider logging the exception for better debugging
-            }
-            finally
-        {
-                await DatabaseManager.CloseConnectionAsync();
+                catch (Exception ex)
+            {
+                    await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+                    // Consider logging the exception for better debugging
+                }
+                finally
+            {
+                    await DatabaseManager.CloseConnectionAsync();
             }
         }
 }
