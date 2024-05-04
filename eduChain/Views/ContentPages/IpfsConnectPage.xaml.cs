@@ -18,7 +18,7 @@ public partial class IpfsConnectPage : ContentPage
     PinataClient pinataClient = new PinataClient();
     SearchBar searchBar;
     private MPPopup mediaPopup;
-
+    private bool firstLoad = true;
     public IpfsConnectPage()
     {
         InitializeComponent();
@@ -30,7 +30,10 @@ public partial class IpfsConnectPage : ContentPage
    
     
     private async void InitializeTabs(object sender, EventArgs e){
-        await ipfsViewModel.ChangeCategory("firstload");
+        if(firstLoad == true){
+            firstLoad = false;
+            await ipfsViewModel.ChangeCategory("firstload");    
+        }
     }
     private void Filter(object sender, EventArgs e){
     
@@ -263,6 +266,13 @@ public partial class IpfsConnectPage : ContentPage
         string filename = s.CommandParameter.ToString();
         mediaPopup = new MPPopup(filename, rawCid);
         this.ShowPopup(mediaPopup);
+    }
+    private void Play_Photos(object sender, EventArgs e){
+        var s = (Button)sender;
+        string rawCid = s.ClassId;
+        string filename = s.CommandParameter.ToString();
+        var imagePopup = new IMAGEPopup(filename, rawCid);
+        this.ShowPopup(imagePopup);
     }
     private async void Push_Download(object sender, EventArgs e)
     {

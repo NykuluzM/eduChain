@@ -227,7 +227,7 @@
                                                                       IsRefreshing="{Binding IsRefreshing}"
                                                                       RefreshCommand="{Binding RefreshCommand}"> 
                                         <pulltoRefresh:SfPullToRefresh.PullableContent>
-                                            <listView:SfListView   x:Name="MyPhotosList" IsStickyHeader="True" ItemSpacing="5,5,5,5" ItemSize="{x:OnPlatform Android=270, Default=250}" SelectionMode="Multiple" SelectionGesture="DoubleTap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
+                                            <listView:SfListView   x:Name="MyPhotosList" IsStickyHeader="True" ItemSpacing="5,5,5,5" ItemSize="{x:OnPlatform Android=285, Default=265}" SelectionMode="Multiple" SelectionGesture="DoubleTap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
                                                 <listView:SfListView.ItemsLayout>
                                                     <listView:GridLayout x:Name="GPhotoItems" SpanCount="{x:OnPlatform Default=3, Android=1}"   />
                                                 </listView:SfListView.ItemsLayout>
@@ -260,15 +260,16 @@
                                                                 <Label Text="{Binding CID, StringFormat='CID: {0}'}" FontSize="{x:OnPlatform Android=8, Default=11}" HorizontalOptions="Center" Margin="{x:OnPlatform Android=10}"  FontAttributes="{x:OnPlatform Android=Bold}"/>
                                                                                  
                                                                                                                             
-                                                                
-                                                                <HorizontalStackLayout Margin="20" HorizontalOptions="CenterAndExpand" Spacing="10">
-                                                                    <Button Text="Play" WidthRequest="60" Clicked="Play_Audio" ClassId="{Binding CID}" IsVisible="{Binding IsPlayable}"/>
+                                                                <HorizontalStackLayout HorizontalOptions="Center" Margin="0,0,0,-15">
                                                                     <Button Text="Copy Cid"  Clicked="OnCopyButtonClicked" ClassId="{Binding CID}" MaximumWidthRequest="110" >
                                                                             <Button.ImageSource>
                                                                                 <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Folder}"  Size="10" />
                                                                             </Button.ImageSource>
                                                                         </Button> 
-                                                                    <Button Text="Download"   HorizontalOptions="Center" Clicked="Push_Download" ClassId="{Binding CID}"/>
+                                                                </HorizontalStackLayout>
+                                                                <HorizontalStackLayout Margin="20" HorizontalOptions="CenterAndExpand" Spacing="10">
+                                                                    <Button Text="Preview" WidthRequest="80" Clicked="Play_Photos" ClassId="{Binding CID}" CommandParameter="{Binding FileName}" />
+                                                                    <Button Text="Download" WidthRequest="100"  HorizontalOptions="Center" Clicked="Push_Download" ClassId="{Binding CID}"/>
                                                                 </HorizontalStackLayout>
                                                             </StackLayout>
                                                         </Frame>
@@ -482,8 +483,8 @@
                                                                 <Label Text="{Binding FileName}"  HorizontalOptions="Center" MaxLines="1" LineBreakMode="TailTruncation" />
                                                                 <Label Text="{Binding CID, StringFormat='CID: {0}'}" FontSize="{x:OnPlatform Android=9, Default=11}"  Margin="{x:OnPlatform Android=10}" FontAttributes="{x:OnPlatform Android=Bold}" HorizontalOptions="Center" Grid.Row="1" />
                                                                 <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Margin="20" Spacing="10">
-                                                                    <Button Text="Preview" WidthRequest="60" Clicked="Preview_Doc" ClassId="{Binding CID}" CommandParameter="{Binding FileName}"/>                                                                    
-                                                                    <Button Text="Download"   HorizontalOptions="Center" Clicked="Push_Download" ClassId="{Binding CID}"/>
+                                                                    <Button Text="Preview" WidthRequest="80" Clicked="Preview_Doc" ClassId="{Binding CID}" CommandParameter="{Binding FileName}"/>                                                                    
+                                                                    <Button Text="Download" WidthRequest="100"  HorizontalOptions="Center" Clicked="Push_Download" ClassId="{Binding CID}"/>
                                                                 </HorizontalStackLayout>
                                                             </StackLayout>
                                                         </Frame>

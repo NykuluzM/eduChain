@@ -523,6 +523,7 @@ public class IpfsViewModel : ViewModelBase
 
 
                 var response = await pinataClient.HttpClient.GetAsync(gatewayUrl, HttpCompletionOption.ResponseHeadersRead);
+ 
                 if (response.IsSuccessStatusCode)
                 {
                     string fileName = Path.GetFileName(gatewayUrl); // URI as file name

@@ -1,17 +1,23 @@
 <toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+                xmlns:syncfusion="clr-namespace:Syncfusion.Maui.PdfViewer;assembly=Syncfusion.Maui.PdfViewer"
+
                x:Class="eduChain.Views.Popups.DOCPopup"
                CanBeDismissedByTappingOutsideOfPopup="false" >
-    <Grid Background="Black">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-    <Label x:Name="labelHolder" Text="eduChain" Width="20" Height="20"  TextColor="Purple" HorizontalOptions="Center" Grid.Row="0" VerticalOptions="End" FontSize="15" FontAttributes="Bold"/>
-        <WebView x:Name="webHolder" Source="https://cyan-urban-flea-167.mypinata.cloud/ipfs/QmZMfQ72YhKBwqtsrLX2w3hB8hdahHc8PELYbansYkqXvD" Grid.Row="1" HeightRequest="500" WidthRequest="500" />
-        <Button Text="Close" Grid.Row="2" Clicked="ClosePopup" />
-    </Grid>
-       
+
+    
+            <Grid WidthRequest="500">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label x:Name="labelHolder" Text="eduChain" Grid.Row="0" TextColor="Purple" HorizontalOptions="Center"  FontSize="15" FontAttributes="Bold"/>
+                <StackLayout Grid.Row="1" VerticalOptions="Fill" HorizontalOptions="FillAndExpand">
+                    <syncfusion:SfPdfViewer x:Name="PdfViewer"   DocumentSource="{Binding PdfDocumentStream}" HeightRequest="600" ZoomFactor="0.4" />
+                </StackLayout>
+                <Button Text="Close" Clicked="ClosePopup" Grid.Row="2"/>
+            </Grid>
+           
 </toolkit:Popup>
