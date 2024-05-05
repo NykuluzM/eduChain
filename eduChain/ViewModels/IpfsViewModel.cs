@@ -520,8 +520,19 @@ public class IpfsViewModel : ViewModelBase
     }
     private async void DecodeImageButton()
     {
-        var pickerResult = await FilePicker.PickAsync();
-        if(pickerResult == null)
+        var pickerResult = await FilePicker.PickAsync(new PickOptions
+        {
+            PickerTitle = "Select a PNG file",
+            FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
+    {
+        { DevicePlatform.Android, new[] { "image/png" } },
+        { DevicePlatform.iOS, new[] { "public.png" } },
+        { DevicePlatform.macOS, new[] { "public.png" } },
+        { DevicePlatform.WinUI, new[] { ".png" } },
+    })
+        });
+
+        if (pickerResult == null)
         {
             return;
         }
@@ -623,12 +634,19 @@ public class IpfsViewModel : ViewModelBase
         string gatewayUrl;
         string path = null;
         string fileNameBase = null;
-        int fileIndex = 0;
-
+        try
+        {
+            var result = await FolderPicker.PickAsync(default);
+            path = result.Folder.Path;
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Download", ex.Message, "OK");
+            return;
+        }
         foreach (var (cid,filename) in fileList)
         {
             gatewayUrl = $"https://gateway.pinata.cloud/ipfs/{cid}";
-            fileIndex++;
             try
             {
                 var response = await pinataClient.HttpClient.GetAsync(gatewayUrl, HttpCompletionOption.ResponseHeadersRead);
@@ -640,16 +658,24 @@ public class IpfsViewModel : ViewModelBase
                     string fileExtension = GetFileExtensionFromContentType(contentType); 
                     using (var tempStream = await response.Content.ReadAsStreamAsync())
                     {
-                        try{
-                            var result = await FolderPicker.PickAsync(default);
-                            path = result.Name;
-
-                        } catch (Exception ex) {
-                        }
-                            fileNameBase = Path.GetFileNameWithoutExtension(path);
+                        
                        
-                            var basePath = Path.GetDirectoryName(path);
-                            var currentFileName = $"{basePath}\\{filename}{fileExtension}";
+                            var currentFileName = $"{path}\\{filename}{fileExtension}";
+                            if(File.Exists(currentFileName))
+                            {
+                                for(int i = 0; i < 100; i++) 
+                                {                                     
+                                    if(File.Exists($"{path}\\{filename}({i}){fileExtension}"))
+                                    {
+                                            continue;
+                                    }
+                                    else
+                                    {
+                                            currentFileName = $"{path}\\{filename}({i}){fileExtension}";
+                                            break;
+                                    }
+                                }
+                            }
                             using (var fs = File.Create(currentFileName))
                             {
                                 await tempStream.CopyToAsync(fs);
