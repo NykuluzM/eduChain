@@ -64,6 +64,8 @@
 
 
 	<ItemGroup>
+		<PackageReference Include="Camera.Maui" Version="1.5.1" />
+		<PackageReference Include="Camera.Maui.ZXing" Version="1.0.0" />
 		<PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="3.0.1" />
 		<PackageReference Include="epj.RouteGenerator" Version="1.0.1" />
 		<PackageReference Include="FirebaseAdmin" Version="2.4.1" />

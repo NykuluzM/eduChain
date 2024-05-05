@@ -18,7 +18,12 @@ using Plugin.Maui.Audio;
 using Mopups.Hosting;
 using eduChain.Models;
 using ZXing.Net.Maui.Controls;
+using ZXing.Net.Maui;
+using Camera.MAUI;
+
+
 using CommunityToolkit.Maui.Storage;
+using Camera.MAUI;
 namespace eduChain
 {
 	[AutoRoutes("Page")]
@@ -39,6 +44,7 @@ namespace eduChain
 				.UseUraniumUIMaterial()
 				.UseUraniumUIBlurs()
 				.UseBarcodeReader()
+				.UseMauiCameraView()
 				.ConfigureFonts(fonts =>
 				{
 					fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

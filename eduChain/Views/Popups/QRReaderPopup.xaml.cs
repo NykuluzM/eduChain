@@ -1,21 +1,27 @@
 using CommunityToolkit.Maui.Views;
 
 namespace eduChain.Views.Popups;
+using Camera.MAUI;
 
 public partial class QRReaderPopup : Popup
 {
 	public QRReaderPopup()
 	{
 		InitializeComponent();
-		barcodeReader.Options = new ZXing.Net.Maui.BarcodeReaderOptions
-		{
-			Formats = ZXing.Net.Maui.BarcodeFormat.QrCode,
-			AutoRotate = true,
-			TryInverted = true,
-		};
+        cameraView.CamerasLoaded += cameraView_CameraLoaded;
+	}
 
-		barcodeReader.CameraLocation = ZXing.Net.Maui.CameraLocation.Front;
-
+	private async void cameraView_CameraLoaded(object sender, EventArgs e)
+	{
+		// Start the camera
+		cameraView.Camera = cameraView.Cameras.First();
+		
+			var result = await cameraView.StartCameraAsync();
+			if(result == null){
+				// Handle the error
+				Shell.Current.DisplayAlert("Error", "Failed to start the camera", "OK");
+			}
+		
 	}
 	private async void barcodeReader_BarcodesDetected(object sender, ZXing.Net.Maui.BarcodeDetectionEventArgs e)
 	{
