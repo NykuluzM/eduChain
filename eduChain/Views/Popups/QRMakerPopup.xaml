@@ -10,7 +10,7 @@
         <barcode:SfBarcodeGenerator Grid.Row="1" x:Name="bcode"
                                    HeightRequest="500"
                                    WidthRequest="500"
-                                   ForegroundColor="Cyan" BackgroundColor="Black">
+                                   ForegroundColor="Black" BackgroundColor="White">
             <barcode:SfBarcodeGenerator.Symbology>
                 <barcode:QRCode/>
             </barcode:SfBarcodeGenerator.Symbology>

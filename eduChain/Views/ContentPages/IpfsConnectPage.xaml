@@ -10,7 +10,7 @@
              xmlns:listView="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
              xmlns:data="clr-namespace:Syncfusion.Maui.DataSource;assembly=Syncfusion.Maui.DataSource"
              xmlns:pulltoRefresh="clr-namespace:Syncfusion.Maui.PullToRefresh;assembly=Syncfusion.Maui.PullToRefresh"
-             xmlns:zxing="clr-namespace:Zxing.Net.Maui.Controls;assembly=Zxing.Net.Maui.Controls"
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
              Title="{x:OnPlatform MacCatalyst='IPFS Center'}"
              Shell.BackgroundColor="{x:OnPlatform Default='PapayaWhip'}"
                 Shell.ForegroundColor="Purple"
@@ -139,6 +139,7 @@
                                 </Button>
                             </ur:TextField.Attachments>
                         </ur:TextField>
+                        <Button MaximumWidthRequest="500" Command="{Binding DecodeQRCommand}"   Text="QR"/>
                         <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,30,250,30'}" MaximumWidthRequest="800"   Text="Download" Command="{Binding DownloadCommand}" ClassId="downloadClick"/>
                     </StackLayout>
 

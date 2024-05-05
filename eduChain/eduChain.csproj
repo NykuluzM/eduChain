@@ -73,8 +73,8 @@
 
 		<PackageReference Include="LukeMauiFilePicker" Version="1.1.0" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.20" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.20" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.21" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.21" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 		<PackageReference Include="Mopups" Version="1.3.1" />
 		<PackageReference Include="npgsql" Version="8.0.2" />
@@ -97,13 +97,13 @@
 		<PackageReference Include="UraniumUI.Icons.SegoeFluent" Version="2.8.1" />
 		<PackageReference Include="UraniumUI.Material" Version="2.8.1" />
 		<PackageReference Include="WalletConnect.Web3Wallet" Version="2.3.2" />
-		<MauiImage Update="Resources\Images\homelogo.png" BaseSize="35,35" />
 		<PackageReference Include="ZXing.Net.Bindings.SkiaSharp" Version="0.16.14" />
 		<PackageReference Include="ZXing.Net.Maui.Controls" Version="0.4.0" />
+		<MauiImage Update="Resources\Images\homelogo.png" BaseSize="35,35" />
 
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Maui" Version="8.0.1" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="9.0.0" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Compile Update="Views/ContentPages/ForgotPasswordPage.xaml.cs">

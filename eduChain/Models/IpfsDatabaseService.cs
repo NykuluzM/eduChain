@@ -112,8 +112,36 @@ public class IpfsDatabaseService
                 await DatabaseManager.CloseConnectionAsync();
             }
         }
+    public async Task<List<(string CID, string Filename)>> RetrieveFilenames(List<string> cidList)
+    {
+        List<(string CID, string Filename)> filenameList = new List<(string, string)>();
+        try
+        {
+            await DatabaseManager.OpenConnectionAsync();
+            using (var cmd = DatabaseManager.Connection.CreateCommand())
+            {
+                cmd.CommandText = @"SELECT cid, filename FROM ""Files"" WHERE cid = ANY(@cidList)";
+                cmd.Parameters.AddWithValue("@cidList", cidList.ToArray());
+                var reader = await cmd.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    filenameList.Add((reader.GetString(0), reader.GetString(1)));
+                }
+                return filenameList;
+            }
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Error", ex.ToString(), "OK");
+            return null;
+        }
+        finally
+        {
+            await DatabaseManager.CloseConnectionAsync();
+        }
+    }
 
-       public async Task<List<FileModel>> RefreshFilesAsync(string firebase_id, DateTime lastRefreshed)
+    public async Task<List<FileModel>> RefreshFilesAsync(string firebase_id, DateTime lastRefreshed)
     {
             var fileList = new List<FileModel>();
             try

@@ -16,13 +16,22 @@ using eduChain.Models;
 using Npgsql;
 using UraniumUI.Material.Controls;
 using System.Collections.ObjectModel;
+using ZXing;
+using ZXing.Common;
+using ZXing.QrCode.Internal;
+using System;
+using System.Drawing; // For handling images
+
 using System.IO;
 using System.IO.Compression;
 using Syncfusion.Maui.Barcode;
-using ZXing.Net.Maui;
-using ZXing;
-using ZXing.Common;
+using ZXing.Net.Maui.Readers;
+using ZXing.Net.Maui.Controls;
 using SkiaSharp;
+using ZXing.QrCode;
+using ZXing.Net.Maui;
+using Pinata.Client.Models;
+using Ipfs;
 
 namespace eduChain.ViewModels;
 
@@ -30,8 +39,8 @@ public class IpfsViewModel : ViewModelBase
 {
     bool firstLoad = true;
     private bool isRefreshing = false;
-   
-    IFileSaver fileSaver ;
+
+    IFileSaver fileSaver;
     private string hash = "QmdmfZzdzk7endNWKtgAkn5zF1wnNxVTkU99Z9eNY6761S";
     public DateTime LastRefreshed { get; set; } = DateTime.Now;
     public string CurrentCategory { get; set; } = "firstload";
@@ -39,11 +48,12 @@ public class IpfsViewModel : ViewModelBase
     public ICommand UploadCommand { get; }
     public ICommand DownloadCommand { get; }
     public ICommand FileCommand { get; }
-    public ICommand VerifyCommand { get; } 
+    public ICommand VerifyCommand { get; }
     public ICommand CheckCommand { get; }
     public ICommand UnpinCommand { get; }
     public ICommand LoadCommand { get; }
     public ICommand RefreshCommand { get; }
+    public ICommand DecodeQRCommand { get; }
     public event EventHandler InitializationCompleted;
 
     public bool IsRefreshing
@@ -54,10 +64,10 @@ public class IpfsViewModel : ViewModelBase
             isRefreshing = value;
             OnPropertyChanged(nameof(IsRefreshing));
         }
-    }   
+    }
 
     PinataClient pinataClient;
-      Dictionary<DevicePlatform, IEnumerable<string>> FileType = new()
+    Dictionary<DevicePlatform, IEnumerable<string>> FileType = new()
                 {
                     { DevicePlatform.Android, new[] { "*/*" } },
                     { DevicePlatform.iOS, new[] { "public.*" } },
@@ -68,21 +78,22 @@ public class IpfsViewModel : ViewModelBase
     {
         this.fileSaver = fileSaver;
         fileSaver = DependencyService.Get<IFileSaver>();
-         var config = new Config
-        {    
+        var config = new Config
+        {
             ApiKey = "b7aaa5289c05382e0563",
             ApiSecret = "f7b28b0095efdcb761e848cfd0150f7677674abcd4ab0a7ea4295b6abc0507a3"
         };
         pinataClient = new PinataClient(config);
 
-    
+
         DownloadCommand = new Command(async () => await DownloadFileByCid(this.Cid[1]));
-        VerifyCommand = new Command(async ()=> await VerifyFile());
+        VerifyCommand = new Command(async () => await VerifyFile());
         UploadCommand = new Command(async () => await UploadFileToIpfs());
         FileCommand = new Command<string>(async (fileId) => await PickFile(fileId));
         ClearCommand = new Command<string>(async (callerId) => await Clear(callerId));
         UnpinCommand = new Command<string>(async (cid) => await UnpinFile());
-        RefreshCommand = new Command(async () => await RefreshFiles());   
+        RefreshCommand = new Command(async () => await RefreshFiles());
+        DecodeQRCommand = new Command(() => DecodeImageButton());
     }
     public async Task<bool> ChangeCategory(string category)
     {
@@ -103,7 +114,7 @@ public class IpfsViewModel : ViewModelBase
                 break;
             case "Audio":
                 CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".mp3" || f.FileType == ".wav" || f.FileType == ".m4a"));
-                CurrentCategory = "Audio";  
+                CurrentCategory = "Audio";
                 break;
             case "Videos":
                 CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".mp4" || f.FileType == ".mov"));
@@ -152,7 +163,7 @@ public class IpfsViewModel : ViewModelBase
         var newFiles = updatedFileList.Where(newFile => !Files.Any(existingFile => existingFile.CID == newFile.CID));
 
         // Add new files to both collections
-        if(newFiles.Count() == 0)
+        if (newFiles.Count() == 0)
         {
             IsRefreshing = false;
             OnPropertyChanged(nameof(IsRefreshing));
@@ -180,13 +191,13 @@ public class IpfsViewModel : ViewModelBase
     }
     ObservableCollection<FileModel> _categorizedFile = new ObservableCollection<FileModel>();
     public ObservableCollection<FileModel> CategorizedFile {
-                                get {
-                                        return _categorizedFile; 
-                                } 
-                                set { 
-                                    _categorizedFile = value;
-                                    OnPropertyChanged(nameof(CategorizedFile));
-                                } 
+        get {
+            return _categorizedFile;
+        }
+        set {
+            _categorizedFile = value;
+            OnPropertyChanged(nameof(CategorizedFile));
+        }
     }
     ObservableCollection<FileModel> _displayFile = new ObservableCollection<FileModel>();
 
@@ -281,7 +292,7 @@ public class IpfsViewModel : ViewModelBase
 
 
 
-       public async Task PickFile(string fileId)
+    public async Task PickFile(string fileId)
     {
 
         var fileInfo = await picker.PickFileAsync("Select a file", FileType);
@@ -289,12 +300,12 @@ public class IpfsViewModel : ViewModelBase
         {
             return;
         }
-        if(fileId == "fileforverify") { 
+        if (fileId == "fileforverify") {
             FileInfo[0] = fileInfo;
             // Manually raise the event as Array is a reference type
-            OnPropertyChanged(nameof(FileInfo)); 
+            OnPropertyChanged(nameof(FileInfo));
         }
-        else if(fileId == "fileforupload")
+        else if (fileId == "fileforupload")
         {
             FileInfo[1] = fileInfo;
             // Manually raise the event as Array is a reference type
@@ -331,8 +342,8 @@ public class IpfsViewModel : ViewModelBase
         }
         return;
     }
-   
-    public async Task VerifyFile(){
+
+    public async Task VerifyFile() {
 
 
         if (Cid[0] == null || Cid[0] == "")
@@ -357,18 +368,18 @@ public class IpfsViewModel : ViewModelBase
 
         var isSame = await VerifyFileIntegrity(FileInfo[0], Cid[0]);
 
-        if(isSame == 1){
+        if (isSame == 1) {
             await Shell.Current.DisplayAlert("Verify", "File is same", "OK");
-        }else if(isSame == 0){
+        } else if (isSame == 0) {
             await Shell.Current.DisplayAlert("Verify", "File is not same", "OK");
         }
-        else if(isSame == -1){
+        else if (isSame == -1) {
             await Shell.Current.DisplayAlert("Verify", "Your targeted CID does not exist in the node", "OK");
-        } 
-        else if(isSame == -2){
+        }
+        else if (isSame == -2) {
             await Shell.Current.DisplayAlert("Verify", "File upload unsuccessful", "OK");
-        } 
-        else{
+        }
+        else {
             await Shell.Current.DisplayAlert("Verify", "Unknown error", "OK");
         }
 
@@ -390,10 +401,10 @@ public class IpfsViewModel : ViewModelBase
             OnPropertyChanged(nameof(Cid));
         }
     }
-    
 
-   
-  
+
+
+
 
 
     private IPickFile[] _fileInfo = new IPickFile[2];
@@ -409,10 +420,10 @@ public class IpfsViewModel : ViewModelBase
 
     public async Task<int> VerifyFileIntegrity(IPickFile file, string originalCid)
     {
-     
+
         using (var fileStream = File.OpenRead(FileInfo[0].FileResult.FullPath))
         {
-            var fileContent = new StreamContent(fileStream);       
+            var fileContent = new StreamContent(fileStream);
             var response = await this.pinataClient.Pinning.PinFileToIpfsAsync(content =>
             {
                 content.AddPinataFile(fileContent, FileInfo[0].FileName);
@@ -420,120 +431,127 @@ public class IpfsViewModel : ViewModelBase
             if (response.IsSuccess)
             {
                 string newCid = response.IpfsHash;
-                try{
-                var result = await IpfsDatabaseService.Instance.isPinned(newCid);
-                //if the newly created cid is already in database
-                if(result){
-                    //if the generated cid is the same as the original cid
-                    if(newCid == originalCid){
-                        return 1;
+                try {
+                    var result = await IpfsDatabaseService.Instance.isPinned(newCid);
+                    //if the newly created cid is already in database
+                    if (result) {
+                        //if the generated cid is the same as the original cid
+                        if (newCid == originalCid) {
+                            return 1;
+                        }
+                        //if the generated cid is not the same as the original cid
+                        else {
+                            return 0;
+                        }
                     }
-                    //if the generated cid is not the same as the original cid
-                    else{
+                    //if the generated cid is not in database
+                    else
+                    {
+                        await this.pinataClient.Pinning.UnpinAsync(newCid);
                         return 0;
                     }
-                } 
-                //if the generated cid is not in database
-                else
-                {
-                    await this.pinataClient.Pinning.UnpinAsync(newCid);
-                    return 0;
                 }
-                }
-                catch(PostgresException e){
+                catch (PostgresException e) {
                     return -3;
                 }
             }
-            else{
+            else {
                 return -2;
             }
         }
     }
-   
-   private async Task UploadFileToIpfs(){
+
+    private async Task UploadFileToIpfs() {
         var fileres = FileInfo[1];
-        if(fileres == null)
+        if (fileres == null)
         {
             await Shell.Current.DisplayAlert("Upload", "Please select a file to upload", "OK");
             return;
         }
         string filePath = fileres.FileResult.FullPath;
-        
+
 
         string fileExtension = Path.GetExtension(filePath);
-       
-            using (var fileStream = File.OpenRead(filePath))
-            {
-                var fileContent = new StreamContent(fileStream);
-                //File Processing and Uploading to IPFS
-                if (!string.IsNullOrEmpty(fileExtension))
-                {
-                    fileContent.Headers.ContentType = new MediaTypeHeaderValue(MimeUtility.GetMimeMapping(fileExtension));
-                }
-            
-                var response = await this.pinataClient.Pinning.PinFileToIpfsAsync(content =>
-                {
-                    content.AddPinataFile(fileContent, fileres.FileName);
-                });
-                //"F8FD40F55D00F38D4BAC2FA62E0552993DE6CC442699178CF6CF466C77D5655C"
-                if (response.IsSuccess)
-                {
-                    try{
-                            var fileName = Path.GetFileNameWithoutExtension(filePath);
-                            var exist = await IpfsDatabaseService.Instance.isPinned(response.IpfsHash);
-                            if (exist)
-                            {
-                                await Shell.Current.DisplayAlert("Upload", "File already exists in the IPFS node", "OK");
-                                return;
-                            } else
-                            {
-                                await IpfsDatabaseService.Instance.InsertPinnedFile(UsersProfile.FirebaseId,UsersProfile.FirebaseId, response.IpfsHash, fileExtension, fileName);
-                                await Shell.Current.DisplayAlert("Upload", "File uploaded successfully", "OK");
-                                return;
 
-                            }
-                        }
-                    catch(PostgresException e){
-                        await this.pinataClient.Pinning.UnpinAsync(response.IpfsHash);
-                        await Shell.Current.DisplayAlert("Upload", "File upload unsuccessful", "OK");
-                        return;
-                    }
-                
-                    finally
-                    {
-                        FileInfo[1] = null;
-                        OnPropertyChanged(nameof(FileInfo));
-                    }
+        using (var fileStream = File.OpenRead(filePath))
+        {
+            var fileContent = new StreamContent(fileStream);
+            //File Processing and Uploading to IPFS
+            if (!string.IsNullOrEmpty(fileExtension))
+            {
+                fileContent.Headers.ContentType = new MediaTypeHeaderValue(MimeUtility.GetMimeMapping(fileExtension));
             }
+
+            var response = await this.pinataClient.Pinning.PinFileToIpfsAsync(content =>
+            {
+                content.AddPinataFile(fileContent, fileres.FileName);
+            });
+            //"F8FD40F55D00F38D4BAC2FA62E0552993DE6CC442699178CF6CF466C77D5655C"
+            if (response.IsSuccess)
+            {
+                try {
+                    var fileName = Path.GetFileNameWithoutExtension(filePath);
+                    var exist = await IpfsDatabaseService.Instance.isPinned(response.IpfsHash);
+                    if (exist)
+                    {
+                        await Shell.Current.DisplayAlert("Upload", "File already exists in the IPFS node", "OK");
+                        return;
+                    } else
+                    {
+                        await IpfsDatabaseService.Instance.InsertPinnedFile(UsersProfile.FirebaseId, UsersProfile.FirebaseId, response.IpfsHash, fileExtension, fileName);
+                        await Shell.Current.DisplayAlert("Upload", "File uploaded successfully", "OK");
+                        return;
+
+                    }
+                }
+                catch (PostgresException e) {
+                    await this.pinataClient.Pinning.UnpinAsync(response.IpfsHash);
+                    await Shell.Current.DisplayAlert("Upload", "File upload unsuccessful", "OK");
+                    return;
+                }
+
+                finally
+                {
+                    FileInfo[1] = null;
+                    OnPropertyChanged(nameof(FileInfo));
+                }
             }
         }
-  private async void DecodeImageButton_Clicked(object sender, EventArgs e)
+    }
+    private async void DecodeImageButton()
     {
         var pickerResult = await FilePicker.PickAsync();
-         using (var image = SKImage.FromEncodedData(File.ReadAllBytes(pickerResult.FullPath)))
-            
-            // ...
-
-            using (var bitmap = SKBitmap.FromImage(image))
+        if(pickerResult == null)
+        {
+            return;
+        }
+        var bitmap = SKBitmap.Decode(pickerResult.FullPath);
+        var reader = new ZXing.SkiaSharp.BarcodeReader();
+        var result = reader.Decode(bitmap);
+        if(result != null)
+        {
+            var compressedData = Convert.FromBase64String(result.Text);
+            using (var compressedStream = new MemoryStream(compressedData))
+            using (var gzipStream = new GZipStream(compressedStream, CompressionMode.Decompress))
+            using (var streamReader = new StreamReader(gzipStream))
             {
-                // Decode the QR code (the rest is the same)
-                var decoder = new MultiFormatReader();
-                // Declare the 'options' variable before using it
-                var options = new Dictionary<DecodeHintType, object>
-                {
-                    { DecodeHintType.TRY_HARDER, true }
-                };
-                var hints = options != null ? new DecodingHints(options) : null;
-
-                var result = decoder.decode(new BitmapLuminanceSource(bitmap), hints);
-
-
+                var cidString = streamReader.ReadToEnd();
+                var CIDList = cidString.Split('\n').ToList(); // Get the list of CIDs
+                await DownloadFilesByCids(CIDList);
+                // Do something with the extracted CIDList
             }
-
+        }
+        else
+        {
+            await Shell.Current.DisplayAlert("Decoded", "No QR code found", "OK");
+        }
     }
 
 
-   public async Task DownloadFileByCid(string cid)
+
+
+
+    public async Task DownloadFileByCid(string cid)
     {
         if (string.IsNullOrEmpty(cid))
         {
@@ -590,6 +608,61 @@ public class IpfsViewModel : ViewModelBase
             OnPropertyChanged(nameof(Cid));
             // Clean up resources, if necessary
         }
+    }
+    public async Task DownloadFilesByCids(List<string> cidList)
+    {
+        if (cidList == null || cidList.Count == 0)
+        {
+            await Shell.Current.DisplayAlert("Download", "Please provide a list of CIDs", "OK");
+            return;
+        }
+        var fileList =  await IpfsDatabaseService.Instance.RetrieveFilenames(cidList);
+        cidList.Clear();
+
+        using var httpClient = new HttpClient();
+        string gatewayUrl;
+        string path = null;
+        string fileNameBase = null;
+        int fileIndex = 0;
+
+        foreach (var (cid,filename) in fileList)
+        {
+            gatewayUrl = $"https://gateway.pinata.cloud/ipfs/{cid}";
+            fileIndex++;
+            try
+            {
+                var response = await pinataClient.HttpClient.GetAsync(gatewayUrl, HttpCompletionOption.ResponseHeadersRead);
+                if (response.IsSuccessStatusCode)
+                {
+                    string fileName = Path.GetFileName(gatewayUrl); // URI as file name
+
+                    string contentType = response.Content.Headers.ContentType.MediaType;
+                    string fileExtension = GetFileExtensionFromContentType(contentType); // You'll need a helper function
+                    using (var tempStream = await response.Content.ReadAsStreamAsync())
+                    {
+                            var result = await fileSaver.SaveAsync(fileName + fileExtension, tempStream);
+                            path = result.FilePath;
+                            fileNameBase = Path.GetFileNameWithoutExtension(path);
+                       
+                            var basePath = Path.GetDirectoryName(path);
+                            var currentFileName = $"{basePath}\\{filename}{fileExtension}";
+                            using (var fs = File.Create(currentFileName))
+                            {
+                                await tempStream.CopyToAsync(fs);
+                            }
+                        
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle errors gracefully, e.g., log the exception or display a user-friendly message
+                Console.WriteLine($"Error downloading file: {ex.Message}");
+                throw; // Or re-throw for further handling
+            }
+        }   
+        // Display summary message at the end
+        await Shell.Current.DisplayAlert("Download", "Files downloaded successfully", "OK");
     }
     private string GetFileExtensionFromContentType(string contentType)
     {
