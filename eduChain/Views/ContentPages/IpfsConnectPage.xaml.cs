@@ -87,36 +87,32 @@ public partial class IpfsConnectPage : ContentPage
     private async void QR_clicked(Object sender,EventArgs e){
         var s = (Button)sender;
  
-        SfListView parent = null;;
-        var selectedItems = new ObservableCollection<object>();
+        SfListView parent = null;
+        var selectedItems = MyPhotosList.SelectedItems;
         switch(s.ClassId){
             case "DocumentsQR":
                 parent = MyDocumentsList;
-                selectedItems = parent.SelectedItems;
                 break;
             case "PhotosQR":
                 parent = MyPhotosList;
-                selectedItems = parent.SelectedItems;
                 break;
             case "AudioQR":
                 parent = MyAudioList;
-                selectedItems = parent.SelectedItems;
                 break;
             case "VideosQR":
                 parent = MyVideosList;
-                selectedItems = parent.SelectedItems;
                 break;
             case "AllQR":
                 parent = MyAllList;
-                selectedItems = parent.SelectedItems;
                 break;
         }
-        if(selectedItems.Count == 0)
-        {
+        selectedItems = parent.SelectedItems;
+        if(selectedItems.Count == 0){
             var toast = Toast.Make("No files selected");
             await toast.Show();
             return;
         }
+        
         var CIDList = new List<string>();
         foreach(var item in selectedItems){
             var file = item as FileModel;
@@ -138,6 +134,8 @@ public partial class IpfsConnectPage : ContentPage
             var qrPopup = new QRMakerPopup(compressedData);
             this.ShowPopup(qrPopup);
         }
+
+        parent.SelectedItems.Clear();
     }
     private async void TabChange(object sender, TabSelectionChangedEventArgs e){
         ShowLessFiles.IsVisible = false;

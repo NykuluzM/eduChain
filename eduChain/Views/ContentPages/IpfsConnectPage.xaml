@@ -245,7 +245,7 @@
                                                         <Grid RowDefinitions="Auto" Margin="0,0,0,-20">
 
                                                             <HorizontalStackLayout HorizontalOptions="Center" >
-                                                                <Button Text="Generate QR Code" Clicked="QR_clicked" ClassId="AllQR" />
+                                                                <Button Text="Generate QR Code" Clicked="QR_clicked" ClassId="PhotosQR" />
                                                             </HorizontalStackLayout>
                                                         </Grid>
 
@@ -338,7 +338,7 @@
                                                         <Grid RowDefinitions="Auto" Margin="0,0,0,-20">
 
                                                             <HorizontalStackLayout HorizontalOptions="Center" >
-                                                                <Button Text="Generate QR Code" Clicked="QR_clicked" ClassId="AllQR" />
+                                                                <Button Text="Generate QR Code" Clicked="QR_clicked" ClassId="AudioQR" />
                                                             </HorizontalStackLayout>
                                                         </Grid>
 
@@ -429,7 +429,7 @@
                                                         <Grid RowDefinitions="Auto" Margin="0,0,0,-20">
 
                                                             <HorizontalStackLayout HorizontalOptions="Center" >
-                                                                <Button Text="Generate QR Code" Clicked="QR_clicked" ClassId="AllQR" />
+                                                                <Button Text="Generate QR Code" Clicked="QR_clicked" ClassId="VideosQR" />
                                                             </HorizontalStackLayout>
                                                         </Grid>
 
@@ -516,7 +516,7 @@
                                                         <Grid RowDefinitions="Auto" Margin="0,0,0,-20">
 
                                                             <HorizontalStackLayout HorizontalOptions="Center" >
-                                                                <Button Text="Generate QR Code" Clicked="QR_clicked" ClassId="AllQR" />
+                                                                <Button Text="Generate QR Code" Clicked="QR_clicked" ClassId="DocumentsQR" />
                                                             </HorizontalStackLayout>
                                                         </Grid>
 
