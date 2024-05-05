@@ -637,11 +637,15 @@ public class IpfsViewModel : ViewModelBase
                     string fileName = Path.GetFileName(gatewayUrl); // URI as file name
 
                     string contentType = response.Content.Headers.ContentType.MediaType;
-                    string fileExtension = GetFileExtensionFromContentType(contentType); // You'll need a helper function
+                    string fileExtension = GetFileExtensionFromContentType(contentType); 
                     using (var tempStream = await response.Content.ReadAsStreamAsync())
                     {
-                            var result = await fileSaver.SaveAsync(fileName + fileExtension, tempStream);
-                            path = result.FilePath;
+                        try{
+                            var result = await FolderPicker.PickAsync(default);
+                            path = result.Name;
+
+                        } catch (Exception ex) {
+                        }
                             fileNameBase = Path.GetFileNameWithoutExtension(path);
                        
                             var basePath = Path.GetDirectoryName(path);
