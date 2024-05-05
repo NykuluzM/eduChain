@@ -242,9 +242,13 @@
                                                 </listView:SfListView.HeaderTemplate>
                                                 <listView:SfListView.FooterTemplate>
                                                     <DataTemplate>
-                                                        <HorizontalStackLayout HorizontalOptions="Center" Margin="{x:OnPlatform MacCatalyst='0,0,0,0', Default='0,0,0,-15'}">
-                                                            <Button  Text="Generate QR Code" Clicked="QR_clicked" ClassId="PhotosQR" />
-                                                        </HorizontalStackLayout>
+                                                        <Grid RowDefinitions="Auto" Margin="0,0,0,-20">
+
+                                                            <HorizontalStackLayout HorizontalOptions="Center" >
+                                                                <Button Text="Generate QR Code" Clicked="QR_clicked" ClassId="AllQR" />
+                                                            </HorizontalStackLayout>
+                                                        </Grid>
+
                                                     </DataTemplate>
                                                 </listView:SfListView.FooterTemplate>
                                                 <listView:SfListView.DataSource>
@@ -331,9 +335,13 @@
                                                 </listView:SfListView.HeaderTemplate>
                                                 <listView:SfListView.FooterTemplate>
                                                     <DataTemplate>
-                                                        <HorizontalStackLayout HorizontalOptions="Center" Margin="{x:OnPlatform MacCatalyst='0,0,0,0', Default='0,0,0,-15'}">
-                                                            <Button Text="Generate QR Code" Clicked="QR_clicked" ClassId="AudioQR"/>
-                                                        </HorizontalStackLayout>
+                                                        <Grid RowDefinitions="Auto" Margin="0,0,0,-20">
+
+                                                            <HorizontalStackLayout HorizontalOptions="Center" >
+                                                                <Button Text="Generate QR Code" Clicked="QR_clicked" ClassId="AllQR" />
+                                                            </HorizontalStackLayout>
+                                                        </Grid>
+
                                                     </DataTemplate>
                                                 </listView:SfListView.FooterTemplate>
                                                 <listView:SfListView.DataSource>
@@ -418,9 +426,13 @@
                                                 </listView:SfListView.HeaderTemplate>
                                                 <listView:SfListView.FooterTemplate>
                                                     <DataTemplate>
-                                                       <HorizontalStackLayout HorizontalOptions="Center" Margin="{x:OnPlatform MacCatalyst='0,0,0,0', Default='0,0,0,-15'}">
-                                                            <Button Text="Generate QR Code" Clicked="QR_clicked" ClassId="VideosQR"/>
-                                                        </HorizontalStackLayout>
+                                                        <Grid RowDefinitions="Auto" Margin="0,0,0,-20">
+
+                                                            <HorizontalStackLayout HorizontalOptions="Center" >
+                                                                <Button Text="Generate QR Code" Clicked="QR_clicked" ClassId="AllQR" />
+                                                            </HorizontalStackLayout>
+                                                        </Grid>
+
                                                     </DataTemplate>
                                                 </listView:SfListView.FooterTemplate>
                                                 <listView:SfListView.DataSource>
@@ -501,9 +513,13 @@
                                         </listView:SfListView.HeaderTemplate>
                                                 <listView:SfListView.FooterTemplate>
                                                     <DataTemplate>
-                                                       <HorizontalStackLayout HorizontalOptions="Center" Margin="{x:OnPlatform MacCatalyst='0,0,0,0', Default='0,0,0,-15'}">
-                                                            <Button Text="Generate QR Code" Clicked="QR_clicked" ClassId="DocumentsQR" />
-                                                        </HorizontalStackLayout>
+                                                        <Grid RowDefinitions="Auto" Margin="0,0,0,-20">
+
+                                                            <HorizontalStackLayout HorizontalOptions="Center" >
+                                                                <Button Text="Generate QR Code" Clicked="QR_clicked" ClassId="AllQR" />
+                                                            </HorizontalStackLayout>
+                                                        </Grid>
+
                                                     </DataTemplate>
                                                 </listView:SfListView.FooterTemplate>
                                                 <listView:SfListView.DataSource>
@@ -588,9 +604,13 @@
                                                 </listView:SfListView.HeaderTemplate>
                                                 <listView:SfListView.FooterTemplate>
                                                     <DataTemplate>
-                                                       <HorizontalStackLayout HorizontalOptions="Center" Margin="{x:OnPlatform MacCatalyst='0,0,0,0', Default='0,0,0,-15'}">
-                                                            <Button Text="Generate QR Code" Clicked="QR_clicked" ClassId="AllQR" />
-                                                        </HorizontalStackLayout>
+                                                        <Grid RowDefinitions="Auto" Margin="0,0,0,-20">
+                                                            
+                                                            <HorizontalStackLayout HorizontalOptions="Center" >
+                                                                <Button Text="Generate QR Code" Clicked="QR_clicked" ClassId="AllQR" />
+                                                            </HorizontalStackLayout>
+                                                        </Grid>
+                                                     
                                                     </DataTemplate>
                                                 </listView:SfListView.FooterTemplate>
                                                 <listView:SfListView.DataSource>
