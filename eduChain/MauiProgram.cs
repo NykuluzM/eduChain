@@ -12,18 +12,15 @@ using Supabase;
 using eduChain.Views.ContentPages;
 using eduChain.Views.ContentPages.ProfileViews;
 using epj.RouteGenerator;
-using Syncfusion.Maui.Core.Hosting;
-
+using Syncfusion.Maui.Core.Hosting;	
 using Plugin.Maui.Audio;
 using Mopups.Hosting;
-using eduChain.Models;
 using ZXing.Net.Maui.Controls;
 using ZXing.Net.Maui;
 using Camera.MAUI;
 
 
 using CommunityToolkit.Maui.Storage;
-using Camera.MAUI;
 namespace eduChain
 {
 	[AutoRoutes("Page")]

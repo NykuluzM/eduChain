@@ -35,8 +35,7 @@
 	</array>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/appicon.appiconset</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Camera is used to for Barcode Scanning</string>
+	<key>NSCameraUsageDescription</key> <string>We need access to your camera to capture photos or videos.</string> <key>NSMicrophoneUsageDescription</key> <string>We need access to your microphone to record audio.</string>>
 	<key>com.apple.security.files.user-selected.read-write</key>
 	<true/>
 </dict>

@@ -11,7 +11,8 @@ using Syncfusion.Maui.ListView;
 using eduChain.Views.Popups;
 using CommunityToolkit.Maui.Views;
 using System.IO.Compression;
-using eduChain.ViewModels;  
+using eduChain.ViewModels;
+using Camera.MAUI;
 namespace eduChain.Views.ContentPages;
 public partial class IpfsConnectPage : ContentPage
 {
@@ -28,6 +29,7 @@ public partial class IpfsConnectPage : ContentPage
         BindingContext = ipfsViewModel;
         MyDocumentsList.SelectionBackground = Colors.Khaki;
         ShowMore(this, null);
+        cameraView.BarcodeDetected += cameraView_BarcodeDetected;
     }
    
     
@@ -38,8 +40,7 @@ public partial class IpfsConnectPage : ContentPage
         }
     }
     private async void QRImagePrompt(object sender, EventArgs e){
-        var qrPopup = new QRReaderPopup();
-        this.ShowPopup(qrPopup);
+     
     }
     private void Filter(object sender, EventArgs e){
     
@@ -203,6 +204,7 @@ public partial class IpfsConnectPage : ContentPage
                     }
                     break;
                 case "Download":
+
                     if (s.IsChecked)
                     {
                         DownloadLayout.IsVisible = true;
@@ -303,10 +305,29 @@ public partial class IpfsConnectPage : ContentPage
             var imagePopup = new IMAGEPopup(filename, rawCid);
             this.ShowPopup(imagePopup);
         }
-
-
-
     }
+    private void cameraView_CameraLoaded(object sender, EventArgs e)
+	{
+		if(cameraView.Cameras.Count > 0){
+			cameraView.Camera = cameraView.Cameras.First();
+		 MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                if (await cameraView.StartCameraAsync() == CameraResult.Success)
+                {
+                    await Shell.Current.DisplayAlert("Camera", "Camera started", "OK");
+                }
+            });
+		}
+		
+	}
+	private async void cameraView_BarcodeDetected(object sender,Camera.MAUI.ZXingHelper.BarcodeEventArgs args){
+		MainThread.BeginInvokeOnMainThread(async () =>
+        {
+            var Result = args.Result[0].Text;
+            await Shell.Current.DisplayAlert("Barcode", Result, "OK");
+        });
+	}
+
     
     private async void Push_Download(object sender, EventArgs e)
     {

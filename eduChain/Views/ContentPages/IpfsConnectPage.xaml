@@ -10,6 +10,8 @@
              xmlns:listView="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
              xmlns:data="clr-namespace:Syncfusion.Maui.DataSource;assembly=Syncfusion.Maui.DataSource"
              xmlns:pulltoRefresh="clr-namespace:Syncfusion.Maui.PullToRefresh;assembly=Syncfusion.Maui.PullToRefresh"
+             xmlns:cv="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
+
              xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
              Title="{x:OnPlatform MacCatalyst='IPFS Center'}"
              Shell.BackgroundColor="{x:OnPlatform Default='PapayaWhip'}"
@@ -140,7 +142,10 @@
                             </ur:TextField.Attachments>
                         </ur:TextField>
                         <Button MaximumWidthRequest="500" Command="{Binding DecodeQRCommand}"   Text="QR"/>
-                        <Button MaximumWidthRequest="500" Clicked="QRImagePrompt"   Text="QR Image"/>   
+                        <VerticalStackLayout>
+                            <cv:CameraView x:Name="cameraView" CamerasLoaded="cameraView_CameraLoaded" BarCodeDetectionEnabled="True" BarcodeDetected="cameraView_BarcodeDetected" HeightRequest="500" WidthRequest="500" />
+
+                        </VerticalStackLayout>
                         <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,30,250,30'}" MaximumWidthRequest="800"   Text="Download" Command="{Binding DownloadCommand}" ClassId="downloadClick"/>
                     </StackLayout>
 
