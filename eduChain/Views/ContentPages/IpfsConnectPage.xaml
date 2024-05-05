@@ -140,6 +140,7 @@
                             </ur:TextField.Attachments>
                         </ur:TextField>
                         <Button MaximumWidthRequest="500" Command="{Binding DecodeQRCommand}"   Text="QR"/>
+                        <Button MaximumWidthRequest="500" Clicked="QRImagePrompt"   Text="QR Image"/>   
                         <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,30,250,30'}" MaximumWidthRequest="800"   Text="Download" Command="{Binding DownloadCommand}" ClassId="downloadClick"/>
                     </StackLayout>
 

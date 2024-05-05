@@ -37,6 +37,10 @@ public partial class IpfsConnectPage : ContentPage
             await ipfsViewModel.ChangeCategory("firstload");    
         }
     }
+    private async void QRImagePrompt(object sender, EventArgs e){
+        var qrPopup = new QRReaderPopup();
+        this.ShowPopup(qrPopup);
+    }
     private void Filter(object sender, EventArgs e){
     
         searchBar = (SearchBar)sender;

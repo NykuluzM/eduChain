@@ -1,0 +1,13 @@
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.Maui.Controls  "
+               x:Class="eduChain.Views.Popups.QRReaderPopup"
+               CanBeDismissedByTappingOutsideOfPopup="false" >
+    <Grid Background="Beige" RowDefinitions="Auto,*,Auto">
+        <Label x:Name="labelHolder" Text="eduChain" Margin="0,0,0,20" Grid.Row="0" TextColor="Purple" HorizontalOptions="Center"  FontSize="15" FontAttributes="Bold"/>
+        <zxing:CameraBarcodeReaderView x:Name="barcodeReader" Grid.Row="1" WidthRequest="500" HeightRequest="500"  BarcodesDetected="barcodeReader_BarcodesDetected"/>
+        <Button  Text="Close" Grid.Row="2" WidthRequest="500" Clicked="ClosePopup" /> 
+    </Grid>
+       
+</toolkit:Popup>

@@ -74,6 +74,13 @@ public class IpfsViewModel : ViewModelBase
                     { DevicePlatform.MacCatalyst, new[] { "public.*" } },
                     { DevicePlatform.WinUI, new[] { "*",".jpg",".png",".gif",".docx",".pdf",".xlsx",".xls",".mp3",".mp4",".wav",".mov" } }
                 };
+    Dictionary<DevicePlatform, IEnumerable<string>> QRFileType = new()
+    {
+        { DevicePlatform.Android, new[] { "image/.png" } },
+        { DevicePlatform.iOS, new[] { "public.png" } },
+        { DevicePlatform.MacCatalyst, new[] { "public.png" } },
+        { DevicePlatform.WinUI, new[] { ".png" } }
+    };
     public IpfsViewModel(IFileSaver fileSaver)
     {
         this.fileSaver = fileSaver;
@@ -520,23 +527,12 @@ public class IpfsViewModel : ViewModelBase
     }
     private async void DecodeImageButton()
     {
-        var pickerResult = await FilePicker.PickAsync(new PickOptions
-        {
-            PickerTitle = "Select a PNG file",
-            FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
-    {
-        { DevicePlatform.Android, new[] { "image/png" } },
-        { DevicePlatform.iOS, new[] { "public.png" } },
-        { DevicePlatform.macOS, new[] { "public.png" } },
-        { DevicePlatform.WinUI, new[] { ".png" } },
-    })
-        });
-
+       var pickerResult = await picker.PickFileAsync("Select a QR code image", QRFileType);    
         if (pickerResult == null)
         {
             return;
         }
-        var bitmap = SKBitmap.Decode(pickerResult.FullPath);
+        var bitmap = SKBitmap.Decode(pickerResult.FileResult.FullPath);
         var reader = new ZXing.SkiaSharp.BarcodeReader();
         var result = reader.Decode(bitmap);
         if(result != null)
@@ -627,6 +623,13 @@ public class IpfsViewModel : ViewModelBase
             await Shell.Current.DisplayAlert("Download", "Please provide a list of CIDs", "OK");
             return;
         }
+        string formatExpression = null;
+        if(DeviceInfo.Platform == DevicePlatform.MacCatalyst){
+            formatExpression = "/";
+        }
+        else{
+            formatExpression = "\\";
+        }
         var fileList =  await IpfsDatabaseService.Instance.RetrieveFilenames(cidList);
         cidList.Clear();
 
@@ -659,19 +662,18 @@ public class IpfsViewModel : ViewModelBase
                     using (var tempStream = await response.Content.ReadAsStreamAsync())
                     {
                         
-                       
-                            var currentFileName = $"{path}\\{filename}{fileExtension}";
+                            var currentFileName = $"{path}{formatExpression}{filename}{fileExtension}";
                             if(File.Exists(currentFileName))
                             {
                                 for(int i = 0; i < 100; i++) 
                                 {                                     
-                                    if(File.Exists($"{path}\\{filename}({i}){fileExtension}"))
+                                    if(File.Exists($"{path}{formatExpression}{filename}({i}){fileExtension}"))
                                     {
                                             continue;
                                     }
                                     else
                                     {
-                                            currentFileName = $"{path}\\{filename}({i}){fileExtension}";
+                                            currentFileName = $"{path}{formatExpression}{filename}({i}){fileExtension}";
                                             break;
                                     }
                                 }
