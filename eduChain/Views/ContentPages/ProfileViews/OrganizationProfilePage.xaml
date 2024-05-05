@@ -4,7 +4,7 @@
              x:Class="eduChain.Views.ContentPages.OrganizationProfilePage"
                           xmlns:content="clr-namespace:eduChain.Views.ContentViews; assembly=eduChain"
 
-             Shell.NavBarIsVisible="False" Shell.TabBarIsVisible="False">
+             Shell.NavBarIsVisible="False" Shell.TabBarIsVisible="False" Shell.FlyoutBehavior="Disabled">
     <VerticalStackLayout>
         <Frame BackgroundColor="Transparent" BorderColor="Transparent" WidthRequest="400" HeightRequest="500">
             <content:UserProfileView

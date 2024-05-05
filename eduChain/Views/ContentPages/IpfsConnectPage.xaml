@@ -142,10 +142,7 @@
                             </ur:TextField.Attachments>
                         </ur:TextField>
                         <Button MaximumWidthRequest="500" Command="{Binding DecodeQRCommand}"   Text="QR"/>
-                        <VerticalStackLayout>
-                            <cv:CameraView x:Name="cameraView" CamerasLoaded="cameraView_CameraLoaded" BarCodeDetectionEnabled="True" BarcodeDetected="cameraView_BarcodeDetected" HeightRequest="500" WidthRequest="500" />
-
-                        </VerticalStackLayout>
+                       
                         <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,30,250,30'}" MaximumWidthRequest="800"   Text="Download" Command="{Binding DownloadCommand}" ClassId="downloadClick"/>
                     </StackLayout>
 
@@ -234,7 +231,7 @@
                                                                       IsRefreshing="{Binding IsRefreshing}"
                                                                       RefreshCommand="{Binding RefreshCommand}"> 
                                         <pulltoRefresh:SfPullToRefresh.PullableContent>
-                                            <listView:SfListView   x:Name="MyPhotosList" IsStickyHeader="True" ItemSpacing="5,5,5,5" ItemSize="{x:OnPlatform Android=285, Default=280}" SelectionMode="Multiple" SelectionGesture="DoubleTap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
+                                            <listView:SfListView   x:Name="MyPhotosList" IsStickyHeader="True" ItemSpacing="5,5,5,5" ItemSize="{x:OnPlatform Android=285, Default=280}" SelectionMode="Multiple" SelectionGesture="Tap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
                                                 <listView:SfListView.ItemsLayout>
                                                     <listView:GridLayout x:Name="GPhotoItems" SpanCount="{x:OnPlatform Default=3, Android=1}"   />
                                                 </listView:SfListView.ItemsLayout>
@@ -245,8 +242,8 @@
                                                 </listView:SfListView.HeaderTemplate>
                                                 <listView:SfListView.FooterTemplate>
                                                     <DataTemplate>
-                                                        <HorizontalStackLayout>
-                                                            <Button Text="Generate QR Code" Clicked="QR_clicked"  />
+                                                        <HorizontalStackLayout HorizontalOptions="Center" Margin="0,0,0,-15">
+                                                            <Button  Text="Generate QR Code" Clicked="QR_clicked" />
                                                         </HorizontalStackLayout>
                                                     </DataTemplate>
                                                 </listView:SfListView.FooterTemplate>
@@ -323,7 +320,7 @@
                                                 IsRefreshing="{Binding IsRefreshing}"
                                                 RefreshCommand="{Binding RefreshCommand}">  
                                         <pulltoRefresh:SfPullToRefresh.PullableContent>
-                                            <listView:SfListView   x:Name="MyAudioList" IsStickyHeader="True" ItemSpacing="5,5,5,5" ItemSize="{x:OnPlatform Android=285, Default=280}" SelectionMode="Multiple" SelectionGesture="DoubleTap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
+                                            <listView:SfListView   x:Name="MyAudioList" IsStickyHeader="True" ItemSpacing="5,5,5,5" ItemSize="{x:OnPlatform Android=285, Default=280}" SelectionMode="Multiple" SelectionGesture="Tap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
                                                 <listView:SfListView.ItemsLayout>
                                                     <listView:GridLayout x:Name="GAudioItems" SpanCount="{x:OnPlatform Default=3, Android=1}"   />
                                                 </listView:SfListView.ItemsLayout>
@@ -332,7 +329,13 @@
                                                         <SearchBar x:Name="SearchBar" Placeholder="Search here to filter" BackgroundColor="Wheat" CancelButtonColor="Red" TextColor="Black" PlaceholderColor="Black" TextChanged="Filter" ClassId="AudioSearch" />
                                                     </DataTemplate>
                                                 </listView:SfListView.HeaderTemplate>
-
+                                                <listView:SfListView.FooterTemplate>
+                                                    <DataTemplate>
+                                                        <HorizontalStackLayout Margin="0,0,0,-15">
+                                                            <Button Text="Generate QR Code" Clicked="QR_clicked" />
+                                                        </HorizontalStackLayout>
+                                                    </DataTemplate>
+                                                </listView:SfListView.FooterTemplate>
                                                 <listView:SfListView.DataSource>
                                                     <data:DataSource>
                                                         <data:DataSource.GroupDescriptors>
@@ -404,7 +407,7 @@
                                                             RefreshCommand="{Binding RefreshCommand}">  
 
                                         <pulltoRefresh:SfPullToRefresh.PullableContent>
-                                                <listView:SfListView   x:Name="MyVideosList" IsStickyHeader="True" ItemSpacing="5,5,5,5" ItemSize="{x:OnPlatform Android=285, Default=280}" SelectionMode="Multiple" SelectionGesture="DoubleTap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
+                                                <listView:SfListView   x:Name="MyVideosList" IsStickyHeader="True" ItemSpacing="5,5,5,5" ItemSize="{x:OnPlatform Android=285, Default=280}" SelectionMode="Multiple" SelectionGesture="Tap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
                                                 <listView:SfListView.ItemsLayout>
                                                     <listView:GridLayout x:Name="GVideosItems" SpanCount="{x:OnPlatform Default=3, Android=1}"   />
                                                 </listView:SfListView.ItemsLayout>
@@ -413,7 +416,13 @@
                                                         <SearchBar x:Name="SearchBar" Placeholder="Search here to filter" BackgroundColor="Wheat" CancelButtonColor="Red" TextColor="Black" PlaceholderColor="Black" TextChanged="Filter" ClassId="VideosSearch" />
                                                     </DataTemplate>
                                                 </listView:SfListView.HeaderTemplate>
-
+                                                <listView:SfListView.FooterTemplate>
+                                                    <DataTemplate>
+                                                        <HorizontalStackLayout Margin="0,0,0,-15">
+                                                            <Button Text="Generate QR Code" Clicked="QR_clicked" />
+                                                        </HorizontalStackLayout>
+                                                    </DataTemplate>
+                                                </listView:SfListView.FooterTemplate>
                                                 <listView:SfListView.DataSource>
                                                     <data:DataSource>
                                                         <data:DataSource.GroupDescriptors>
@@ -481,7 +490,7 @@
                                             IsRefreshing="{Binding IsRefreshing}"
                                             RefreshCommand="{Binding RefreshCommand}">  
                                         <pulltoRefresh:SfPullToRefresh.PullableContent>
-                                            <listView:SfListView x:Name="MyDocumentsList" IsStickyHeader="True" ItemSpacing="5,5,5,5" ItemSize="{x:OnPlatform Android=285, Default=280}" SelectionMode="Multiple" SelectionGesture="DoubleTap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
+                                            <listView:SfListView x:Name="MyDocumentsList" IsStickyHeader="True" ItemSpacing="5,5,5,5" ItemSize="{x:OnPlatform Android=285, Default=280}" SelectionMode="Multiple" SelectionGesture="Tap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
                                         <listView:SfListView.ItemsLayout>
                                             <listView:GridLayout x:Name="GItems" SpanCount="{x:OnPlatform Default=3, Android=1}"   />
                                         </listView:SfListView.ItemsLayout>
@@ -490,8 +499,14 @@
                                                 <SearchBar x:Name="SearchBar" Placeholder="Search here to filter" BackgroundColor="Wheat" CancelButtonColor="Red" TextColor="Black" PlaceholderColor="Black" TextChanged="Filter" ClassId="DocumentsSearch" />
                                             </DataTemplate>
                                         </listView:SfListView.HeaderTemplate>
-
-                                        <listView:SfListView.DataSource>
+                                                <listView:SfListView.FooterTemplate>
+                                                    <DataTemplate>
+                                                        <HorizontalStackLayout Margin="0,0,0,-15">
+                                                            <Button Text="Generate QR Code" Clicked="QR_clicked" />
+                                                        </HorizontalStackLayout>
+                                                    </DataTemplate>
+                                                </listView:SfListView.FooterTemplate>
+                                                <listView:SfListView.DataSource>
                                             <data:DataSource>
                                                 <data:DataSource.GroupDescriptors>
                                                     <data:GroupDescriptor PropertyName="FileType"/>
@@ -562,7 +577,7 @@
                                     IsRefreshing="{Binding IsRefreshing}"
                                     RefreshCommand="{Binding RefreshCommand}">
                                         <pulltoRefresh:SfPullToRefresh.PullableContent>
-                                            <listView:SfListView   x:Name="MyAllList" IsStickyHeader="True" IsStickyFooter="True" ItemSpacing="5,5,5,5" ItemSize="280" SelectionMode="Multiple" SelectionGesture="DoubleTap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding Files}">
+                                            <listView:SfListView   x:Name="MyAllList" IsStickyHeader="True" IsStickyFooter="True" ItemSpacing="5,5,5,5" ItemSize="280" SelectionMode="Multiple" SelectionGesture="Tap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding Files}">
                                                 <listView:SfListView.ItemsLayout>
                                                     <listView:GridLayout x:Name="GAllItems" SpanCount="{x:OnPlatform Default=3, Android=1}"   />
                                                 </listView:SfListView.ItemsLayout>
@@ -571,7 +586,13 @@
                                                         <SearchBar x:Name="SearchBar" Placeholder="Search here to filter" BackgroundColor="Wheat" CancelButtonColor="Red" TextColor="Black" PlaceholderColor="Black" TextChanged="Filter" ClassId="AllSearch" />
                                                     </DataTemplate>
                                                 </listView:SfListView.HeaderTemplate>
-                                               
+                                                <listView:SfListView.FooterTemplate>
+                                                    <DataTemplate>
+                                                        <HorizontalStackLayout Margin="0,0,0,-15">
+                                                            <Button Text="Generate QR Code" Clicked="QR_clicked" />
+                                                        </HorizontalStackLayout>
+                                                    </DataTemplate>
+                                                </listView:SfListView.FooterTemplate>
                                                 <listView:SfListView.DataSource>
                                                     <data:DataSource>
                                                         <data:DataSource.GroupDescriptors>

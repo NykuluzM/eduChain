@@ -1,7 +1,11 @@
 ﻿using  System.Windows.Input; 
 using eduChain.Models;  
-using eduChain.Services; 
+using eduChain.Models.MyProfileModels;
+using eduChain.Services;
+using eduChain.Views.ContentPages;
 namespace eduChain;
+
+using eduChain.ViewModels.ProfileViewModels;
 using SkiaSharp;
 
 public class AppShellViewModel : ViewModelBase
@@ -48,6 +52,10 @@ public class AppShellViewModel : ViewModelBase
         // Handle the logout logic here
        Preferences.Default.Clear();
        MyProfileModel.Instance.ProfileImage = "profiledefault.png";
-       await Shell.Current.GoToAsync("//loginPage");
+        UsersProfileModel.Instance.Role = null;
+
+        App.Current.MainPage = new AppShell();
+
+
     }
 }

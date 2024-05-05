@@ -10,7 +10,7 @@
     <ScrollView>
         <VerticalStackLayout>
             <input:FormView>
-
+            <material:TextField Title="Display Name" Text="{Binding DisplayName}"  Margin="25,20,25,10" />
             <material:TextField Title="Organization Name"  Text="{Binding OrgName}"  Margin="25,20,25,10" />
             <material:TextField Title="Type" Text="{Binding Type}"  Margin="25,20,25,10" />
             <material:TextField Title="Email" Text="{Binding Email}"  Margin="25,20,25,10" />

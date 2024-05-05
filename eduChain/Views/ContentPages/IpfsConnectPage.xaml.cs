@@ -11,6 +11,7 @@ using Syncfusion.Maui.ListView;
 using eduChain.Views.Popups;
 using CommunityToolkit.Maui.Views;
 using System.IO.Compression;
+using CommunityToolkit.Maui.Alerts;
 using eduChain.ViewModels;
 using Camera.MAUI;
 namespace eduChain.Views.ContentPages;
@@ -29,7 +30,6 @@ public partial class IpfsConnectPage : ContentPage
         BindingContext = ipfsViewModel;
         MyDocumentsList.SelectionBackground = Colors.Khaki;
         ShowMore(this, null);
-        cameraView.BarcodeDetected += cameraView_BarcodeDetected;
     }
    
     
@@ -85,6 +85,12 @@ public partial class IpfsConnectPage : ContentPage
     }
     private async void QR_clicked(Object sender,EventArgs e){
         var selectedItems = MyPhotosList.SelectedItems;
+        if(selectedItems.Count == 0)
+        {
+            var toast = Toast.Make("No files selected");
+            await toast.Show();
+            return;
+        }
         var CIDList = new List<string>();
         foreach(var item in selectedItems){
             var file = item as FileModel;
@@ -147,6 +153,7 @@ public partial class IpfsConnectPage : ContentPage
         {
             ShowMoreFiles.IsVisible = true;
         }
+        
         ShowMore(this, null);
     }
 
@@ -306,27 +313,7 @@ public partial class IpfsConnectPage : ContentPage
             this.ShowPopup(imagePopup);
         }
     }
-    private void cameraView_CameraLoaded(object sender, EventArgs e)
-	{
-		if(cameraView.Cameras.Count > 0){
-			cameraView.Camera = cameraView.Cameras.First();
-		 MainThread.BeginInvokeOnMainThread(async () =>
-            {
-                if (await cameraView.StartCameraAsync() == CameraResult.Success)
-                {
-                    await Shell.Current.DisplayAlert("Camera", "Camera started", "OK");
-                }
-            });
-		}
-		
-	}
-	private async void cameraView_BarcodeDetected(object sender,Camera.MAUI.ZXingHelper.BarcodeEventArgs args){
-		MainThread.BeginInvokeOnMainThread(async () =>
-        {
-            var Result = args.Result[0].Text;
-            await Shell.Current.DisplayAlert("Barcode", Result, "OK");
-        });
-	}
+
 
     
     private async void Push_Download(object sender, EventArgs e)
@@ -341,6 +328,9 @@ public partial class IpfsConnectPage : ContentPage
         var s = (Button)sender;
         string textToCopy =  s.ClassId; // Get the text you want to copy (filename or downloaded content)
         await CopyTextToClipboard(textToCopy);
+        string message = "CID Copied to clipboard";
+        var toast = Toast.Make(message);
+        await toast.Show();
     }
     public async Task CopyTextToClipboard(string text)
 {

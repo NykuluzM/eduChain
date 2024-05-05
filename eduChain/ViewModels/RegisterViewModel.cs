@@ -353,6 +353,8 @@ namespace eduChain.ViewModels
                         case "Organization":
                             if (parameters is NpgsqlParameterCollection pgParametersOrg)
                             {
+                                pgParametersOrg.AddWithValue("@display_name", DisplayName);
+                                pgParametersOrg.AddWithValue("@email", email);
                                 pgParametersOrg.AddWithValue("@firebase_id", uid);
                                 pgParametersOrg.AddWithValue("@name", OrgName);
                                 pgParametersOrg.AddWithValue("@type", Type);
@@ -361,7 +363,7 @@ namespace eduChain.ViewModels
 
                             command.CommandText = @"
                             WITH inserted_user AS (
-                                INSERT INTO ""Users"" (""firebase_id"", ""role"") VALUES (@firebase_id, @role) RETURNING ""firebase_id""
+                                INSERT INTO ""Users"" (""firebase_id"",""display_name"",""email"", ""role"") VALUES (@firebase_id,@display_name, @email, @role) RETURNING ""firebase_id""
                             )
                             INSERT INTO ""Organizations"" (""user_firebase_id"", ""name"", ""type"") 
                             SELECT ""firebase_id"", @name, @type FROM inserted_user";

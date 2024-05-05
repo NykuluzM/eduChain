@@ -220,6 +220,7 @@ namespace eduChain.Services
                                 profile.ProfilePic = null;
                             }
                             profile.Role = reader.GetString(reader.GetOrdinal("role"));
+                            profile.FirebaseId = reader.GetString(reader.GetOrdinal("firebase_id"));
                             profile.CreatedAt = reader.GetDateTime(reader.GetOrdinal("created_at"));
                             profile.DisplayName = reader.GetString(reader.GetOrdinal("display_name"));
                             await reader.CloseAsync();

@@ -31,8 +31,19 @@ public class UsersProfileModel : INotifyPropertyChanged
             instance = value;
         }
     }
-    
-    public string FirebaseId { get; set; }
+    private string _firebaseId;
+    public string FirebaseId
+    {
+        get { return _firebaseId; }
+        set
+        {
+            if (_firebaseId != value)
+            {
+                _firebaseId = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FirebaseId)));
+            }
+        }
+    }
     private string _role;
     private byte[] _profilePic;
     public string Role
