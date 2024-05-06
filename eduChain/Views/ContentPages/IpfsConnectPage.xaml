@@ -205,15 +205,20 @@
                     </StackLayout>
 
 
-                    <Button Text="File Manager"  IsVisible="True" Clicked="Toggle" ClassId="ShowAll"  Margin="-10,0,-10,0">
+                    <Button x:Name="fManagerShow" Text="Show File Manager"  IsVisible="True" Clicked="ToggleMyFiles" ClassId="Show"  Margin="-10,0,-10,0">
                         <Button.ImageSource>
-                            <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Folder}" Size="20"  />
+                            <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Folder_open}" Size="20"  />
                         </Button.ImageSource>
                     </Button>
-                    <Grid HeightRequest="900">
+                    <Button x:Name="fManagerHide" Text="Hide File Manager"  IsVisible="False" Clicked="ToggleMyFiles" ClassId="Hide"  Margin="-10,0,-10,0">
+                        <Button.ImageSource>
+                            <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Folder_delete}" Size="20"  />
+                        </Button.ImageSource>
+                    </Button> 
+                    <Grid HeightRequest="900" x:Name="tabGrid" IsVisible="False">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="100"/>
+                            <RowDefinition Height="830"/>
+                            <RowDefinition Height="70"/>
                         </Grid.RowDefinitions>
 
                         <tabView:SfTabView x:Name="tabView" Loaded="InitializeTabs" Grid.Row="0"  Margin="0,0,0,0" IndicatorBackground="LightGreen" SelectionChanged="TabChange" IndicatorPlacement="Fill" TabBarBackground="LightBlue" >
@@ -231,7 +236,7 @@
                                                                       IsRefreshing="{Binding IsRefreshing}"
                                                                       RefreshCommand="{Binding RefreshCommand}"> 
                                         <pulltoRefresh:SfPullToRefresh.PullableContent>
-                                            <listView:SfListView   x:Name="MyPhotosList" IsStickyHeader="True" ItemSpacing="5,5,5,5" ItemSize="{x:OnPlatform Android=285, Default=280}" SelectionMode="Multiple" SelectionGesture="Tap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
+                                            <listView:SfListView   x:Name="MyPhotosList" IsStickyFooter="True" IsStickyHeader="True" ItemSpacing="5,5,5,5" ItemSize="{x:OnPlatform Android=285, Default=280}" SelectionMode="Multiple" SelectionGesture="Tap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
                                                 <listView:SfListView.ItemsLayout>
                                                     <listView:GridLayout x:Name="GPhotoItems" SpanCount="{x:OnPlatform Default=3, Android=1}"   />
                                                 </listView:SfListView.ItemsLayout>
@@ -324,7 +329,7 @@
                                                 IsRefreshing="{Binding IsRefreshing}"
                                                 RefreshCommand="{Binding RefreshCommand}">  
                                         <pulltoRefresh:SfPullToRefresh.PullableContent>
-                                            <listView:SfListView   x:Name="MyAudioList" IsStickyHeader="True" ItemSpacing="5,5,5,5" ItemSize="{x:OnPlatform Android=285, Default=280}" SelectionMode="Multiple" SelectionGesture="Tap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
+                                            <listView:SfListView   x:Name="MyAudioList" IsStickyFooter="True" IsStickyHeader="True" ItemSpacing="5,5,5,5" ItemSize="{x:OnPlatform Android=285, Default=280}" SelectionMode="Multiple" SelectionGesture="Tap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
                                                 <listView:SfListView.ItemsLayout>
                                                     <listView:GridLayout x:Name="GAudioItems" SpanCount="{x:OnPlatform Default=3, Android=1}"   />
                                                 </listView:SfListView.ItemsLayout>
@@ -415,7 +420,7 @@
                                                             RefreshCommand="{Binding RefreshCommand}">  
 
                                         <pulltoRefresh:SfPullToRefresh.PullableContent>
-                                                <listView:SfListView   x:Name="MyVideosList" IsStickyHeader="True" ItemSpacing="5,5,5,5" ItemSize="{x:OnPlatform Android=285, Default=280}" SelectionMode="Multiple" SelectionGesture="Tap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
+                                                <listView:SfListView   x:Name="MyVideosList" IsStickyFooter="True" IsStickyHeader="True" ItemSpacing="5,5,5,5" ItemSize="{x:OnPlatform Android=285, Default=280}" SelectionMode="Multiple" SelectionGesture="Tap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
                                                 <listView:SfListView.ItemsLayout>
                                                     <listView:GridLayout x:Name="GVideosItems" SpanCount="{x:OnPlatform Default=3, Android=1}"   />
                                                 </listView:SfListView.ItemsLayout>
@@ -502,7 +507,7 @@
                                             IsRefreshing="{Binding IsRefreshing}"
                                             RefreshCommand="{Binding RefreshCommand}">  
                                         <pulltoRefresh:SfPullToRefresh.PullableContent>
-                                            <listView:SfListView x:Name="MyDocumentsList" IsStickyHeader="True" ItemSpacing="5,5,5,5" ItemSize="{x:OnPlatform Android=285, Default=280}" SelectionMode="Multiple" SelectionGesture="Tap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
+                                            <listView:SfListView x:Name="MyDocumentsList" IsStickyFooter="True" IsStickyHeader="True" ItemSpacing="5,5,5,5" ItemSize="{x:OnPlatform Android=285, Default=280}" SelectionMode="Multiple" SelectionGesture="Tap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
                                         <listView:SfListView.ItemsLayout>
                                             <listView:GridLayout x:Name="GItems" SpanCount="{x:OnPlatform Default=3, Android=1}"   />
                                         </listView:SfListView.ItemsLayout>
@@ -593,7 +598,7 @@
                                     IsRefreshing="{Binding IsRefreshing}"
                                     RefreshCommand="{Binding RefreshCommand}">
                                         <pulltoRefresh:SfPullToRefresh.PullableContent>
-                                            <listView:SfListView   x:Name="MyAllList" IsStickyHeader="True" IsStickyFooter="True" ItemSpacing="5,5,5,5" ItemSize="280" SelectionMode="Multiple" SelectionGesture="Tap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding Files}">
+                                            <listView:SfListView   x:Name="MyAllList"  IsStickyHeader="True" IsStickyFooter="True" ItemSpacing="5,5,5,5" ItemSize="280" SelectionMode="Multiple" SelectionGesture="Tap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding Files}">
                                                 <listView:SfListView.ItemsLayout>
                                                     <listView:GridLayout x:Name="GAllItems" SpanCount="{x:OnPlatform Default=3, Android=1}"   />
                                                 </listView:SfListView.ItemsLayout>

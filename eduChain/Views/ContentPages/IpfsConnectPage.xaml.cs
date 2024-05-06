@@ -37,7 +37,27 @@ public partial class IpfsConnectPage : ContentPage
     private async void InitializeTabs(object sender, EventArgs e){
         if(firstLoad == true){
             firstLoad = false;
-            await ipfsViewModel.ChangeCategory("firstload");    
+           var res = await ipfsViewModel.ChangeCategory("firstload");    
+           if(res == false){
+                ShowMoreFiles.IsVisible = false;
+                ShowLessFiles.IsVisible = false;
+                NoFiles.IsVisible = true;
+           } else {
+               ShowMore(this, null);
+           }
+        }
+    }
+    private async void ToggleMyFiles(object sender, EventArgs e){
+        var s = (Button)sender;
+        if(s.ClassId == "Show"){
+            tabGrid.IsVisible = true;
+            fManagerShow.IsVisible = false;
+            fManagerHide.IsVisible = true;
+        }
+        else{
+            tabGrid.IsVisible = false;
+            fManagerHide.IsVisible = false;
+            fManagerShow.IsVisible = true;  
         }
     }
     private async void QRImagePrompt(object sender, EventArgs e){
@@ -173,6 +193,7 @@ public partial class IpfsConnectPage : ContentPage
         if (!hasValues)
         {
             ShowMoreFiles.IsVisible = false;
+            ShowLessFiles.IsVisible = false;
         } else
         {
             ShowMoreFiles.IsVisible = true;
@@ -286,6 +307,13 @@ public partial class IpfsConnectPage : ContentPage
     {
         NoFiles.IsVisible = false;
 
+        if(ipfsViewModel.CategorizedFile.Count == 0)
+        {
+            ShowMoreFiles.IsVisible = false;
+            ShowLessFiles.IsVisible = false;
+            NoFiles.IsVisible = true;
+            return;
+        }
         ShowLessFiles.IsVisible = true;
         if(ipfsViewModel.DisplayedFile.Count == ipfsViewModel.CategorizedFile.Count)
         {
