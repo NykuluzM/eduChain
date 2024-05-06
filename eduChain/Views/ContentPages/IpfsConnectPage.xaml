@@ -207,12 +207,12 @@
 
                     <Button x:Name="fManagerShow" Text="Show File Manager"  IsVisible="True" Clicked="ToggleMyFiles" ClassId="Show"  Margin="-10,0,-10,0">
                         <Button.ImageSource>
-                            <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Folder_open}" Size="20"  />
+                            <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Open_in_full}" Size="20"  />
                         </Button.ImageSource>
                     </Button>
                     <Button x:Name="fManagerHide" Text="Hide File Manager"  IsVisible="False" Clicked="ToggleMyFiles" ClassId="Hide"  Margin="-10,0,-10,0">
                         <Button.ImageSource>
-                            <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Folder_delete}" Size="20"  />
+                            <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Close_fullscreen}" Size="20"  />
                         </Button.ImageSource>
                     </Button> 
                     <Grid HeightRequest="900" x:Name="tabGrid" IsVisible="False">
