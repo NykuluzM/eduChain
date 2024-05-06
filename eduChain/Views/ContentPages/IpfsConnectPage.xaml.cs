@@ -15,6 +15,7 @@ using CommunityToolkit.Maui.Alerts;
 using eduChain.ViewModels;
 using Camera.MAUI;
 using System.Collections.ObjectModel;
+using Syncfusion.Maui.PullToRefresh;
 namespace eduChain.Views.ContentPages;
 public partial class IpfsConnectPage : ContentPage
 {
@@ -185,7 +186,7 @@ public partial class IpfsConnectPage : ContentPage
                 categoryfilecount.IsVisible = true;
 
                 break;
-            case 5:
+            case 4:
                 totalfilecount.IsVisible = true;
                 categoryfilecount.IsVisible = false;
                 break;
@@ -198,7 +199,22 @@ public partial class IpfsConnectPage : ContentPage
         {
             ShowMoreFiles.IsVisible = true;
         }
-        
+        if (!categoryfilecount.IsVisible)
+        {
+            if (ipfsViewModel.Files.Count == 0)
+            {
+                NoFiles.IsVisible = true;
+
+                return;
+            }
+            else
+            {
+                NoFiles.IsVisible = false;
+            }
+            ShowMoreFiles.IsVisible = false;
+            ShowLessFiles.IsVisible = false;
+            return;
+        }
         ShowMore(this, null);
     }
 
@@ -336,9 +352,40 @@ public partial class IpfsConnectPage : ContentPage
             ShowLessFiles.IsVisible = true;
             ShowMoreFiles.IsVisible = true;
         }
-       
     } 
-
+    private void Check_Refreshed(object sender, EventArgs e)
+    {
+        var s = (SfPullToRefresh)sender;
+        if(s.ClassId == "RefreshAll")
+        {
+            if(ipfsViewModel.Files.Count == 0)
+            {
+                NoFiles.IsVisible = true;
+                return;
+            }
+            else
+            {
+                NoFiles.IsVisible = false;
+            }
+            ShowMoreFiles.IsVisible = false;
+            ShowLessFiles.IsVisible = false;
+        } else
+        {
+            if(ipfsViewModel.CategorizedFile.Count == 0)
+            {
+                NoFiles.IsVisible = true;
+                ShowMoreFiles.IsVisible = false;
+                ShowLessFiles.IsVisible = false;
+                return;
+            }
+            else
+            {
+                NoFiles.IsVisible = false;
+                ShowLessFiles.IsVisible = true;
+            }
+           
+        }
+    }
     private void Preview(object sender, EventArgs e)
     {
         var s = (Button)sender;

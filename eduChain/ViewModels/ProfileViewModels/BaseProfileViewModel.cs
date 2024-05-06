@@ -8,6 +8,7 @@ using Google.Apis.Auth.OAuth2;
 using LukeMauiFilePicker;
 using Npgsql;
 using SkiaSharp;
+using System.Collections.ObjectModel;
 namespace eduChain.ViewModels.ProfileViewModels;
 
 public class BaseProfileViewModel : ViewModelBase
@@ -29,7 +30,7 @@ public class BaseProfileViewModel : ViewModelBase
                 };
 
         public Command EditImageCommand { get; private set; }
-
+    
 
     private async void ReadFirebaseAdminSdk()
     {

@@ -14,6 +14,8 @@ using Org.BouncyCastle.Utilities;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.PlatformConfiguration.AndroidSpecific;
 using CommunityToolkit.Maui.Views;
+using Syncfusion.Maui.DataGrid;
+using Syncfusion.Maui.PullToRefresh;
 using eduChain.Views.Popups;
 
 namespace eduChain.Views.ContentPages.ProfileViews
@@ -38,6 +40,11 @@ namespace eduChain.Views.ContentPages.ProfileViews
             _studentProfile = StudentProfileModel.Instance;
             _viewModel.PreviewImage = ImageSource.FromStream(() => new MemoryStream(UsersProfileModel.Instance.ProfilePic));
         }
+        private async void Button_Example(object sender, EventArgs e)
+        {
+            await AffiliationsDatabaseService.Instance.GetAffiliatedOrganizationTo(_studentProfile.FirebaseId);
+
+        }
         protected override async void OnAppearing()
         {
 
@@ -50,6 +57,8 @@ namespace eduChain.Views.ContentPages.ProfileViews
             ogender = _studentProfile.Gender;
             obirthdate = _studentProfile.BirthDate;
             oprofile = _viewModel.UsersProfile.ProfilePic;
+            _viewModel.InitializeAsync();
+
             //await Shell.Current.Navigation.PopAsync(); // Pop LoadingPage
         }
         private async void ShowForm(object sender, EventArgs e)
@@ -75,6 +84,41 @@ namespace eduChain.Views.ContentPages.ProfileViews
 
         }
 
+        private async void RequestAffiliation(object sender, EventArgs e)
+        {
+            var s = (Button)sender;
+            switch (s.ClassId)
+            {
+                case "OrgAff":
+                    var res = await _viewModel.UIDVerify(OrgUIDRequest.Text, "org");
+                    if(res == null || res == false)
+                    {
+                        await DisplayAlert("Error", "Organization not found, Please Enter a correct UID", "OK");
+                    }
+                    else {
+                        await _viewModel.SendAffRequest(OrgUIDRequest.Text);
+                        _viewModel.InitializeAsync();
+
+                    }
+                    OrgUIDRequest.Text = "";
+                    break;
+                case "StudAff":
+                    var ress = await _viewModel.UIDVerify(StudUIDRequest.Text, "stud");
+                    if (ress == null || ress == false)
+                    {
+                        await DisplayAlert("Error", "Student not found, Please Enter a correct UID", "OK");
+                    }
+                    else
+                    {
+                        await _viewModel.SendAffRequest(StudUIDRequest.Text);
+                        _viewModel.InitializeAsync();
+
+                    }
+                    break;
+
+            }
+
+        }
 
         private async void ShowPersonal(object sender, EventArgs e)
         {

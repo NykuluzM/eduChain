@@ -126,12 +126,12 @@
                                 <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Help}" Size="20" Color="Black" />
                             </Button.ImageSource>
                         </Button>
-                        <Button Text="In Order For Us To Process Your Files, Input Needed Values Below." TextColor="Black" HorizontalOptions="Center" BackgroundColor="Transparent">
+                        <Button Text="You can Download Files using CID" TextColor="Black" HorizontalOptions="Center" BackgroundColor="Transparent">
                             <Button.ImageSource>
                                 <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Compare}" Size="20" Color="Black" />
                             </Button.ImageSource>
                         </Button>
-                        <ur:TextField Text="{Binding Cid[1]}" Title="Cid Address / IPFS Hash" AccentColor="LightGreen"  TitleColor="LightGreen" TextColor="Black" BorderColor="LightGreen" Margin="{x:OnPlatform Android='20,0,20,20', Default='100,0,100,0'}">
+                        <ur:TextField Text="{Binding Cid[1]}" Title="Cid Address / IPFS Hash" AccentColor="Black"  TitleColor="Black" TextColor="Black" BorderColor="Black" Margin="{x:OnPlatform Android='20,0,20,20', Default='100,0,100,0'}">
                             <ur:TextField.Attachments>
                                 <Button StyleClass="TextButton" Padding="14,14,14,14" Margin="0" Command="{Binding ClearCommand}" CommandParameter="cidfordownloadclear">
                                     <Button.ImageSource>
@@ -141,9 +141,19 @@
                                 </Button>
                             </ur:TextField.Attachments>
                         </ur:TextField>
-                        <Button MaximumWidthRequest="500" Command="{Binding DecodeQRCommand}"   Text="QR"/>
                        
                         <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,30,250,30'}" MaximumWidthRequest="800"   Text="Download" Command="{Binding DownloadCommand}" ClassId="downloadClick"/>
+                        <Button Text="You can also Download files using a QR Code, Click the Button Below." TextColor="Black" HorizontalOptions="Center" BackgroundColor="Transparent">
+                            <Button.ImageSource>
+                                <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Compare}" Size="20" Color="Black" />
+                            </Button.ImageSource>
+                        </Button>
+                        <Button MaximumWidthRequest="300" Command="{Binding DecodeQRCommand}" Margin="25" Text="QR">
+                            <Button.ImageSource>
+                                <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Qr_code}" Size="20" Color="Black" />
+                            </Button.ImageSource>
+                        </Button>
+
                     </StackLayout>
 
                     <StackLayout x:Name="UploadLayout" Background="Wheat" IsVisible="False">
@@ -234,7 +244,7 @@
                                                                       RefreshViewWidth="50"
                                                                       TransitionMode="Push"
                                                                       IsRefreshing="{Binding IsRefreshing}"
-                                                                      RefreshCommand="{Binding RefreshCommand}"> 
+                                                                      RefreshCommand="{Binding RefreshCommand}" Refreshed="Check_Refreshed" ClassId="RefreshImage"> 
                                         <pulltoRefresh:SfPullToRefresh.PullableContent>
                                             <listView:SfListView   x:Name="MyPhotosList" IsStickyFooter="True" IsStickyHeader="True" ItemSpacing="5,5,5,5" ItemSize="{x:OnPlatform Android=285, Default=280}" SelectionMode="Multiple" SelectionGesture="Tap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
                                                 <listView:SfListView.ItemsLayout>
@@ -245,7 +255,7 @@
                                                         <SearchBar x:Name="SearchBar" Placeholder="Search here to filter" BackgroundColor="Wheat" CancelButtonColor="Red" TextColor="Black" PlaceholderColor="Black" TextChanged="Filter" ClassId="PhotosSearch" />
                                                     </DataTemplate>
                                                 </listView:SfListView.HeaderTemplate>
-                                                <listView:SfListView.FooterTemplate>
+                                                <listView:SfListView.FooterTemplate >
                                                     <DataTemplate>
                                                         <Grid RowDefinitions="Auto" Margin="0,0,0,-20">
 
@@ -327,7 +337,7 @@
                                                 RefreshViewWidth="50"
                                                 TransitionMode="Push"
                                                 IsRefreshing="{Binding IsRefreshing}"
-                                                RefreshCommand="{Binding RefreshCommand}">  
+                                                RefreshCommand="{Binding RefreshCommand}" Refreshed="Check_Refreshed" ClassId="RefreshAudio">  
                                         <pulltoRefresh:SfPullToRefresh.PullableContent>
                                             <listView:SfListView   x:Name="MyAudioList" IsStickyFooter="True" IsStickyHeader="True" ItemSpacing="5,5,5,5" ItemSize="{x:OnPlatform Android=285, Default=280}" SelectionMode="Multiple" SelectionGesture="Tap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
                                                 <listView:SfListView.ItemsLayout>
@@ -417,7 +427,8 @@
                                                             RefreshViewWidth="50"
                                                             TransitionMode="Push"
                                                             IsRefreshing="{Binding IsRefreshing}"
-                                                            RefreshCommand="{Binding RefreshCommand}">  
+                                                            RefreshCommand="{Binding RefreshCommand}"
+                                                             Refreshed="Check_Refreshed" ClassId="RefreshVideos">  
 
                                         <pulltoRefresh:SfPullToRefresh.PullableContent>
                                                 <listView:SfListView   x:Name="MyVideosList" IsStickyFooter="True" IsStickyHeader="True" ItemSpacing="5,5,5,5" ItemSize="{x:OnPlatform Android=285, Default=280}" SelectionMode="Multiple" SelectionGesture="Tap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
@@ -505,7 +516,8 @@
                                             RefreshViewWidth="50"
                                             TransitionMode="Push"
                                             IsRefreshing="{Binding IsRefreshing}"
-                                            RefreshCommand="{Binding RefreshCommand}">  
+                                            RefreshCommand="{Binding RefreshCommand}"
+                                             Refreshed="Check_Refreshed" ClassId="RefreshDocuments">  
                                         <pulltoRefresh:SfPullToRefresh.PullableContent>
                                             <listView:SfListView x:Name="MyDocumentsList" IsStickyFooter="True" IsStickyHeader="True" ItemSpacing="5,5,5,5" ItemSize="{x:OnPlatform Android=285, Default=280}" SelectionMode="Multiple" SelectionGesture="Tap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding DisplayedFile}">
                                         <listView:SfListView.ItemsLayout>
@@ -596,7 +608,8 @@
                                     RefreshViewWidth="50"
                                     TransitionMode="Push"
                                     IsRefreshing="{Binding IsRefreshing}"
-                                    RefreshCommand="{Binding RefreshCommand}">
+                                    RefreshCommand="{Binding RefreshCommand}"
+                                    Refreshed="Check_Refreshed" ClassId="RefreshAll ">
                                         <pulltoRefresh:SfPullToRefresh.PullableContent>
                                             <listView:SfListView   x:Name="MyAllList"  IsStickyHeader="True" IsStickyFooter="True" ItemSpacing="5,5,5,5" ItemSize="280" SelectionMode="Multiple" SelectionGesture="Tap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding Files}">
                                                 <listView:SfListView.ItemsLayout>
