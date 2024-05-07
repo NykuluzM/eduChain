@@ -45,7 +45,7 @@ public partial class LoginPage : ContentPage
                 } 
              var result = await this.DisplayRadioButtonPromptAsync(
             "Pick your Role",
-            new [] {"Student", "Organization", "Guardian"});
+            new [] {"Student", "Organization"});
 
             if(result == "Student")
             {
@@ -59,12 +59,7 @@ public partial class LoginPage : ContentPage
                 var registerOrgPage = new RegisterOrgPage();
                 await Shell.Current.Navigation.PushAsync(registerOrgPage);
             }
-            else if(result == "Guardian")
-            {
-                Preferences.Set("Role", "Guardian");
-                var registerGuardianPage = new RegisterGuardianPage();
-                await Shell.Current.Navigation.PushAsync(registerGuardianPage);
-            }
+           
         }
         private void PasswordForgotten(object sender, EventArgs e){
              var forgotPasswordPage = new ForgotPasswordPage();
