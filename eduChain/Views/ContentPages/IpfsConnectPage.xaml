@@ -734,7 +734,7 @@
                                 <DataTemplate>
                                     <Frame CornerRadius="10" BackgroundColor="Grey">
                                         <StackLayout Spacing="2">
-                                            <Label Text="{Binding Owner, StringFormat='Owner UID: {0}'}" Margin="2"  TextColor="LightGreen" HorizontalOptions="Center" MaxLines="1" LineBreakMode="TailTruncation" />
+                                            <Label Text="{Binding Owner, StringFormat='Owner UID: {0}'}" Margin="2"  TextColor="LightGreen" HorizontalOptions="Center" MaxLines="2" />
 
                                             <Image Source="{Binding DisplayImage}" IsAnimationPlaying="True" HeightRequest="{x:OnPlatform Android=80, Default=50}" WidthRequest="{x:OnPlatform Android=30, Default=80}" Grid.Row="0"/>
 

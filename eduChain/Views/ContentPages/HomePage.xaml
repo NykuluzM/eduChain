@@ -23,11 +23,9 @@
                 <Label 
                         Text="Welcome to eduChain" x:Name="Title" FontSize="Large" HorizontalOptions="Center" TextColor="Gold" FontAttributes="Bold"
                         />
-                <Label 
-                        Text="We are still constructing this Application" HorizontalOptions="Center" MaxLines="1"  FontSize="15"  TextColor="Red" FontAttributes="Bold"
-                        />
+               
                 <Image Source="dance.gif" IsAnimationPlaying="True" HeightRequest="200" WidthRequest="200" VerticalOptions="Center" HorizontalOptions="Center"/>
-
+                <Label Text="Click the 3rd Menu Item For IPFS Processes, Click Your Profile For Modifications" TextColor="LightGreen" FontSize="15" TextDecorations="Underline"/>
             </VerticalStackLayout>
         </StackLayout>
 

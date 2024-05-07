@@ -11,7 +11,7 @@ public partial class LoadingPopup : Popup
 	{
 		InitializeComponent();
 		this.audioManager = audioManager;
-		player = audioManager.CreatePlayer(FileSystem.OpenAppPackageFileAsync("buang.mp3").Result);
+		player = audioManager.CreatePlayer(FileSystem.OpenAppPackageFileAsync("ins.mp3").Result);
 		player.Play();
 	}
 	
