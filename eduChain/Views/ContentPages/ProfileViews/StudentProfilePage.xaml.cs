@@ -17,6 +17,7 @@ using CommunityToolkit.Maui.Views;
 using Syncfusion.Maui.DataGrid;
 using Syncfusion.Maui.PullToRefresh;
 using eduChain.Views.Popups;
+using Syncfusion.Maui.TabView;
 
 namespace eduChain.Views.ContentPages.ProfileViews
 {
@@ -81,10 +82,31 @@ namespace eduChain.Views.ContentPages.ProfileViews
             StateButtons.IsVisible = true;
             StateButtons.Focus();
             return;
+           
+        }
+        private async void Tab1Change(object sender, TabSelectionChangedEventArgs e)
+        {
+            var selectedItem = e.NewIndex;
+            switch (selectedItem)
+            {
+                case 0:
+                    OrgUIDButton.IsVisible = true;
+                    StudUIDButton.IsVisible = false;
+                    OrgUIDRequest.IsVisible = true;
+                    StudUIDRequest.IsVisible = false;
 
+                    break;
+                case 1:
+                    OrgUIDButton.IsVisible = false;
+                    StudUIDButton.IsVisible = true;
+                    OrgUIDRequest.IsVisible = false;
+                    StudUIDRequest.IsVisible = true;
+                    break;
+            }
         }
 
-        private async void RequestAffiliation(object sender, EventArgs e)
+
+            private async void RequestAffiliation(object sender, EventArgs e)
         {
             var s = (Button)sender;
             switch (s.ClassId)
@@ -114,6 +136,7 @@ namespace eduChain.Views.ContentPages.ProfileViews
                         _viewModel.InitializeAsync();
 
                     }
+                    StudUIDRequest.Text = "";
                     break;
 
             }

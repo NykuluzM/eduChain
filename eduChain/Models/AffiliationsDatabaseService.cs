@@ -104,6 +104,117 @@ namespace eduChain.Models
                 await DatabaseManager.CloseConnectionAsync();
             }
         }
+        public async Task<ObservableCollection<AffiliationsModel>> GetAffiliationRequestsStudents(string mycid)
+        {
+            try
+            {
+                await DatabaseManager.OpenConnectionAsync();
+                using (var cmd = DatabaseManager.Connection.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                SELECT A.*, CONCAT(S.first_name, ' ', S.last_name) AS StudentName
+                FROM ""Affiliations"" A
+                INNER JOIN ""Students"" S ON A.affiliate = S.user_firebase_id 
+                WHERE ""affiliated_to"" = @mycid AND ""approved"" = @approved";
+                    cmd.Parameters.AddWithValue("@mycid", mycid);
+                    cmd.Parameters.AddWithValue("@approved", false);
+                    var result = await cmd.ExecuteReaderAsync();
+
+                    var affiliations = new List<AffiliationsModel>();
+
+                    while (await result.ReadAsync())
+                    {
+                        var affiliation = new AffiliationsModel
+                        {
+                            Id = result.GetString(3),
+                            Name = result.GetString(result.GetOrdinal("StudentName")),
+                            DateEstablished = result.GetDateTime(result.GetOrdinal("created_at")).ToString("yyyy-MM-dd")
+                        };
+                        affiliations.Add(affiliation);
+                    }
+
+                    var observableCollection = new ObservableCollection<AffiliationsModel>(affiliations);
+                    return observableCollection;
+                }
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+                return null;
+            }
+            finally
+            {
+                await DatabaseManager.CloseConnectionAsync();
+            }
+        }
+        public async Task DeleteRequest(string affiliate, string affiliated_to)
+        {
+            try
+            {
+                await DatabaseManager.OpenConnectionAsync();
+                using (var cmd = DatabaseManager.Connection.CreateCommand())
+                {
+                    cmd.CommandText = @"DELETE FROM ""Affiliations"" WHERE ""affiliate"" = @affiliate AND ""affiliated_to"" = @affiliated_to";
+                    cmd.Parameters.AddWithValue("@affiliate", affiliate);
+                    cmd.Parameters.AddWithValue("@affiliated_to", affiliated_to);
+
+                    await cmd.ExecuteNonQueryAsync();
+                }
+                await Shell.Current.DisplayAlert("Success", "Request deleted", "OK");
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+            }
+            finally
+            {
+                await DatabaseManager.CloseConnectionAsync();
+            }
+        }
+        public async Task<ObservableCollection<AffiliationsModel>> GetAffiliationRequestsOrganizations(string mycid)
+        {
+            try
+            {
+                await DatabaseManager.OpenConnectionAsync();
+                using (var cmd = DatabaseManager.Connection.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                SELECT A.*, O.name AS OrganizationName
+                FROM ""Affiliations"" A
+                INNER JOIN ""Organizations"" O ON A.affiliate = O.user_firebase_id 
+                WHERE ""affiliated_to"" = @mycid AND ""approved"" = @approved";
+                    cmd.Parameters.AddWithValue("@mycid", mycid);
+                    cmd.Parameters.AddWithValue("@approved", false);
+
+                    var result = await cmd.ExecuteReaderAsync();
+                    var affiliations = new List<AffiliationsModel>();
+
+                    while (await result.ReadAsync())
+                    {
+                        var affiliation = new AffiliationsModel
+                        {
+                            Id = result.GetString(3),
+                            Name = result.GetString(result.GetOrdinal("OrganizationName")),
+                            DateEstablished = result.GetDateTime(result.GetOrdinal("created_at")).ToString("yyyy-MM-dd")
+                        };
+                        affiliations.Add(affiliation);
+                    }
+
+                    var observableCollection = new ObservableCollection<AffiliationsModel>(affiliations);
+                    return observableCollection;
+                }
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+                return null;
+            }
+            finally
+            {
+                await DatabaseManager.CloseConnectionAsync();
+            }
+        }
+
         public async Task SendAffiliationRequest(string affiliate, string affiliated_to)
         {
             try
@@ -111,15 +222,18 @@ namespace eduChain.Models
                 await DatabaseManager.OpenConnectionAsync();
                 using (var cmd = DatabaseManager.Connection.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO ""Affiliations"" (affiliate, affiliated_to) VALUES (@affiliate, @affiliated_to)";
+                    cmd.CommandText = @"INSERT INTO ""Affiliations"" (affiliate, affiliated_to, approved) VALUES (@affiliate, @affiliated_to, @approved)";
                     cmd.Parameters.AddWithValue("@affiliate", affiliate);
                     cmd.Parameters.AddWithValue("@affiliated_to", affiliated_to);
+                    cmd.Parameters.AddWithValue("@approved", false);
+
                     await cmd.ExecuteNonQueryAsync();
                 }
                 await Shell.Current.DisplayAlert("Success", "Affiliation request sent", "OK");
             }
             catch (Exception ex)
             {
+                await Shell.Current.DisplayAlert("Error Affiliation Request", ex.Message, "OK");
                 await Shell.Current.DisplayAlert("Error Affiliation Request", "Do not input already affiliated users or self affiliate", "OK");
             }
             finally
@@ -140,8 +254,9 @@ namespace eduChain.Models
                 SELECT A.*, O.name AS OrganizationName 
                 FROM ""Affiliations"" A
                 INNER JOIN ""Organizations"" O ON A.affiliated_to = O.user_firebase_id
-                WHERE A.affiliate = @firebase_id";
+                WHERE A.affiliate = @firebase_id AND A.approved = @approved";
                     cmd.Parameters.AddWithValue("@firebase_id", firebase_id);
+                    cmd.Parameters.AddWithValue("@approved", true);
                     var result = await cmd.ExecuteReaderAsync();
                     var affiliations = new List<AffiliationsModel>();
                     while (await result.ReadAsync())
@@ -181,9 +296,9 @@ namespace eduChain.Models
                 SELECT A.*, CONCAT(S.first_name, ' ', S.last_name) AS StudentName 
                 FROM ""Affiliations"" A
                 INNER JOIN ""Students"" S ON A.affiliated_to = S.user_firebase_id 
-                WHERE A.affiliate = @firebase_id";
+                WHERE A.affiliate = @firebase_id AND A.approved = @approved";
                     cmd.Parameters.AddWithValue("@firebase_id", firebase_id);
-
+                    cmd.Parameters.AddWithValue("@approved", true);
                     var result = await cmd.ExecuteReaderAsync();
                     var affiliations = new List<AffiliationsModel>();
 

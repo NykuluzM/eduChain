@@ -66,10 +66,34 @@ public class StudentProfileViewModel : BaseProfileViewModel
             OnPropertyChanged(nameof(AffiliatedStudents));
         }
     }
+    private ObservableCollection<AffiliationsModel> _affiliationrequestsstudents;
+    public ObservableCollection<AffiliationsModel> AffiliationRequestsStudents
+    {
+        get { return _affiliationrequestsstudents; }
+        set
+        {
+            _affiliationrequestsstudents = value;
+            OnPropertyChanged(nameof(AffiliationRequestsStudents));
+        }
+    }
+    private ObservableCollection<AffiliationsModel> _affiliationrequestsorganizations;
+    public ObservableCollection<AffiliationsModel> AffiliationRequestsOrganizations
+    {
+        get { return _affiliationrequestsorganizations; }
+        set
+        {
+            _affiliationrequestsorganizations = value;
+            OnPropertyChanged(nameof(AffiliationRequestsOrganizations));
+        }
+    }
+
     public async void InitializeAsync()
     {
         AffiliatedOrganizations = await AffiliationsDatabaseService.Instance.GetAffiliatedOrganizationTo(UsersProfile.FirebaseId);
         AffiliatedStudents = await AffiliationsDatabaseService.Instance.GetAffiliatedStudentsTo(UsersProfile.FirebaseId);
+        AffiliationRequestsStudents = await AffiliationsDatabaseService.Instance.GetAffiliationRequestsStudents(UsersProfile.FirebaseId);
+        AffiliationRequestsOrganizations = await AffiliationsDatabaseService.Instance.GetAffiliationRequestsOrganizations(UsersProfile.FirebaseId);
+
     }
 
 }
