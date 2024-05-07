@@ -121,9 +121,9 @@ public class IpfsDatabaseService
             using (var cmd = DatabaseManager.Connection.CreateCommand())
             {
                 cmd.CommandText = @"
-                SELECT F.owner,F.created_by, F.cid, F.filetype, F.filename 
+                SELECT F.owner,F.created_by, F.cid, F.filename, F.filetype, F.filename 
                 FROM ""Files"" F
-                INNER JOIN ""Affiliations"" A ON F.owner_by = A.affiliated_to
+                INNER JOIN ""Affiliations"" A ON F.created_by = A.affiliated_to
                 WHERE F.owner = @firebase_id AND A.affiliate = @firebase_id AND A.approved = true";
                 cmd.Parameters.AddWithValue("@firebase_id", firebase_id);
 
@@ -133,9 +133,9 @@ public class IpfsDatabaseService
                     fileList.Add(new FileModel
                     {
                         Owner = reader.GetString(1),
-                        CID = reader.GetString(1),
-                        FileType = reader.GetString(2),
-                        FileName = reader.GetString(3),
+                        CID = reader.GetString(2),
+                        FileType = reader.GetString(4),
+                        FileName = reader.GetString(3m),
                     });
                 }
                 return fileList;

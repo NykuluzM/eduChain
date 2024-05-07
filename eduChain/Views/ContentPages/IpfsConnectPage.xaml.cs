@@ -84,6 +84,9 @@ public partial class IpfsConnectPage : ContentPage
             case "AllSearch":
                 parent = MyAllList;
                 break;
+            case "SharedSearch":
+                parent = SharedFilesList;
+                break;
         }
         if(parent.DataSource != null){
             parent.DataSource.Filter = SearchByName;

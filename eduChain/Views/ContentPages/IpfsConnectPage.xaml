@@ -691,21 +691,31 @@
                         </VerticalStackLayout>
                         
                     </Grid>
-                    <Button x:Name="ShowShared" Text="Show Affiliated to Shared Files"  IsVisible="True" Clicked="ToggleSharedFiles" ClassId="Show"  Margin="-10,0,-10,0">
+                    <Button x:Name="ShowShared" Text="Show Shared Files From Affiliated"  IsVisible="True" Clicked="ToggleSharedFiles" ClassId="Show"  Margin="-10,0,-10,0">
                         <Button.ImageSource>
                             <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Folder_shared}" Size="20"  />
                         </Button.ImageSource>
                     </Button>
-                    <Button x:Name="HideShared" Text="Hide Affiliated to Shared Files"  IsVisible="False" Clicked="ToggleSharedFiles" ClassId="Hide"  Margin="-10,0,-10,0">
+                    <Button x:Name="HideShared" Text="Hide Shared Files From Affiliated"  IsVisible="False" Clicked="ToggleSharedFiles" ClassId="Hide"  Margin="-10,0,-10,0">
                         <Button.ImageSource>
                             <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Hide_source}" Size="20"  />
                         </Button.ImageSource>
                     </Button>
-                    <StackLayout x:Name="SharedFiles" IsVisible="True">
-                       
-                        <listView:SfListView ItemSpacing="5,5,5,5" ItemSize="280" SelectionMode="Multiple" SelectionGesture="Tap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding SharedFiles}">
+                    <Grid x:Name="SharedFiles" WidthRequest="1500"  HeightRequest="500" IsVisible="False">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="830"/>
+                            <RowDefinition Height="70"/>
+                        </Grid.RowDefinitions>
+                        <listView:SfListView x:Name="SharedFilesList" IsStickyHeader="True" HeightRequest="500"  ItemSpacing="5,5,5,5" ItemSize="280" SelectionMode="Multiple" SelectionGesture="Tap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding SharedFiles}">
+                            <listView:SfListView.HeaderTemplate>
+                                <DataTemplate>
+                                    <SearchBar x:Name="SearchBar" Placeholder="Search here to filter" BackgroundColor="Wheat" CancelButtonColor="Red" TextColor="Black" PlaceholderColor="Black" TextChanged="Filter" ClassId="SharedSearch" />
+                                </DataTemplate>
+                            </listView:SfListView.HeaderTemplate>
                             <listView:SfListView.DataSource>
+                                
                                 <data:DataSource>
+                                    
                                     <data:DataSource.GroupDescriptors>
                                         <data:GroupDescriptor PropertyName="Owner"/>
                                     </data:DataSource.GroupDescriptors>
@@ -714,8 +724,34 @@
                                     </data:DataSource.SortDescriptors>
                                 </data:DataSource>
                             </listView:SfListView.DataSource>
+                            <listView:SfListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame CornerRadius="10" BackgroundColor="Grey">
+                                        <StackLayout Spacing="2">
+
+                                            <Image Source="{Binding DisplayImage}" IsAnimationPlaying="True" HeightRequest="{x:OnPlatform Android=80, Default=60}" WidthRequest="{x:OnPlatform Android=30, Default=80}" Grid.Row="0"/>
+
+                                            <Label Text="{Binding FileName}"  HorizontalOptions="Center" MaxLines="1" LineBreakMode="TailTruncation" />
+                                            <Label Text="{Binding Owner}"  HorizontalOptions="Center" MaxLines="1" LineBreakMode="TailTruncation" />
+
+                                            <Label Text="{Binding CID, StringFormat='CID: {0}'}" FontSize="{x:OnPlatform Android=9, Default=12}"  Margin="{x:OnPlatform Android=10}" FontAttributes="{x:OnPlatform Android=Bold}" HorizontalOptions="Center" Grid.Row="1" />
+                                            <HorizontalStackLayout HorizontalOptions="Center" Margin="0,0,0,-10">
+                                                <Button Text="Copy Cid"  FontSize="10" Clicked="OnCopyButtonClicked" ClassId="{Binding CID}" MaximumWidthRequest="110" >
+                                                    <Button.ImageSource>
+                                                        <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Content_copy}"  Size="10" />
+                                                    </Button.ImageSource>
+                                                </Button>
+                                            </HorizontalStackLayout>
+                                            <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Margin="8,15,8,15" Spacing="10">
+                                                <Button  ImageSource="{Binding FileType}"  Text="Preview"  Padding="{x:OnPlatform Default='-10,0,0,0', Android='0,0,0,0'}"  WidthRequest="85" Clicked="Preview" ClassId="{Binding CID}" CommandParameter="{Binding FileName}" IsVisible="{Binding IsPreviewable}"/>
+                                            </HorizontalStackLayout>
+
+                                        </StackLayout>
+                                    </Frame>
+                                </DataTemplate>
+                            </listView:SfListView.ItemTemplate>
                         </listView:SfListView>
-                    </StackLayout>
+                    </Grid>
                 </StackLayout>
 
             </Border>

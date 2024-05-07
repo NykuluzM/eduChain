@@ -111,6 +111,8 @@ public class IpfsViewModel : ViewModelBase
         {
             case "firstload":
                 Files = new ObservableCollection<FileModel>(await IpfsDatabaseService.Instance.GetAllFilesAsync(UsersProfile.FirebaseId));
+                SharedFiles = new ObservableCollection<FileModel>(await IpfsDatabaseService.Instance.GetAllSharedFiles(UsersProfile.FirebaseId));
+
                 LastRefreshed = DateTime.Now;
                 CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".jpg" || f.FileType == ".png" || f.FileType == ".svg" || f.FileType == ".png" || f.FileType == ".gif"));
                 CurrentCategory = "Photos";
@@ -195,6 +197,13 @@ public class IpfsViewModel : ViewModelBase
     {
         get { return _files; }
         private set { _files = value; OnPropertyChanged(nameof(Files)); }
+    }
+    private ObservableCollection<FileModel> _sharedfiles = new ObservableCollection<FileModel>();
+
+    public ObservableCollection<FileModel> SharedFiles
+    {
+        get { return _sharedfiles; }
+        private set { _sharedfiles = value; OnPropertyChanged(nameof(SharedFiles)); }
     }
 
     ObservableCollection<FileModel> _categorizedFile = new ObservableCollection<FileModel>();
