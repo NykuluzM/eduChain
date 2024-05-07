@@ -12,12 +12,12 @@
         <VerticalStackLayout>
             <Image Source="orgregister.png" WidthRequest="200" HeightRequest="200" HorizontalOptions="Center" Margin="0,50,0,0"/>
             <input:FormView>
-            <material:TextField MaximumWidthRequest="800" Title="Display Name" Text="{Binding DisplayName}"  Margin="25,20,25,10" />
-            <material:TextField MaximumWidthRequest="500" Title="Organization Name"  Text="{Binding OrgName}"  Margin="25,20,25,10" />
-                <material:TextField MaximumWidthRequest="500" Title="Type" Text="{Binding Type}"  Margin="25,20,25,10" />
-                <material:TextField  MaximumWidthRequest="500" Title="Email" Text="{Binding Email}"  Margin="25,20,25,10" />
-                <material:TextField  MaximumWidthRequest="500" Title="Password" Text="{Binding Password}"  Margin="25,20,25,10" />
-                <material:TextField  MaximumWidthRequest="500" Title="Confirm Password"  Margin="25,20,25,10" >
+            <material:TextField MaximumWidthRequest="800" AccentColor="Black" BorderColor="Black" TextColor="Black" TitleColor="Black" Title="Display Name" Text="{Binding DisplayName}"  Margin="25,20,25,10" />
+            <material:TextField MaximumWidthRequest="500" AccentColor="Black" BorderColor="Black" TextColor="Black" TitleColor="Black" Title="Organization Name"  Text="{Binding OrgName}"  Margin="25,20,25,10" />
+                <material:TextField MaximumWidthRequest="500" AccentColor="Black" BorderColor="Black" TextColor="Black" TitleColor="Black" Title="Type" Text="{Binding Type}"  Margin="25,20,25,10" />
+                <material:TextField  MaximumWidthRequest="500" AccentColor="Black" BorderColor="Black" TextColor="Black" TitleColor="Black" Title="Email" Text="{Binding Email}"  Margin="25,20,25,10" />
+                <material:TextField  MaximumWidthRequest="500" AccentColor="Black" BorderColor="Black" TextColor="Black" TitleColor="Black" Title="Password" Text="{Binding Password}"  Margin="25,20,25,10" />
+                <material:TextField  MaximumWidthRequest="500" AccentColor="Black" BorderColor="Black" TextColor="Black" TitleColor="Black" Title="Confirm Password"  Margin="25,20,25,10" >
                 <material:TextField.Validations>
                                 <local:ConfirmPasswordValidation />
                                 <validation:RequiredValidation />

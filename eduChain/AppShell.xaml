@@ -64,13 +64,13 @@
                     <Image x:Name="ProfileImage" Source="{Binding UsersProfile.ProfileImage}" Aspect="AspectFill"/>
                 </Border>
                 
-                <Label  Grid.Column="1" Grid.Row="0"  TextColor="Black" FontAttributes="Bold" FontSize="13" Text="{Binding UsersProfile.DisplayName}" LineBreakMode="WordWrap" MaxLines="2" x:Name="Name" Padding="{x:OnPlatform Default='0,20,0,0', MacCatalyst='0,8,0,0'}" HorizontalOptions="Center" VerticalOptions="{x:OnPlatform Default = Center, MacCatalyst = Center}" HeightRequest="{x:OnPlatform Default='40' , MacCatalyst='40'}"/>
+                <Label  Grid.Column="1" Grid.Row="0"  TextColor="Black" LineBreakMode="TailTruncation" FontAttributes="Bold" FontSize="13" Text="{Binding UsersProfile.DisplayName}" MaxLines="2" x:Name="Name" Padding="{x:OnPlatform Default='0,20,0,0', MacCatalyst='0,8,0,0'}" HorizontalOptions="Center" VerticalOptions="{x:OnPlatform Default = Center, MacCatalyst = Center}" HeightRequest="{x:OnPlatform Default='40' , MacCatalyst='40'}"/>
 
                
                 <Border  x:Name="RoleVal" Grid.Column="1" Grid.Row="1"  Background="Black"  Margin="0,0,0,0" Stroke="{StaticResource grad}" StrokeThickness="2" HeightRequest="20" HorizontalOptions="Center" VerticalOptions="{x:OnPlatform Default = End}">
                     <Label  Grid.Row="1" Text="{Binding UsersProfile.Role}" Padding="20,0,20,0" TextDecorations="Underline" TextColor="Yellow"  x:Name="Role" FontSize="12"  HorizontalOptions="Center" VerticalOptions="Center"/>
                 </Border>
-                <Grid x:Name="Labels" Margin="0,20,0,0" Padding="{x:OnPlatform WinUI='0,0,0,10', Android='2,20,0,0'}" Grid.Row="{x:OnPlatform Default='1', MacCatalyst='1'}" Grid.Column="0">
+                <Grid x:Name="Labels"  Margin="0,20,0,0" Padding="{x:OnPlatform WinUI='0,0,0,10', Android='2,20,0,0'}" Grid.Row="{x:OnPlatform Default='1', MacCatalyst='1'}" Grid.Column="0">
                     <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="{x:OnPlatform Android=End, MacCatalyst=Start}" Margin="{x:OnPlatform Android='0,0,0,8', MacCatalyst='-4,0,0,0'}">
                         <Image  HeightRequest="15" WidthRequest="15" x:Name="LabelLog" Source="prof.png" IsVisible="False"  VerticalOptions="End"  HorizontalOptions="Center"/>
                         <Label Text="Profile" x:Name="LabelVal" Margin="{x:OnPlatform Default='-2,0,0,0', WinUI='-2,-2,0,0',Android='-2,0,0,2'}" HorizontalOptions="Center" VerticalOptions="{x:OnPlatform Default=End,WinUI=Center}" FontSize="10" FontFamily="Sans-Serif" IsVisible="False"/>

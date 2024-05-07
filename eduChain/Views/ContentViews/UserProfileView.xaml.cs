@@ -1,6 +1,6 @@
 using LukeMauiFilePicker;
 using eduChain.Models.MyProfileModels;
-
+using CommunityToolkit.Maui.Alerts;
 namespace eduChain.Views.ContentViews;
 
 public partial class UserProfileView : ContentView
@@ -25,7 +25,22 @@ public partial class UserProfileView : ContentView
             _viewModel.PreviewImage = ImageSource.FromFile("profiledefault.png");
         }
     }
-
+     private async void OnCopyButtonClicked(object sender, EventArgs e)
+    {
+        var s = (Button)sender;
+        string textToCopy =  UID.Text;// Get the text you want to copy (filename or downloaded content)
+        await CopyTextToClipboard(textToCopy);
+        string message = "CID Copied to clipboard";
+        var toast = Toast.Make(message);
+        await toast.Show();
+    }
+    public async Task CopyTextToClipboard(string text)
+{
+  if (!string.IsNullOrEmpty(text))
+  {
+    await Clipboard.Default.SetTextAsync(text);
+  }
+}
 
     public static readonly BindableProperty UserRoleProperty = BindableProperty.Create(
         nameof(UserRole), typeof(string), typeof(UserProfileView), default(string));

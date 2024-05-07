@@ -206,6 +206,10 @@ namespace eduChain.ViewModels
                 switch (Preferences.Default.Get("Role", ""))
                 {
                     case "Student":
+                        if(DisplayName.Length < 6){
+                            await Application.Current.MainPage.DisplayAlert("Error", "Display name must be at least 6 characters long", "OK");
+                            return;
+                        }
                         if (string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(LastName) || string.IsNullOrEmpty(Gender) || (BirthDate > DateTime.Now.AddYears(-4)))
                         {
                             await Application.Current.MainPage.DisplayAlert("Error", "Please fill in all fields and format correctly", "OK");
