@@ -87,6 +87,10 @@
                     </Grid>
                 
                     <StackLayout x:Name="PersonalDetails" IsVisible="False">
+                        <toolkit:UniformItemsLayout>
+                            <material:TextField x:Name="dName" BorderColor="Bisque" TextColor="Azure" TitleColor="LightGreen"  Title="Display Name"  Text="{Binding UsersProfile.DisplayName, Mode=TwoWay}" Margin="5,20,5,10" IsReadOnly="True"/>
+
+                        </toolkit:UniformItemsLayout>
 						<toolkit:UniformItemsLayout  MaxRows="2" MaxColumns="2">
 							<material:TextField x:Name="fName" BorderColor="Bisque" TextColor="Azure" TitleColor="LightGreen"  Title="First Name"  Text="{Binding StudentProfile.FirstName, Mode=TwoWay}" Margin="5,20,5,10" IsReadOnly="True"/>
 							<material:TextField x:Name="lName" BorderColor="Bisque" Title="Last Name"  TextColor="Azure" TitleColor="LightGreen"   Text="{Binding StudentProfile.LastName, Mode=TwoWay}" Margin="5,20,5,10" IsReadOnly="True" />
@@ -113,21 +117,7 @@
                                     <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Person_outline}" Size="20" />
                                 </Button.ImageSource>
                             </Button>
-                            <Frame  BorderColor="Transparent" Padding="0,-10,0,-10" IsVisible="True" BackgroundColor="LightGreen" CornerRadius="20">
-                                <Button BorderWidth="5" StyleClass="TextButton" TextColor="Black" Text="Show" FontSize="11" HorizontalOptions="Center" VerticalOptions="Center" ContentLayout="Right,10" HeightRequest="40">
-                                    <Button.ImageSource>
-                                        <FontImageSource Color="Green" FontFamily="FARegular" Glyph="{x:Static fa:Regular.Eye}" Size="15" />
-                                    </Button.ImageSource>
-                                </Button>
-                            </Frame>
-                            <Frame BorderColor="Transparent" Padding="0,-10,0,-10" IsVisible="False" BackgroundColor="Crimson" CornerRadius="20" IsEnabled="True">
-                                <Button BorderWidth="5" StyleClass="TextButton" TextColor="Black" Text="Hide" FontSize="12" HorizontalOptions="Center" VerticalOptions="Center" ContentLayout="Right,10" HeightRequest="40">
-                                    <Button.ImageSource>
-                                        <FontImageSource Color="Black" FontFamily="FARegular" Glyph="{x:Static fa:Regular.EyeSlash}" Size="15" />
-                                    </Button.ImageSource>
-
-                                </Button>
-                            </Frame>
+                           
                         </StackLayout >
                         
                         
@@ -213,7 +203,7 @@ AccentColor="Bisque" BorderColor="Bisque" TextColor="White" />
                             </HorizontalStackLayout>
                            
                         </VerticalStackLayout>
-                        <BoxView StyleClass="Divider" Grid.Row="3" Grid.ColumnSpan="2" />
+                        <BoxView StyleClass="Divider" Grid.Row="3" Grid.ColumnSpan="2" Margin="-15,0,-15,0" />
 
                         <Label Text="Affiliation Requests From Other Users" Grid.Row="4" StyleClass="Header" TextColor="Wheat" Grid.ColumnSpan="2" TextDecorations="Underline" FontSize="Large" HorizontalOptions="Center" />
 

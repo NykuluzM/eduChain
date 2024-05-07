@@ -126,24 +126,9 @@
                                 <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Help}" Size="20" Color="Black" />
                             </Button.ImageSource>
                         </Button>
-                        <Button Text="You can Download Files using CID" TextColor="Black" HorizontalOptions="Center" BackgroundColor="Transparent">
-                            <Button.ImageSource>
-                                <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Compare}" Size="20" Color="Black" />
-                            </Button.ImageSource>
-                        </Button>
-                        <ur:TextField Text="{Binding Cid[1]}" Title="Cid Address / IPFS Hash" AccentColor="Black"  TitleColor="Black" TextColor="Black" BorderColor="Black" Margin="{x:OnPlatform Android='20,0,20,20', Default='100,0,100,0'}">
-                            <ur:TextField.Attachments>
-                                <Button StyleClass="TextButton" Padding="14,14,14,14" Margin="0" Command="{Binding ClearCommand}" CommandParameter="cidfordownloadclear">
-                                    <Button.ImageSource>
-                                        <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Clear}" Size="20" Color="Black" />
-
-                                    </Button.ImageSource>
-                                </Button>
-                            </ur:TextField.Attachments>
-                        </ur:TextField>
+                        
                        
-                        <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,30,250,30'}" MaximumWidthRequest="800"   Text="Download" Command="{Binding DownloadCommand}" ClassId="downloadClick"/>
-                        <Button Text="You can also Download files using a QR Code, Click the Button Below." TextColor="Black" HorizontalOptions="Center" BackgroundColor="Transparent">
+                        <Button Text="Download Files using a QR Code, Click the Button Below." TextColor="Black" HorizontalOptions="Center" BackgroundColor="Transparent">
                             <Button.ImageSource>
                                 <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Compare}" Size="20" Color="Black" />
                             </Button.ImageSource>
@@ -704,6 +689,9 @@
                         </VerticalStackLayout>
                         
                     </Grid>
+                    <StackLayout>
+                        
+                    </StackLayout>
                 </StackLayout>
 
             </Border>

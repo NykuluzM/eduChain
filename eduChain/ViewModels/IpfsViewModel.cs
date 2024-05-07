@@ -196,6 +196,7 @@ public class IpfsViewModel : ViewModelBase
         get { return _files; }
         private set { _files = value; OnPropertyChanged(nameof(Files)); }
     }
+
     ObservableCollection<FileModel> _categorizedFile = new ObservableCollection<FileModel>();
     public ObservableCollection<FileModel> CategorizedFile {
         get {
@@ -527,7 +528,7 @@ public class IpfsViewModel : ViewModelBase
     }
     private async void DecodeImageButton()
     {
-       var pickerResult = await picker.PickFileAsync("Select a QR code image", QRFileType);    
+        var pickerResult = await picker.PickFileAsync("Select a QR code image", QRFileType);
         if (pickerResult == null)
         {
             return;
@@ -535,7 +536,7 @@ public class IpfsViewModel : ViewModelBase
         var bitmap = SKBitmap.Decode(pickerResult.FileResult.FullPath);
         var reader = new ZXing.SkiaSharp.BarcodeReader();
         var result = reader.Decode(bitmap);
-        if(result != null)
+        if (result != null)
         {
             var compressedData = Convert.FromBase64String(result.Text);
             using (var compressedStream = new MemoryStream(compressedData))
@@ -566,17 +567,17 @@ public class IpfsViewModel : ViewModelBase
             return;
         }
 
-    using var httpClient = new HttpClient();
-    string gatewayUrl = $"https://gateway.pinata.cloud/ipfs/{cid}";
-    try
-    {
+        using var httpClient = new HttpClient();
+        string gatewayUrl = $"https://gateway.pinata.cloud/ipfs/{cid}";
+        try
+        {
             var maxRepeat = 5;
             while (maxRepeat > 0)
             {
 
 
                 var response = await pinataClient.HttpClient.GetAsync(gatewayUrl, HttpCompletionOption.ResponseHeadersRead);
- 
+
                 if (response.IsSuccessStatusCode)
                 {
                     string fileName = Path.GetFileName(gatewayUrl); // URI as file name
@@ -596,19 +597,19 @@ public class IpfsViewModel : ViewModelBase
                 else
                 {
                     maxRepeat--;
-                    if(maxRepeat == 0)
+                    if (maxRepeat == 0)
                     {
                         await Shell.Current.DisplayAlert("Download", "File download failed, The File does not exist or its unavailable", "OK");
                     }
                 }
             }
-    }
-    catch (Exception ex)
-    {
-        // Handle errors gracefully, e.g., log the exception or display a user-friendly message
-        Console.WriteLine($"Error downloading file: {ex.Message}");
-        throw; // Or re-throw for further handling
-    }
+        }
+        catch (Exception ex)
+        {
+            // Handle errors gracefully, e.g., log the exception or display a user-friendly message
+            Console.WriteLine($"Error downloading file: {ex.Message}");
+            throw; // Or re-throw for further handling
+        }
         finally
         {
             this.Cid[1] = "";
@@ -624,13 +625,13 @@ public class IpfsViewModel : ViewModelBase
             return;
         }
         string formatExpression = null;
-        if(DeviceInfo.Platform == DevicePlatform.MacCatalyst){
+        if (DeviceInfo.Platform == DevicePlatform.MacCatalyst) {
             formatExpression = "/";
         }
-        else{
+        else {
             formatExpression = "\\";
         }
-        var fileList =  await IpfsDatabaseService.Instance.RetrieveFilenames(cidList);
+        var fileList = await IpfsDatabaseService.Instance.RetrieveFilenames(cidList);
         cidList.Clear();
 
         using var httpClient = new HttpClient();
@@ -647,7 +648,7 @@ public class IpfsViewModel : ViewModelBase
             await Shell.Current.DisplayAlert("Download", ex.Message, "OK");
             return;
         }
-        foreach (var (cid,filename) in fileList)
+        foreach (var (cid, filename) in fileList)
         {
             gatewayUrl = $"https://gateway.pinata.cloud/ipfs/{cid}";
             try
@@ -658,31 +659,31 @@ public class IpfsViewModel : ViewModelBase
                     string fileName = Path.GetFileName(gatewayUrl); // URI as file name
 
                     string contentType = response.Content.Headers.ContentType.MediaType;
-                    string fileExtension = GetFileExtensionFromContentType(contentType); 
+                    string fileExtension = GetFileExtensionFromContentType(contentType);
                     using (var tempStream = await response.Content.ReadAsStreamAsync())
                     {
-                        
-                            var currentFileName = $"{path}{formatExpression}{filename}{fileExtension}";
-                            if(File.Exists(currentFileName))
+
+                        var currentFileName = $"{path}{formatExpression}{filename}{fileExtension}";
+                        if (File.Exists(currentFileName))
+                        {
+                            for (int i = 0; i < 100; i++)
                             {
-                                for(int i = 0; i < 100; i++) 
-                                {                                     
-                                    if(File.Exists($"{path}{formatExpression}{filename}({i}){fileExtension}"))
-                                    {
-                                            continue;
-                                    }
-                                    else
-                                    {
-                                            currentFileName = $"{path}{formatExpression}{filename}({i}){fileExtension}";
-                                            break;
-                                    }
+                                if (File.Exists($"{path}{formatExpression}{filename}({i}){fileExtension}"))
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    currentFileName = $"{path}{formatExpression}{filename}({i}){fileExtension}";
+                                    break;
                                 }
                             }
-                            using (var fs = File.Create(currentFileName))
-                            {
-                                await tempStream.CopyToAsync(fs);
-                            }
-                        
+                        }
+                        using (var fs = File.Create(currentFileName))
+                        {
+                            await tempStream.CopyToAsync(fs);
+                        }
+
                     }
                 }
             }
@@ -692,7 +693,7 @@ public class IpfsViewModel : ViewModelBase
                 Console.WriteLine($"Error downloading file: {ex.Message}");
                 throw; // Or re-throw for further handling
             }
-        }   
+        }
         // Display summary message at the end
         await Shell.Current.DisplayAlert("Download", "Files downloaded successfully", "OK");
     }
@@ -714,7 +715,7 @@ public class IpfsViewModel : ViewModelBase
             {"application/zip", ".zip" },
             {"application/mp3", ".mp3" },
             {"application/mp4", ".mp4" },
-     
+
             {"application/pdf", ".pdf"},
             {"application/msword", ".doc"},
             {"application/vnd.openxmlformats-officedocument.wordprocessingml.document", ".docx"},
@@ -732,20 +733,27 @@ public class IpfsViewModel : ViewModelBase
     {
         if (string.IsNullOrEmpty(this.Cid[2]))
         {
-            await Shell.Current.DisplayAlert("Unpin","Please enter a CID","Yes");
+            await Shell.Current.DisplayAlert("Unpin", "Please enter a CID", "Yes");
         }
         try
         {
             string gatewayUrl = $"https://gateway.pinata.cloud/ipfs/{this.Cid[2]}";
             var response = await pinataClient.HttpClient.GetAsync(gatewayUrl, HttpCompletionOption.ResponseHeadersRead);
-            if (!response.IsSuccessStatusCode)
+            if (response.Content.Headers == null)
             {
+                await Shell.Current.DisplayAlert("Unpin", "File does not exist in the IPFS node", "OK");
                 return;
             }
             var result = await IpfsDatabaseService.Instance.isPinned(this.Cid[2]);
 
             if (result)
             {
+                var res = await IsOwnerOfTheFile(this.Cid[2]);
+                if(res == false)
+                {
+                    await Shell.Current.DisplayAlert("Unpin", "You are not the owner of the file", "OK");
+                    return;
+                }
                 await IpfsDatabaseService.Instance.UnpinFile(this.Cid[2]);
                 await this.pinataClient.Pinning.UnpinAsync(this.Cid[2]);
                 await Shell.Current.DisplayAlert("Unpin", "File unpinned successfully", "OK");
@@ -767,5 +775,29 @@ public class IpfsViewModel : ViewModelBase
             this.Cid[2] = "";
             OnPropertyChanged(nameof(Cid));
         }
-    }   
+    }
+    private async Task<bool> IsOwnerOfTheFile(string cid)
+    {
+        foreach (var file in Files)
+        {
+            if (file.CID == cid)
+            {
+
+                if (file.Owner == UsersProfile.FirebaseId)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+                
+            }
+
+            // If the CID is not found in the Files collection, return false
+            return false;
+        }
+        return false;
+    }
 }
+

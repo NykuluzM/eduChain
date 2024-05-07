@@ -1,16 +1,296 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+            xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
+            xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+            xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
+            xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
+            xmlns:content="clr-namespace:eduChain.Views.ContentViews; assembly=eduChain"
+            xmlns:syncfusion="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+            xmlns:tabView="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
+            xmlns:listView="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+            xmlns:data="clr-namespace:Syncfusion.Maui.DataSource;assembly=Syncfusion.Maui.DataSource"
+            xmlns:pulltoRefresh="clr-namespace:Syncfusion.Maui.PullToRefresh;assembly=Syncfusion.Maui.PullToRefresh"
              x:Class="eduChain.Views.ContentPages.OrganizationProfilePage"
-                          xmlns:content="clr-namespace:eduChain.Views.ContentViews; assembly=eduChain"
+			 xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
+                Shell.BackgroundColor="#195a7a" 
+                Shell.TabBarIsVisible="False"           
+             Shell.FlyoutBehavior="Disabled"
+            Shell.NavBarIsVisible="False">
+    <ScrollView>
+        <StackLayout HorizontalOptions="FillAndExpand" Spacing="20">
 
-             Shell.NavBarIsVisible="False" Shell.TabBarIsVisible="False" Shell.FlyoutBehavior="Disabled">
-    <VerticalStackLayout>
-        <Frame BackgroundColor="Transparent" BorderColor="Transparent" WidthRequest="400" HeightRequest="500">
-            <content:UserProfileView
-       
-/>
-        </Frame>
 
-    </VerticalStackLayout>
+            <content:UserProfileView/>
+            <StackLayout Margin="0,0,70,0">
+                <Button Text="Change Password" HorizontalOptions="End" Clicked="ShowForm">
+                    <Button.ImageSource>
+                        <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Lock}" Size="20" />
+                    </Button.ImageSource>
+                </Button>
+            </StackLayout>
+            <Frame CornerRadius="20" Margin="{OnPlatform Android='10,0,10,400', iOS='10,0,10,400', MacCatalyst='60,30,60,0', WinUI='120,0,120,0'}" BackgroundColor="Black">
+                <input:FormView HorizontalOptions="FillAndExpand" Padding="0,15,0,15">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto"  />
+                        </Grid.RowDefinitions>
+                        <StackLayout Grid.Column="0" Grid.Row="0" Orientation="Horizontal" Spacing="10" >
+                            <Button StyleClass="Header" Text="Personal Information" IsEnabled="False">
+                                <Button.ImageSource>
+                                    <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Person_outline}" Size="20" />
+                                </Button.ImageSource>
+                            </Button>
+                            <Frame x:Name="ShowButton1" BorderColor="Transparent" Padding="0,-10,0,-10" IsVisible="True" BackgroundColor="LightGreen" CornerRadius="20">
+                                <Button BorderWidth="5" StyleClass="TextButton" TextColor="Black" Text="Show" FontSize="11" Clicked="ShowPersonal" HorizontalOptions="Center" VerticalOptions="Center" ContentLayout="Right,10" HeightRequest="40">
+                                    <Button.ImageSource>
+                                        <FontImageSource Color="Green" FontFamily="FARegular" Glyph="{x:Static fa:Regular.Eye}" Size="15" />
+                                    </Button.ImageSource>
+                                </Button>
+                            </Frame>
+                            <Frame x:Name="HideButton1" BorderColor="Transparent" Padding="0,-10,0,-10" IsVisible="False" BackgroundColor="Crimson" CornerRadius="20" IsEnabled="True">
+                                <Button BorderWidth="5" StyleClass="TextButton" TextColor="Black" Text="Hide" FontSize="12" Clicked="HidePersonal" HorizontalOptions="Center" VerticalOptions="Center" ContentLayout="Right,10" HeightRequest="40">
+                                    <Button.ImageSource>
+                                        <FontImageSource Color="Black" FontFamily="FARegular" Glyph="{x:Static fa:Regular.EyeSlash}" Size="15" />
+                                    </Button.ImageSource>
+
+                                </Button>
+                            </Frame>
+                        </StackLayout>
+                        <!--Need to be adjusted if android/ios-->
+                        <StackLayout Orientation="Horizontal" Grid.Row="{x:OnPlatform Android=1, WinUI=0, MacCatalyst=0, iOS=1}" Margin="{x:OnPlatform Android='0,20,0,0'}" HorizontalOptions="{x:OnPlatform Android=Center, MacCatalyst=End, WinUI=End, iOS=Center}">
+                            <Button x:Name="EditButton" IsVisible="False" StyleClass="Filled" Margin="{x:OnPlatform WinUI='0,0,50,0', MacCatalyst='0,0,50,0'}" TextColor="White" Text="Modify" FontSize="15" Clicked="EditProfile" Grid.Column="1" HorizontalOptions="End" VerticalOptions="Center" />
+
+                            <StackLayout Grid.Column="1" HorizontalOptions="End" x:Name="StateButtons" IsVisible="False" Spacing="15" Orientation="Horizontal">
+                                <Button StyleClass="Filled" Text="Cancel" TextColor="White" Clicked="CancelEditProfile">
+                                    <Button.ImageSource>
+                                        <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Edit_off}" />
+                                    </Button.ImageSource>
+                                </Button>
+                                <Button Text="Save" class="Filled" TextColor="White" Clicked="SaveChanges">
+                                    <Button.ImageSource>
+                                        <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Save}" />
+                                    </Button.ImageSource>
+                                </Button>
+                            </StackLayout>
+                        </StackLayout>
+
+                    </Grid>
+
+                    <StackLayout x:Name="PersonalDetails" IsVisible="False">
+                        <toolkit:UniformItemsLayout  MaxRows="2" MaxColumns="2">
+                            <material:TextField x:Name="dName" BorderColor="Bisque" Title="Display Name"  TextColor="Azure" TitleColor="LightGreen"   Text="{Binding UsersProfile.DisplayName, Mode=TwoWay}" Margin="5,20,5,10" IsReadOnly="True" />
+
+                        </toolkit:UniformItemsLayout>
+                        <toolkit:UniformItemsLayout MaxRows="3" MaxColumns="4">
+                            <material:TextField x:Name="name" BorderColor="Bisque" Title="Name"  TextColor="Azure" TitleColor="LightGreen"   Text="{Binding OrganizationProfile.Name, Mode=TwoWay}" Margin="5,20,5,10" IsReadOnly="True" />
+                            <material:TextField x:Name="type" BorderColor="Bisque" Title="Type"   TextColor="Azure" TitleColor="LightGreen"  Text="{Binding OrganizationProfile.Type, Mode=TwoWay}" Margin="5,20,5,10" IsReadOnly="True" />
+                        </toolkit:UniformItemsLayout>
+                    </StackLayout>
+                    <!-- Edit Button -->
+
+
+                </input:FormView>
+            </Frame>
+            <Frame CornerRadius="20" Margin="{OnPlatform Android='10,0,10,400', iOS='10,0,10,400', MacCatalyst='60,30,60,0', WinUI='120,0,120,0'}" BackgroundColor="Black">
+
+                <input:FormView HorizontalOptions="FillAndExpand" Padding="0,15,0,15">
+
+                    <StackLayout>
+
+                        <StackLayout Grid.Column="0" Grid.Row="0" Orientation="Horizontal" Spacing="10" >
+                            <Button StyleClass="Header" Text="Connections/Affiliations" IsEnabled="False">
+                                <Button.ImageSource>
+                                    <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Person_outline}" Size="20" />
+                                </Button.ImageSource>
+                            </Button>
+                            <Frame  BorderColor="Transparent" Padding="0,-10,0,-10" IsVisible="True" BackgroundColor="LightGreen" CornerRadius="20">
+                                <Button BorderWidth="5" StyleClass="TextButton" TextColor="Black" Text="Show" FontSize="11" HorizontalOptions="Center" VerticalOptions="Center" ContentLayout="Right,10" HeightRequest="40">
+                                    <Button.ImageSource>
+                                        <FontImageSource Color="Green" FontFamily="FARegular" Glyph="{x:Static fa:Regular.Eye}" Size="15" />
+                                    </Button.ImageSource>
+                                </Button>
+                            </Frame>
+                            <Frame BorderColor="Transparent" Padding="0,-10,0,-10" IsVisible="False" BackgroundColor="Crimson" CornerRadius="20" IsEnabled="True">
+                                <Button BorderWidth="5" StyleClass="TextButton" TextColor="Black" Text="Hide" FontSize="12" HorizontalOptions="Center" VerticalOptions="Center" ContentLayout="Right,10" HeightRequest="40">
+                                    <Button.ImageSource>
+                                        <FontImageSource Color="Black" FontFamily="FARegular" Glyph="{x:Static fa:Regular.EyeSlash}" Size="15" />
+                                    </Button.ImageSource>
+
+                                </Button>
+                            </Frame>
+                        </StackLayout >
+
+
+
+
+                    </StackLayout>
+                    <Grid RowDefinitions="Auto,*,Auto,*,*,*,*" ColumnDefinitions="*,*">
+
+                        <Label Text="Established Affiliations" Grid.Row="0" StyleClass="Header" TextColor="Wheat" Grid.ColumnSpan="2" TextDecorations="Underline" FontSize="Large" HorizontalOptions="Center" />
+
+
+                        <tabView:SfTabView BackgroundColor="Tan" SelectionChanged="Tab1Change"  IndicatorPlacement="Fill" WidthRequest="800" Grid.Row="1" Grid.ColumnSpan="2" >
+                            <tabView:SfTabItem  Header="Organizations" 
+                                    ImageSource="orgpng.png" 
+                                    ImageTextSpacing="4">
+                                <tabView:SfTabItem.Content>
+                                    <syncfusion:SfDataGrid x:Name="affiorg" ItemsSource="{Binding AffiliatedOrganizations}" SelectionMode="Multiple"  HorizontalScrollBarVisibility="Always" VerticalScrollBarVisibility="Always"  AutoGenerateColumnsMode="None" GridLinesVisibility="Both" HeaderGridLinesVisibility="Both"  Margin="{x:OnPlatform WinUI='90,20,0,0', Default='60,20,0,0'}" ColumnWidthMode="Auto"  >
+                                        <syncfusion:SfDataGrid.DefaultStyle>
+                                            <syncfusion:DataGridStyle SelectionBackground="AliceBlue" />
+
+                                        </syncfusion:SfDataGrid.DefaultStyle>
+                                        <syncfusion:SfDataGrid.StackedHeaderRows>
+                                            <syncfusion:DataGridStackedHeaderRow>
+                                                <syncfusion:DataGridStackedHeaderRow.Columns>
+                                                    <syncfusion:DataGridStackedColumn ColumnMappingNames="Id,Name,DateEstablished" Text="Organization Details"/>
+                                                </syncfusion:DataGridStackedHeaderRow.Columns>
+                                            </syncfusion:DataGridStackedHeaderRow>
+                                        </syncfusion:SfDataGrid.StackedHeaderRows>
+                                        <syncfusion:SfDataGrid.Columns>
+
+                                            <syncfusion:DataGridTextColumn MappingName="Id" HeaderText="UID" AllowSorting="True" />
+                                            <syncfusion:DataGridTextColumn MappingName="Name" HeaderText="Organization Name" AllowSorting="True" />
+                                            <syncfusion:DataGridDateColumn MappingName="DateEstablished" HeaderText="Date Joined" AllowSorting="True" />
+                                        </syncfusion:SfDataGrid.Columns>
+                                    </syncfusion:SfDataGrid>
+
+
+
+                                </tabView:SfTabItem.Content>
+                            </tabView:SfTabItem>
+
+                            <tabView:SfTabItem  Header="Students" 
+                                    ImageSource="studentpng.png" 
+                                    ImageTextSpacing="4">
+                                <tabView:SfTabItem.Content>
+                                    <syncfusion:SfDataGrid x:Name="affistud" ItemsSource="{Binding AffiliatedStudents}" SelectionMode="Multiple"  HorizontalScrollBarVisibility="Always" VerticalScrollBarVisibility="Always"  AutoGenerateColumnsMode="None" GridLinesVisibility="Both" HeaderGridLinesVisibility="Both" Margin="{x:OnPlatform WinUI='90,20,0,0', Default='60,20,0,0'}" ColumnWidthMode="Auto"  >
+                                        <syncfusion:SfDataGrid.DefaultStyle>
+                                            <syncfusion:DataGridStyle SelectionBackground="AliceBlue" />
+
+                                        </syncfusion:SfDataGrid.DefaultStyle>
+                                        <syncfusion:SfDataGrid.StackedHeaderRows>
+                                            <syncfusion:DataGridStackedHeaderRow>
+                                                <syncfusion:DataGridStackedHeaderRow.Columns>
+                                                    <syncfusion:DataGridStackedColumn ColumnMappingNames="Id,Name,DateEstablished" Text="Student Details" />
+                                                </syncfusion:DataGridStackedHeaderRow.Columns>
+                                            </syncfusion:DataGridStackedHeaderRow>
+                                        </syncfusion:SfDataGrid.StackedHeaderRows>
+                                        <syncfusion:SfDataGrid.Columns>
+                                            <syncfusion:DataGridTextColumn MappingName="Id" HeaderText="UID" AllowSorting="True" />
+                                            <syncfusion:DataGridTextColumn MappingName="Name" HeaderText="Student Name" AllowSorting="True" />
+                                            <syncfusion:DataGridDateColumn MappingName="DateEstablished" HeaderText="Date Joined" AllowSorting="True"/>
+                                        </syncfusion:SfDataGrid.Columns>
+                                    </syncfusion:SfDataGrid>
+
+
+
+                                </tabView:SfTabItem.Content>
+
+                            </tabView:SfTabItem>
+
+                        </tabView:SfTabView>
+                        <VerticalStackLayout  Grid.Row="2" HorizontalOptions="Center" Grid.ColumnSpan="2" Margin="0,0,0,30">
+                            <HorizontalStackLayout HorizontalOptions="Center" Margin="0,10,0,0">
+                                <Button Text="Remove"  Clicked="RemoveAffiliations"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout    Spacing="20" Margin="0,15,0,10">
+                                <material:TextField x:Name="OrgUIDRequest" IsVisible="True"  Title="Organization UID" WidthRequest="350" TitleColor="Bisque" AllowClear="True" AccentColor="Bisque" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Business}, Color=Beige}"
+BorderColor="Bisque" TextColor="White" />
+                                <Button x:Name="OrgUIDButton" Text="Request" IsVisible="True"  StyleClass="Filled" Clicked="RequestAffiliation" ClassId="OrgAff" TextColor="White" />
+                                <material:TextField x:Name="StudUIDRequest" IsVisible="False" Title="Student UID" AllowClear="True" WidthRequest="350" TitleColor="Bisque" Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Perm_identity}, Color=Beige}"
+AccentColor="Bisque" BorderColor="Bisque" TextColor="White" />
+                                <Button x:Name="StudUIDButton" Text="Request" IsVisible="False" StyleClass="Filled" Clicked="RequestAffiliation" ClassId="StudAff" TextColor="White" />
+                            </HorizontalStackLayout>
+
+                        </VerticalStackLayout>
+                        <BoxView StyleClass="Divider" Grid.Row="3" Grid.ColumnSpan="2" Margin="-15,0,-15,0" />
+
+                        <Label Text="Affiliation Requests From Other Users" Grid.Row="4" StyleClass="Header" TextColor="Wheat" Grid.ColumnSpan="2" TextDecorations="Underline" FontSize="Large" HorizontalOptions="Center" />
+
+                        <tabView:SfTabView BackgroundColor="Tan"  IndicatorPlacement="Fill" SelectionChanged="Tab2Change" WidthRequest="800" Grid.Row="5" Grid.ColumnSpan="2" >
+                            <tabView:SfTabItem  Header="Organizations" 
+                 ImageSource="orgpng.png" 
+                 ImageTextSpacing="4">
+                                <tabView:SfTabItem.Content>
+                                    <syncfusion:SfDataGrid x:Name="affireqorg" ItemsSource="{Binding AffiliationRequestsOrganizations}" SelectionMode="Multiple"  HorizontalScrollBarVisibility="Always" VerticalScrollBarVisibility="Always"  AutoGenerateColumnsMode="None" GridLinesVisibility="Both" HeaderGridLinesVisibility="Both"   Margin="{x:OnPlatform WinUI='90,20,0,0', Default='60,20,0,0'}" ColumnWidthMode="Auto"  >
+                                        <syncfusion:SfDataGrid.DefaultStyle>
+                                            <syncfusion:DataGridStyle SelectionBackground="AliceBlue" />
+
+                                        </syncfusion:SfDataGrid.DefaultStyle>
+                                        <syncfusion:SfDataGrid.StackedHeaderRows>
+                                            <syncfusion:DataGridStackedHeaderRow>
+                                                <syncfusion:DataGridStackedHeaderRow.Columns>
+                                                    <syncfusion:DataGridStackedColumn ColumnMappingNames="Id,Name,DateEstablished" Text="Organization Details" />
+                                                </syncfusion:DataGridStackedHeaderRow.Columns>
+                                            </syncfusion:DataGridStackedHeaderRow>
+                                        </syncfusion:SfDataGrid.StackedHeaderRows>
+                                        <syncfusion:SfDataGrid.Columns>
+                                            <syncfusion:DataGridTextColumn MappingName="Id" HeaderText="UID" AllowSorting="True" />
+                                            <syncfusion:DataGridTextColumn MappingName="Name" HeaderText="Organization Name" AllowSorting="True" />
+                                            <syncfusion:DataGridDateColumn MappingName="DateEstablished" HeaderText="Date Joined" AllowSorting="True" />
+                                        </syncfusion:SfDataGrid.Columns>
+                                    </syncfusion:SfDataGrid>
+
+
+
+                                </tabView:SfTabItem.Content>
+                            </tabView:SfTabItem>
+
+                            <tabView:SfTabItem  Header="Students" 
+                 ImageSource="studentpng.png" 
+                 ImageTextSpacing="4">
+                                <tabView:SfTabItem.Content>
+                                    <syncfusion:SfDataGrid x:Name="affireqstud" ItemsSource="{Binding AffiliationRequestsStudents}" SelectionMode="Multiple"  HorizontalScrollBarVisibility="Always" VerticalScrollBarVisibility="Always"  AutoGenerateColumnsMode="None" GridLinesVisibility="Both" HeaderGridLinesVisibility="Both"  Margin="{x:OnPlatform WinUI='90,20,0,0', Default='60,20,0,0'}" ColumnWidthMode="Auto"  >
+                                        <syncfusion:SfDataGrid.DefaultStyle>
+                                            <syncfusion:DataGridStyle SelectionBackground="AliceBlue" />
+
+                                        </syncfusion:SfDataGrid.DefaultStyle>
+                                        <syncfusion:SfDataGrid.StackedHeaderRows>
+                                            <syncfusion:DataGridStackedHeaderRow>
+                                                <syncfusion:DataGridStackedHeaderRow.Columns>
+                                                    <syncfusion:DataGridStackedColumn ColumnMappingNames="Id,Name,DateEstablished" Text="Student Details" />
+                                                </syncfusion:DataGridStackedHeaderRow.Columns>
+                                            </syncfusion:DataGridStackedHeaderRow>
+                                        </syncfusion:SfDataGrid.StackedHeaderRows>
+                                        <syncfusion:SfDataGrid.Columns>
+                                            <syncfusion:DataGridTextColumn MappingName="Id" HeaderText="UID" AllowSorting="True" />
+                                            <syncfusion:DataGridTextColumn MappingName="Name" HeaderText="Student Name" AllowSorting="True" />
+                                            <syncfusion:DataGridDateColumn MappingName="DateEstablished" HeaderText="Date Joined" AllowSorting="True"/>
+                                        </syncfusion:SfDataGrid.Columns>
+                                    </syncfusion:SfDataGrid>
+
+
+
+                                </tabView:SfTabItem.Content>
+
+                            </tabView:SfTabItem>
+
+                        </tabView:SfTabView>
+
+                        <HorizontalStackLayout Grid.Row="6"  HorizontalOptions="Center" Grid.ColumnSpan="2" Spacing="20" Margin="0,15,0,50">
+                            <Button Text="Accept" Clicked="AcceptedAffiliation"/>
+                            <Button Text="Reject" Clicked="RejectedAffiliation"/>
+                        </HorizontalStackLayout>
+
+
+                    </Grid>
+
+
+
+
+                </input:FormView>
+
+            </Frame>
+
+
+        </StackLayout>
+    </ScrollView>
+
 </ContentPage>

@@ -35,7 +35,7 @@ public partial class InitializingPage : ContentPage
 			player.Dispose();
 	}
 	public async void CheckisLoggedIn(){
-		await Task.Delay(8000);
+		await Task.Delay(2000);
 		NetworkAccess networkAccess = Connectivity.NetworkAccess;
 		
 		if(networkAccess == NetworkAccess.None)

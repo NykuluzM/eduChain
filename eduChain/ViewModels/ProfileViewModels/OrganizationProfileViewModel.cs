@@ -23,6 +23,7 @@ public class OrganizationProfileViewModel : BaseProfileViewModel
     }
     public async Task UpdateProfileAsync()
     {
-        //await MyProfileService.Instance.UpdateStudentUserProfileAsync(OrganizationProfile);
+        await MyProfileService.Instance.UpdateOrganizationUserProfileAsync(OrganizationProfile, UsersProfile.DisplayName);
+
     }
 }

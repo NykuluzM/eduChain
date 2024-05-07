@@ -63,6 +63,7 @@ namespace eduChain.Services
                                 await reader.CloseAsync(); // Close the reader
 
                                 await DatabaseManager.CloseConnectionAsync();
+                                OrganizationProfileModel.Instance = profile;
                                 return profile;
                             }
                         }
@@ -152,17 +153,14 @@ namespace eduChain.Services
             return null;
         }
 
-        public async Task UpdateStudentUserProfileAsync(StudentProfileModel profile)
+        public async Task UpdateStudentUserProfileAsync(StudentProfileModel profile, string displayname)
         {
             try
             {
-                var role = await GetUserRoleAsync(Preferences.Default.Get("firebase_uid", String.Empty));
                 await DatabaseManager.OpenConnectionAsync();
                 using (var command = DatabaseManager.Connection.CreateCommand())
                 {
-                    switch (role)
-                    {
-                        case "Student":
+                  
                             command.CommandText = @"
                                             UPDATE ""Students"" 
                                             SET ""first_name"" = @first_name, ""last_name"" = @last_name
@@ -172,15 +170,49 @@ namespace eduChain.Services
                             command.Parameters.AddWithValue("@firebase_id", profile.FirebaseId);
 
                             await command.ExecuteNonQueryAsync();
-                            Shell.Current.DisplayAlert("Success", "Profile updated successfully", "OK");
-                            break;
-                        case "Organization":
-                            break;
+                    command.CommandText = @"
+                                            UPDATE ""Users"" 
+                                            SET ""display_name"" = @display_name
+                                            WHERE ""firebase_id"" = @firebase_id";
+                    command.Parameters.AddWithValue("@display_name", displayname);
+                    await command.ExecuteNonQueryAsync();
+                    Shell.Current.DisplayAlert("Success", "Profile updated successfully", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception appropriately
+                await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+            }
+            finally
+            {
+                await DatabaseManager.CloseConnectionAsync();
+            }
+        }
 
-                        case "Guardian":
-                            break;
-                    }
+        public async Task UpdateOrganizationUserProfileAsync(OrganizationProfileModel profile, string displayname)
+        {
+            try
+            {
+                await DatabaseManager.OpenConnectionAsync();
+                using (var command = DatabaseManager.Connection.CreateCommand())
+                {
 
+                    command.CommandText = @"
+                                            UPDATE ""Organizations"" 
+                                            SET ""name"" = @_name
+                                            WHERE ""user_firebase_id"" = @firebase_id";
+                    command.Parameters.AddWithValue("@_name", profile.Name);
+                    command.Parameters.AddWithValue("@firebase_id", profile.FirebaseId);
+
+                    await command.ExecuteNonQueryAsync();
+                    command.CommandText = @"
+                                            UPDATE ""Users"" 
+                                            SET ""display_name"" = @display_name
+                                            WHERE ""firebase_id"" = @firebase_id";
+                    command.Parameters.AddWithValue("@display_name", displayname);
+                    await command.ExecuteNonQueryAsync();
+                    Shell.Current.DisplayAlert("Success", "Profile updated successfully", "OK");
                 }
             }
             catch (Exception ex)

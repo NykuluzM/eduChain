@@ -26,7 +26,7 @@ namespace eduChain.Views.ContentPages.ProfileViews
         readonly IFilePickerService picker;
         private StudentProfileViewModel _viewModel;
         private StudentProfileModel _studentProfile;
-
+        private string odname;
         private string ofname;
         private string olname;
         private string ogender;
@@ -43,11 +43,7 @@ namespace eduChain.Views.ContentPages.ProfileViews
             _studentProfile = StudentProfileModel.Instance;
             _viewModel.PreviewImage = ImageSource.FromStream(() => new MemoryStream(UsersProfileModel.Instance.ProfilePic));
         }
-        private async void Button_Example(object sender, EventArgs e)
-        {
-            await AffiliationsDatabaseService.Instance.GetAffiliatedOrganizationTo(_studentProfile.FirebaseId);
-
-        }
+  
         protected override async void OnAppearing()
         {
 
@@ -55,6 +51,7 @@ namespace eduChain.Views.ContentPages.ProfileViews
             //var plp = IPlatformApplication.Current.Services.GetRequiredService<IAudioManager>();
             //await Shell.Current.Navigation.PushAsync(new LoadingOnePage(plp)); // Push LoadingPage
             await _viewModel.LoadProfileAsync(Preferences.Default.Get("firebase_uid", String.Empty), _studentProfile);
+            odname = _viewModel.UsersProfile.DisplayName;
             ofname = _studentProfile.FirstName;
             olname = _studentProfile.LastName;
             ogender = _studentProfile.Gender;
@@ -71,7 +68,7 @@ namespace eduChain.Views.ContentPages.ProfileViews
         public async void EditProfile(object sender, EventArgs e)
         {
             EditButton.IsVisible = false;
-
+            dName.IsReadOnly = false;
             HideButton1.IsEnabled = false;
             var cancellationTokenSource = new CancellationTokenSource();
             var text = "Hide Button is Disabled, Either Cancel or Save";
@@ -290,6 +287,7 @@ namespace eduChain.Views.ContentPages.ProfileViews
         {
             EditButton.IsVisible = true;
             HideButton1.IsEnabled = true;
+            dName.IsReadOnly = true;
 
             StateButtons.IsVisible = false;
 
@@ -307,7 +305,7 @@ namespace eduChain.Views.ContentPages.ProfileViews
 
 
             if (_studentProfile.LastName == olname && _studentProfile.FirstName == ofname
-              && _studentProfile.BirthDate == obirthdate && _studentProfile.Gender == ogender)
+              && _studentProfile.BirthDate == obirthdate && _studentProfile.Gender == ogender && _viewModel.UsersProfile.DisplayName == odname)
             {
                 await DisplayAlert("Error", "No changes made", "OK");
                 CancelEditProfile(sender, e);
