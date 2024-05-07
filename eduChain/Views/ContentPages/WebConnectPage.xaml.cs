@@ -14,6 +14,7 @@ public partial class WebConnectPage : ContentPage
 		if (!string.IsNullOrEmpty(url))
 		{
 			webView.Source = new UrlWebViewSource { Url = url };
+			await DisplayAlert("Info", "Loaded School Webpage", "OK");
 		}
 		else
 		{

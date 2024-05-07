@@ -141,26 +141,13 @@
             Shell.TabBarForegroundColor="DarkSeaGreen"
             Shell.TabBarUnselectedColor="Black"
             Shell.TabBarTitleColor="Green"
+            
             Shell.FlyoutBehavior="{Binding FlyoutBehaviors, Mode=TwoWay}"
             ContentTemplate="{DataTemplate pages:HomePage}"
             Shell.NavBarHasShadow="false"
        
             Route="homePage" />
         
-            <ShellContent
-                Title="Settings"
-                FlyoutItemIsVisible="False"
-                Icon="settingslogo.png"
-                Shell.NavBarIsVisible="{x:OnPlatform Android=True, iOS=True, MacCatalyst=True, WinUI=False}"
-                Shell.TabBarBackgroundColor="#FFFACD"
-                Shell.TabBarForegroundColor="DarkSeaGreen"
-                Shell.TabBarUnselectedColor="Black"
-                Shell.TabBarTitleColor="Green"
-                    Shell.FlyoutBehavior="{Binding FlyoutBehaviors}"
-
-                ContentTemplate="{DataTemplate pages:SettingsPage}"
-                Route="settingsPage"
-                />
     </FlyoutItem>
 
 
@@ -186,7 +173,7 @@
             FlyoutItemIsVisible="False"
             Icon="settingslogo.png"
             Shell.NavBarIsVisible="{x:OnPlatform Android=True, iOS=True, MacCatalyst=True, WinUI=False}"
-            Shell.FlyoutBehavior="Flyout"
+            Shell.FlyoutBehavior="{Binding FlyoutBehaviors}"
             Shell.TabBarBackgroundColor="#FFFACD"
             Shell.TabBarForegroundColor="DarkSeaGreen"
             Shell.TabBarUnselectedColor="Black"

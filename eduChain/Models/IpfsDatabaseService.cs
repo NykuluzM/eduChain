@@ -135,7 +135,7 @@ public class IpfsDatabaseService
                         Owner = reader.GetString(1),
                         CID = reader.GetString(2),
                         FileType = reader.GetString(4),
-                        FileName = reader.GetString(3m),
+                        FileName = reader.GetString(3),
                     });
                 }
                 return fileList;
