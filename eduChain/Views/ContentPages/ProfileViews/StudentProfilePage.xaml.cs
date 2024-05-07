@@ -32,6 +32,8 @@ namespace eduChain.Views.ContentPages.ProfileViews
         private string ogender;
         private string obirthdate;
         private byte[] oprofile;
+        private string currenttabaffiliationrequest = "organizationaffiliation";
+        private string currenttabaffiliation = "organizationaffiliation";
         public StudentProfilePage()
         {
             InitializeComponent();
@@ -94,19 +96,33 @@ namespace eduChain.Views.ContentPages.ProfileViews
                     StudUIDButton.IsVisible = false;
                     OrgUIDRequest.IsVisible = true;
                     StudUIDRequest.IsVisible = false;
-
+                    currenttabaffiliation = "organizationaffiliation";
                     break;
                 case 1:
                     OrgUIDButton.IsVisible = false;
                     StudUIDButton.IsVisible = true;
                     OrgUIDRequest.IsVisible = false;
                     StudUIDRequest.IsVisible = true;
+                    currenttabaffiliation = "studentaffiliation";
+                    break;
+            }
+        }
+        private async void Tab2Change(object sender, TabSelectionChangedEventArgs e)
+        {
+               var selectedItem = e.NewIndex;
+            switch (selectedItem)
+            {
+                case 0:
+                    currenttabaffiliationrequest = "organizationaffiliation";
+                    break;
+                case 1:
+                    currenttabaffiliationrequest = "studentaffiliation";
                     break;
             }
         }
 
 
-            private async void RequestAffiliation(object sender, EventArgs e)
+        private async void RequestAffiliation(object sender, EventArgs e)
         {
             var s = (Button)sender;
             switch (s.ClassId)
@@ -142,7 +158,95 @@ namespace eduChain.Views.ContentPages.ProfileViews
             }
 
         }
+        private async void AcceptedAffiliation(object sender, EventArgs e)
+        {
+            if(currenttabaffiliationrequest == "organizationaffiliation")
+            {
+                if(affireqorg.SelectedRows == null || affireqorg.SelectedRows.Count < 1)
+                {
+                    await DisplayAlert("Error", "Please select an affiliation request", "OK");
+                    return;
+                }
+                else
+                {
+                    await _viewModel.AcceptAffiliations(affireqorg.SelectedRows);
+                    _viewModel.InitializeAsync();
+                }
+            }
+            else
+            {
+                if(affireqstud.SelectedRows == null || affireqstud.SelectedRows.Count < 1)
+                {
+                    await DisplayAlert("Error", "Please select an affiliation request", "OK");
+                    return;
+                }
+                else
+                {
+                    await _viewModel.AcceptAffiliations(affireqstud.SelectedRows);
+                    _viewModel.InitializeAsync();
+                }
+            }
+        }
 
+        private async void RejectedAffiliation(object sender, EventArgs e)
+        {
+            if(currenttabaffiliationrequest == "organizationaffiliation")
+            {
+                if(affireqorg.SelectedRows == null || affireqorg.SelectedRows.Count < 1)
+                {
+                    await DisplayAlert("Error", "Please select an affiliation request", "OK");
+                    return;
+                }
+                else
+                {
+                    await _viewModel.RejectAffiliations(affireqorg.SelectedRows);
+                    _viewModel.InitializeAsync();
+                }
+            }
+            else
+            {
+                if(affireqstud.SelectedRows == null || affireqstud.SelectedRows.Count < 1)
+                {
+                    await DisplayAlert("Error", "Please select an affiliation request", "OK");
+                    return;
+                }
+                else
+                {
+                    await _viewModel.RejectAffiliations(affireqstud.SelectedRows);
+                    _viewModel.InitializeAsync();
+                }
+            }   
+        }
+
+        private async void RemoveAffiliations(object sender, EventArgs e)
+        {
+            if(currenttabaffiliation == "organizationaffiliation")
+            {
+                if(affiorg.SelectedRows == null || affiorg.SelectedRows.Count < 1)
+                {
+                    await DisplayAlert("Error", "Please select an affiliation request", "OK");
+                    return;
+                }
+                else
+                {
+                    await _viewModel.RemoveAffiliations(affiorg.SelectedRows);
+                    _viewModel.InitializeAsync();
+                }
+            }
+            else
+            {
+                if(affistud.SelectedRows == null || affistud.SelectedRows.Count < 1)
+                {
+                    await DisplayAlert("Error", "Please select an affiliation request", "OK");
+                    return;
+                }
+                else
+                {
+                    await _viewModel.RemoveAffiliations(affistud.SelectedRows);
+                    _viewModel.InitializeAsync();
+                }
+            }   
+        }
         private async void ShowPersonal(object sender, EventArgs e)
         {
 

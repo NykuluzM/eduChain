@@ -104,6 +104,33 @@ namespace eduChain.Models
                 await DatabaseManager.CloseConnectionAsync();
             }
         }
+        public async Task AcceptAffiliationRequest(ObservableCollection<AffiliationsModel> affiliations, string cid)
+        {
+            try
+            {
+                await DatabaseManager.OpenConnectionAsync();
+                using (var cmd = DatabaseManager.Connection.CreateCommand())
+                {
+                    foreach (var affiliation in affiliations)
+                    {
+                        cmd.CommandText = @"UPDATE ""Affiliations"" SET ""approved"" = @approved WHERE ""affiliate"" = @affiliate AND ""affiliated_to"" = @affiliated_to";
+                        cmd.Parameters.AddWithValue("@affiliate", affiliation.Id);
+                        cmd.Parameters.AddWithValue("@affiliated_to", cid);
+                        cmd.Parameters.AddWithValue("@approved", true);
+
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+            }
+            finally
+            {
+                await DatabaseManager.CloseConnectionAsync();
+            }
+        }
         public async Task<ObservableCollection<AffiliationsModel>> GetAffiliationRequestsStudents(string mycid)
         {
             try
@@ -126,7 +153,7 @@ namespace eduChain.Models
                     {
                         var affiliation = new AffiliationsModel
                         {
-                            Id = result.GetString(3),
+                            Id = result.GetString(2),
                             Name = result.GetString(result.GetOrdinal("StudentName")),
                             DateEstablished = result.GetDateTime(result.GetOrdinal("created_at")).ToString("yyyy-MM-dd")
                         };
@@ -147,20 +174,54 @@ namespace eduChain.Models
                 await DatabaseManager.CloseConnectionAsync();
             }
         }
-        public async Task DeleteRequest(string affiliate, string affiliated_to)
+        public async Task RejectAffiliationRequest(ObservableCollection<AffiliationsModel> affiliations, string affiliatedTo)
         {
             try
             {
                 await DatabaseManager.OpenConnectionAsync();
-                using (var cmd = DatabaseManager.Connection.CreateCommand())
-                {
-                    cmd.CommandText = @"DELETE FROM ""Affiliations"" WHERE ""affiliate"" = @affiliate AND ""affiliated_to"" = @affiliated_to";
-                    cmd.Parameters.AddWithValue("@affiliate", affiliate);
-                    cmd.Parameters.AddWithValue("@affiliated_to", affiliated_to);
 
-                    await cmd.ExecuteNonQueryAsync();
+                foreach (var affiliation in affiliations)
+                {
+                    using (var cmd = DatabaseManager.Connection.CreateCommand())
+                    {
+                        cmd.CommandText = @"DELETE FROM ""Affiliations"" WHERE ""affiliate"" = @affiliate AND ""affiliated_to"" = @affiliated_to";
+                        cmd.Parameters.AddWithValue("@affiliate", affiliation.Id);
+                        cmd.Parameters.AddWithValue("@affiliated_to", affiliatedTo);
+
+                        await cmd.ExecuteNonQueryAsync();
+                    }
                 }
-                await Shell.Current.DisplayAlert("Success", "Request deleted", "OK");
+
+                await Shell.Current.DisplayAlert("Success", "Request(s) deleted", "OK");
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+            }
+            finally
+            {
+                await DatabaseManager.CloseConnectionAsync();
+            }
+        }
+        public async Task RemoveAffiliations(ObservableCollection<AffiliationsModel> affiliations, string affiliate)
+        {
+            try
+            {
+                await DatabaseManager.OpenConnectionAsync();
+
+                foreach (var affiliation in affiliations)
+                {
+                    using (var cmd = DatabaseManager.Connection.CreateCommand())
+                    {
+                        cmd.CommandText = @"DELETE FROM ""Affiliations"" WHERE ""affiliate"" = @affiliate AND ""affiliated_to"" = @affiliated_to";
+                        cmd.Parameters.AddWithValue("@affiliate", affiliate);
+                        cmd.Parameters.AddWithValue("@affiliated_to", affiliation.Id);
+
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+                }
+
+                await Shell.Current.DisplayAlert("Success", "Affiliation(s) removed", "OK");
             }
             catch (Exception ex)
             {
@@ -193,7 +254,7 @@ namespace eduChain.Models
                     {
                         var affiliation = new AffiliationsModel
                         {
-                            Id = result.GetString(3),
+                            Id = result.GetString(2),
                             Name = result.GetString(result.GetOrdinal("OrganizationName")),
                             DateEstablished = result.GetDateTime(result.GetOrdinal("created_at")).ToString("yyyy-MM-dd")
                         };

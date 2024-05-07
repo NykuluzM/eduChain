@@ -44,7 +44,24 @@ public class StudentProfileViewModel : BaseProfileViewModel
     {
         await AffiliationsDatabaseService.Instance.SendAffiliationRequest(StudentProfile.FirebaseId, cid);
     }
+    public async Task AcceptAffiliations(ObservableCollection<object> affiliations)
+    {
+        var affiliationsModelCollection = new ObservableCollection<AffiliationsModel>(affiliations.Cast<AffiliationsModel>());
 
+        await AffiliationsDatabaseService.Instance.AcceptAffiliationRequest(affiliationsModelCollection, UsersProfile.FirebaseId);
+    }
+    public async Task RejectAffiliations(ObservableCollection<object> affiliations)
+    {
+        var affiliationsModelCollection = new ObservableCollection<AffiliationsModel>(affiliations.Cast<AffiliationsModel>());
+
+        await AffiliationsDatabaseService.Instance.RejectAffiliationRequest(affiliationsModelCollection, UsersProfile.FirebaseId);
+    }
+    public async Task RemoveAffiliations(ObservableCollection<object> affiliations)
+    {
+        var affiliationsModelCollection = new ObservableCollection<AffiliationsModel>(affiliations.Cast<AffiliationsModel>());
+
+        await AffiliationsDatabaseService.Instance.RemoveAffiliations(affiliationsModelCollection, UsersProfile.FirebaseId);
+    }
     private ObservableCollection<AffiliationsModel> _affiliatedorganizations;
     public ObservableCollection<AffiliationsModel> AffiliatedOrganizations
     {
