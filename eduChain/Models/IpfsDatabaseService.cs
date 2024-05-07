@@ -86,7 +86,7 @@ public class IpfsDatabaseService
                 await DatabaseManager.OpenConnectionAsync();
                 using (var cmd = DatabaseManager.Connection.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT owner,cid,filetype,filename FROM ""Files"" WHERE owner = @firebase_id";
+                    cmd.CommandText = @"SELECT created_by,cid,filetype,filename FROM ""Files"" WHERE created_by = @firebase_id";
                     cmd.Parameters.AddWithValue("@firebase_id", firebase_id);
                     var reader = await cmd.ExecuteReaderAsync();
                     while (await reader.ReadAsync())
@@ -112,6 +112,45 @@ public class IpfsDatabaseService
                 await DatabaseManager.CloseConnectionAsync();
             }
         }
+    public async Task<List<FileModel>> GetAllSharedFiles(string firebase_id)
+    {
+        var fileList = new List<FileModel>();
+        try
+        {
+            await DatabaseManager.OpenConnectionAsync();
+            using (var cmd = DatabaseManager.Connection.CreateCommand())
+            {
+                cmd.CommandText = @"
+                SELECT F.owner,F.created_by, F.cid, F.filetype, F.filename 
+                FROM ""Files"" F
+                INNER JOIN ""Affiliations"" A ON F.owner_by = A.affiliated_to
+                WHERE F.owner = @firebase_id AND A.affiliate = @firebase_id AND A.approved = true";
+                cmd.Parameters.AddWithValue("@firebase_id", firebase_id);
+
+                var reader = await cmd.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    fileList.Add(new FileModel
+                    {
+                        Owner = reader.GetString(1),
+                        CID = reader.GetString(1),
+                        FileType = reader.GetString(2),
+                        FileName = reader.GetString(3),
+                    });
+                }
+                return fileList;
+            }
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Error", ex.ToString(), "OK");
+            return null;
+        }
+        finally
+        {
+            await DatabaseManager.CloseConnectionAsync();
+        }
+    }
     public async Task<List<(string CID, string Filename)>> RetrieveFilenames(List<string> cidList)
     {
         List<(string CID, string Filename)> filenameList = new List<(string, string)>();
@@ -213,7 +252,7 @@ public class IpfsDatabaseService
                 await DatabaseManager.CloseConnectionAsync();
             }
         }
-        public async Task InsertPinnedFile(string uid,string created_by,string cid, string fileType, string fileName)
+        public async Task InsertPinnedFile(string uid,string created_by,string cid, string fileType, string fileName, string owner)
         {
             try
             {
@@ -222,13 +261,14 @@ public class IpfsDatabaseService
                 using (var cmd = DatabaseManager.Connection.CreateCommand())
                 {
                     cmd.CommandText = @"INSERT INTO ""Files""(owner,created_by,cid, filetype, filename) 
-                                        VALUES (@uid,@created_by,@cid, @fileType, @fileName)";
+                                        VALUES (@owner,@created_by,@cid, @fileType, @fileName)";
 
-                    cmd.Parameters.AddWithValue("@uid", uid);
+                    cmd.Parameters.AddWithValue("@owner",owner);
                     cmd.Parameters.AddWithValue("@cid", cid);
                     cmd.Parameters.AddWithValue("@fileType", fileType);
                     cmd.Parameters.AddWithValue("@fileName", fileName);
                     cmd.Parameters.AddWithValue("@created_by", uid);
+  
                     await cmd.ExecuteNonQueryAsync(); 
                 }
             }

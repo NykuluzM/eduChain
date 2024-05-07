@@ -48,7 +48,7 @@
                 <RoundRectangle CornerRadius="40,40,40,40" />
             </Border.StrokeShape>
                 <StackLayout>
-                    <Label Text="IPFS CRUD"  HorizontalOptions="Center" FontSize="20" FontAttributes="Bold" Margin="0,10,0,10"/>
+                    <Label Text="IPFS"  HorizontalOptions="Center" FontSize="20" FontAttributes="Bold" Margin="0,10,0,10"/>
                     <ScrollView Orientation="Horizontal">
                         <toolkit:UniformItemsLayout MaxRows="4" MaxColumns="{x:OnPlatform Default=5, Android=4}" Margin="15,20,15,30"  >
 
@@ -152,11 +152,13 @@
                                 <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Help}" Size="20" Color="Black" />
                             </Button.ImageSource>
                         </Button>
+
                         <Button Text="In Order For Us To Process Your Files, Input Needed Values Below." TextColor="Black" HorizontalOptions="Center" BackgroundColor="Transparent">
                             <Button.ImageSource>
                                 <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Compare}" Size="20" Color="Black" />
                             </Button.ImageSource>
                         </Button>
+                        <ur:TextField Title="Owner" Text="{Binding Cid[1]}" AccentColor="Navy" Margin="10,10,10,10" BorderColor="Navy" TextColor="Navy" WidthRequest="300"/>
                         <ur:TextField WidthRequest="300" Text="{Binding FileInfo[1].FileName}" AccentColor="Navy" Margin="10,10,10,10" BorderColor="Navy" TextColor="Navy"  IsReadOnly="True" Title="File/s">
                             <ur:TextField.Attachments>
                                 <Button StyleClass="TextButton" Padding="14,14,14,14" Margin="{x:OnPlatform Android='-14', Default='0'}"  Command="{Binding ClearCommand}" CommandParameter="fileforuploadclear">
@@ -200,12 +202,12 @@
                     </StackLayout>
 
 
-                    <Button x:Name="fManagerShow" Text="Show File Manager"  IsVisible="True" Clicked="ToggleMyFiles" ClassId="Show"  Margin="-10,0,-10,0">
+                    <Button x:Name="fManagerShow" Text="Show My Created Files"  IsVisible="True" Clicked="ToggleMyFiles" ClassId="Show"  Margin="-10,0,-10,0">
                         <Button.ImageSource>
                             <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Open_in_full}" Size="20"  />
                         </Button.ImageSource>
                     </Button>
-                    <Button x:Name="fManagerHide" Text="Hide File Manager"  IsVisible="False" Clicked="ToggleMyFiles" ClassId="Hide"  Margin="-10,0,-10,0">
+                    <Button x:Name="fManagerHide" Text="Hide My Created Files"  IsVisible="False" Clicked="ToggleMyFiles" ClassId="Hide"  Margin="-10,0,-10,0">
                         <Button.ImageSource>
                             <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Close_fullscreen}" Size="20"  />
                         </Button.ImageSource>
@@ -689,8 +691,30 @@
                         </VerticalStackLayout>
                         
                     </Grid>
-                    <StackLayout>
-                        
+                    <Button x:Name="ShowShared" Text="Show Affiliated to Shared Files"  IsVisible="True" Clicked="ToggleSharedFiles" ClassId="Show"  Margin="-10,0,-10,0">
+                        <Button.ImageSource>
+                            <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Folder_shared}" Size="20"  />
+                        </Button.ImageSource>
+                    </Button>
+                    <Button x:Name="HideShared" Text="Hide Affiliated to Shared Files"  IsVisible="False" Clicked="ToggleSharedFiles" ClassId="Hide"  Margin="-10,0,-10,0">
+                        <Button.ImageSource>
+                            <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Hide_source}" Size="20"  />
+                        </Button.ImageSource>
+                    </Button>
+                    <StackLayout x:Name="SharedFiles" IsVisible="True">
+                       
+                        <listView:SfListView ItemSpacing="5,5,5,5" ItemSize="280" SelectionMode="Multiple" SelectionGesture="Tap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding SharedFiles}">
+                            <listView:SfListView.DataSource>
+                                <data:DataSource>
+                                    <data:DataSource.GroupDescriptors>
+                                        <data:GroupDescriptor PropertyName="Owner"/>
+                                    </data:DataSource.GroupDescriptors>
+                                    <data:DataSource.SortDescriptors>
+                                        <data:SortDescriptor PropertyName="FileName" Direction="Ascending"/>
+                                    </data:DataSource.SortDescriptors>
+                                </data:DataSource>
+                            </listView:SfListView.DataSource>
+                        </listView:SfListView>
                     </StackLayout>
                 </StackLayout>
 

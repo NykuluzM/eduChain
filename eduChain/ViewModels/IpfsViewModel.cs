@@ -334,12 +334,13 @@ public class IpfsViewModel : ViewModelBase
                 OnPropertyChanged(nameof(Cid));
                 break;
             case "fileforuploadclear":
+                Cid[1] = "";
+                OnPropertyChanged(nameof(Cid));
                 FileInfo[1] = null;
                 OnPropertyChanged(nameof(FileInfo));
                 break;
             case "cidfordownloadclear":
-                Cid[1] = "";
-                OnPropertyChanged(nameof(Cid));
+               
                 break;
             case "cidforunpinclear":
                 Cid[2] = "";
@@ -476,6 +477,11 @@ public class IpfsViewModel : ViewModelBase
             await Shell.Current.DisplayAlert("Upload", "Please select a file to upload", "OK");
             return;
         }
+        if (Cid[1] == null)
+        {
+            await Shell.Current.DisplayAlert("Upload", "Please enter a CID", "OK");
+            return;
+        }
         string filePath = fileres.FileResult.FullPath;
 
 
@@ -506,7 +512,7 @@ public class IpfsViewModel : ViewModelBase
                         return;
                     } else
                     {
-                        await IpfsDatabaseService.Instance.InsertPinnedFile(UsersProfile.FirebaseId, UsersProfile.FirebaseId, response.IpfsHash, fileExtension, fileName);
+                        await IpfsDatabaseService.Instance.InsertPinnedFile(UsersProfile.FirebaseId, UsersProfile.FirebaseId, response.IpfsHash, fileExtension, fileName, Cid[1]);
                         await Shell.Current.DisplayAlert("Upload", "File uploaded successfully", "OK");
                         return;
 
@@ -520,6 +526,7 @@ public class IpfsViewModel : ViewModelBase
 
                 finally
                 {
+                    this.Cid[1] = "";
                     FileInfo[1] = null;
                     OnPropertyChanged(nameof(FileInfo));
                 }
@@ -612,7 +619,6 @@ public class IpfsViewModel : ViewModelBase
         }
         finally
         {
-            this.Cid[1] = "";
             OnPropertyChanged(nameof(Cid));
             // Clean up resources, if necessary
         }

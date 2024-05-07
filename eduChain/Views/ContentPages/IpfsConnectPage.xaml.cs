@@ -218,7 +218,23 @@ public partial class IpfsConnectPage : ContentPage
         ShowMore(this, null);
     }
 
-   
+   private void ToggleSharedFiles(object sender, EventArgs e)
+    {
+        var s = (Button)sender;
+        if(s.ClassId == "Show")
+        {
+            ShowShared.IsVisible = false;
+            HideShared.IsVisible = true;
+            SharedFiles.IsVisible = true;
+            
+        }
+        else
+        {
+            ShowShared.IsVisible = true;
+            HideShared.IsVisible = false;
+            SharedFiles.IsVisible = false;
+        }
+    }
     private void Toggle(object sender, EventArgs e)
     {
         if (sender is Button)
