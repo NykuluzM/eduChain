@@ -12,9 +12,7 @@
             >
 
     <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
-    <Shell.SearchHandler >
-        <SearchHandler BackgroundColor="Wheat" Placeholder="Search"  />
-    </Shell.SearchHandler>
+
     <ScrollView HorizontalOptions="Center">
 
         <StackLayout HorizontalOptions="Center">
