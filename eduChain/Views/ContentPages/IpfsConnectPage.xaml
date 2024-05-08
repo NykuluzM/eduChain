@@ -158,18 +158,18 @@
                                 <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Compare}" Size="20" Color="Black" />
                             </Button.ImageSource>
                         </Button>
-                        <ur:TextField x:Name="UploadCidInput" Title="Owner" Text="{Binding Cid[1]}" AccentColor="Navy" Margin="10,10,10,10" BorderColor="Navy" TextColor="Navy" TitleColor="Navy" WidthRequest="300"/>
-                        <ur:TextField WidthRequest="300" BorderColor="Navy" TextColor="Navy"  Text="{Binding FileInfo[1].FileName}" TitleColor="Navy" AccentColor="Navy" Margin="10,10,10,10"   IsReadOnly="True" Title="File/s">
+                        <ur:TextField x:Name="UploadCidInput" Title="Owner" Text="{Binding Cid[1]}" InputBackgroundColor="White" AccentColor="Navy" Margin="10,10,10,10" BorderColor="Navy" TextColor="Navy" TitleColor="Navy" WidthRequest="300"/>
+                        <ur:TextField WidthRequest="600" BorderColor="Navy" TextColor="Navy" InputBackgroundColor="White" Text="{Binding FileInfo[1].FileName}" TitleColor="Navy" AccentColor="Navy" Margin="10,10,10,10"   IsReadOnly="True" Title="File/s">
 
                             <ur:TextField.Attachments>
-                                <Button StyleClass="TextButton" Padding="14,14,14,14" Margin="{x:OnPlatform Android='-14', Default='0'}"  Command="{Binding ClearCommand}" CommandParameter="fileforuploadclear">
+                                <Button StyleClass="TextButton" TextColor="Navy"   Padding="14,14,14,14" Margin="{x:OnPlatform Android='-14', Default='0'}"  Command="{Binding ClearCommand}" CommandParameter="fileforuploadclear">
                                     <Button.ImageSource>
                                         <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Clear}" Size="20" Color="Black" />
 
                                     </Button.ImageSource>
                                 </Button>
 
-                                <Button Text="Add" Margin="{x:OnPlatform Android='5', WinUI='0,0,2,0'}"  Command="{Binding FileCommand}" CommandParameter="fileforupload"/>
+                                <Button Text="Add" Margin="{x:OnPlatform Android='5', WinUI='0,0,2,0'}" TextColor="Navy"  Command="{Binding FileCommand}" CommandParameter="fileforupload"/>
                             </ur:TextField.Attachments>
 
                         </ur:TextField>

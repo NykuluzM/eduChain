@@ -87,7 +87,7 @@ public class IpfsViewModel : ViewModelBase
             ApiSecret = "f7b28b0095efdcb761e848cfd0150f7677674abcd4ab0a7ea4295b6abc0507a3"
         };
         pinataClient = new PinataClient(config);
-
+        OnPropertyChanged(nameof(FileInfo));
 
         DownloadCommand = new Command(async () => await DownloadFileByCid(this.Cid[1]));
         VerifyCommand = new Command(async () => await VerifyFile());
@@ -322,6 +322,11 @@ public class IpfsViewModel : ViewModelBase
             FileInfo[1] = fileInfo;
             // Manually raise the event as Array is a reference type
             OnPropertyChanged(nameof(FileInfo));
+            await Clear("fileforuploadclear");
+            FileInfo[1] = fileInfo;
+            // Manually raise the event as Array is a reference type
+            OnPropertyChanged(nameof(FileInfo));
+
         }
 
     }
@@ -567,8 +572,22 @@ public class IpfsViewModel : ViewModelBase
             using (var gzipStream = new GZipStream(compressedStream, CompressionMode.Decompress))
             using (var streamReader = new StreamReader(gzipStream))
             {
+                
                 var cidString = streamReader.ReadToEnd();
+                 
+
                 var CIDList = cidString.Split('\n').ToList(); // Get the list of CIDs
+                if (CIDList.Count < 2)
+                {
+                    await Shell.Current.DisplayAlert("Error", "Invalid QR Code format", "OK");
+                    return;
+                }
+                var recieverUID = CIDList[0];
+                if(recieverUID != UsersProfile.FirebaseId)
+                {
+                    await Shell.Current.DisplayAlert("Error", "You are not the intended recipient", "OK");
+                    return;
+                }
                 await DownloadFilesByCids(CIDList);
                 // Do something with the extracted CIDList
             }
