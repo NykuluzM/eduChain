@@ -69,16 +69,7 @@ using System.Runtime.CompilerServices;
       SetProperty(ref _organizationProfile, value);
     }
   }
-
-  private GuardianProfileModel _guardianProfile;
-  public GuardianProfileModel GuardianProfile
-  {
-    get { return _guardianProfile; }
-    set
-    {
-      SetProperty(ref _guardianProfile, value);
-    }
-  } 
+ 
     public async Task LoadUsers(string uid){
         UsersProfile = await _myProfileService.LoadUserAsync(uid, UsersProfileModel.Instance);
     }

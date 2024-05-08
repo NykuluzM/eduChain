@@ -37,11 +37,9 @@ namespace eduChain.ViewModels;
 
 public class IpfsViewModel : ViewModelBase
 {
-    bool firstLoad = true;
     private bool isRefreshing = false;
 
     IFileSaver fileSaver;
-    private string hash = "QmdmfZzdzk7endNWKtgAkn5zF1wnNxVTkU99Z9eNY6761S";
     public DateTime LastRefreshed { get; set; } = DateTime.Now;
     public string CurrentCategory { get; set; } = "firstload";
     public ICommand ClearCommand { get; }
@@ -53,7 +51,6 @@ public class IpfsViewModel : ViewModelBase
     public ICommand LoadCommand { get; }
     public ICommand RefreshCommand { get; }
     public ICommand DecodeQRCommand { get; }
-    public event EventHandler InitializationCompleted;
 
     public bool IsRefreshing
     {
@@ -112,11 +109,11 @@ public class IpfsViewModel : ViewModelBase
                 SharedFiles = new ObservableCollection<FileModel>(await IpfsDatabaseService.Instance.GetAllSharedFiles(UsersProfile.FirebaseId));
 
                 LastRefreshed = DateTime.Now;
-                CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".jpg" || f.FileType == ".png" || f.FileType == ".svg" || f.FileType == ".png" || f.FileType == ".gif"));
+                CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".jpg" || f.FileType == ".jpeg" || f.FileType == ".png" || f.FileType == ".svg" || f.FileType == ".png" || f.FileType == ".gif"));
                 CurrentCategory = "Photos";
                 break;
             case "Photos":
-                CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".jpg" || f.FileType == ".png" || f.FileType == ".svg" || f.FileType == ".png" || f.FileType == ".gif"));
+                CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".jpg" || f.FileType == ".jpeg" || f.FileType == ".png" || f.FileType == ".svg" || f.FileType == ".png" || f.FileType == ".gif"));
                 CurrentCategory = "Photos";
                 break;
             case "Audio":
@@ -421,7 +418,16 @@ public class IpfsViewModel : ViewModelBase
 
 
 
-
+    private string _recieverUid ;
+    public string RecieverUid
+    {
+        get { return _recieverUid; }
+        set
+        {
+            _recieverUid = value;
+            OnPropertyChanged(nameof(RecieverUid));
+        }
+    }
 
     private IPickFile[] _fileInfo = new IPickFile[2];
     public IPickFile[] FileInfo
@@ -675,7 +681,11 @@ public class IpfsViewModel : ViewModelBase
                 {
                     string fileName = Path.GetFileName(gatewayUrl); // URI as file name
 
-                    string contentType = response.Content.Headers.ContentType.MediaType;
+                    string contentType = response?.Content?.Headers?.ContentType?.MediaType;
+                    if (string.IsNullOrEmpty(contentType))
+                    {
+                        return;
+                    }
                     string fileExtension = GetFileExtensionFromContentType(contentType);
                     using (var tempStream = await response.Content.ReadAsStreamAsync())
                     {

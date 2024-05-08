@@ -22,7 +22,7 @@ namespace eduChain.Models
             { ".xls", "excel_icon.png" }
         };
         //Gamit tag hashset as dili need key value pair as reference rani para sa ImageGatewayUrl
-        private HashSet<string> imageTypes = new HashSet<string>() { ".jpg", ".png", ".gif" };
+        private HashSet<string> imageTypes = new HashSet<string>() { ".jpg",".jpeg", ".png", ".gif" };
         public string ImageGatewayUrl
         {
             get => $"https://gateway.pinata.cloud/ipfs/{this.CID}";
@@ -52,7 +52,7 @@ namespace eduChain.Models
             get
             {
 
-                if (FileType == ".mp3" || FileType ==".jpg" || FileType ==".png" || FileType == ".gif" || FileType == ".svg" ||  FileType == ".wav" || FileType == ".ogg" || FileType == ".mp4" || FileType == ".mov" || FileType == ".pdf")
+                if (FileType == ".mp3" || FileType ==".jpg" || FileType == ".jpeg" || FileType ==".png" || FileType == ".gif" || FileType == ".svg" ||  FileType == ".wav" || FileType == ".ogg" || FileType == ".mp4" || FileType == ".mov" || FileType == ".pdf")
 
                 {
                     return true;

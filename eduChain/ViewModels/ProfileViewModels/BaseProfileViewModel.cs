@@ -80,21 +80,21 @@ public class BaseProfileViewModel : ViewModelBase
                 // Upload image to Supabase storage
                 if (Preferences.Default.Get("firebase_uid",String.Empty) != String.Empty){
                         } else {
-                            await Application.Current.MainPage.DisplayAlert("Error", "Please login to upload image", "OK");
+                            await Shell.Current.DisplayAlert("Error", "Please login to upload image", "OK");
                             await Shell.Current.GoToAsync("//loginPage");
                         }
                 } 
             }
         catch (Exception ex)
         {
-            Application.Current?.MainPage?.DisplayAlert("No Connection", ex.Message, "OK");
+            await Shell.Current.DisplayAlert("No Connection", ex.Message, "OK");
             // Handle errors
         }
     }
    
     protected async Task<int> UploadImageToSupabase(byte[] imageBytes, string firebase_id){
         if(imageBytes == null){
-            await Application.Current.MainPage.DisplayAlert("Error", "Please select an image", "OK");
+            await Shell.Current.DisplayAlert("Error", "Please select an image", "OK");
 
             return 0;
         }

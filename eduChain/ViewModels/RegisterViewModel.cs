@@ -12,7 +12,6 @@ using Npgsql;
 using NBitcoin.Secp256k1;
 
 using System.Text.RegularExpressions;
-using Firebase.Auth.Providers;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 namespace eduChain.ViewModels
@@ -23,7 +22,6 @@ namespace eduChain.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
         private static RegisterViewModel _instance;
 
-        private readonly ISupabaseConnection _supabaseConnection;
 
 
         public ICommand TrialCommand { get; }
@@ -71,12 +69,12 @@ namespace eduChain.ViewModels
                     command.CommandText = "SELECT COUNT(*) FROM \"Users\"";
                     var result = command.ExecuteScalar(); // ExecuteScalar to get a single value
 
-                    await Application.Current.MainPage.DisplayAlert("Users Count", $"There are {result} users", "OK");
+                    await Shell.Current.DisplayAlert("Users Count", $"There are {result} users", "OK");
                 }
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+                await Shell.Current.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
             }
             finally
             {
@@ -207,12 +205,12 @@ namespace eduChain.ViewModels
                 {
                     case "Student":
                         if(DisplayName.Length < 6){
-                            await Application.Current.MainPage.DisplayAlert("Error", "Display name must be at least 6 characters long", "OK");
+                            await Shell.Current.DisplayAlert("Error", "Display name must be at least 6 characters long", "OK");
                             return;
                         }
                         if (string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(LastName) || string.IsNullOrEmpty(Gender) || (BirthDate > DateTime.Now.AddYears(-4)))
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error", "Please fill in all fields and format correctly", "OK");
+                            await Shell.Current.DisplayAlert("Error", "Please fill in all fields and format correctly", "OK");
                             return;
                         }
                         string fnamePattern1 = @"^(?:[ A-Z\d][a-z\d]*(?:\s*[A-Z\d][a-z\d]*)*|)$";
@@ -222,19 +220,19 @@ namespace eduChain.ViewModels
                         // Validate FirstName and LastName against the regex pattern
                         if (!Regex.IsMatch(FirstName, fnamePattern1) || (!Regex.IsMatch(FirstName, fnamePattern2)) || !Regex.IsMatch(LastName, lnamePattern))
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error", "Please enter a valid first and last name", "OK");
+                            await Shell.Current.DisplayAlert("Error", "Please enter a valid first and last name", "OK");
                             error = true;
                         }
                         string emailPattern = @"^(?:\s*|(?:[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}))$";
                         if (!Regex.IsMatch(Email, emailPattern))
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error", "Please enter a valid email address", "OK");
+                            await Shell.Current.DisplayAlert("Error", "Please enter a valid email address", "OK");
                             error = true;
                         }
                         string passwordPattern = @"^(?:[A-Za-z][A-Za-z0-9_*#]*(?:_[A-Za-z0-9_*#]+)*)?$";
                         if (string.IsNullOrEmpty(Password) || Password.Length < 6 || !Regex.IsMatch(Password, passwordPattern))
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error", "Please enter a valid password (at least 6 characters long) with the specified pattern", "OK");
+                            await Shell.Current.DisplayAlert("Error", "Please enter a valid password (at least 6 characters long) with the specified pattern", "OK");
                             error = true;
                         }
                         if (error)
@@ -247,20 +245,20 @@ namespace eduChain.ViewModels
                     case "Organization":
                         if (string.IsNullOrEmpty(OrgName) || string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(Type))
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error", "Please fill in all fields", "OK");
+                            await Shell.Current.DisplayAlert("Error", "Please fill in all fields", "OK");
                             return;
                         }
                         string emailPatternOrg = @"^(?:\s*|(?:[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}))$";
 
                         if (!Regex.IsMatch(Email, emailPatternOrg))
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error", "Please enter a valid email address", "OK");
+                            await Shell.Current.DisplayAlert("Error", "Please enter a valid email address", "OK");
                             error = true;
                         }
                         string passwordPatternOrg = @"^(?:[A-Za-z][A-Za-z0-9_*#]*(?:_[A-Za-z0-9_*#]+)*)?$";
                         if (string.IsNullOrEmpty(Password) || Password.Length < 6 || !Regex.IsMatch(Password, passwordPatternOrg))
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error", "Please enter a valid password (at least 6 characters long) with the specified pattern", "OK");
+                            await Shell.Current.DisplayAlert("Error", "Please enter a valid password (at least 6 characters long) with the specified pattern", "OK");
                             error = true;
                         }
                         if (error)
@@ -292,26 +290,26 @@ namespace eduChain.ViewModels
                 // Handle Firebase authentication exceptions first
                 if (ex.Reason == AuthErrorReason.EmailExists)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error", "Email already in use", "OK");
+                    await Shell.Current.DisplayAlert("Error", "Email already in use", "OK");
                 }
                 else if (ex.Reason == AuthErrorReason.WeakPassword)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error", "Password is too weak", "OK");
+                    await Shell.Current.DisplayAlert("Error", "Password is too weak", "OK");
                 }
                 else if (ex.Reason == AuthErrorReason.Unknown)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error", "An unknown error occurred", "OK");
+                    await Shell.Current.DisplayAlert("Error", "An unknown error occurred", "OK");
                 }
                 else if (ex.Reason == AuthErrorReason.UserDisabled)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error", "User is disabled", "OK");
+                    await Shell.Current.DisplayAlert("Error", "User is disabled", "OK");
                 }
 
             }
             catch (Exception ex)
             {
                 // Handle other exceptions (if any)
-                await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+                await Shell.Current.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
             }
         }
         public async Task<int> SaveUserDetailsAsync(string uid, string email)
@@ -351,7 +349,7 @@ namespace eduChain.ViewModels
                             FirstName = string.Empty;
                             LastName = string.Empty;
                             BirthDate = DateTime.Now.AddYears(-4);
-                            await Application.Current.MainPage.DisplayAlert("Success", "User registered successfully", "OK");
+                            await Shell.Current.DisplayAlert("Success", "User registered successfully", "OK");
 
                             break;
                         case "Organization":
@@ -386,7 +384,7 @@ namespace eduChain.ViewModels
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+                await Shell.Current.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
                 return 0;
             }
             finally

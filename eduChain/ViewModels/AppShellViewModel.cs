@@ -38,8 +38,6 @@ public class AppShellViewModel : ViewModelBase
     public ICommand LogoutCommand { get; }
 	
    
-     private FlyoutBehavior _flyoutBehavior = FlyoutBehavior.Flyout;
-   
     public AppShellViewModel()
     {
         Instance = this;

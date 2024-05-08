@@ -126,27 +126,27 @@ namespace eduChain.Views.ContentPages.ProfileViews
             {
                 case "OrgAff":
                     var res = await _viewModel.UIDVerify(OrgUIDRequest.Text, "org");
-                    if(res == null || res == false)
+                    if(res == false)
                     {
                         await DisplayAlert("Error", "Organization not found, Please Enter a correct UID", "OK");
                     }
                     else {
                         await _viewModel.SendAffRequest(OrgUIDRequest.Text);
-                        _viewModel.InitializeAsync();
+                        await _viewModel.InitializeAsync();
 
                     }
                     OrgUIDRequest.Text = "";
                     break;
                 case "StudAff":
                     var ress = await _viewModel.UIDVerify(StudUIDRequest.Text, "stud");
-                    if (ress == null || ress == false)
+                    if (ress == false)
                     {
                         await DisplayAlert("Error", "Student not found, Please Enter a correct UID", "OK");
                     }
                     else
                     {
                         await _viewModel.SendAffRequest(StudUIDRequest.Text);
-                        _viewModel.InitializeAsync();
+                        await _viewModel.InitializeAsync();
 
                     }
                     StudUIDRequest.Text = "";

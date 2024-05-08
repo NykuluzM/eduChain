@@ -248,7 +248,7 @@ public partial class OrganizationProfilePage : ContentPage, IProfilePage
             else
             {
                 await _viewModel.RejectAffiliations(affireqorg.SelectedRows);
-                _viewModel.InitializeAsync();
+                await _viewModel.InitializeAsync();
             }
         }
         else
@@ -261,7 +261,7 @@ public partial class OrganizationProfilePage : ContentPage, IProfilePage
             else
             {
                 await _viewModel.RejectAffiliations(affireqstud.SelectedRows);
-                _viewModel.InitializeAsync();
+                await _viewModel.InitializeAsync();
             }
         }
     }
@@ -278,7 +278,7 @@ public partial class OrganizationProfilePage : ContentPage, IProfilePage
             else
             {
                 await _viewModel.RemoveAffiliations(affiorg.SelectedRows);
-                _viewModel.InitializeAsync();
+                await _viewModel.InitializeAsync();
             }
         }
         else
@@ -291,17 +291,10 @@ public partial class OrganizationProfilePage : ContentPage, IProfilePage
             else
             {
                 await _viewModel.RemoveAffiliations(affistud.SelectedRows);
-                _viewModel.InitializeAsync();
+                await _viewModel.InitializeAsync();
             }
         }
     }
-   
-    private void ShowOrgInfo(object sender, EventArgs e){
-
-	}
-	private void HideOrgInfo(object sender, EventArgs e){
-
-	}
 	
     private async void ShowForm(object sender, EventArgs e)
     {

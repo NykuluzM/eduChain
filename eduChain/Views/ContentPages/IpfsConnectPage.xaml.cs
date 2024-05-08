@@ -20,8 +20,6 @@ namespace eduChain.Views.ContentPages;
 public partial class IpfsConnectPage : ContentPage
 {
     IpfsViewModel ipfsViewModel;
-    bool isAll = false ;
-    IPickFile pickedfile;
     PinataClient pinataClient = new PinataClient();
     SearchBar searchBar;
     private MPPopup mediaPopup;
@@ -110,8 +108,9 @@ public partial class IpfsConnectPage : ContentPage
            fileInfo.CID.ToLower().Contains(searchBar.Text.ToLower()) || fileInfo.FileType.ToLower().Equals(searchBar.Text.ToLower());
     }
     private async void QR_clicked(Object sender,EventArgs e){
+
         var s = (Button)sender;
- 
+    
         SfListView parent = null;
         var selectedItems = MyPhotosList.SelectedItems;
         switch(s.ClassId){
@@ -137,8 +136,19 @@ public partial class IpfsConnectPage : ContentPage
             await toast.Show();
             return;
         }
-        
-        var CIDList = new List<string>();
+        var receiverUid = ipfsViewModel.RecieverUid;
+        if(receiverUid == null || receiverUid == string.Empty){
+            var toast = Toast.Make("No receiver uid provided");
+            await toast.Show();
+            return;
+        }
+        if(receiverUid.Count() < 25){
+            var toast = Toast.Make("Invalid UID");
+            await toast.Show();
+            return;
+        }
+
+        var CIDList = new List<string>() {receiverUid};
         foreach(var item in selectedItems){
             var file = item as FileModel;
             CIDList.Add(file.CID);
@@ -160,13 +170,15 @@ public partial class IpfsConnectPage : ContentPage
             this.ShowPopup(qrPopup);
         }
 
-        parent.SelectedItems.Clear();
+        parent?.SelectedItems?.Clear();
+        ipfsViewModel.RecieverUid = string.Empty;
     }
     private async void TabChange(object sender, TabSelectionChangedEventArgs e){
         ShowLessFiles.IsVisible = false;
         ShowMoreFiles.IsVisible = true;
         var selectedItem = e.NewIndex;
         var hasValues = false;
+        var isAll = false;
         switch (selectedItem)
         {
             case 0:
@@ -227,6 +239,11 @@ public partial class IpfsConnectPage : ContentPage
             return;
         }
         ShowMore(this, null);
+        if(isAll && ipfsViewModel.Files.Count == 0){
+            NoFiles.IsVisible = true;
+        } else if(isAll && ipfsViewModel.Files.Count > 0){
+            NoFiles.IsVisible = false;
+        }
     }
 
    private void ToggleSharedFiles(object sender, EventArgs e)

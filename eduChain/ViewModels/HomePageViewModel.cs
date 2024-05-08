@@ -7,7 +7,7 @@ using SkiaSharp;
 public class HomePageViewModel : ViewModelBase
 {
     public ICommand LogoutCommand { get; }
-    private MyProfileModel _profile;
+
 
     private bool _isLoading = true;
     public bool IsLoading

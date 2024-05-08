@@ -145,7 +145,7 @@ namespace eduChain.ViewModels
                     return false; // Invalid email or password
                 }
             }
-            catch (FirebaseAuthException ex)
+            catch (FirebaseAuthException)
             {
                 return false;
             }
