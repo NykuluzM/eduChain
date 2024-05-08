@@ -29,7 +29,10 @@ public partial class UserProfileView : ContentView
     {
         var s = (Button)sender;
         string textToCopy =  UID.Text;// Get the text you want to copy (filename or downloaded content)
-        await CopyTextToClipboard(textToCopy);
+    int startIndex = textToCopy.IndexOf(':') + 2;
+    string firebaseId = textToCopy.Substring(startIndex);
+
+        await CopyTextToClipboard(firebaseId);
         string message = "CID Copied to clipboard";
         var toast = Toast.Make(message);
         await toast.Show();

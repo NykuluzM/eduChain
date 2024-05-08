@@ -252,8 +252,9 @@ public class IpfsDatabaseService
                 await DatabaseManager.CloseConnectionAsync();
             }
         }
-        public async Task InsertPinnedFile(string uid,string created_by,string cid, string fileType, string fileName, string owner)
+        public async Task<bool> InsertPinnedFile(string uid,string created_by,string cid, string fileType, string fileName, string owner)
         {
+            var isValid = false;
             try
             {
                 await DatabaseManager.OpenConnectionAsync();
@@ -271,11 +272,13 @@ public class IpfsDatabaseService
   
                     await cmd.ExecuteNonQueryAsync(); 
                 }
+                isValid = true;
+                return isValid;
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
-                // Consider logging the exception for better debugging
+                isValid = false;
+                return isValid;
             }
             finally
             {

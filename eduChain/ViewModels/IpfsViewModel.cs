@@ -45,7 +45,6 @@ public class IpfsViewModel : ViewModelBase
     public DateTime LastRefreshed { get; set; } = DateTime.Now;
     public string CurrentCategory { get; set; } = "firstload";
     public ICommand ClearCommand { get; }
-    public ICommand UploadCommand { get; }
     public ICommand DownloadCommand { get; }
     public ICommand FileCommand { get; }
     public ICommand VerifyCommand { get; }
@@ -95,7 +94,6 @@ public class IpfsViewModel : ViewModelBase
 
         DownloadCommand = new Command(async () => await DownloadFileByCid(this.Cid[1]));
         VerifyCommand = new Command(async () => await VerifyFile());
-        UploadCommand = new Command(async () => await UploadFileToIpfs());
         FileCommand = new Command<string>(async (fileId) => await PickFile(fileId));
         ClearCommand = new Command<string>(async (callerId) => await Clear(callerId));
         UnpinCommand = new Command<string>(async (cid) => await UnpinFile());
@@ -479,7 +477,7 @@ public class IpfsViewModel : ViewModelBase
         }
     }
 
-    private async Task UploadFileToIpfs() {
+    public async Task UploadFileToIpfs() {
         var fileres = FileInfo[1];
         if (fileres == null)
         {
@@ -521,8 +519,12 @@ public class IpfsViewModel : ViewModelBase
                         return;
                     } else
                     {
-                        await IpfsDatabaseService.Instance.InsertPinnedFile(UsersProfile.FirebaseId, UsersProfile.FirebaseId, response.IpfsHash, fileExtension, fileName, Cid[1]);
-                        await Shell.Current.DisplayAlert("Upload", "File uploaded successfully", "OK");
+                        var IsSuccessful = await IpfsDatabaseService.Instance.InsertPinnedFile(UsersProfile.FirebaseId, UsersProfile.FirebaseId, response.IpfsHash, fileExtension, fileName, Cid[1]);
+                        if(IsSuccessful){
+                            await Shell.Current.DisplayAlert("Upload", "File uploaded successfully", "OK");
+                        } else {
+                            await Shell.Current.DisplayAlert("Error", "File Upload Unsuccessful", "OK");
+                        }
                         return;
 
                     }
@@ -535,7 +537,7 @@ public class IpfsViewModel : ViewModelBase
 
                 finally
                 {
-                    this.Cid[1] = "";
+                    Cid[1] = string.Empty;
                     FileInfo[1] = null;
                     OnPropertyChanged(nameof(FileInfo));
                 }

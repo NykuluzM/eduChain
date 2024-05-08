@@ -20,6 +20,7 @@ namespace eduChain.Views.ContentPages;
 public partial class IpfsConnectPage : ContentPage
 {
     IpfsViewModel ipfsViewModel;
+    bool isAll = false ;
     IPickFile pickedfile;
     PinataClient pinataClient = new PinataClient();
     SearchBar searchBar;
@@ -169,27 +170,34 @@ public partial class IpfsConnectPage : ContentPage
         switch (selectedItem)
         {
             case 0:
+                isAll = false;
                 hasValues = await ipfsViewModel.ChangeCategory("Photos");
                 totalfilecount.IsVisible = false;
                 categoryfilecount.IsVisible = true;
                 break;
             case 1:
+                            isAll = false;
+
                 hasValues = await ipfsViewModel.ChangeCategory("Audio");
                 totalfilecount.IsVisible = false;
                 categoryfilecount.IsVisible = true;
                 break;
             case 2:
+                            isAll = false;
+
                 hasValues = await ipfsViewModel.ChangeCategory("Videos");
                 totalfilecount.IsVisible = false;
                 categoryfilecount.IsVisible = true;
                 break;
             case 3:
+                            isAll = false;
+
                 hasValues = await ipfsViewModel.ChangeCategory("Documents");
                 totalfilecount.IsVisible = false;
                 categoryfilecount.IsVisible = true;
-
                 break;
             case 4:
+                isAll = true;
                 totalfilecount.IsVisible = true;
                 categoryfilecount.IsVisible = false;
                 break;
@@ -342,7 +350,7 @@ public partial class IpfsConnectPage : ContentPage
     {
         NoFiles.IsVisible = false;
 
-        if(ipfsViewModel.CategorizedFile.Count == 0)
+        if(ipfsViewModel.CategorizedFile.Count == 0 )
         {
             ShowMoreFiles.IsVisible = false;
             ShowLessFiles.IsVisible = false;
@@ -433,7 +441,10 @@ public partial class IpfsConnectPage : ContentPage
     }
 
 
-    
+    private async void UploadClicked(object sender, EventArgs e){
+        await ipfsViewModel.UploadFileToIpfs();
+        UploadCidInput.Text = "";
+    } 
     private async void Push_Download(object sender, EventArgs e)
     {
         var s = (Button)sender;

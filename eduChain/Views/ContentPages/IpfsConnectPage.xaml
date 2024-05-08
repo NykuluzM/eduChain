@@ -52,12 +52,12 @@
                     <ScrollView Orientation="Horizontal">
                         <toolkit:UniformItemsLayout MaxRows="4" MaxColumns="{x:OnPlatform Default=5, Android=4}" Margin="15,20,15,30"  >
 
-                            <ur:CheckBox x:Name="VerifyToggle" TextFontSize="{x:OnPlatform Android=8, Default=12}" CheckChanged="Toggle" Margin="5,10,5,10" Text="Verify File" ClassId="Verify" />
-                            <ur:CheckBox x:Name="UploadToggle" Text="Upload File" Margin="5,10,5,10"  TextFontSize="{x:OnPlatform Android=8, Default=12}" CheckChanged="Toggle" ClassId="Upload"/>
-                            <ur:CheckBox x:Name="DownloadToggle" Text="Download" Margin="5,10,5,10" TextFontSize="{x:OnPlatform Android=8, Default=12}" CheckChanged="Toggle" ClassId="Download" />
-                            <ur:CheckBox x:Name="UnpinToggle" Text="Unpin File" Margin="5,10,5,10" TextFontSize="{x:OnPlatform Android=8, Default=12}" CheckChanged="Toggle" ClassId="Unpin"/>
-                            <Button x:Name="ShowToggle" Margin="{x:OnPlatform Android='10,0,10,0'}" WidthRequest="80" Text="Show All" FontSize="11" Clicked="Toggle" ClassId="ShowAll" IsVisible="True"/>
-                            <Button x:Name="HideToggle" Margin="{x:OnPlatform Android='10,0,10,0'}"  WidthRequest="80"  Text="Hide All" FontSize="11" Clicked="Toggle" ClassId="HideAll" IsVisible="False"/>
+                            <ur:CheckBox x:Name="VerifyToggle" TextFontSize="{x:OnPlatform Android=8, Default=12}" CheckChanged="Toggle" Margin="5,10,5,10" TextColor="Black" Text="Verify File" ClassId="Verify" />
+                            <ur:CheckBox x:Name="UploadToggle" Text="Upload File" Margin="5,10,5,10"  TextFontSize="{x:OnPlatform Android=8, Default=12}" TextColor="Black" CheckChanged="Toggle" ClassId="Upload"/>
+                            <ur:CheckBox x:Name="DownloadToggle" Text="Download" Margin="5,10,5,10" TextFontSize="{x:OnPlatform Android=8, Default=12}" TextColor="Black" CheckChanged="Toggle" ClassId="Download" />
+                            <ur:CheckBox x:Name="UnpinToggle" Text="Unpin File" Margin="5,10,5,10" TextFontSize="{x:OnPlatform Android=8, Default=12}" TextColor="Black" CheckChanged="Toggle" ClassId="Unpin"/>
+                            <Button x:Name="ShowToggle" Margin="{x:OnPlatform Android='10,0,10,0'}" WidthRequest="80" Text="Show All" FontSize="11" Clicked="Toggle" TextColor="Black" ClassId="ShowAll" IsVisible="True"/>
+                            <Button x:Name="HideToggle" Margin="{x:OnPlatform Android='10,0,10,0'}"  WidthRequest="80"  Text="Hide All" FontSize="11" Clicked="Toggle" TextColor="Black" ClassId="HideAll" IsVisible="False"/>
                         </toolkit:UniformItemsLayout >
 
                     </ScrollView>
@@ -158,8 +158,9 @@
                                 <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Compare}" Size="20" Color="Black" />
                             </Button.ImageSource>
                         </Button>
-                        <ur:TextField Title="Owner" Text="{Binding Cid[1]}" AccentColor="Navy" Margin="10,10,10,10" BorderColor="Navy" TextColor="Navy" WidthRequest="300"/>
-                        <ur:TextField WidthRequest="300" Text="{Binding FileInfo[1].FileName}" AccentColor="Navy" Margin="10,10,10,10" BorderColor="Navy" TextColor="Navy"  IsReadOnly="True" Title="File/s">
+                        <ur:TextField x:Name="UploadCidInput" Title="Owner" Text="{Binding Cid[1]}" AccentColor="Navy" Margin="10,10,10,10" BorderColor="Navy" TextColor="Navy" TitleColor="Navy" WidthRequest="300"/>
+                        <ur:TextField WidthRequest="300" BorderColor="Navy" TextColor="Navy"  Text="{Binding FileInfo[1].FileName}" TitleColor="Navy" AccentColor="Navy" Margin="10,10,10,10"   IsReadOnly="True" Title="File/s">
+
                             <ur:TextField.Attachments>
                                 <Button StyleClass="TextButton" Padding="14,14,14,14" Margin="{x:OnPlatform Android='-14', Default='0'}"  Command="{Binding ClearCommand}" CommandParameter="fileforuploadclear">
                                     <Button.ImageSource>
@@ -172,7 +173,7 @@
                             </ur:TextField.Attachments>
 
                         </ur:TextField>
-                        <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,30,250,30'}" MaximumWidthRequest="800" Command="{Binding UploadCommand}"   Text="Upload"/>
+                        <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,30,250,30'}" MaximumWidthRequest="800"  Clicked="UploadClicked" Text="Upload"/>
 
 
                     </StackLayout>
@@ -187,7 +188,7 @@
                                 <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Help}" Size="20" Color="Black" />
                             </Button.ImageSource>
                         </Button>
-                        <ur:TextField Text="{Binding Cid[2]}" Title="Cid Address / IPFS Hash"  Margin="{x:OnPlatform Android='20,0,20,20', Default='100,0,100,0'}">
+                        <ur:TextField Text="{Binding Cid[2]}" TitleColor="Navy" AccentColor="Navy"  BorderColor="Navy" TextColor="Navy"  Title="Cid Address / IPFS Hash"  Margin="{x:OnPlatform Android='20,0,20,20', Default='100,0,100,0'}">
                             <ur:TextField.Attachments>
                                 <Button StyleClass="TextButton" Padding="14,14,14,14" Margin="0"  Command="{Binding ClearCommand}" CommandParameter="cidforunpinclear">
                                     <Button.ImageSource>
@@ -197,7 +198,7 @@
                                 </Button>
                             </ur:TextField.Attachments>
                         </ur:TextField>
-                        <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,30,250,30'}" MaximumWidthRequest="800" Command="{Binding UnpinCommand}"   Text="Unpin"/>
+                        <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,30,250,30'}" MaximumWidthRequest="500" Command="{Binding UnpinCommand}"   Text="Unpin"/>
 
                     </StackLayout>
 
