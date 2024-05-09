@@ -285,6 +285,92 @@ public class IpfsDatabaseService
                 await DatabaseManager.CloseConnectionAsync();
             }
         }
+        private readonly SemaphoreSlim qrRegistrationSemaphore = new SemaphoreSlim(1);
+
+        public async Task<int> QrCodeRegister(DateOnly expiration){
+            try
+            {
+                await qrRegistrationSemaphore.WaitAsync(); // Wait for access
+                await DatabaseManager.OpenConnectionAsync();
+                using (var cmd = DatabaseManager.Connection.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO ""Qr"" (expiration) VALUES (@expiration) RETURNING id";
+                    cmd.Parameters.AddWithValue("@expiration", expiration);
+                    var rowsAffected = await cmd.ExecuteNonQueryAsync();
+                    // Check if any rows were inserted
+                    if (rowsAffected > 0)
+                    {
+                        var insertedId = Convert.ToInt32(rowsAffected); // Get the first ID from OUTPUT
+                        return insertedId;
+                    }
+                    else
+                    {
+                        throw new Exception("Failed to Generate QR Code, Try Again Later");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+                await Shell.Current.DisplayAlert("Error", "Failed to Implement QR, Try Again Later", "OK");
+                return 0;
+            }
+            finally
+            {
+                await DatabaseManager.CloseConnectionAsync();
+                qrRegistrationSemaphore.Release(); // Release access
+
+            }
+        }
+        public async Task<bool> QrCodeViable(int id){
+            try{
+                await DatabaseManager.OpenConnectionAsync();
+                using (var cmd = DatabaseManager.Connection.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT 1 FROM ""Qr"" WHERE id = @id AND expiration >= @check";
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@check", DateTime.Now.Date);
+                    var result = await cmd.ExecuteScalarAsync();
+                    if(result == null || result == DBNull.Value){
+                        return false;
+                    }
+                    else{
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", "Failed to Decode QR, Try Again Later", "OK");
+                return false;
+            }
+            finally
+            {
+                await DatabaseManager.CloseConnectionAsync();
+            
+            }
+        }
+        public async Task<bool> RevokeQrCode(int id){
+            try{
+                await DatabaseManager.OpenConnectionAsync();
+                using (var cmd = DatabaseManager.Connection.CreateCommand())
+                {
+                    cmd.CommandText = @"DELETE FROM ""Qr"" WHERE id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+                    await cmd.ExecuteNonQueryAsync();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", "Failed to Revoke QR, Try Again Later", "OK");
+                return false;
+            }
+            finally
+            {
+                await DatabaseManager.CloseConnectionAsync();
+            }
+        }
         public async Task UnpinFile(string cid)
         {
             try

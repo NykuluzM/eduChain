@@ -22,6 +22,7 @@ public partial class IpfsConnectPage : ContentPage
     IpfsViewModel ipfsViewModel;
     PinataClient pinataClient = new PinataClient();
     SearchBar searchBar;
+
     private MPPopup mediaPopup;
     private bool firstLoad = true;
     public IpfsConnectPage()
@@ -59,10 +60,7 @@ public partial class IpfsConnectPage : ContentPage
             fManagerHide.IsVisible = false;
             fManagerShow.IsVisible = true;  
         }
-    }
-    private async void QRImagePrompt(object sender, EventArgs e){
-     
-    }
+    } 
     private void Filter(object sender, EventArgs e){
     
         searchBar = (SearchBar)sender;
@@ -142,13 +140,17 @@ public partial class IpfsConnectPage : ContentPage
             await toast.Show();
             return;
         }
-        if(receiverUid.Count() < 25){
-            var toast = Toast.Make("Invalid UID");
-            await toast.Show();
+       
+        DateOnly expirationdate = DateOnly.FromDateTime(ipfsViewModel.Expiration.Date);
+        if(expirationdate < DateOnly.FromDateTime(DateTime.Now)){
+            await DisplayAlert("Invalid Date", "Please select a date in the future or current date", "OK");
             return;
         }
-
-        var CIDList = new List<string>() {receiverUid};
+        var rowId = await IpfsDatabaseService.Instance.QrCodeRegister(expirationdate);
+        if(rowId == 0){
+            return;
+        }
+        var CIDList = new List<string>() {receiverUid, rowId.ToString()};
         foreach(var item in selectedItems){
             var file = item as FileModel;
             CIDList.Add(file.CID);

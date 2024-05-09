@@ -40,6 +40,8 @@ public class IpfsViewModel : ViewModelBase
     private bool isRefreshing = false;
 
     IFileSaver fileSaver;
+    public static readonly DateTime Today = DateTime.Today;  
+
     public DateTime LastRefreshed { get; set; } = DateTime.Now;
     public string CurrentCategory { get; set; } = "firstload";
     public ICommand ClearCommand { get; }
@@ -88,7 +90,7 @@ public class IpfsViewModel : ViewModelBase
         };
         pinataClient = new PinataClient(config);
         OnPropertyChanged(nameof(FileInfo));
-
+        
         DownloadCommand = new Command(async () => await DownloadFileByCid(this.Cid[1]));
         VerifyCommand = new Command(async () => await VerifyFile());
         FileCommand = new Command<string>(async (fileId) => await PickFile(fileId));
@@ -313,18 +315,20 @@ public class IpfsViewModel : ViewModelBase
             return;
         }
         if (fileId == "fileforverify") {
+            //Initializing and Clearing Twice fixes the UI Bug in the filename
             FileInfo[0] = fileInfo;
-            // Manually raise the event as Array is a reference type
+            OnPropertyChanged(nameof(FileInfo));
+            await Clear("fileforverifyclear");
+            FileInfo[0] = fileInfo;
             OnPropertyChanged(nameof(FileInfo));
         }
         else if (fileId == "fileforupload")
         {
+            //Initializing and Clearing Twice fixes the UI Bug in the filename
             FileInfo[1] = fileInfo;
-            // Manually raise the event as Array is a reference type
             OnPropertyChanged(nameof(FileInfo));
             await Clear("fileforuploadclear");
             FileInfo[1] = fileInfo;
-            // Manually raise the event as Array is a reference type
             OnPropertyChanged(nameof(FileInfo));
 
         }
@@ -555,6 +559,16 @@ public class IpfsViewModel : ViewModelBase
             }
         }
     }
+    private DateTime _expiration = DateTime.Now;
+    public DateTime Expiration
+    {
+        get { return _expiration; }
+        set
+        {
+            _expiration = value;
+            OnPropertyChanged(nameof(Expiration));
+        }
+    }
     private async void DecodeImageButton()
     {
         var pickerResult = await picker.PickFileAsync("Select a QR code image", QRFileType);
@@ -577,18 +591,32 @@ public class IpfsViewModel : ViewModelBase
                  
 
                 var CIDList = cidString.Split('\n').ToList(); // Get the list of CIDs
-                if (CIDList.Count < 2)
+                if (CIDList.Count < 3)
                 {
                     await Shell.Current.DisplayAlert("Error", "Invalid QR Code format", "OK");
                     return;
                 }
                 var recieverUID = CIDList[0];
-                if(recieverUID != UsersProfile.FirebaseId)
+                if (recieverUID != UsersProfile.FirebaseId)
                 {
                     await Shell.Current.DisplayAlert("Error", "You are not the intended recipient", "OK");
                     return;
                 }
-                await DownloadFilesByCids(CIDList);
+                var id = int.Parse(CIDList[1]);
+                var isViable = await IpfsDatabaseService.Instance.QrCodeViable(id);
+                if(isViable == false)
+                {
+                    await Shell.Current.DisplayAlert("Error", "QR code is not usable anymore, It might be expired or revoked", "OK");
+                    return;
+                }
+                var revoked = await IpfsDatabaseService.Instance.RevokeQrCode(id);
+                if(!revoked){
+                    await Shell.Current.DisplayAlert("Error", "QR code is invalid, File Download Faile", "OK");
+                    return;
+                } else {
+                    await DownloadFilesByCids(CIDList);
+                    await Shell.Current.DisplayAlert("Decoded", "QR code decoded successfully, Files are downloaded in the Folder and Qr is consumed", "OK");
+                }
                 // Do something with the extracted CIDList
             }
         }

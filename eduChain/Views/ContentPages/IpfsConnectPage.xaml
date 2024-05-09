@@ -11,7 +11,7 @@
              xmlns:data="clr-namespace:Syncfusion.Maui.DataSource;assembly=Syncfusion.Maui.DataSource"
              xmlns:pulltoRefresh="clr-namespace:Syncfusion.Maui.PullToRefresh;assembly=Syncfusion.Maui.PullToRefresh"
              xmlns:cv="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
-
+             xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
              xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
              Title="{x:OnPlatform MacCatalyst='IPFS Center'}"
              Shell.BackgroundColor="{x:OnPlatform Default='PapayaWhip'}"
@@ -85,7 +85,7 @@
                         </Button>
                         <toolkit:UniformItemsLayout MaxRows="4" MaxColumns="2" Margin="{x:OnPlatform Default=30, WinUI='300,0,300,30'}">
 
-                            <ur:TextField Text="{Binding Cid[0]}"  Margin="5,10,5,10"  AccentColor="Navy"  BorderColor="Navy" TextColor="Navy"  Title="Supposed Cid">
+                            <ur:TextField Text="{Binding Cid[0]}"  Margin="5,10,5,10" InputBackgroundColor="White" AccentColor="Navy" TitleColor="Navy"  BorderColor="Navy" TextColor="Navy"  Title="Supposed Cid">
                                 <ur:TextField.Attachments>
                                     <Button StyleClass="TextButton" Padding="14,14,14,14" Margin="0"  Command="{Binding ClearCommand}" CommandParameter="cidforverifyclear">
                                         <Button.ImageSource>
@@ -96,7 +96,7 @@
                                 </ur:TextField.Attachments>
 
                             </ur:TextField>
-                            <ur:TextField Margin="5,10,5,10"  AccentColor="Navy"  BorderColor="Navy" TextColor="Navy" Text="{Binding FileInfo[0].FileName}" IsReadOnly="True" Title="File/s">
+                            <ur:TextField Margin="5,10,5,10" TitleColor="Navy" AccentColor="Navy" InputBackgroundColor="White"  BorderColor="Navy" TextColor="Navy" Text="{Binding FileInfo[0].FileName}" IsReadOnly="True" Title="File/s">
                                 <ur:TextField.Attachments>
                                     <Button StyleClass="TextButton" Padding="14,14,14,14" Margin="{x:OnPlatform Android='-14', Default='0'}"  Command="{Binding ClearCommand}" CommandParameter="fileforverifyclear">
                                         <Button.ImageSource>
@@ -135,7 +135,7 @@
                         </Button>
                         <Button MaximumWidthRequest="300" Command="{Binding DecodeQRCommand}" Margin="25" Text="QR">
                             <Button.ImageSource>
-                                <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Qr_code}" Size="20" Color="Black" />
+                                <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Qr_code}" Size="20" Color="Navy" />
                             </Button.ImageSource>
                         </Button>
 
@@ -158,8 +158,8 @@
                                 <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Compare}" Size="20" Color="Black" />
                             </Button.ImageSource>
                         </Button>
-                        <ur:TextField x:Name="UploadCidInput" Title="Owner" Text="{Binding Cid[1]}" InputBackgroundColor="White" AccentColor="Navy" Margin="10,10,10,10" BorderColor="Navy" TextColor="Navy" TitleColor="Navy" WidthRequest="300"/>
-                        <ur:TextField WidthRequest="600" BorderColor="Navy" TextColor="Navy" InputBackgroundColor="White" Text="{Binding FileInfo[1].FileName}" TitleColor="Navy" AccentColor="Navy" Margin="10,10,10,10"   IsReadOnly="True" Title="File/s">
+                        <ur:TextField x:Name="UploadCidInput" Title="Owner's UID" Text="{Binding Cid[1]}" InputBackgroundColor="White" AccentColor="Navy" Margin="10,10,10,10" BorderColor="Navy" TextColor="Navy" TitleColor="Navy" WidthRequest="300"/>
+                        <ur:TextField WidthRequest="600" BorderColor="Navy" TextColor="Navy" InputBackgroundColor="White" Text="{Binding FileInfo[1].FileName}" TitleColor="Navy" AccentColor="Navy" Margin="10,10,10,20"   IsReadOnly="True" Title="File/s">
 
                             <ur:TextField.Attachments>
                                 <Button StyleClass="TextButton" TextColor="Navy"   Padding="14,14,14,14" Margin="{x:OnPlatform Android='-14', Default='0'}"  Command="{Binding ClearCommand}" CommandParameter="fileforuploadclear">
@@ -173,7 +173,7 @@
                             </ur:TextField.Attachments>
 
                         </ur:TextField>
-                        <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,30,250,30'}" MaximumWidthRequest="800"  Clicked="UploadClicked" Text="Upload"/>
+                        <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,30,250,30'}" MaximumWidthRequest="300"  Clicked="UploadClicked" Text="Upload"/>
 
 
                     </StackLayout>
@@ -188,7 +188,7 @@
                                 <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Help}" Size="20" Color="Black" />
                             </Button.ImageSource>
                         </Button>
-                        <ur:TextField Text="{Binding Cid[2]}" TitleColor="Navy" AccentColor="Navy"  BorderColor="Navy" TextColor="Navy"  Title="Cid Address / IPFS Hash"  Margin="{x:OnPlatform Android='20,0,20,20', Default='100,0,100,0'}">
+                        <ur:TextField Text="{Binding Cid[2]}" MaximumWidthRequest="700" TitleColor="Navy" AccentColor="Navy" InputBackgroundColor="White" BorderColor="Navy" TextColor="Navy"  Title="Cid Address / IPFS Hash"  Margin="{x:OnPlatform Android='20,0,20,20', Default='100,0,100,20'}">
                             <ur:TextField.Attachments>
                                 <Button StyleClass="TextButton" Padding="14,14,14,14" Margin="0"  Command="{Binding ClearCommand}" CommandParameter="cidforunpinclear">
                                     <Button.ImageSource>
@@ -198,7 +198,7 @@
                                 </Button>
                             </ur:TextField.Attachments>
                         </ur:TextField>
-                        <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,30,250,30'}" MaximumWidthRequest="500" Command="{Binding UnpinCommand}"   Text="Unpin"/>
+                        <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,30,250,30'}" MaximumWidthRequest="300" Command="{Binding UnpinCommand}"   Text="Unpin"/>
 
                     </StackLayout>
 
@@ -252,8 +252,9 @@
                                                                     <ColumnDefinition Width="*"/>
                                                                     <ColumnDefinition Width="*"/>
                                                                 </Grid.ColumnDefinitions>
-                                                                <ur:TextField  TitleColor="Navy" VerticalOptions="Start" InputBackgroundColor="Wheat" TextColor="Black" Margin="0,18,0,0" Grid.ColumnSpan="2" MaximumWidthRequest="600" AccentColor="Navy"  Text="{Binding RecieverUid, Mode=TwoWay}"  BorderColor="Navy"  Title="Reciever's UID" />
-                                                                <Button Text="Generate QR Code" Margin="20" Grid.Column="2" Clicked="QR_clicked" ClassId="PhotosQR" />
+                                                                <ur:TextField  TitleColor="Navy" VerticalOptions="Start" InputBackgroundColor="Wheat" TextColor="Black" Margin="0,18,0,0" Grid.Column="0" MaximumWidthRequest="600" AccentColor="Navy"  Text="{Binding RecieverUid, Mode=TwoWay}"  BorderColor="Navy"  Title="Reciever's UID" />
+                                                                <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
+                                                                 <Button Text="Generate QR Code" Margin="20" Grid.Column="2" Clicked="QR_clicked" ClassId="PhotosQR" />
                                                         </Grid>  
                                                        
 
@@ -349,7 +350,8 @@
                                                                     <ColumnDefinition Width="*"/>
                                                                     <ColumnDefinition Width="*"/>
                                                                 </Grid.ColumnDefinitions>
-                                                                <ur:TextField  TitleColor="Navy" VerticalOptions="Start" InputBackgroundColor="Wheat" TextColor="Black" Margin="0,18,0,0" Grid.ColumnSpan="2" MaximumWidthRequest="600" AccentColor="Navy"  Text="{Binding RecieverUid, Mode=TwoWay}"  BorderColor="Navy"  Title="Reciever's UID" />
+                                                                 <ur:TextField  TitleColor="Navy" VerticalOptions="Start" InputBackgroundColor="Wheat" TextColor="Black" Margin="0,18,0,0" Grid.Column="0" MaximumWidthRequest="600" AccentColor="Navy"  Text="{Binding RecieverUid, Mode=TwoWay}"  BorderColor="Navy"  Title="Reciever's UID" />
+                                                                <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
                                                                 <Button Text="Generate QR Code" Margin="20" Grid.Column="2" Clicked="QR_clicked" ClassId="AudioQR" />
                                                         </Grid>  
                                                     </DataTemplate>
@@ -443,7 +445,8 @@
                                                                     <ColumnDefinition Width="*"/>
                                                                     <ColumnDefinition Width="*"/>
                                                                 </Grid.ColumnDefinitions>
-                                                                <ur:TextField  TitleColor="Navy" VerticalOptions="Start" InputBackgroundColor="Wheat" TextColor="Black" Margin="0,18,0,0" Grid.ColumnSpan="2" MaximumWidthRequest="600" AccentColor="Navy"  Text="{Binding RecieverUid, Mode=TwoWay}"  BorderColor="Navy"  Title="Reciever's UID" />
+                                                                <ur:TextField  TitleColor="Navy" VerticalOptions="Start" InputBackgroundColor="Wheat" TextColor="Black" Margin="0,18,0,0" Grid.Column="0" MaximumWidthRequest="600" AccentColor="Navy"  Text="{Binding RecieverUid, Mode=TwoWay}"  BorderColor="Navy"  Title="Reciever's UID" />
+                                                                <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
                                                                 <Button Text="Generate QR Code" Margin="20" Grid.Column="2" Clicked="QR_clicked" ClassId="VideoQR" />
                                                         </Grid>  
 
@@ -534,7 +537,8 @@
                                                                     <ColumnDefinition Width="*"/>
                                                                     <ColumnDefinition Width="*"/>
                                                                 </Grid.ColumnDefinitions>
-                                                                <ur:TextField  TitleColor="Navy" VerticalOptions="Start" InputBackgroundColor="Wheat" TextColor="Black" Margin="0,18,0,0" Grid.ColumnSpan="2" MaximumWidthRequest="600" AccentColor="Navy"  Text="{Binding RecieverUid, Mode=TwoWay}"  BorderColor="Navy"  Title="Reciever's UID" />
+                                                                <ur:TextField  TitleColor="Navy" VerticalOptions="Start" InputBackgroundColor="Wheat" TextColor="Black" Margin="0,18,0,0" Grid.Column="0" MaximumWidthRequest="600" AccentColor="Navy"  Text="{Binding RecieverUid, Mode=TwoWay}"  BorderColor="Navy"  Title="Reciever's UID" />
+                                                                <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
                                                                 <Button Text="Generate QR Code" Margin="20" Grid.Column="2" Clicked="QR_clicked" ClassId="DocumentsQR" />
                                                         </Grid>  
 
@@ -630,7 +634,8 @@
                                                                     <ColumnDefinition Width="*"/>
                                                                     <ColumnDefinition Width="*"/>
                                                                 </Grid.ColumnDefinitions>
-                                                                <ur:TextField  TitleColor="Navy" VerticalOptions="Start" InputBackgroundColor="Wheat" TextColor="Black" Margin="0,18,0,0" Grid.ColumnSpan="2" MaximumWidthRequest="600" AccentColor="Navy"  Text="{Binding RecieverUid, Mode=TwoWay}"  BorderColor="Navy"  Title="Reciever's UID" />
+                                                                <ur:TextField  TitleColor="Navy" VerticalOptions="Start" InputBackgroundColor="Wheat" TextColor="Black" Margin="0,18,0,0" Grid.Column="0" MaximumWidthRequest="600" AccentColor="Navy"  Text="{Binding RecieverUid, Mode=TwoWay}"  BorderColor="Navy"  Title="Reciever's UID" />
+                                                                <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
                                                                 <Button Text="Generate QR Code" Margin="20" Grid.Column="2" Clicked="QR_clicked" ClassId="AllQR" />
                                                         </Grid>  
 
