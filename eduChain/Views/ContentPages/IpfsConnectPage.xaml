@@ -779,15 +779,7 @@
                                     <On Platform="MacCatalyst" Value="100" />
                                 </OnPlatform>
                             </listView:SfListView.FooterSize>
-                            <listView:SfListView.FooterTemplate>
-                               
-                                    
-                                <DataTemplate>
-                                    <Grid RowDefinitions="*">
-                                        <Button Text="Request" Margin="0" />
-                                    </Grid>
-                                </DataTemplate>
-                            </listView:SfListView.FooterTemplate>
+                           
                             <listView:SfListView.ItemsLayout>
                                 <listView:GridLayout  SpanCount="{x:OnPlatform Default=3, Android=1}"   />
                             </listView:SfListView.ItemsLayout>
