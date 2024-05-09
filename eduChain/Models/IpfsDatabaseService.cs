@@ -79,14 +79,14 @@ public class IpfsDatabaseService
                 await DatabaseManager.CloseConnectionAsync();
             }
         }
-        public async Task<List<FileModel>> GetAllFilesAsync(string firebase_id){
+        public async Task<List<FileModel>> GetAllOwnedFilesAsync(string firebase_id){
             var fileList = new List<FileModel>();
             try
             {
                 await DatabaseManager.OpenConnectionAsync();
                 using (var cmd = DatabaseManager.Connection.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT created_by,cid,filetype,filename FROM ""Files"" WHERE created_by = @firebase_id";
+                    cmd.CommandText = @"SELECT created_by,cid,filetype,filename FROM ""Files"" WHERE owner = @firebase_id";
                     cmd.Parameters.AddWithValue("@firebase_id", firebase_id);
                     var reader = await cmd.ExecuteReaderAsync();
                     while (await reader.ReadAsync())
@@ -112,6 +112,40 @@ public class IpfsDatabaseService
                 await DatabaseManager.CloseConnectionAsync();
             }
         }
+    public async Task<List<FileModel>> GetAllCreatedFilesAsync(string firebase_id)
+    {
+        var fileList = new List<FileModel>();
+        try
+        {
+            await DatabaseManager.OpenConnectionAsync();
+            using (var cmd = DatabaseManager.Connection.CreateCommand())
+            {
+                cmd.CommandText = @"SELECT created_by,cid,filetype,filename FROM ""Files"" WHERE created_by = @firebase_id";
+                cmd.Parameters.AddWithValue("@firebase_id", firebase_id);
+                var reader = await cmd.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    fileList.Add(new FileModel
+                    {
+                        Owner = reader.GetString(0),
+                        CID = reader.GetString(1),
+                        FileType = reader.GetString(2),
+                        FileName = reader.GetString(3),
+                    });
+                }
+                return fileList;
+            }
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Error", ex.ToString(), "OK");
+            return null;
+        }
+        finally
+        {
+            await DatabaseManager.CloseConnectionAsync();
+        }
+    }
     public async Task<List<FileModel>> GetAllSharedFiles(string firebase_id)
     {
         var fileList = new List<FileModel>();

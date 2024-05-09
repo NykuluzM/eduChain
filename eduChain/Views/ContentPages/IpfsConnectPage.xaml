@@ -203,17 +203,13 @@
                     </StackLayout>
 
 
-                    <Button x:Name="fManagerShow" Text="Show My Created Files"  IsVisible="True" Clicked="ToggleMyFiles" ClassId="Show"  Margin="-10,0,-10,0">
+                    <Button x:Name="fManagerShow" Text="My Owned Files"   ClassId="Show"  Margin="-10,0,-10,0">
                         <Button.ImageSource>
-                            <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Open_in_full}" Size="20"  />
+                            <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.File_open}" Size="20"  />
                         </Button.ImageSource>
                     </Button>
-                    <Button x:Name="fManagerHide" Text="Hide My Created Files"  IsVisible="False" Clicked="ToggleMyFiles" ClassId="Hide"  Margin="-10,0,-10,0">
-                        <Button.ImageSource>
-                            <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Close_fullscreen}" Size="20"  />
-                        </Button.ImageSource>
-                    </Button> 
-                    <Grid HeightRequest="900" x:Name="tabGrid" IsVisible="False">
+                   
+                    <Grid HeightRequest="900" x:Name="tabGrid" >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="830"/>
                             <RowDefinition Height="70"/>
@@ -244,7 +240,15 @@
                                                         <SearchBar x:Name="SearchBar" Placeholder="Search here to filter" BackgroundColor="Wheat" CancelButtonColor="Red" TextColor="Black" PlaceholderColor="Black" TextChanged="Filter" ClassId="PhotosSearch" />
                                                     </DataTemplate>
                                                 </listView:SfListView.HeaderTemplate>
-                                                <listView:SfListView.FooterTemplate  >
+                                                <listView:SfListView.FooterSize>
+                                                    <OnPlatform x:TypeArguments="x:Double">
+                                                        <On Platform="Android" Value="100"/>
+                                                        <On Platform="iOS" Value="100"/>
+                                                        <On Platform="WinUI" Value="100"/>
+                                                        <On Platform="MacCatalyst" Value="100" />
+                                                    </OnPlatform>
+                                                </listView:SfListView.FooterSize>
+                                                <listView:SfListView.FooterTemplate>
                                                     <DataTemplate>
                                                        <Grid HeightRequest="100">
                                                                 <Grid.ColumnDefinitions>
@@ -252,8 +256,8 @@
                                                                     <ColumnDefinition Width="*"/>
                                                                     <ColumnDefinition Width="*"/>
                                                                 </Grid.ColumnDefinitions>
-                                                                <ur:TextField  TitleColor="Navy" VerticalOptions="Start" InputBackgroundColor="Wheat" TextColor="Black" Margin="0,18,0,0" Grid.Column="0" MaximumWidthRequest="600" AccentColor="Navy"  Text="{Binding RecieverUid, Mode=TwoWay}"  BorderColor="Navy"  Title="Reciever's UID" />
-                                                                <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
+                                                                <ur:TextField  TitleColor="Navy" VerticalOptions="Start" InputBackgroundColor="Wheat" TextColor="Black" Margin="0,18,0,0" Padding="0,3,0,0" Grid.Column="0" MaximumWidthRequest="600" AccentColor="Navy"  Text="{Binding RecieverUid, Mode=TwoWay}"  BorderColor="Navy"  Title="Reciever's UID" />
+                                                                <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" AllowClear="False" Padding="0,3,0,0" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
                                                                  <Button Text="Generate QR Code" Margin="20" Grid.Column="2" Clicked="QR_clicked" ClassId="PhotosQR" />
                                                         </Grid>  
                                                        
@@ -342,6 +346,14 @@
                                                         <SearchBar x:Name="SearchBar" Placeholder="Search here to filter" BackgroundColor="Wheat" CancelButtonColor="Red" TextColor="Black" PlaceholderColor="Black" TextChanged="Filter" ClassId="AudioSearch" />
                                                     </DataTemplate>
                                                 </listView:SfListView.HeaderTemplate>
+                                                <listView:SfListView.FooterSize>
+                                                    <OnPlatform x:TypeArguments="x:Double">
+                                                        <On Platform="Android" Value="100"/>
+                                                        <On Platform="iOS" Value="100"/>
+                                                        <On Platform="WinUI" Value="100"/>
+                                                        <On Platform="MacCatalyst" Value="100" />
+                                                    </OnPlatform>
+                                                </listView:SfListView.FooterSize>
                                                 <listView:SfListView.FooterTemplate>
                                                     <DataTemplate>
                                                              <Grid HeightRequest="100">
@@ -350,9 +362,9 @@
                                                                     <ColumnDefinition Width="*"/>
                                                                     <ColumnDefinition Width="*"/>
                                                                 </Grid.ColumnDefinitions>
-                                                                 <ur:TextField  TitleColor="Navy" VerticalOptions="Start" InputBackgroundColor="Wheat" TextColor="Black" Margin="0,18,0,0" Grid.Column="0" MaximumWidthRequest="600" AccentColor="Navy"  Text="{Binding RecieverUid, Mode=TwoWay}"  BorderColor="Navy"  Title="Reciever's UID" />
-                                                                <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
-                                                                <Button Text="Generate QR Code" Margin="20" Grid.Column="2" Clicked="QR_clicked" ClassId="AudioQR" />
+                                                            <ur:TextField  TitleColor="Navy" VerticalOptions="Start" InputBackgroundColor="Wheat" TextColor="Black" Margin="0,18,0,0" Padding="0,3,0,0" Grid.Column="0" MaximumWidthRequest="600" AccentColor="Navy"  Text="{Binding RecieverUid, Mode=TwoWay}"  BorderColor="Navy"  Title="Reciever's UID" />
+                                                            <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" AllowClear="False" Padding="0,3,0,0" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
+                                                            <Button Text="Generate QR Code" Margin="20" Grid.Column="2" Clicked="QR_clicked" ClassId="AudioQR" />
                                                         </Grid>  
                                                     </DataTemplate>
                                                 </listView:SfListView.FooterTemplate>
@@ -437,6 +449,14 @@
                                                         <SearchBar x:Name="SearchBar" Placeholder="Search here to filter" BackgroundColor="Wheat" CancelButtonColor="Red" TextColor="Black" PlaceholderColor="Black" TextChanged="Filter" ClassId="VideosSearch" />
                                                     </DataTemplate>
                                                 </listView:SfListView.HeaderTemplate>
+                                                <listView:SfListView.FooterSize>
+                                                    <OnPlatform x:TypeArguments="x:Double">
+                                                        <On Platform="Android" Value="100"/>
+                                                        <On Platform="iOS" Value="100"/>
+                                                        <On Platform="WinUI" Value="100"/>
+                                                        <On Platform="MacCatalyst" Value="100" />
+                                                    </OnPlatform>
+                                                </listView:SfListView.FooterSize>
                                                 <listView:SfListView.FooterTemplate>
                                                     <DataTemplate>
                                                             <Grid HeightRequest="100">
@@ -445,9 +465,9 @@
                                                                     <ColumnDefinition Width="*"/>
                                                                     <ColumnDefinition Width="*"/>
                                                                 </Grid.ColumnDefinitions>
-                                                                <ur:TextField  TitleColor="Navy" VerticalOptions="Start" InputBackgroundColor="Wheat" TextColor="Black" Margin="0,18,0,0" Grid.Column="0" MaximumWidthRequest="600" AccentColor="Navy"  Text="{Binding RecieverUid, Mode=TwoWay}"  BorderColor="Navy"  Title="Reciever's UID" />
-                                                                <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
-                                                                <Button Text="Generate QR Code" Margin="20" Grid.Column="2" Clicked="QR_clicked" ClassId="VideoQR" />
+                                                            <ur:TextField  TitleColor="Navy" VerticalOptions="Start" InputBackgroundColor="Wheat" TextColor="Black" Margin="0,18,0,0" Padding="0,3,0,0" Grid.Column="0" MaximumWidthRequest="600" AccentColor="Navy"  Text="{Binding RecieverUid, Mode=TwoWay}"  BorderColor="Navy"  Title="Reciever's UID" />
+                                                            <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" AllowClear="False" Padding="0,3,0,0" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
+                                                            <Button Text="Generate QR Code" Margin="20" Grid.Column="2" Clicked="QR_clicked" ClassId="VideoQR" />
                                                         </Grid>  
 
                                                     </DataTemplate>
@@ -529,6 +549,14 @@
                                                 <SearchBar x:Name="SearchBar" Placeholder="Search here to filter" BackgroundColor="Wheat" CancelButtonColor="Red" TextColor="Black" PlaceholderColor="Black" TextChanged="Filter" ClassId="DocumentsSearch" />
                                             </DataTemplate>
                                         </listView:SfListView.HeaderTemplate>
+                                                <listView:SfListView.FooterSize>
+                                                    <OnPlatform x:TypeArguments="x:Double">
+                                                        <On Platform="Android" Value="100"/>
+                                                        <On Platform="iOS" Value="100"/>
+                                                        <On Platform="WinUI" Value="100"/>
+                                                        <On Platform="MacCatalyst" Value="100" />
+                                                    </OnPlatform>
+                                                </listView:SfListView.FooterSize>
                                                 <listView:SfListView.FooterTemplate>
                                                     <DataTemplate>
                                                            <Grid HeightRequest="100">
@@ -537,9 +565,9 @@
                                                                     <ColumnDefinition Width="*"/>
                                                                     <ColumnDefinition Width="*"/>
                                                                 </Grid.ColumnDefinitions>
-                                                                <ur:TextField  TitleColor="Navy" VerticalOptions="Start" InputBackgroundColor="Wheat" TextColor="Black" Margin="0,18,0,0" Grid.Column="0" MaximumWidthRequest="600" AccentColor="Navy"  Text="{Binding RecieverUid, Mode=TwoWay}"  BorderColor="Navy"  Title="Reciever's UID" />
-                                                                <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
-                                                                <Button Text="Generate QR Code" Margin="20" Grid.Column="2" Clicked="QR_clicked" ClassId="DocumentsQR" />
+                                                            <ur:TextField  TitleColor="Navy" VerticalOptions="Start" InputBackgroundColor="Wheat" TextColor="Black" Margin="0,18,0,0" Padding="0,3,0,0" Grid.Column="0" MaximumWidthRequest="600" AccentColor="Navy"  Text="{Binding RecieverUid, Mode=TwoWay}"  BorderColor="Navy"  Title="Reciever's UID" />
+                                                            <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" AllowClear="False" Padding="0,3,0,0" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
+                                                            <Button Text="Generate QR Code" Margin="20" Grid.Column="2" Clicked="QR_clicked" ClassId="DocumentsQR" />
                                                         </Grid>  
 
 
@@ -626,6 +654,14 @@
                                                         <SearchBar x:Name="SearchBar" Placeholder="Search here to filter" BackgroundColor="Wheat" CancelButtonColor="Red" TextColor="Black" PlaceholderColor="Black" TextChanged="Filter" ClassId="AllSearch" />
                                                     </DataTemplate>
                                                 </listView:SfListView.HeaderTemplate>
+                                                <listView:SfListView.FooterSize>
+                                                    <OnPlatform x:TypeArguments="x:Double">
+                                                        <On Platform="Android" Value="100"/>
+                                                        <On Platform="iOS" Value="100"/>
+                                                        <On Platform="WinUI" Value="100"/>
+                                                        <On Platform="MacCatalyst" Value="100" />
+                                                    </OnPlatform>
+                                                </listView:SfListView.FooterSize>
                                                 <listView:SfListView.FooterTemplate>
                                                     <DataTemplate>
                                                             <Grid HeightRequest="100">
@@ -634,9 +670,9 @@
                                                                     <ColumnDefinition Width="*"/>
                                                                     <ColumnDefinition Width="*"/>
                                                                 </Grid.ColumnDefinitions>
-                                                                <ur:TextField  TitleColor="Navy" VerticalOptions="Start" InputBackgroundColor="Wheat" TextColor="Black" Margin="0,18,0,0" Grid.Column="0" MaximumWidthRequest="600" AccentColor="Navy"  Text="{Binding RecieverUid, Mode=TwoWay}"  BorderColor="Navy"  Title="Reciever's UID" />
-                                                                <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
-                                                                <Button Text="Generate QR Code" Margin="20" Grid.Column="2" Clicked="QR_clicked" ClassId="AllQR" />
+                                                            <ur:TextField  TitleColor="Navy" VerticalOptions="Start" InputBackgroundColor="Wheat" TextColor="Black" Margin="0,18,0,0" Padding="0,3,0,0" Grid.Column="0" MaximumWidthRequest="600" AccentColor="Navy"  Text="{Binding RecieverUid, Mode=TwoWay}"  BorderColor="Navy"  Title="Reciever's UID" />
+                                                            <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" AllowClear="False" Padding="0,3,0,0" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
+                                                            <Button Text="Generate QR Code" Margin="20" Grid.Column="2" Clicked="QR_clicked" ClassId="AllQR" />
                                                         </Grid>  
 
                                                     </DataTemplate>
@@ -714,17 +750,13 @@
                         </VerticalStackLayout>
                         
                     </Grid>
-                    <Button x:Name="ShowShared" Text="Show Shared Files From Affiliated"  IsVisible="True" Clicked="ToggleSharedFiles" ClassId="Show"  Margin="-10,0,-10,0">
+                    <Button x:Name="ShowShared" Text="My Created Files"  IsVisible="True"  ClassId="Show"  Margin="-10,0,-10,0">
                         <Button.ImageSource>
                             <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Folder_shared}" Size="20"  />
                         </Button.ImageSource>
                     </Button>
-                    <Button x:Name="HideShared" Text="Hide Shared Files From Affiliated"  IsVisible="False" Clicked="ToggleSharedFiles" ClassId="Hide"  Margin="-10,0,-10,0">
-                        <Button.ImageSource>
-                            <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Hide_source}" Size="20"  />
-                        </Button.ImageSource>
-                    </Button>
-                    <Grid x:Name="SharedFiles" HeightRequest="500" IsVisible="False">
+                   
+                    <Grid x:Name="SharedFiles" HeightRequest="600">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="70"/>
@@ -732,12 +764,29 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <listView:SfListView x:Name="SharedFilesList" IsStickyHeader="True" HeightRequest="500"  ItemSpacing="5,5,5,5" ItemSize="280" SelectionMode="Multiple" SelectionGesture="Tap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding SharedFiles}">
+                        <listView:SfListView x:Name="SharedFilesList" IsStickyFooter="True" IsStickyHeader="True" HeightRequest="500"  ItemSpacing="5,5,5,5" ItemSize="280" SelectionMode="Multiple" SelectionGesture="Tap"  Margin="{x:OnPlatform Default='50,50,50,0', Android='10,30,10,80'}" ItemsSource="{Binding SharedFiles}">
                             <listView:SfListView.HeaderTemplate>
                                 <DataTemplate>
                                     <SearchBar x:Name="SearchBar" Placeholder="Search here to filter" BackgroundColor="Wheat" CancelButtonColor="Red" TextColor="Black" PlaceholderColor="Black" TextChanged="Filter" ClassId="SharedSearch" />
                                 </DataTemplate>
                             </listView:SfListView.HeaderTemplate>
+                            <listView:SfListView.FooterSize>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="Android" Value="100"/>
+                                    <On Platform="iOS" Value="100"/>
+                                    <On Platform="WinUI" Value="100"/>
+                                    <On Platform="MacCatalyst" Value="100" />
+                                </OnPlatform>
+                            </listView:SfListView.FooterSize>
+                            <listView:SfListView.FooterTemplate>
+                               
+                                    
+                                <DataTemplate>
+                                    <Grid RowDefinitions="*">
+                                        <Button Text="Request" Margin="0" />
+                                    </Grid>
+                                </DataTemplate>
+                            </listView:SfListView.FooterTemplate>
                             <listView:SfListView.ItemsLayout>
                                 <listView:GridLayout  SpanCount="{x:OnPlatform Default=3, Android=1}"   />
                             </listView:SfListView.ItemsLayout>
@@ -746,7 +795,7 @@
                                 <data:DataSource>
                                     
                                     <data:DataSource.GroupDescriptors>
-                                        <data:GroupDescriptor PropertyName="Owner"/>
+                                        <data:GroupDescriptor PropertyName="FileType"/>
                                     </data:DataSource.GroupDescriptors>
                                     <data:DataSource.SortDescriptors>
                                         <data:SortDescriptor PropertyName="FileName" Direction="Ascending"/>
@@ -757,7 +806,7 @@
                                 <DataTemplate>
                                     <Frame CornerRadius="10" BackgroundColor="Grey">
                                         <StackLayout Spacing="2">
-                                            <Label Text="{Binding Owner, StringFormat='Owner UID: {0}'}" Margin="2"  TextColor="LightGreen" HorizontalOptions="Center" MaxLines="2" />
+                                            <Label Text="{Binding Owner, StringFormat='Owner UID: {0}'}" Margin="2"  TextColor="Black" HorizontalOptions="Center" MaxLines="2" />
 
                                             <Image Source="{Binding DisplayImage}" IsAnimationPlaying="True" HeightRequest="{x:OnPlatform Android=80, Default=50}" WidthRequest="{x:OnPlatform Android=30, Default=80}" Grid.Row="0"/>
 
@@ -765,12 +814,16 @@
 
                                             <Label Text="{Binding CID, StringFormat='CID: {0}'}" FontSize="{x:OnPlatform Android=9, Default=12}" TextDecorations="Underline"  Margin="{x:OnPlatform Android=10, Default=5}" FontAttributes="{x:OnPlatform Android=Bold}" HorizontalOptions="Center" Grid.Row="1" />
                                             <HorizontalStackLayout HorizontalOptions="Center" Spacing="10" Margin="0,20,0,10">
-                                                <Button Text="Copy Cid"  FontSize="10" Clicked="OnCopyButtonClicked" ClassId="{Binding CID}" MaximumWidthRequest="110" >
+                                                <Button Text="Copy CID"  FontSize="10" Clicked="OnCopyButtonClicked" ClassId="{Binding CID}" MaximumWidthRequest="110" >
                                                     <Button.ImageSource>
                                                         <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Content_copy}"  Size="10" />
                                                     </Button.ImageSource>
                                                 </Button>
-                                                <Button  ImageSource="{Binding FileType}"  Text="Preview"  Padding="{x:OnPlatform Default='-10,0,0,0', Android='0,0,0,0'}"  WidthRequest="85" Clicked="Preview" ClassId="{Binding CID}" CommandParameter="{Binding FileName}" IsVisible="{Binding IsPreviewable}"/>
+                                                <Button Text="Copy UID"  FontSize="10" Clicked="OnCopyButtonClicked" ClassId="{Binding Owner}" MaximumWidthRequest="110" >
+                                                    <Button.ImageSource>
+                                                        <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Content_copy}"  Size="10" />
+                                                    </Button.ImageSource>
+                                                </Button>
 
                                             </HorizontalStackLayout>
 
@@ -778,6 +831,21 @@
                                     </Frame>
                                 </DataTemplate>
                             </listView:SfListView.ItemTemplate>
+                            <listView:SfListView.SelectedItemTemplate>
+                                <DataTemplate>
+                                    <Frame CornerRadius="10" BackgroundColor="Khaki">
+
+                                        <StackLayout>
+
+                                            <Image Source="{Binding DisplayImage}" HeightRequest="{x:OnPlatform Android=80, Default=60}" WidthRequest="{x:OnPlatform Android=30, Default=80}" Grid.Row="0"/>
+
+                                            <Label Text="{Binding FileName}"  HorizontalOptions="Center" MaxLines="1" LineBreakMode="TailTruncation" />
+                                            <Label Text="{Binding CID, StringFormat='CID: {0}'}" FontSize="{x:OnPlatform Android=9, Default=12}"  Margin="{x:OnPlatform Android=10}" FontAttributes="{x:OnPlatform Android=Bold}" HorizontalOptions="Center" Grid.Row="1" />
+
+                                        </StackLayout>
+                                    </Frame>
+                                </DataTemplate>
+                            </listView:SfListView.SelectedItemTemplate>
                         </listView:SfListView>
                     </Grid>
                 </StackLayout>

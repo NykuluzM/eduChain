@@ -15,6 +15,11 @@ namespace eduChain.Models
             { ".pdf", "pdf_icon.png" },
             { ".docx", "word_icon.png" },
             { ".mp3", "mp3_icon.png" },
+            { ".jpg", "phototab.png" },
+            { ".jpeg", "phototab.png" },
+            { ".png", "phototab.png" },
+            { ".gif", "phototab.png" },
+            { ".svg", "phototab.png" },
             { ".mp4", "mp4_icon.png" },
             { ".mov", "mov_icon.png" },
             { ".wav", "wav_icon.png" },
@@ -33,17 +38,12 @@ namespace eduChain.Models
         {
             get
             {
-                if (imageTypes.Contains(FileType))
-                {
-                    // Use the ImageGatewayUrl for JPG and PNG
-                    return ImageSource.FromUri(new Uri(ImageGatewayUrl));
-                } else
-                {
-                    string imageResourceName = fileTypeImageMap.ContainsKey(FileType)
+              
+               string imageResourceName = fileTypeImageMap.ContainsKey(FileType)
                                            ? fileTypeImageMap[FileType]
                                            : "dotnet_bot.png"; // Default image if not found
-                    return ImageSource.FromFile(imageResourceName);
-                }
+               return ImageSource.FromFile(imageResourceName);
+                
             }
         }
         [AllowNull]

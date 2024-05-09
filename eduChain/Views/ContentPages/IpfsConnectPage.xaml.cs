@@ -48,19 +48,7 @@ public partial class IpfsConnectPage : ContentPage
            }
         }
     }
-    private async void ToggleMyFiles(object sender, EventArgs e){
-        var s = (Button)sender;
-        if(s.ClassId == "Show"){
-            tabGrid.IsVisible = true;
-            fManagerShow.IsVisible = false;
-            fManagerHide.IsVisible = true;
-        }
-        else{
-            tabGrid.IsVisible = false;
-            fManagerHide.IsVisible = false;
-            fManagerShow.IsVisible = true;  
-        }
-    } 
+   
     private void Filter(object sender, EventArgs e){
     
         searchBar = (SearchBar)sender;
@@ -103,7 +91,8 @@ public partial class IpfsConnectPage : ContentPage
 
         // Check directly against the FileInfo object
         return fileInfo.FileName.ToLower().Contains(searchBar.Text.ToLower()) ||
-           fileInfo.CID.ToLower().Contains(searchBar.Text.ToLower()) || fileInfo.FileType.ToLower().Equals(searchBar.Text.ToLower());
+           fileInfo.CID.ToLower().Contains(searchBar.Text.ToLower()) || fileInfo.FileType.ToLower().Equals(searchBar.Text.ToLower())
+            || fileInfo.Owner.ToLower().Contains(searchBar.Text.ToLower());
     }
     private async void QR_clicked(Object sender,EventArgs e){
 
@@ -248,23 +237,7 @@ public partial class IpfsConnectPage : ContentPage
         }
     }
 
-   private void ToggleSharedFiles(object sender, EventArgs e)
-    {
-        var s = (Button)sender;
-        if(s.ClassId == "Show")
-        {
-            ShowShared.IsVisible = false;
-            HideShared.IsVisible = true;
-            SharedFiles.IsVisible = true;
-            
-        }
-        else
-        {
-            ShowShared.IsVisible = true;
-            HideShared.IsVisible = false;
-            SharedFiles.IsVisible = false;
-        }
-    }
+   
     private void Toggle(object sender, EventArgs e)
     {
         if (sender is Button)

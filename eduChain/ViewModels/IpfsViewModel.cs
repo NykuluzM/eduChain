@@ -107,8 +107,8 @@ public class IpfsViewModel : ViewModelBase
         switch (category)
         {
             case "firstload":
-                Files = new ObservableCollection<FileModel>(await IpfsDatabaseService.Instance.GetAllFilesAsync(UsersProfile.FirebaseId));
-                SharedFiles = new ObservableCollection<FileModel>(await IpfsDatabaseService.Instance.GetAllSharedFiles(UsersProfile.FirebaseId));
+                Files = new ObservableCollection<FileModel>(await IpfsDatabaseService.Instance.GetAllOwnedFilesAsync(UsersProfile.FirebaseId));
+                SharedFiles = new ObservableCollection<FileModel>(await IpfsDatabaseService.Instance.GetAllCreatedFilesAsync(UsersProfile.FirebaseId));
 
                 LastRefreshed = DateTime.Now;
                 CategorizedFile = new ObservableCollection<FileModel>(Files.Where(f => f.FileType == ".jpg" || f.FileType == ".jpeg" || f.FileType == ".png" || f.FileType == ".svg" || f.FileType == ".png" || f.FileType == ".gif"));
