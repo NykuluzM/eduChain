@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
     using eduChain.Models.MyProfileModels;
     using Microsoft.Maui;
     using LukeMauiFilePicker;
+    using System.Collections.ObjectModel;
 
     public class ViewModelBase : INotifyPropertyChanged
 {
@@ -27,6 +28,8 @@ using System.Runtime.CompilerServices;
             SetProperty(ref _usersProfile, value);
         }
     }
+       
+
         public bool hasNavigated { get; set; }
 
         private FlyoutBehavior _flyoutBehavior = FlyoutBehavior.Flyout;
@@ -69,8 +72,8 @@ using System.Runtime.CompilerServices;
       SetProperty(ref _organizationProfile, value);
     }
   }
- 
-    public async Task LoadUsers(string uid){
+    
+        public async Task LoadUsers(string uid){
         UsersProfile = await _myProfileService.LoadUserAsync(uid, UsersProfileModel.Instance);
     }
      

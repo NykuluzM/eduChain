@@ -22,7 +22,7 @@ namespace eduChain.Views.ContentPages{
 		public HomePage()
 		{
 			InitializeComponent();
-			homePageViewModel = new HomePageViewModel();
+            homePageViewModel = HomePageViewModel.Instance;
             BindingContext = homePageViewModel;
 
         }

@@ -32,6 +32,7 @@ using ZXing.QrCode;
 using ZXing.Net.Maui;
 using Pinata.Client.Models;
 using Ipfs;
+using Firebase.Auth;
 
 namespace eduChain.ViewModels;
 
@@ -187,6 +188,27 @@ public class IpfsViewModel : ViewModelBase
         LastRefreshed = DateTime.Now;
         IsRefreshing = false;
         OnPropertyChanged(nameof(IsRefreshing));
+    }
+
+    private List<string> _establishedlist;
+    public List<string> EstablishedList
+    {
+        get { return _establishedlist; }
+        set
+        {
+            _establishedlist = value;
+            OnPropertyChanged(nameof(EstablishedList));
+        }
+    }
+    public async Task LoadEstablishedAffiliationsAsync()
+    {
+        var affiliatedStudents = await AffiliationsDatabaseService.Instance.GetAffiliatedStudentsTo(UsersProfile.FirebaseId);
+        var affiliatedOrganizations = await AffiliationsDatabaseService.Instance.GetAffiliatedOrganizationTo(UsersProfile.FirebaseId);
+
+        var affiliatedStudentIds = affiliatedStudents.Select(student => student.Id).ToList();
+        var affiliatedOrganizationIds = affiliatedOrganizations.Select(org => org.Id).ToList();
+        EstablishedList = new List<string>(affiliatedStudentIds.Concat(affiliatedOrganizationIds));
+
     }
     private ObservableCollection<FileModel> _files = new ObservableCollection<FileModel>();
 

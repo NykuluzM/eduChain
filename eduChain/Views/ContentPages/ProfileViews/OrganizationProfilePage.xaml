@@ -42,7 +42,7 @@
                             <RowDefinition Height="Auto"  />
                         </Grid.RowDefinitions>
                         <StackLayout Grid.Column="0" Grid.Row="0" Orientation="Horizontal" Spacing="10" >
-                            <Button StyleClass="Header" Text="Personal Information" IsEnabled="False">
+                            <Button StyleClass="Header" Text="Organization Information" IsEnabled="False">
                                 <Button.ImageSource>
                                     <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Person_outline}" Size="20" />
                                 </Button.ImageSource>

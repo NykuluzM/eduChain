@@ -33,10 +33,11 @@ public partial class IpfsConnectPage : ContentPage
         MyDocumentsList.SelectionBackground = Colors.Khaki;
         ShowMore(this, null);
     }
-   
-    
+  
+
     private async void InitializeTabs(object sender, EventArgs e){
-        if(firstLoad == true){
+        await ipfsViewModel.LoadEstablishedAffiliationsAsync();
+        if (firstLoad == true){
             firstLoad = false;
            var res = await ipfsViewModel.ChangeCategory("firstload");    
            if(res == false){

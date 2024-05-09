@@ -20,6 +20,20 @@ public class HomePageViewModel : ViewModelBase
             OnPropertyChanged(nameof(IsLoading));
         }
     }
+    private static HomePageViewModel _instance;
+    public static HomePageViewModel Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                return new HomePageViewModel();
+            }
+            return _instance;
+            
+        }
+    }
+
     public async Task InitializeAsync()
     {
         AffiliatedOrganizations = await AffiliationsDatabaseService.Instance.GetAffiliatedOrganizationTo(UsersProfile.FirebaseId);
@@ -31,7 +45,7 @@ public class HomePageViewModel : ViewModelBase
     public HomePageViewModel()
     {
         LogoutCommand = new Command(ExecuteLogout);
-    
+      
     }
        private async void ExecuteLogout()
     {
@@ -97,6 +111,7 @@ public class HomePageViewModel : ViewModelBase
             OnPropertyChanged(nameof(AffiliatedStudents));
         }
     }
+
     private ObservableCollection<AffiliationsModel> _affiliationrequestsstudents;
     public ObservableCollection<AffiliationsModel> AffiliationRequestsStudents
     {
@@ -117,5 +132,4 @@ public class HomePageViewModel : ViewModelBase
             OnPropertyChanged(nameof(AffiliationRequestsOrganizations));
         }
     }
-
 }

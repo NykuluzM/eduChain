@@ -256,7 +256,7 @@
                                                                     <ColumnDefinition Width="*"/>
                                                                     <ColumnDefinition Width="*"/>
                                                                 </Grid.ColumnDefinitions>
-                                                                <ur:TextField  TitleColor="Navy" VerticalOptions="Start" InputBackgroundColor="Wheat" TextColor="Black" Margin="0,18,0,0" Padding="0,3,0,0" Grid.Column="0" MaximumWidthRequest="600" AccentColor="Navy"  Text="{Binding RecieverUid, Mode=TwoWay}"  BorderColor="Navy"  Title="Reciever's UID" />
+                                                            <ur:PickerField Title="Pick a Reciever" ItemsSource="{Binding EstablishedList}" AllowClear="False" Grid.Column="0" TextColor="Black"  BorderColor="Navy" AccentColor="Navy" InputBackgroundColor="Wheat" TitleColor="Navy" Margin="0,18,0,0" Padding="0,3,0,0"/>
                                                                 <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" AllowClear="False" Padding="0,3,0,0" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
                                                                  <Button Text="Generate QR Code" Margin="20" Grid.Column="2" Clicked="QR_clicked" ClassId="PhotosQR" />
                                                         </Grid>  
@@ -362,7 +362,7 @@
                                                                     <ColumnDefinition Width="*"/>
                                                                     <ColumnDefinition Width="*"/>
                                                                 </Grid.ColumnDefinitions>
-                                                            <ur:TextField  TitleColor="Navy" VerticalOptions="Start" InputBackgroundColor="Wheat" TextColor="Black" Margin="0,18,0,0" Padding="0,3,0,0" Grid.Column="0" MaximumWidthRequest="600" AccentColor="Navy"  Text="{Binding RecieverUid, Mode=TwoWay}"  BorderColor="Navy"  Title="Reciever's UID" />
+                                                            <ur:PickerField Title="Pick a Reciever" ItemsSource="{Binding EstablishedList}" AllowClear="False" MaximumWidthRequest="600" Grid.Column="0" TextColor="Black"  BorderColor="Navy" AccentColor="Navy" InputBackgroundColor="Wheat" TitleColor="Navy" Margin="0,18,0,0" Padding="0,3,0,0"/>
                                                             <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" AllowClear="False" Padding="0,3,0,0" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
                                                             <Button Text="Generate QR Code" Margin="20" Grid.Column="2" Clicked="QR_clicked" ClassId="AudioQR" />
                                                         </Grid>  
@@ -465,7 +465,7 @@
                                                                     <ColumnDefinition Width="*"/>
                                                                     <ColumnDefinition Width="*"/>
                                                                 </Grid.ColumnDefinitions>
-                                                            <ur:TextField  TitleColor="Navy" VerticalOptions="Start" InputBackgroundColor="Wheat" TextColor="Black" Margin="0,18,0,0" Padding="0,3,0,0" Grid.Column="0" MaximumWidthRequest="600" AccentColor="Navy"  Text="{Binding RecieverUid, Mode=TwoWay}"  BorderColor="Navy"  Title="Reciever's UID" />
+                                                            <ur:PickerField Title="Pick a Reciever" ItemsSource="{Binding EstablishedList}" AllowClear="False" Grid.Column="0" TextColor="Black" MaximumWidthRequest="600" BorderColor="Navy" AccentColor="Navy" InputBackgroundColor="Wheat" TitleColor="Navy" Margin="0,18,0,0" Padding="0,3,0,0"/>
                                                             <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" AllowClear="False" Padding="0,3,0,0" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
                                                             <Button Text="Generate QR Code" Margin="20" Grid.Column="2" Clicked="QR_clicked" ClassId="VideoQR" />
                                                         </Grid>  
@@ -565,7 +565,7 @@
                                                                     <ColumnDefinition Width="*"/>
                                                                     <ColumnDefinition Width="*"/>
                                                                 </Grid.ColumnDefinitions>
-                                                            <ur:TextField  TitleColor="Navy" VerticalOptions="Start" InputBackgroundColor="Wheat" TextColor="Black" Margin="0,18,0,0" Padding="0,3,0,0" Grid.Column="0" MaximumWidthRequest="600" AccentColor="Navy"  Text="{Binding RecieverUid, Mode=TwoWay}"  BorderColor="Navy"  Title="Reciever's UID" />
+                                                            <ur:PickerField Title="Pick a Reciever" ItemsSource="{Binding EstablishedList}" AllowClear="False" Grid.Column="0" MaximumWidthRequest="600" TextColor="Black"  BorderColor="Navy" AccentColor="Navy" InputBackgroundColor="Wheat" TitleColor="Navy" Margin="0,18,0,0" Padding="0,3,0,0"/>
                                                             <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" AllowClear="False" Padding="0,3,0,0" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
                                                             <Button Text="Generate QR Code" Margin="20" Grid.Column="2" Clicked="QR_clicked" ClassId="DocumentsQR" />
                                                         </Grid>  
@@ -670,7 +670,8 @@
                                                                     <ColumnDefinition Width="*"/>
                                                                     <ColumnDefinition Width="*"/>
                                                                 </Grid.ColumnDefinitions>
-                                                            <ur:TextField  TitleColor="Navy" VerticalOptions="Start" InputBackgroundColor="Wheat" TextColor="Black" Margin="0,18,0,0" Padding="0,3,0,0" Grid.Column="0" MaximumWidthRequest="600" AccentColor="Navy"  Text="{Binding RecieverUid, Mode=TwoWay}"  BorderColor="Navy"  Title="Reciever's UID" />
+                                                            <ur:PickerField Title="Pick a Reciever" ItemsSource="{Binding EstablishedList}" AllowClear="False" MaximumWidthRequest="600" Grid.Column="0" TextColor="Black"  BorderColor="Navy" AccentColor="Navy" InputBackgroundColor="Wheat" TitleColor="Navy" Margin="0,18,0,0" Padding="0,3,0,0"/>
+
                                                             <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" AllowClear="False" Padding="0,3,0,0" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
                                                             <Button Text="Generate QR Code" Margin="20" Grid.Column="2" Clicked="QR_clicked" ClassId="AllQR" />
                                                         </Grid>  
