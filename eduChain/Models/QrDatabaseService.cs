@@ -39,7 +39,7 @@ namespace eduChain.Models
                 await DatabaseManager.OpenConnectionAsync();
                 using (var cmd = DatabaseManager.Connection.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT COUNT(*) FROM ""Qr"" WHERE created_by = @created_by";
+                    cmd.CommandText = @"SELECT id, expiration, name FROM ""Qr"" WHERE created_by = @created_by";
                     cmd.Parameters.AddWithValue("created_by", firebaseid);
                     using (var reader = await cmd.ExecuteReaderAsync())
                     {
@@ -48,7 +48,8 @@ namespace eduChain.Models
                             qrList.Add(new QrModel
                             {
                                 Id = reader.GetInt32(0),
-                                Expiration = reader.GetDateTime(2)
+                                Expiration = reader.GetDateTime(1),
+                                Name = reader.GetString(2)
                             }) ;
                         }
                     }
@@ -58,6 +59,55 @@ namespace eduChain.Models
             {
                 Console.WriteLine(ex.Message);
                 return null;
+            }
+            finally
+            {
+                await DatabaseManager.CloseConnectionAsync();
+            }
+        }
+        public async Task<bool> RemoveExpiredQr()
+        {
+            try
+            {
+                await DatabaseManager.OpenConnectionAsync();
+                using (var cmd = DatabaseManager.Connection.CreateCommand())
+                {
+                    cmd.CommandText = @"DELETE FROM ""Qr"" WHERE expiration < @expiration";
+                    var  r = cmd.Parameters.AddWithValue("expiration", DateTime.Now.Date);
+                    await cmd.ExecuteNonQueryAsync();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+            finally
+            {
+                await DatabaseManager.CloseConnectionAsync();
+            }
+        }
+        public async Task<bool> RemoveQr(ObservableCollection<QrModel> qr)
+        {
+            try
+            {
+                await DatabaseManager.OpenConnectionAsync();
+                foreach (var qrModel in qr)
+                {
+                    using (var cmd = DatabaseManager.Connection.CreateCommand())
+                    {
+                        cmd.CommandText = @"DELETE FROM ""Qr"" WHERE id = @id";
+                        cmd.Parameters.AddWithValue("id", qrModel.Id);
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
             }
             finally
             {

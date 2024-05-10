@@ -324,13 +324,20 @@ public class IpfsDatabaseService
         public async Task<int> QrCodeRegister(DateOnly expiration, string created_by){
             try
             {
+                string result = await Shell.Current.DisplayPromptAsync("QR Tracking Purposes", "What do you want to name this QR Instance?");
+                if(result == null || result == "")
+                {
+                    await Shell.Current.DisplayAlert("Error", "It is Recommended to Provide a Name For Your QR", "OK");
+                    return 0;
+                }
                 await qrRegistrationSemaphore.WaitAsync(); // Wait for access
                 await DatabaseManager.OpenConnectionAsync();
                 using (var cmd = DatabaseManager.Connection.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO ""Qr"" (expiration, created_by) VALUES (@expiration, @created_by) RETURNING id";
+                    cmd.CommandText = @"INSERT INTO ""Qr"" (expiration, created_by, name) VALUES (@expiration, @created_by, @name) RETURNING id";
                     cmd.Parameters.AddWithValue("@expiration", expiration);
                     cmd.Parameters.AddWithValue("@created_by", created_by);
+                    cmd.Parameters.AddWithValue("@name", result);
                     var rowsAffected = await cmd.ExecuteScalarAsync();
                     // Check if any rows were inserted
                     if (rowsAffected != null)

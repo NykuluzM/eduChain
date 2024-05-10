@@ -15,8 +15,8 @@ public partial class QrManagementPage : ContentPage
 	protected override async void OnAppearing()
 	{
         base.OnAppearing();
-		viewModel.QrList = await QrDatabaseService.Instance.GetMyQrList(viewModel.UsersProfile.FirebaseId);
-		if (viewModel.QrList == null || viewModel.QrList.Count == 0)
+		var hasValues = await viewModel.InitializeDataAsync();
+		if (!hasValues)
 		{
 			EmptyLab.IsVisible = true;
 			Qrs.IsVisible = false;

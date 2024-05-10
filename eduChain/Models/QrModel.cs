@@ -10,6 +10,7 @@ namespace eduChain.Models
     {
         public bool IsSelected { get; set; }
         public int Id { get; set; }
+        public string Name { get; set; }
         public DateTime Expiration { get; set; }
     }
 }
