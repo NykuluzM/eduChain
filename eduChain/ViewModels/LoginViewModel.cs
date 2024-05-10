@@ -13,16 +13,10 @@ using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Alerts;
 namespace eduChain.ViewModels
 {
-    public class LoginViewModel : INotifyPropertyChanged
+    public class LoginViewModel : ViewModelBase
     {
 
         private readonly FirebaseAuthClient _firebaseAuthClient;
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         public LoginModel LoginModel { get; set; }
         public ICommand LoginCommand { get; }

@@ -11,7 +11,7 @@ namespace eduChain.Views.ContentPages
             InitializeComponent();
 
             
-            BindingContext = RegisterViewModel.GetInstance();
+            BindingContext = RegisterStudViewModel.GetInstance();
 			
 
         }
@@ -19,7 +19,7 @@ namespace eduChain.Views.ContentPages
         {
             base.OnDisappearing();
             BindingContext = null;	
-            RegisterViewModel.ResetInstance();
+            RegisterStudViewModel.ResetInstance();
         }
     }
 }

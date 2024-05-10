@@ -7,12 +7,12 @@ public partial class RegisterOrgPage : ContentPage
 	public RegisterOrgPage()
 	{
 		InitializeComponent();
-		BindingContext = RegisterViewModel.GetInstance();
+		BindingContext = RegisterStudViewModel.GetInstance();
 	}
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
 		BindingContext = null;
-		RegisterViewModel.ResetInstance();
+		RegisterStudViewModel.ResetInstance();
     }
 }
