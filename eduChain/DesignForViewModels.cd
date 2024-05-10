@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="eduChain.ViewModels.ProfileViewModels.BaseProfileViewModel">
+    <Position X="4.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAACgECAAAEAAAIAAAAAAAAAAAAAACQAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\ProfileViewModels\BaseProfileViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="eduChain.ViewModelBase">
+    <Position X="0.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAACAAAAAAMAoAIAAAACgAESAGAAAAIAAAAAAAA=</HashCode>
+      <FileName>ViewModels\ViewModelBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="eduChain.ViewModels.ProfileViewModels.OrganizationProfileViewModel">
+    <Position X="8.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAgAAAAAAAAAAQAAAABAAAEAAAAAA=</HashCode>
+      <FileName>ViewModels\ProfileViewModels\OrganizationProfileViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="eduChain.StudentProfileViewModel">
+    <Position X="8.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAQAAAAAIAAAAAAAAAAAABAAAEAAAAAA=</HashCode>
+      <FileName>ViewModels\ProfileViewModels\StudentProfileViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="eduChain.AppShellViewModel">
+    <Position X="0.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAABAQAAAAAAAAAABAAAAAQAAAAAAAAIA=</HashCode>
+      <FileName>ViewModels\AppShellViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HomePageViewModel">
+    <Position X="4.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EIAlEABAAASAABAAAAAACACAAAAAgACAQCAACBAAAII=</HashCode>
+      <FileName>ViewModels\HomePageViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="eduChain.ViewModels.IpfsViewModel">
+    <Position X="17.25" Y="0.5" Width="1.5" />
+    <InheritanceLine Type="eduChain.ViewModelBase" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="1.5" Y="1.75" />
+        <Point X="1.5" Y="1.404" />
+        <Point X="17.25" Y="1.404" />
+        <Point X="17.25" Y="1.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>A5AABggEVhHoAACGxAACADCQBEAIE2AgAkkAAABMkLA=</HashCode>
+      <FileName>ViewModels\IpfsViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="eduChain.ViewModels.FormatRegViewModel">
+    <Position X="2.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\FormatRegViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

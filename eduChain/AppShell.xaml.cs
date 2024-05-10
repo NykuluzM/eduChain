@@ -62,8 +62,7 @@ public partial class AppShell : Shell
         } 
         else if(layout == "expanded")
         {
-            ExitFlyout(this, new EventArgs());
-           
+            _viewModel.FlyoutBehaviors = FlyoutBehavior.Flyout;
         }
         else
         {
@@ -202,19 +201,7 @@ public partial class AppShell : Shell
        
     }
 
-    private void AboutDevTapped(object sender, EventArgs e){
-        //Shell.Current.Navigation.PushAsync(new AboutDevPage());
-    }
-    private void AboutDevHover(object sender, EventArgs e){
-    }
-    private void AboutDevHoverOut(object sender, EventArgs e){
-    }
-    private void ExitFlyout(object sender, EventArgs e)
-    {
-        _viewModel.FlyoutBehaviors = FlyoutBehavior.Flyout;
-      
-
-    }
+  
     private void LockFlyout(object sender, EventArgs e)
     {
         _viewModel.FlyoutBehaviors = FlyoutBehavior.Locked;
@@ -223,22 +210,7 @@ public partial class AppShell : Shell
         Unlock.IsVisible = true;
         Collapse.IsVisible = true;
     }
-    protected override void OnNavigating(ShellNavigatingEventArgs args)
-    {
-        base.OnNavigating(args);
-        NavBarHasShadowProperty.Equals(false);
-
-    }
-    protected override void OnNavigatedTo(NavigatedToEventArgs args)
-    {
-        base.OnNavigatedTo(args);
-    }
-    protected override void OnNavigated(ShellNavigatedEventArgs args)
-    {
-        base.OnNavigated(args);
-        NavBarHasShadowProperty.Equals(false);
-
-    }
+ 
 
     private void Collapse_Clicked(object sender, EventArgs e)
     {
@@ -370,17 +342,13 @@ public partial class AppShell : Shell
     {
         navPressed = false;
         //Assumes already that flyout is locked and collapsed to reproduce the layout issues
-        await UpdateVal();
+        Expand_Clicked(this, new EventArgs());
+
         await Task.Delay(50);
         Unlock_Clicked(this, new EventArgs());
         await Task.Delay(50);
 
         LockFlyout(this, new EventArgs());
-    }
-    private async Task UpdateVal()
-    {
-        Expand_Clicked(this, new EventArgs());
-
     }
    
     private  void Unlock_Clicked(object sender, EventArgs e)

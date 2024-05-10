@@ -26,13 +26,8 @@
     <Shell.FlyoutHeader>
         <VerticalStackLayout BackgroundColor="Transparent">
             <Border BackgroundColor="#195a7a">
-                    <Button StyleClass="Filled"  Text="eduChain"  FontSize="10" FontAttributes="Bold" TextColor="Black" HeightRequest="{x:OnPlatform Android=55}" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
-                        <Button.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="AboutDevTapped"/>
-                            <PointerGestureRecognizer PointerEntered="AboutDevHover" /> 
-                            <PointerGestureRecognizer PointerExited="AboutDevHoverOut" /> 
-                        </Button.GestureRecognizers>                    
-                    </Button>
+                <Button StyleClass="Filled"  Text="eduChain"  FontSize="10" FontAttributes="Bold" TextColor="Black" HeightRequest="{x:OnPlatform Android=55}" HorizontalOptions="FillAndExpand" VerticalOptions="Center"/>
+
             </Border>
             
             <Border x:Name="pTap" Margin="{x:OnPlatform Default='0,0,0,5', MacCatalyst='0,0,0,5'}">

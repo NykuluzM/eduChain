@@ -23,7 +23,6 @@ namespace eduChain.ViewModels
 
 
 
-        public ICommand TrialCommand { get; }
         public ICommand RegisterCommand { get; }
     
         public static RegisterStudViewModel GetInstance()
@@ -50,36 +49,12 @@ namespace eduChain.ViewModels
                     };
             var firebaseService = FirebaseService.GetInstance();
             firebaseAuthClient = firebaseService.GetFirebaseAuthClient();
-            TrialCommand = new Command(async () => await Trial());
             RegisterCommand = new Command(async () => await Register());
         }
 
 
 
-        public async Task Trial()
-        {
-            try
-            {
-                await DatabaseManager.OpenConnectionAsync(); // Open the database connection
-
-                // Use the connection for queries, inserts, updates, etc.
-                using (var command = DatabaseManager.Connection.CreateCommand())
-                {
-                    command.CommandText = "SELECT COUNT(*) FROM \"Users\"";
-                    var result = command.ExecuteScalar(); // ExecuteScalar to get a single value
-
-                    await Shell.Current.DisplayAlert("Users Count", $"There are {result} users", "OK");
-                }
-            }
-            catch (Exception ex)
-            {
-                await Shell.Current.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
-            }
-            finally
-            {
-                await DatabaseManager.CloseConnectionAsync(); // Close the database connection
-            }
-        }
+       
 
         private string _displayName = string.Empty;
         public string DisplayName
