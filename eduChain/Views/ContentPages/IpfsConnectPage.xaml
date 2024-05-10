@@ -13,6 +13,7 @@
              xmlns:cv="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
              xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
              xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
+             xmlns:picker="clr-namespace:Syncfusion.Maui.Picker;assembly=Syncfusion.Maui.Picker"
              Title="{x:OnPlatform MacCatalyst='IPFS Center'}"
              Shell.BackgroundColor="{x:OnPlatform Default='PapayaWhip'}"
                 Shell.ForegroundColor="Purple"
@@ -173,7 +174,7 @@
                             </ur:TextField.Attachments>
 
                         </ur:TextField>
-                        <Button Margin="{x:OnPlatform Default='25,0,25,20', WinUI='250,30,250,30'}" MaximumWidthRequest="300"  Clicked="UploadClicked" Text="Upload"/>
+                        <Button Margin="0,0,0,20" MaximumWidthRequest="300"  Clicked="UploadClicked" WidthRequest="300" Text="Upload"/>
 
 
                     </StackLayout>
@@ -250,14 +251,15 @@
                                                 </listView:SfListView.FooterSize>
                                                 <listView:SfListView.FooterTemplate>
                                                     <DataTemplate>
-                                                       <Grid HeightRequest="100">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                </Grid.ColumnDefinitions>
-                                                            <ur:PickerField Title="Pick a Reciever" ItemsSource="{Binding EstablishedList}" AllowClear="False" Grid.Column="0" TextColor="Black"  BorderColor="Navy" AccentColor="Navy" InputBackgroundColor="Wheat" TitleColor="Navy" Margin="0,18,0,0" Padding="0,3,0,0"/>
-                                                                <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" AllowClear="False" Padding="0,3,0,0" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
+                                                        <Grid HeightRequest="100" ColumnSpacing="10">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Picker SelectedItem="{Binding RecieverUid, Mode=TwoWay}" WidthRequest="267"  HeightRequest="60" Title="Pick a Reciever" ItemsSource="{Binding EstablishedList}" Grid.Column="0" TextColor="Navy" Margin="0,0,0,18"   TitleColor="Navy">
+                                                            </Picker>
+                                                            <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" AllowClear="False" Padding="0,3,0,0" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
                                                                  <Button Text="Generate QR Code" Margin="20" Grid.Column="2" Clicked="QR_clicked" ClassId="PhotosQR" />
                                                         </Grid>  
                                                        
@@ -356,13 +358,14 @@
                                                 </listView:SfListView.FooterSize>
                                                 <listView:SfListView.FooterTemplate>
                                                     <DataTemplate>
-                                                             <Grid HeightRequest="100">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                </Grid.ColumnDefinitions>
-                                                            <ur:PickerField Title="Pick a Reciever" ItemsSource="{Binding EstablishedList}" AllowClear="False" MaximumWidthRequest="600" Grid.Column="0" TextColor="Black"  BorderColor="Navy" AccentColor="Navy" InputBackgroundColor="Wheat" TitleColor="Navy" Margin="0,18,0,0" Padding="0,3,0,0"/>
+                                                        <Grid HeightRequest="100" ColumnSpacing="10">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Picker SelectedItem="{Binding RecieverUid, Mode=TwoWay}" WidthRequest="267"  HeightRequest="60" Title="Pick a Reciever" ItemsSource="{Binding EstablishedList}" Grid.Column="0" TextColor="Navy" Margin="0,0,0,18"   TitleColor="Navy">
+                                                            </Picker>
                                                             <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" AllowClear="False" Padding="0,3,0,0" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
                                                             <Button Text="Generate QR Code" Margin="20" Grid.Column="2" Clicked="QR_clicked" ClassId="AudioQR" />
                                                         </Grid>  
@@ -459,15 +462,16 @@
                                                 </listView:SfListView.FooterSize>
                                                 <listView:SfListView.FooterTemplate>
                                                     <DataTemplate>
-                                                            <Grid HeightRequest="100">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                </Grid.ColumnDefinitions>
-                                                            <ur:PickerField Title="Pick a Reciever" ItemsSource="{Binding EstablishedList}" AllowClear="False" Grid.Column="0" TextColor="Black" MaximumWidthRequest="600" BorderColor="Navy" AccentColor="Navy" InputBackgroundColor="Wheat" TitleColor="Navy" Margin="0,18,0,0" Padding="0,3,0,0"/>
+                                                        <Grid HeightRequest="100" ColumnSpacing="10">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Picker SelectedItem="{Binding RecieverUid, Mode=TwoWay}" WidthRequest="267"  HeightRequest="60" Title="Pick a Reciever" ItemsSource="{Binding EstablishedList}" Grid.Column="0" TextColor="Navy" Margin="0,0,0,18"   TitleColor="Navy">
+                                                            </Picker>
                                                             <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" AllowClear="False" Padding="0,3,0,0" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
-                                                            <Button Text="Generate QR Code" Margin="20" Grid.Column="2" Clicked="QR_clicked" ClassId="VideoQR" />
+                                                            <Button Text="Generate QR Code" Margin="20" Grid.Column="2" Clicked="QR_clicked" ClassId="VideosQR" />
                                                         </Grid>  
 
                                                     </DataTemplate>
@@ -559,14 +563,17 @@
                                                 </listView:SfListView.FooterSize>
                                                 <listView:SfListView.FooterTemplate>
                                                     <DataTemplate>
-                                                           <Grid HeightRequest="100">
+                                                            <Grid HeightRequest="100" ColumnSpacing="10">
                                                                 <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="*"/>
+                                                                    <ColumnDefinition Width="Auto"/>
                                                                     <ColumnDefinition Width="*"/>
                                                                     <ColumnDefinition Width="*"/>
                                                                 </Grid.ColumnDefinitions>
-                                                            <ur:PickerField Title="Pick a Reciever" ItemsSource="{Binding EstablishedList}" AllowClear="False" Grid.Column="0" MaximumWidthRequest="600" TextColor="Black"  BorderColor="Navy" AccentColor="Navy" InputBackgroundColor="Wheat" TitleColor="Navy" Margin="0,18,0,0" Padding="0,3,0,0"/>
-                                                            <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" AllowClear="False" Padding="0,3,0,0" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
+                                                                <Picker SelectedItem="{Binding RecieverUid, Mode=TwoWay}" WidthRequest="267"  HeightRequest="60" Title="Pick a Reciever" ItemsSource="{Binding EstablishedList}" Grid.Column="0" TextColor="Navy" Margin="0,0,0,18"   TitleColor="Navy">
+
+
+                                                                </Picker>
+                                                                <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" AllowClear="False" Padding="0,3,0,0" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
                                                             <Button Text="Generate QR Code" Margin="20" Grid.Column="2" Clicked="QR_clicked" ClassId="DocumentsQR" />
                                                         </Grid>  
 
@@ -664,15 +671,17 @@
                                                 </listView:SfListView.FooterSize>
                                                 <listView:SfListView.FooterTemplate>
                                                     <DataTemplate>
-                                                            <Grid HeightRequest="100">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                </Grid.ColumnDefinitions>
-                                                            <ur:PickerField Title="Pick a Reciever" ItemsSource="{Binding EstablishedList}" AllowClear="False" MaximumWidthRequest="600" Grid.Column="0" TextColor="Black"  BorderColor="Navy" AccentColor="Navy" InputBackgroundColor="Wheat" TitleColor="Navy" Margin="0,18,0,0" Padding="0,3,0,0"/>
-
-                                                            <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" AllowClear="False" Padding="0,3,0,0" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}" />
+                                                        <Grid HeightRequest="100" ColumnSpacing="10">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Picker SelectedItem="{Binding RecieverUid, Mode=TwoWay}" WidthRequest="267"  HeightRequest="60" Title="Pick a Reciever" ItemsSource="{Binding EstablishedList}" Grid.Column="0" TextColor="Navy" Margin="0,0,0,18"   TitleColor="Navy">
+                                                               
+                                                               
+                                                            </Picker>
+                                                            <ur:DatePickerField Title="Expiration Date" TitleColor="Navy" Margin="0,18,0,0" Date="{Binding Expiration, Mode=TwoWay}" AllowClear="False" Padding="0,3,0,0" Grid.Column="1" WidthRequest="250" AccentColor="Navy" BorderColor="Navy" InputBackgroundColor="Wheat" TextColor="Navy"   Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Calendar_month}, Color=Navy}"/>
                                                             <Button Text="Generate QR Code" Margin="20" Grid.Column="2" Clicked="QR_clicked" ClassId="AllQR" />
                                                         </Grid>  
 

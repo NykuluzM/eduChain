@@ -136,7 +136,7 @@ public partial class IpfsConnectPage : ContentPage
             await DisplayAlert("Invalid Date", "Please select a date in the future or current date", "OK");
             return;
         }
-        var rowId = await IpfsDatabaseService.Instance.QrCodeRegister(expirationdate);
+        var rowId = await IpfsDatabaseService.Instance.QrCodeRegister(expirationdate, ipfsViewModel.UsersProfile.FirebaseId);
         if(rowId == 0){
             return;
         }
@@ -163,16 +163,18 @@ public partial class IpfsConnectPage : ContentPage
         }
 
         parent?.SelectedItems?.Clear();
-        ipfsViewModel.RecieverUid = string.Empty;
     }
     private async void TabChange(object sender, TabSelectionChangedEventArgs e){
         ShowLessFiles.IsVisible = false;
         ShowMoreFiles.IsVisible = true;
         var selectedItem = e.NewIndex;
         var hasValues = false;
+        await ipfsViewModel.LoadEstablishedAffiliationsAsync();
+
         var isAll = false;
         switch (selectedItem)
         {
+
             case 0:
                 isAll = false;
                 hasValues = await ipfsViewModel.ChangeCategory("Photos");

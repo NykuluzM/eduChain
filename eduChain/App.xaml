@@ -13,7 +13,11 @@
                 <material:StyleResource ColorsOverride="{x:Reference appColors}" BasedOn="{x:Reference appStyles}" />
                 
             </ResourceDictionary.MergedDictionaries>
-
+            <OnPlatform x:Key="FontAwesomeRegular" x:TypeArguments="x:String">
+                <On Platform="Android" Value="fontawesome.ttf#FontAwesomeRegular" />
+                <On Platform="iOS" Value="FontAwesome" />
+                <On Platform="UWP" Value="/Assets/fontawesome.ttf#FontAwesome" />
+            </OnPlatform>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ur="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
+             xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
+             xmlns:local="clr-namespace:eduChain.ViewModels;assembly=eduChain"
+             xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
+             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+
+             x:Class="eduChain.Views.ContentPages.RegisterStudPage"             
+             Title=""
+             Shell.NavBarIsVisible="True"
+              Shell.BackgroundColor="AntiqueWhite"
+ BackgroundColor="AntiqueWhite">
+    <Grid >
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <!-- Automatically sized row -->
+                <RowDefinition Height="*" />
+                <!-- Fill remaining space -->
+            </Grid.RowDefinitions>
+            <!-- Content goes here -->
+            <ScrollView Grid.Row="1">
+                <StackLayout VerticalOptions="Center">
+                    <!-- Your form elements, buttons, etc. -->
+                    <Image Source="chibi.png" WidthRequest="150" HeightRequest="150"/>
+                    <Label Text="Help us out identify you" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    <input:FormView Spacing="20" MaximumWidthRequest="750" HorizontalOptions="Center">
+                        <input:FormView MaximumWidthRequest="800" Margin="15,15,15,0" MinimumWidthRequest="250">
+                            <ur:TextField Title="Display Name" BorderColor="Black" TitleColor="Black" TextColor="Black" Text="{Binding DisplayName}" MinimumWidthRequest="250" 
+                                Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Person}}">
+                                <validation:RequiredValidation />
+                                <validation:MinLengthValidation MinLength="6" Message="Minimum length is 6"/>
+                                <validation:MaxLengthValidation MaxLength="20" Message="Maximum length is 20"/>
+                                <validation:RegexValidation Pattern="^(?:[A-Za-z][A-Za-z0-9]*|)$" Message="Display Name must start with a letter and only have letters and numbers."/>
+                            </ur:TextField>
+                        </input:FormView>
+
+                        <toolkit:UniformItemsLayout MaxColumns="2" Padding="5" MaximumWidthRequest="1000">
+                            <input:FormView Padding="15,15,15,0" MaximumWidthRequest="700" MinimumWidthRequest="250">
+                                <ur:TextField Title="First Name" BorderColor="Black" TitleColor="Black" TextColor="Black" Text="{Binding FirstName}" MinimumWidthRequest="250" 
+                                    Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Face}}">
+                                    <validation:RequiredValidation />
+                                    <validation:RegexValidation Pattern="^(?:[ A-Z\d][a-z\d]*(?:\s*[A-Z\d][a-z\d]*)*|)$" Message="Capitalize first letter of each name" />
+                                    <validation:RegexValidation Pattern="^(?![ ])[A-Za-z ]*$" Message="Symbols and number are not allowed" />
+                                </ur:TextField>
+                            </input:FormView>
+
+                            <input:FormView Padding="15,15,15,0" MaximumWidthRequest="700">
+                                <ur:TextField Title="Last Name" BorderColor="Black" TitleColor="Black" TextColor="Black" Text="{Binding LastName}"   MinimumWidthRequest="250"
+                                    Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Group}}">
+                                    <validation:RequiredValidation />
+                                    <validation:RegexValidation Pattern="^(?:[A-Z][a-z]*|)$"  Message="Capitalize first letter, only letters" />
+                                </ur:TextField>
+                            </input:FormView>
+                        </toolkit:UniformItemsLayout>
+
+                        <toolkit:UniformItemsLayout MaxColumns="2" Padding="5" MaximumWidthRequest="1000">
+                            <input:FormView Padding="15,0,15,15" MaximumWidthRequest="700" MinimumWidthRequest="250">
+                                <ur:PickerField Title="Gender" ItemsSource="{Binding GenderOptions}" SelectedItem="{Binding Gender}" BorderColor="Black" TitleColor="Black" TextColor="Black" 
+                            MinimumWidthRequest="250"  Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Expand_circle_down}}">
+                                    <validation:RequiredValidation />
+                                </ur:PickerField>
+                            </input:FormView>
+
+                            <input:FormView Padding="15,0,15,15" MaximumWidthRequest="700">
+                                <ur:DatePickerField Title="Birth Date"   BorderColor="Black" TitleColor="Black" TextColor="Black" AllowClear="False" MinimumWidthRequest="250"
+                                    Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Alarm}}" Date="{Binding BirthDate}">
+                                    <validation:RequiredValidation />
+                                    <validation:MaxValueValidation MaxValue="1/1/2020" Message="Age must be 4 Minimum" />
+                                </ur:DatePickerField>
+                            </input:FormView>
+                        </toolkit:UniformItemsLayout>
+
+                        <StackLayout Spacing="25">
+                            <ur:TextField Title="Email" BorderColor="Black" TitleColor="Black" TextColor="Black" Text="{Binding Email}" 
+                            Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Email}}">
+
+                                <validation:RequiredValidation />
+                                <validation:RegexValidation Pattern="^(?:\s*|(?:[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}))$" Message="Email must be valid" />
+                            </ur:TextField>
+                            <ur:TextField Title="Password" BorderColor="Black" TitleColor="Black" TextColor="Black" IsPassword="True" Text="{Binding Password, Mode=TwoWay}"
+                            Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Password}}">
+
+                                <validation:RequiredValidation />
+                                <validation:MinLengthValidation MinLength="6" Message="Password must be at least 6 characters long."/>
+                                <validation:RegexValidation Pattern="^(?:[A-Za-z][A-Za-z0-9_*#]*(?:_[A-Za-z0-9_*#]+)*)?$" Message="Password must start with a letter and can contain letters, numbers, underscores, asterisks, and hash symbols."/>
+                                <ur:TextField.Attachments>
+                                    <ur:TextFieldPasswordShowHideAttachment />
+                                </ur:TextField.Attachments>
+                            </ur:TextField>
+                            <ur:TextField Title="Confirm Password" BorderColor="Black" TitleColor="Black" TextColor="Black" IsPassword="True"
+                            Icon="{FontImageSource FontFamily=MaterialRegular, Glyph={x:Static m:MaterialRegular.Password}}" Margin="0,0,0,50">
+
+                                <ur:TextField.Validations>
+                                    <local:ConfirmPasswordValidation />
+                                    <validation:RequiredValidation />
+                                </ur:TextField.Validations>
+
+                                <ur:TextField.Attachments>
+                                    <ur:TextFieldPasswordShowHideAttachment />
+                                </ur:TextField.Attachments>
+                            </ur:TextField>
+
+                            <Button 
+                                StyleClass="FilledButton"
+                                Text="Register"
+                                WidthRequest="200" 
+                                BackgroundColor="PaleVioletRed" 
+                                TextColor="Black" 
+                                Command = "{Binding RegisterCommand}"
+                                />
+
+                        </StackLayout>
+                    </input:FormView>
+                </StackLayout>
+            </ScrollView>
+        </Grid>
+    </Grid>
+</ContentPage>

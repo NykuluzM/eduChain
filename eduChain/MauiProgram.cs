@@ -62,7 +62,7 @@ namespace eduChain
 			builder.Services.AddSingleton(AudioManager.Current);
 			builder.Services.AddSingleton<StudentProfileModel>();
 			builder.Services.AddTransient<InitializingPage>();
-			builder.Services.AddTransient<RegisterPage>();
+			builder.Services.AddTransient<RegisterStudPage>();
 			builder.Services.AddTransient<StudentProfilePage>();
 			builder.Services.AddCommunityToolkitDialogs();
 			builder.Services.AddMopupsDialogs();

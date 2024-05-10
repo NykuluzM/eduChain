@@ -50,7 +50,7 @@ public partial class LoginPage : ContentPage
             if(result == "Student")
             {
                 Preferences.Set("Role", "Student");
-                var registerPage = new RegisterPage();
+                var registerPage = new RegisterStudPage();
                 await Shell.Current.Navigation.PushAsync(registerPage);
             }
             else if(result == "Organization")

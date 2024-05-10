@@ -20,7 +20,7 @@ public partial class AppShell : Shell
     public AppShell()
     {
         InitializeComponent();
-        Routing.RegisterRoute(Routes.RegisterPage, typeof(RegisterPage));
+        Routing.RegisterRoute(Routes.RegisterStudPage, typeof(RegisterStudPage));
 
         Routing.RegisterRoute("forgotPasswordPage", typeof(ForgotPasswordPage));
         _viewModel = new AppShellViewModel();
@@ -152,33 +152,7 @@ public partial class AppShell : Shell
 
                 }
                 break;
-            case "Guardian":
-                repeat = false;
-                if (Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.Android || Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.iOS)
-                {
-                    await Shell.Current.Navigation.PushModalAsync(new GuardianProfilePage(), false)
-                      .ContinueWith(async task =>
-                      {
-                          // Ensure navigation succeeded (Handle errors if needed) 
-                          if (task.IsCompletedSuccessfully)
-                          {
-                              await Task.Delay(500); // Delay of 500 milliseconds (adjust as needed)
-                              pTap.IsEnabled = true;
-                              fly1.IsEnabled = true;
-                              fly2.IsEnabled = true;
-                              fly3.IsEnabled = true;
-
-                          }
-                          repeat = true;
-                      });
-                }
-                else
-                {
-                    await Shell.Current.Navigation.PushAsync(new GuardianProfilePage(), false);
-                    repeat = true;
-
-                }
-                break;
+           
         }
 
     }

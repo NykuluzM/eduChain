@@ -190,8 +190,8 @@ public class IpfsViewModel : ViewModelBase
         OnPropertyChanged(nameof(IsRefreshing));
     }
 
-    private List<string> _establishedlist;
-    public List<string> EstablishedList
+    private ObservableCollection<string> _establishedlist;
+    public ObservableCollection<string> EstablishedList
     {
         get { return _establishedlist; }
         set
@@ -207,8 +207,8 @@ public class IpfsViewModel : ViewModelBase
 
         var affiliatedStudentIds = affiliatedStudents.Select(student => student.Id).ToList();
         var affiliatedOrganizationIds = affiliatedOrganizations.Select(org => org.Id).ToList();
-        EstablishedList = new List<string>(affiliatedStudentIds.Concat(affiliatedOrganizationIds));
 
+        EstablishedList = new ObservableCollection<string>(affiliatedStudentIds.Concat(affiliatedOrganizationIds));
     }
     private ObservableCollection<FileModel> _files = new ObservableCollection<FileModel>();
 
@@ -369,8 +369,7 @@ public class IpfsViewModel : ViewModelBase
                 OnPropertyChanged(nameof(Cid));
                 break;
             case "fileforuploadclear":
-                Cid[1] = "";
-                OnPropertyChanged(nameof(Cid));
+                
                 FileInfo[1] = null;
                 OnPropertyChanged(nameof(FileInfo));
                 break;
@@ -459,6 +458,7 @@ public class IpfsViewModel : ViewModelBase
             OnPropertyChanged(nameof(RecieverUid));
         }
     }
+   
 
     private IPickFile[] _fileInfo = new IPickFile[2];
     public IPickFile[] FileInfo

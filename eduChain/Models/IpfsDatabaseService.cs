@@ -321,18 +321,19 @@ public class IpfsDatabaseService
         }
         private readonly SemaphoreSlim qrRegistrationSemaphore = new SemaphoreSlim(1);
 
-        public async Task<int> QrCodeRegister(DateOnly expiration){
+        public async Task<int> QrCodeRegister(DateOnly expiration, string created_by){
             try
             {
                 await qrRegistrationSemaphore.WaitAsync(); // Wait for access
                 await DatabaseManager.OpenConnectionAsync();
                 using (var cmd = DatabaseManager.Connection.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO ""Qr"" (expiration) VALUES (@expiration) RETURNING id";
+                    cmd.CommandText = @"INSERT INTO ""Qr"" (expiration, created_by) VALUES (@expiration, @created_by) RETURNING id";
                     cmd.Parameters.AddWithValue("@expiration", expiration);
-                    var rowsAffected = await cmd.ExecuteNonQueryAsync();
+                    cmd.Parameters.AddWithValue("@created_by", created_by);
+                    var rowsAffected = await cmd.ExecuteScalarAsync();
                     // Check if any rows were inserted
-                    if (rowsAffected > 0)
+                    if (rowsAffected != null)
                     {
                         var insertedId = Convert.ToInt32(rowsAffected); // Get the first ID from OUTPUT
                         return insertedId;

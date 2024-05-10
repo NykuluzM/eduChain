@@ -128,11 +128,11 @@
         Route="loginPage" />
 
 	
-    <FlyoutItem   FlyoutDisplayOptions="AsMultipleItems">
+    <FlyoutItem Title="Home"   FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent
              x:Name="fly1"
             
-            Title="Home"
+            Title="Affiliations"
             FlyoutIcon="homelogo.png"
             FlyoutItemIsVisible="True"
             Icon="homelogo.png"
@@ -147,7 +147,19 @@
             Shell.NavBarHasShadow="false"
        
             Route="homePage" />
-        
+        <ShellContent
+            Title="QR Management"
+            FlyoutItemIsVisible="False"
+            Icon="qriconlogo.png"
+            Shell.NavBarIsVisible="{x:OnPlatform Android=True, iOS=True, MacCatalyst=True, WinUI=False}"
+            Shell.FlyoutBehavior="{Binding FlyoutBehaviors}"
+            Shell.TabBarBackgroundColor="#FFFACD"
+            Shell.TabBarForegroundColor="DarkSeaGreen"
+            Shell.TabBarUnselectedColor="Black"
+            Shell.TabBarTitleColor="Green"
+            ContentTemplate="{DataTemplate pages:QrManagementPage}"
+            Route="aboutPage" />
+
     </FlyoutItem>
 
 

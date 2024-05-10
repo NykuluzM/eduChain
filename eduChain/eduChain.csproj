@@ -98,6 +98,7 @@
 		<PackageReference Include="Syncfusion.Maui.DataGrid" Version="25.2.3" />
 		<PackageReference Include="Syncfusion.Maui.ListView" Version="25.2.3" />
 		<PackageReference Include="Syncfusion.Maui.PdfViewer" Version="25.2.3" />
+		<PackageReference Include="Syncfusion.Maui.Picker" Version="25.2.3" />
 		<PackageReference Include="Syncfusion.Maui.PullToRefresh" Version="25.2.3" />
 		<PackageReference Include="Syncfusion.Maui.TabView" Version="25.2.3" />
 		<PackageReference Include="UraniumUI" Version="2.8.1" />
@@ -127,8 +128,8 @@
 	  <Compile Update="Views/ContentPages/StudentProfilePage.xaml.cs">
 	    <DependentUpon>StudentProfilePage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views/ContentPages/RegisterPage.xaml.cs">
-	    <DependentUpon>RegisterPage.xaml</DependentUpon>
+	  <Compile Update="Views\ContentPages\RegisterStudPage.xaml.cs">
+	    <DependentUpon>RegisterStudPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views/ContentPages/WebConnectPage.xaml.cs">
 	    <DependentUpon>WebConnectPage.xaml</DependentUpon>
@@ -138,6 +139,9 @@
 	  </Compile>
 	</ItemGroup>
 	<ItemGroup>
+	  <MauiXaml Update="Views\ContentPages\QrManagementPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\ContentViews\NewContent1.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

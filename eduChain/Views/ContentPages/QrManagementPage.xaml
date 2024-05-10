@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="eduChain.Views.ContentPages.QrManagementPage"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             Title="QrManagementPage"
+              Background="#195a7a"
+ Shell.BackgroundColor="#195a7a">
+    <ScrollView>
+        <Grid Margin="40" RowDefinitions="*,*" ColumnDefinitions="*,*">
+            <StackLayout WidthRequest="800" HeightRequest="500" Grid.ColumnSpan="2">
+                <Label x:Name="EmptyLab" IsVisible="False" Text="You have No QR Code Active" Grid.ColumnSpan="2" HorizontalOptions="Center" FontSize="Header" />
+                <Frame x:Name="Qrs" Margin="50" WidthRequest="600"  CornerRadius="20">
+                    <StackLayout>
+                        <Label x:Name="Header" Text="QrCodes" Grid.Row="0" VerticalOptions="Start" Grid.ColumnSpan="2" StyleClass="Header" TextColor="Wheat"  TextDecorations="Underline" FontSize="Large" HorizontalOptions="Center" />
+                        <syncfusion:SfDataGrid ItemsSource="{Binding QrList}">
+                            <syncfusion:SfDataGrid.DefaultStyle>
+                                <syncfusion:DataGridStyle SelectionBackground="AliceBlue" />
+
+                            </syncfusion:SfDataGrid.DefaultStyle>
+                            <syncfusion:SfDataGrid.StackedHeaderRows>
+                                <syncfusion:DataGridStackedHeaderRow>
+                                    <syncfusion:DataGridStackedHeaderRow.Columns>
+                                        <syncfusion:DataGridStackedColumn ColumnMappingNames="IsSelected,Id,Expiration" Text="Qr Details"/>
+                                    </syncfusion:DataGridStackedHeaderRow.Columns>
+                                </syncfusion:DataGridStackedHeaderRow>
+                            </syncfusion:SfDataGrid.StackedHeaderRows>
+                            <syncfusion:SfDataGrid.Columns>
+                                <syncfusion:DataGridTemplateColumn MappingName="IsSelected" HeaderText="Select">
+                                    <syncfusion:DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <buttons:SfCheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" CheckedColor="Green"/>
+                                        </DataTemplate>
+                                    </syncfusion:DataGridTemplateColumn.CellTemplate>
+                                </syncfusion:DataGridTemplateColumn>
+
+                                <syncfusion:DataGridTextColumn MappingName="Id" HeaderText="UID" AllowSorting="True" />
+                                <syncfusion:DataGridDateColumn MappingName="Expiration" HeaderText="Date Joined" AllowSorting="True"/>
+                            </syncfusion:SfDataGrid.Columns>
+                        </syncfusion:SfDataGrid>
+                    </StackLayout>
+                    
+                </Frame>
+            </StackLayout>
+           
+        </Grid>
+        
+    </ScrollView>
+</ContentPage>
