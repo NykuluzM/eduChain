@@ -15,6 +15,7 @@
              x:Class="eduChain.Views.ContentPages.OrganizationProfilePage"
 			 xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
                 Shell.BackgroundColor="#195a7a" 
+              Background="#195a7a"
                 Shell.TabBarIsVisible="False"           
              Shell.FlyoutBehavior="Disabled"
             Shell.NavBarIsVisible="False">
