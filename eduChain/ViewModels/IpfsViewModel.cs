@@ -46,7 +46,6 @@ public class IpfsViewModel : ViewModelBase
     public DateTime LastRefreshed { get; set; } = DateTime.Now;
     public string CurrentCategory { get; set; } = "firstload";
     public ICommand ClearCommand { get; }
-    public ICommand DownloadCommand { get; }
     public ICommand FileCommand { get; }
     public ICommand VerifyCommand { get; }
     public ICommand CheckCommand { get; }
@@ -92,7 +91,6 @@ public class IpfsViewModel : ViewModelBase
         pinataClient = new PinataClient(config);
         OnPropertyChanged(nameof(FileInfo));
         
-        DownloadCommand = new Command(async () => await DownloadFileByCid(this.Cid[1]));
         VerifyCommand = new Command(async () => await VerifyFile());
         FileCommand = new Command<string>(async (fileId) => await PickFile(fileId));
         ClearCommand = new Command<string>(async (callerId) => await Clear(callerId));

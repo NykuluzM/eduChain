@@ -1,78 +1,78 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="eduChain.AppShell">
-    <Position X="0.75" Y="6" Width="1.5" />
+    <Position X="0.75" Y="6.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEAAAAAAAIAQCAAYAAAAAAABAkAAAwAIAABIAAAAAAA=</HashCode>
       <FileName>AppShell.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="eduChain.Views.ContentPages.LoginPage">
-    <Position X="3.75" Y="10.5" Width="1.5" />
+    <Position X="4.75" Y="6" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>IAAQAAAAAAAAAAAAAIAAAAAAAABAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Views\ContentPages\LoginPage.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="eduChain.Views.ContentPages.RegisterStudPage">
-    <Position X="2.75" Y="2" Width="1.5" />
+    <Position X="4.75" Y="7.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Views\ContentPages\RegisterStudPage.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="eduChain.Views.ContentPages.RegisterOrgPage">
-    <Position X="5" Y="2" Width="1.5" />
+    <Position X="4.75" Y="9.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Views\ContentPages\RegisterOrgPage.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="eduChain.Views.ContentPages.WebConnectPage">
-    <Position X="12" Y="1.75" Width="1.5" />
+    <Position X="6.75" Y="9.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAgAAAAAAAAAAAQAAQAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Views\ContentPages\WebConnectPage.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="eduChain.Views.ContentPages.IpfsConnectPage">
-    <Position X="16" Y="10.25" Width="1.5" />
+    <Position X="6.75" Y="11.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAAQEAAEAAAAAAQAQAABAAAiBAAABAAAAQBEAAgKAA=</HashCode>
       <FileName>Views\ContentPages\IpfsConnectPage.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="eduChain.Views.ContentPages.HomePage">
-    <Position X="7.75" Y="4.5" Width="1.5" />
+    <Position X="6.75" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACkAAAAIiAEDAAAAAABAAIAAAAAAAAAAAAAQAAAAA=</HashCode>
       <FileName>Views\ContentPages\HomePage.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="eduChain.Views.ContentPages.QrManagementPage">
-    <Position X="8" Y="1.75" Width="1.5" />
+    <Position X="8.75" Y="6" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAgAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Views\ContentPages\QrManagementPage.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="eduChain.Views.ContentPages.SettingsPage">
-    <Position X="14.75" Y="2" Width="1.5" />
+    <Position X="8.75" Y="9.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
       <FileName>Views\ContentPages\SettingsPage.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="eduChain.Views.ContentPages.OrganizationProfilePage">
-    <Position X="9.25" Y="10.25" Width="1.5" />
+    <Position X="2.75" Y="0.75" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>gQCACAQgAgiAAAAUIAAABAABAACAgCAAAAAAAAAAAAA=</HashCode>
+      <HashCode>gQCACAQgAggAAAAUIAAAAAABAACAgCAAAAAAAAAAAAA=</HashCode>
       <FileName>Views\ContentPages\ProfileViews\OrganizationProfilePage.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="eduChain.Views.ContentPages.ProfileViews.StudentProfilePage">
-    <Position X="7" Y="10.25" Width="1.5" />
+    <Position X="0.5" Y="0.75" Width="2" />
     <TypeIdentifier>
       <HashCode>gQCACAAQAggAAAgUAAAIAAIBAACAgCAAAIAAAAAAAAA=</HashCode>
       <FileName>Views\ContentPages\ProfileViews\StudentProfilePage.xaml.cs</FileName>
@@ -80,72 +80,65 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="eduChain.Views.Popups.QRMakerPopup">
-    <Position X="26.25" Y="4.25" Width="1.5" />
+    <Position X="18.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAQAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
       <FileName>Views\Popups\QRMakerPopup.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="eduChain.Views.Popups.MPPopup">
-    <Position X="19" Y="4.25" Width="1.5" />
+    <Position X="12.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
       <FileName>Views\Popups\MPPopup.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="eduChain.Views.Popups.LoadingPopup">
-    <Position X="28.5" Y="4.25" Width="1.5" />
+    <Position X="20.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAEAAA=</HashCode>
       <FileName>Views\Popups\LoadingPopup.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="eduChain.Views.ContentPages.InitializingPage">
-    <Position X="13.5" Y="10.75" Width="1.5" />
+    <Position X="2.75" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAAAAAACAgAAAAAAAAAAAAAAAAAAoABAAAAACAAAIA=</HashCode>
       <FileName>Views\ContentPages\InitializingPage.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="eduChain.Views.Popups.IMAGEPopup">
-    <Position X="21.75" Y="4.25" Width="1.5" />
+    <Position X="14.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
       <FileName>Views\Popups\IMAGEPopup.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="eduChain.Views.Popups.DOCPopup">
-    <Position X="24" Y="4.25" Width="1.5" />
+    <Position X="16.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
       <FileName>Views\Popups\DOCPopup.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="eduChain.Views.Popups.ChangePasswordPopup">
-    <Position X="30.5" Y="4.25" Width="1.5" />
+    <Position X="22.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAABAgAAAAAAAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
       <FileName>Views\Popups\ChangePasswordPopup.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Microsoft.Maui.Controls.ContentPage">
-    <Position X="3.25" Y="5" Width="2.5" />
-    <TypeIdentifier />
-  </Class>
-  <Class Name="CommunityToolkit.Maui.Views.Popup" Collapsed="true">
-    <Position X="24" Y="1.25" Width="1.5" />
-    <TypeIdentifier />
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="Microsoft.Maui.Controls.Shell" Collapsed="true">
-    <Position X="0.75" Y="4" Width="1.5" />
-    <TypeIdentifier />
-    <Lollipop Position="0.2" />
+  <Class Name="eduChain.Views.ContentPages.ForgotPasswordPage">
+    <Position X="4.75" Y="11" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\ContentPages\ForgotPasswordPage.xaml.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Interface Name="eduChain.IProfilePage">
-    <Position X="11" Y="9" Width="1.5" />
+    <Position X="5.25" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>gQAACAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>gQAACAAAAgAAAAAEAAAAAAABAAAAgAAAAAAAAAAAAAA=</HashCode>
       <FileName>Views\ContentPages\ProfileViews\IProfilePage.cs</FileName>
     </TypeIdentifier>
   </Interface>

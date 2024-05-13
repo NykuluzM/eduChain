@@ -8,7 +8,7 @@ namespace eduChain;
 using eduChain.ViewModels.ProfileViewModels;
 using SkiaSharp;
 
-public class AppShellViewModel : ViewModelBase
+    public class AppShellViewModel : ViewModelBase
 {
     private static AppShellViewModel instance;
     private static readonly object lockObject = new object();
@@ -47,7 +47,6 @@ public class AppShellViewModel : ViewModelBase
     }
     async void ExecuteLogout()
     {
-        // Handle the logout logic here
        Preferences.Default.Clear();
        MyProfileModel.Instance.ProfileImage = "profiledefault.png";
         UsersProfileModel.Instance.Role = null;

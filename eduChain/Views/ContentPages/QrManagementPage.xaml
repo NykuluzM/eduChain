@@ -9,11 +9,11 @@
  Shell.BackgroundColor="#195a7a">
     <ScrollView>
         <Grid Margin="40" RowDefinitions="*,*" ColumnDefinitions="*">
-            <StackLayout WidthRequest="450" HeightRequest="500" >
+            <StackLayout WidthRequest="550" HeightRequest="500" >
                 <Label x:Name="EmptyLab" IsVisible="False" Text="You have No QR Code Active" Grid.ColumnSpan="2" HorizontalOptions="Center" FontSize="Header" />
                 <Frame x:Name="Qrs" Margin="50" Grid.ColumnSpan="2"  CornerRadius="20">
                     <StackLayout>
-                        <Label x:Name="Header" Text="Active QrCode/s" Grid.Row="0" VerticalOptions="Start" Grid.ColumnSpan="1" StyleClass="Header" TextColor="Wheat"  TextDecorations="Underline" FontSize="Large" HorizontalOptions="Center" />
+                        <Label x:Name="Header" Text="Active QrCode/s" Grid.Row="0" VerticalOptions="Start" Grid.ColumnSpan="1" StyleClass="Header" TextColor="Black"  TextDecorations="Underline" FontSize="Large" HorizontalOptions="Center" />
                         <syncfusion:SfDataGrid ItemsSource="{Binding QrList}">
                             <syncfusion:SfDataGrid.DefaultStyle>
                                 <syncfusion:DataGridStyle SelectionBackground="AliceBlue" />
@@ -22,11 +22,13 @@
                             <syncfusion:SfDataGrid.StackedHeaderRows>
                                 <syncfusion:DataGridStackedHeaderRow>
                                     <syncfusion:DataGridStackedHeaderRow.Columns>
-                                        <syncfusion:DataGridStackedColumn ColumnMappingNames="IsSelected,Name,Expiration" Text="Qr Details"/>
+                                        <syncfusion:DataGridStackedColumn ColumnMappingNames="Id,IsSelected,Name,Expiration" Text="Qr Details"/>
                                     </syncfusion:DataGridStackedHeaderRow.Columns>
                                 </syncfusion:DataGridStackedHeaderRow>
                             </syncfusion:SfDataGrid.StackedHeaderRows>
                             <syncfusion:SfDataGrid.Columns>
+                                <syncfusion:DataGridTextColumn MappingName="Id" HeaderText="Id" AllowSorting="True" />
+
                                 <syncfusion:DataGridTemplateColumn MappingName="IsSelected" HeaderText="Select">
                                     <syncfusion:DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>

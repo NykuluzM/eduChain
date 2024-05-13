@@ -20,8 +20,7 @@ public partial class OrganizationProfilePage : ContentPage, IProfilePage
     readonly IFilePickerService picker;
     private OrganizationProfileViewModel _viewModel;
     private OrganizationProfileModel _orgProfile;
-    private string currenttabaffiliationrequest = "organizationaffiliation";
-    private string currenttabaffiliation = "organizationaffiliation";
+   
     public OrganizationProfilePage()
 	{
 		InitializeComponent();
@@ -96,7 +95,7 @@ public partial class OrganizationProfilePage : ContentPage, IProfilePage
         CancelEditProfile(sender, e);
         return;
     }
-    private async void ShowPersonal(object sender, EventArgs e)
+    public async void ShowPersonal(object sender, EventArgs e)
     {
 
         ShowButton1.Opacity = 1;
@@ -118,7 +117,7 @@ public partial class OrganizationProfilePage : ContentPage, IProfilePage
 
         EditButton.Focus();
     }
-    private async void HidePersonal(object sender, EventArgs e)
+    public async void HidePersonal(object sender, EventArgs e)
     {
         EditButton.IsEnabled = false;
         HideButton1.IsEnabled = false;
@@ -135,7 +134,7 @@ public partial class OrganizationProfilePage : ContentPage, IProfilePage
         EditButton.Focus();
     }
    
-    private async void ShowForm(object sender, EventArgs e)
+    public async void ShowForm(object sender, EventArgs e)
     {
         this.ShowPopup(new ChangePasswordPopup());
     }

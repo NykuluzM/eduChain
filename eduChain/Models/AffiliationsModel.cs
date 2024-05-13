@@ -4,9 +4,8 @@ using System.ComponentModel;
 
 namespace eduChain.Models
 {
-   public class AffiliationsModel : INotifyPropertyChanged
+   public class AffiliationsModel 
     {
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public bool IsSelected{ get; set;}
 

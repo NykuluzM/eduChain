@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace eduChain;
 
-public class StudentProfileViewModel : BaseProfileViewModel
+public class StudentProfileViewModel : BaseProfileViewModel, IProfileViewModel
 {
     private StudentProfileModel _studentProfile;
 
@@ -17,9 +17,9 @@ public class StudentProfileViewModel : BaseProfileViewModel
         SetProperty(ref _studentProfile, value);
         }
     }
-    public async Task LoadProfileAsync(string uid, StudentProfileModel _studentProfile)
+    public async Task LoadProfileAsync(string uid, object _studentProfile)
     {   
-            StudentProfile = await _myProfileService.UserProfileAsync(uid, _studentProfile);
+            StudentProfile = await _myProfileService.UserProfileAsync(uid, (StudentProfileModel)_studentProfile);
     }
     public async Task UpdateProfilePicture()
     {

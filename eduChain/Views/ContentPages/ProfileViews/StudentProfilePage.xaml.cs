@@ -59,7 +59,7 @@ namespace eduChain.Views.ContentPages.ProfileViews
 
             //await Shell.Current.Navigation.PopAsync(); // Pop LoadingPage
         }
-        private async void ShowForm(object sender, EventArgs e)
+        public async void ShowForm(object sender, EventArgs e)
         {
             this.ShowPopup(new ChangePasswordPopup());
         }
@@ -79,10 +79,10 @@ namespace eduChain.Views.ContentPages.ProfileViews
             StateButtons.IsVisible = true;
             StateButtons.Focus();
             return;
-           
+
         }
-       
-        private async void ShowPersonal(object sender, EventArgs e)
+
+        public async void ShowPersonal(object sender, EventArgs e)
         {
 
             ShowButton1.Opacity = 1;
@@ -105,7 +105,7 @@ namespace eduChain.Views.ContentPages.ProfileViews
             EditButton.Focus();
         }
 
-        private async void HidePersonal(object sender, EventArgs e)
+        public async void HidePersonal(object sender, EventArgs e)
         {
             EditButton.IsEnabled = false;
             HideButton1.IsEnabled = false;

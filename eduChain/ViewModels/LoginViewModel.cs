@@ -18,9 +18,9 @@ namespace eduChain.ViewModels
 
         private readonly FirebaseAuthClient _firebaseAuthClient;
 
-        public LoginModel LoginModel { get; set; }
         public ICommand LoginCommand { get; }
-
+        public ICommand ForgottenCommand { get; }
+        public ICommand RegisterCommand { get; }
 
         private string _email = string.Empty;
         public string Email
@@ -50,16 +50,16 @@ namespace eduChain.ViewModels
         public LoginViewModel(FirebaseAuthClient firebaseAuthClient)
         {
             _firebaseAuthClient = firebaseAuthClient;
-            this.LoginModel = new LoginModel();
-            LoginCommand = new Command(Login);
-
+            LoginCommand = new Command(async () => await Login());
+            ForgottenCommand = new Command(async () => await Forgotten());
+            RegisterCommand = new Command(async () => await Register());
             // Call the method for navigation based on authentication state
         }
 
-        public bool KeepLoggedIn { get; set; } // Property to store checkbox state
+        public bool KeepLoggedIn { get; set; } 
 
 
-        public async void Login()
+        public async Task Login()
         {
             NetworkAccess networkAccess = Connectivity.NetworkAccess;
             if (networkAccess == NetworkAccess.None)
@@ -165,6 +165,34 @@ namespace eduChain.ViewModels
             }
         }
 
+        private async Task Register()
+        {
+            NetworkAccess networkAccess = Connectivity.NetworkAccess;
+            if (networkAccess == NetworkAccess.None)
+            {
+                Application.Current?.MainPage?.DisplayAlert("No Connection", "Lost Internet Connection", "OK");
+                return;
+            }
+            var result = await Shell.Current.DisplayActionSheet("Role?", "Student", "Organization");
 
+            if (result == "Student")
+            {
+                Preferences.Set("Role", "Student");
+                var registerPage = new RegisterStudPage();
+                await Shell.Current.Navigation.PushAsync(registerPage);
+            }
+            else if (result == "Organization")
+            {
+                Preferences.Set("Role", "Organization");
+                var registerOrgPage = new RegisterOrgPage();
+                await Shell.Current.Navigation.PushAsync(registerOrgPage);
+            }
+
+        }
+        private async Task Forgotten()
+        {
+            var forgotPasswordPage = new ForgotPasswordPage();
+            await Shell.Current.Navigation.PushAsync(forgotPasswordPage);
+        }
     }
 }

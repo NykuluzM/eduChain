@@ -9,10 +9,5 @@ public partial class ForgotPasswordPage : ContentPage
 		InitializeComponent();
 		BindingContext = ForgotPasswordViewModel.GetInstance();
 	}
-
-	private void ResetPasswordButton_Clicked(object sender, EventArgs e)
-	{
-		((ForgotPasswordViewModel)BindingContext).SendResetEmail();
-	}
 }
 }

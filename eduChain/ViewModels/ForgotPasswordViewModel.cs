@@ -8,9 +8,8 @@ using Google.Apis.Auth.OAuth2;
 using FirebaseAdmin;
 namespace eduChain.ViewModels{
 
-    public class ForgotPasswordViewModel : INotifyPropertyChanged
+    public class ForgotPasswordViewModel : ViewModelBase
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
         public ICommand SendResetEmailCommand { get; }
         public ICommand NavigateToLoginCommand { get; }
         private static FirebaseService _firebaseService;
@@ -103,18 +102,7 @@ namespace eduChain.ViewModels{
             }
         }
         
-         protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler? handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }
-            else
-            {
-                throw new NullReferenceException("PropertyChanged event is not subscribed to.");
-            }
-        }
+       
        
         private bool IsValidEmail(string email)
         {

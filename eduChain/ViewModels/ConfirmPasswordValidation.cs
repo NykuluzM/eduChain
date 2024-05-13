@@ -7,7 +7,7 @@ namespace eduChain.ViewModels{
 public class ConfirmPasswordValidation : IValidation
 {
     public string Message { get; set; } = "Passwords does not match";
-    RegisterStudViewModel viewModel = RegisterStudViewModel.GetInstance(); 
+    RegisterViewModel viewModel = RegisterViewModel.GetInstance(); 
     public bool Validate(object value)
     {
         string truePassword = viewModel.Password;

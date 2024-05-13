@@ -2,7 +2,7 @@
 using eduChain.Services;
 namespace eduChain.ViewModels.ProfileViewModels;
 
-public class OrganizationProfileViewModel : BaseProfileViewModel
+public class OrganizationProfileViewModel : BaseProfileViewModel, IProfileViewModel
 {
     private static OrganizationProfileModel _organizationProfile;
     public OrganizationProfileModel OrganizationProfile
@@ -13,9 +13,9 @@ public class OrganizationProfileViewModel : BaseProfileViewModel
         SetProperty(ref _organizationProfile, value);
         }
     }
-     public async Task LoadProfileAsync(string uid, OrganizationProfileModel _organizationProfile)
+     public async Task LoadProfileAsync(string uid, object _organizationProfile)
     {   
-            OrganizationProfile = await _myProfileService.UserProfileAsync(uid, _organizationProfile);
+            OrganizationProfile = await _myProfileService.UserProfileAsync(uid, (OrganizationProfileModel)_organizationProfile);
     }
     public async Task UpdateProfilePicture()
     {

@@ -17,7 +17,7 @@
             Shell.NavBarIsVisible="False"
             >
             <ContentPage.ToolbarItems>
-                <ToolbarItem Text="Forgot Password?" Order="Primary" Priority="0"  Clicked="PasswordForgotten"/>
+                <ToolbarItem Text="Forgot Password?" Order="Primary" Priority="0" Command="{Binding ForgotCommand}"/>
             </ContentPage.ToolbarItems>
     <Grid>
             <Grid.RowDefinitions>
@@ -79,13 +79,13 @@
                             <ur:CheckBox Text="Keep Logged In" TextColor="Honeydew" Padding="20,10" IsChecked="{Binding KeepLoggedIn}"/>
 
                             <Button 
-                                input:FormView.IsSubmitButton="True"
                                 StyleClass="FilledButton" 
+                               
                                 Text="Login" 
                                 TextColor="White"
                                 WidthRequest="200" 
                                 BackgroundColor="PaleVioletRed" 
-                                Clicked="LoginButton_Clicked"/>
+                                Command="{Binding LoginCommand}"/>
 
                         </input:FormView>
                     <Button 
@@ -96,7 +96,7 @@
                         StyleClass="TextButton"
                         WidthRequest="320" 
                         TextColor="Red" 
-                        Clicked="PasswordForgotten"/>      
+                        Command="{Binding ForgottenCommand}"/>      
 
                     <StackLayout Spacing="40" HorizontalOptions="Center">
 
@@ -109,7 +109,7 @@
                              FontSize="14"
                              WidthRequest="380" 
                              TextColor="YellowGreen" 
-                             Clicked="RegisterButton_Clicked">
+                            Command="{Binding RegisterCommand}">
 
                            
                         </Button>

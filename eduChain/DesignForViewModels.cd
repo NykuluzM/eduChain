@@ -1,72 +1,72 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="eduChain.ViewModels.ProfileViewModels.BaseProfileViewModel">
-    <Position X="5.5" Y="2" Width="1.5" />
+    <Position X="5.5" Y="2" Width="2" />
     <TypeIdentifier>
       <HashCode>AQAACgECAAAEAAAIAAAAAAAAAAAAAACQAAAAAAAAAAA=</HashCode>
       <FileName>ViewModels\ProfileViewModels\BaseProfileViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="eduChain.ViewModelBase">
-    <Position X="3.25" Y="2" Width="1.5" />
+    <Position X="3.25" Y="2" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>CAAAAAACAAAAAAMAoAIAAAACgAESAGAAAAIAAAAAAAA=</HashCode>
+      <HashCode>CAAAAAACAAAAAAMAIAIAAAACgAEAAGAAAAIAAAAAAAA=</HashCode>
       <FileName>ViewModels\ViewModelBase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="eduChain.ViewModels.ProfileViewModels.OrganizationProfileViewModel">
-    <Position X="8.5" Y="1.5" Width="1.5" />
+    <Position X="8.75" Y="1.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAABAAAAAgAAAAAAAAAAQAAAABAAAEAAAAAA=</HashCode>
       <FileName>ViewModels\ProfileViewModels\OrganizationProfileViewModel.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="eduChain.StudentProfileViewModel">
-    <Position X="8.5" Y="4.25" Width="1.5" />
+    <Position X="8.75" Y="4.25" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAABAAQAAAAAIAAAAAAAAAAAABAAAEAAAAAA=</HashCode>
       <FileName>ViewModels\ProfileViewModels\StudentProfileViewModel.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="eduChain.AppShellViewModel">
-    <Position X="1" Y="2.75" Width="1.5" />
+    <Position X="0.75" Y="2.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAACAAAAABAQAAAAAAAAAABAAAAAQAAAAAAAAIA=</HashCode>
       <FileName>ViewModels\AppShellViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="HomePageViewModel">
-    <Position X="9.25" Y="7.5" Width="1.5" />
+    <Position X="9.5" Y="7.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>EIAlEABAAASAABAAAAAACACAAAAAgACAQCAACBAAAII=</HashCode>
       <FileName>ViewModels\HomePageViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="eduChain.ViewModels.IpfsViewModel">
-    <Position X="13" Y="1.75" Width="1.5" />
+    <Position X="14" Y="1.25" Width="2.5" />
     <InheritanceLine Type="eduChain.ViewModelBase" ManuallyRouted="true" FixedToPoint="true">
       <Path>
-        <Point X="4" Y="2" />
-        <Point X="4" Y="1.404" />
-        <Point X="12.76" Y="1.404" />
-        <Point X="12.76" Y="2.625" />
-        <Point X="13" Y="2.625" />
+        <Point X="4.125" Y="2" />
+        <Point X="4.125" Y="1.437" />
+        <Point X="14" Y="1.437" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>A5AABggEVhHoAACGxAACADCQBEAIE2AgAkkAAABMkLA=</HashCode>
+      <HashCode>A5AABggEVhHIAACGxAACADCQBEAIE2AgAkkAAABMkLA=</HashCode>
       <FileName>ViewModels\IpfsViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="eduChain.ViewModels.QrViewModel">
-    <Position X="11" Y="1.75" Width="1.5" />
-    <InheritanceLine Type="eduChain.ViewModelBase" ManuallyRouted="true" FixedToPoint="true">
+    <Position X="12.25" Y="7.5" Width="1.5" />
+    <InheritanceLine Type="eduChain.ViewModelBase" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="4.406" Y="2" />
-        <Point X="4.406" Y="1.404" />
-        <Point X="11.875" Y="1.404" />
-        <Point X="11.875" Y="1.75" />
+        <Point X="4.125" Y="6.189" />
+        <Point X="4.125" Y="7.125" />
+        <Point X="13.125" Y="7.125" />
+        <Point X="13.125" Y="7.5" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -74,62 +74,41 @@
       <FileName>ViewModels\QrViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="eduChain.RegisterOrgViewModel">
-    <Position X="5.75" Y="7.5" Width="1.5" />
-    <InheritanceLine Type="eduChain.ViewModelBase" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="4.25" Y="6.766" />
-        <Point X="4.25" Y="7.073" />
-        <Point X="6.5" Y="7.073" />
-        <Point X="6.5" Y="7.5" />
-      </Path>
-    </InheritanceLine>
-    <TypeIdentifier>
-      <HashCode>AAQAIAAAACAAAAAAAAAAAAQAEAABAgCCAAAAAAAAAAE=</HashCode>
-      <FileName>ViewModels\RegisterOrgViewModel.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="eduChain.ViewModels.RegisterStudViewModel">
-    <Position X="7.5" Y="7.5" Width="1.5" />
-    <InheritanceLine Type="eduChain.ViewModelBase" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="4.5" Y="6.766" />
-        <Point X="4.5" Y="7.073" />
-        <Point X="8.25" Y="7.073" />
-        <Point X="8.25" Y="7.5" />
-      </Path>
-    </InheritanceLine>
+  <Class Name="eduChain.ViewModels.RegisterViewModel">
+    <Position X="7.25" Y="7.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAUEEEAAACAIAASAAAEAAAQAFAABAgCKAQAgAACIAAk=</HashCode>
-      <FileName>ViewModels\RegisterStudViewModel.cs</FileName>
+      <FileName>ViewModels\RegisterViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="eduChain.ViewModels.LoginViewModel">
-    <Position X="4" Y="7.5" Width="1.5" />
+    <Position X="3.5" Y="7.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>CAQAAAAAACAAAAAAAAAAAAAAACAAQAACgAAQACCAAAE=</HashCode>
+      <HashCode>AAQAAAAAACAAAAEAAAAAAAAAACABQACCgQAQACCAAAE=</HashCode>
       <FileName>ViewModels\LoginViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="eduChain.ViewModels.ConfirmPasswordValidation">
-    <Position X="2.25" Y="9.25" Width="1.5" />
+    <Position X="5.5" Y="8" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAACAAAAAAAAQAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
       <FileName>ViewModels\ConfirmPasswordValidation.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="System.Object" Collapsed="true">
-    <Position X="2.25" Y="7.5" Width="1.5" />
-    <TypeIdentifier />
-  </Class>
   <Class Name="eduChain.ViewModels.ForgotPasswordViewModel">
-    <Position X="0.5" Y="7" Width="1.5" />
+    <Position X="1" Y="7.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAUAAAAACAAAAAAIAAAAAAApABAAACAAABAACAIAAE=</HashCode>
+      <HashCode>AAAUAAAAACAAAAAAAAAAAAAAJABAAACAAABAACAIAAE=</HashCode>
       <FileName>ViewModels\ForgotPasswordViewModel.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
   </Class>
+  <Interface Name="eduChain.ViewModels.ProfileViewModels.IProfileViewModel">
+    <Position X="11.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAAAAAAAAAAAABAAAEAAAAAA=</HashCode>
+      <FileName>ViewModels\ProfileViewModels\IProfileViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

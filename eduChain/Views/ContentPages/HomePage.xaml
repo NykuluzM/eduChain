@@ -59,18 +59,12 @@ AccentColor="Bisque" BorderColor="Bisque" TextColor="White" />
                                         <syncfusion:SfDataGrid.StackedHeaderRows>
                                             <syncfusion:DataGridStackedHeaderRow>
                                                 <syncfusion:DataGridStackedHeaderRow.Columns>
-                                                    <syncfusion:DataGridStackedColumn ColumnMappingNames="IsSelected,Id,Name,DateEstablished" Text="Organization Details"/>
+                                                    <syncfusion:DataGridStackedColumn ColumnMappingNames="Id,Name,DateEstablished" Text="Organization Details"/>
                                                 </syncfusion:DataGridStackedHeaderRow.Columns>
                                             </syncfusion:DataGridStackedHeaderRow>
                                         </syncfusion:SfDataGrid.StackedHeaderRows>
                                     <syncfusion:SfDataGrid.Columns>
-                                        <syncfusion:DataGridTemplateColumn MappingName="IsSelected" HeaderText="Select">
-                                            <syncfusion:DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <buttons:SfCheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" CheckedColor="Green"/>
-                                                </DataTemplate>
-                                            </syncfusion:DataGridTemplateColumn.CellTemplate>
-                                        </syncfusion:DataGridTemplateColumn>
+                                       
 
                                         <syncfusion:DataGridTextColumn MappingName="Id" HeaderText="UID" AllowSorting="True" />
                                         <syncfusion:DataGridTextColumn MappingName="Name" HeaderText="Student Name" AllowSorting="True" />
@@ -95,19 +89,12 @@ AccentColor="Bisque" BorderColor="Bisque" TextColor="White" />
                                         <syncfusion:SfDataGrid.StackedHeaderRows>
                                             <syncfusion:DataGridStackedHeaderRow>
                                                 <syncfusion:DataGridStackedHeaderRow.Columns>
-                                                    <syncfusion:DataGridStackedColumn ColumnMappingNames="IsSelected,Id,Name,DateEstablished" Text="Student Details" />
+                                                    <syncfusion:DataGridStackedColumn ColumnMappingNames="Id,Name,DateEstablished" Text="Student Details" />
                                                 </syncfusion:DataGridStackedHeaderRow.Columns>
                                             </syncfusion:DataGridStackedHeaderRow>
                                         </syncfusion:SfDataGrid.StackedHeaderRows>
                                     <syncfusion:SfDataGrid.Columns>
-                                        <syncfusion:DataGridTemplateColumn MappingName="IsSelected" HeaderText="Select">
-                                            <syncfusion:DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <buttons:SfCheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" CheckedColor="Green"/>
-                                                </DataTemplate>
-                                            </syncfusion:DataGridTemplateColumn.CellTemplate>
-                                        </syncfusion:DataGridTemplateColumn>
-
+                                        
                                         <syncfusion:DataGridTextColumn MappingName="Id" HeaderText="UID" AllowSorting="True" />
                                         <syncfusion:DataGridTextColumn MappingName="Name" HeaderText="Student Name" AllowSorting="True" />
                                         <syncfusion:DataGridDateColumn MappingName="DateEstablished" HeaderText="Date Joined" AllowSorting="True"/>

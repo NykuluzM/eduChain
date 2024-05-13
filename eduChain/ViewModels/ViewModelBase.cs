@@ -30,7 +30,6 @@ using System.Runtime.CompilerServices;
     }
        
 
-        public bool hasNavigated { get; set; }
 
         private FlyoutBehavior _flyoutBehavior = FlyoutBehavior.Flyout;
         public FlyoutBehavior FlyoutBehaviors
@@ -63,16 +62,7 @@ using System.Runtime.CompilerServices;
             }
         }
 
-        private OrganizationProfileModel _organizationProfile;
-  public OrganizationProfileModel OrganizationProfile
-  {
-    get { return _organizationProfile; }
-    set
-    {
-      SetProperty(ref _organizationProfile, value);
-    }
-  }
-    
+      
         public async Task LoadUsers(string uid){
         UsersProfile = await _myProfileService.LoadUserAsync(uid, UsersProfileModel.Instance);
     }

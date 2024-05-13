@@ -16,20 +16,20 @@ using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 namespace eduChain.ViewModels
 {
-    public class RegisterStudViewModel : ViewModelBase
+    public class RegisterViewModel : ViewModelBase
     {
         private FirebaseAuthClient firebaseAuthClient;
-        private static RegisterStudViewModel _instance;
+        private static RegisterViewModel _instance;
 
 
 
         public ICommand RegisterCommand { get; }
     
-        public static RegisterStudViewModel GetInstance()
+        public static RegisterViewModel GetInstance()
         {
             if (_instance == null)
             {
-                _instance = new RegisterStudViewModel();
+                _instance = new RegisterViewModel();
             }
             return _instance;
         }
@@ -40,7 +40,7 @@ namespace eduChain.ViewModels
 
         public List<string> GenderOptions { get; private set; }
 
-        public RegisterStudViewModel()
+        public RegisterViewModel()
         {
             GenderOptions = new List<string>
                     {
